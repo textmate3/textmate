@@ -1207,6 +1207,94 @@ module Target
     target[:build][:runner]
   end
 
+  def tests(archs, targets)
+    target = archs.values.first
+
+    unless target[:build].include?(:tests)
+      rules, test_executable = [], nil
+
+      if (test_files = target[:tests]) && !test_files.empty?
+        runner_cc = File.join(target[:builddir], '_GenTest', target[:name], 'test_runner.cc')
+        rules << {
+          name:         'GenTest',
+          in:           test_files.sort,
+          out:          runner_cc,
+          command:      "#{__dir__}/gen_test $in > $out~ && mv $out~ $out",
+          description:  'Generate test runner ‘${out}’…',
+          dependencies: [ "#{__dir__}/gen_test" ],
+        }
+
+        include_dirs = required_targets(target, targets, include_self: true, include_weak: true)
+          .map { |a| include_dir(a) }.reject(&:nil?).sort.uniq
+        config = target[:variables].merge(
+          prelude:   target[:prelude],
+          inference: target[:inference],
+          include:   include_dirs,
+        )
+
+        if links = Compiler.transform(runner_cc, config, target[:builddir])
+          runner_obj = links.last[:out]
+          link       = links.shift
+          rules += [ link.merge(order_only: [ runner_cc, *Array(link[:order_only]) ]), *links ]
+
+          required = required_targets(target, targets, include_self: true).map { |a| a[target[:arch]] }.reject(&:nil?)
+          objs     = required.flat_map { |t| objects(t, targets) } + [ runner_obj ]
+
+          fws  = required.flat_map { |t| t[:frameworks] }.reject(&:nil?).sort.uniq
+          libs = required.flat_map { |t| t[:libraries]  }.reject(&:nil?).sort.uniq
+          static, libs = libs.partition { |l| l =~ /\.a$/ }
+
+          ln_flags, deps = [], []
+          required.each do |t|
+            ln_flags += t[:variables]['LN_FLAGS'].split(' ') if t[:variables].include?('LN_FLAGS')
+            deps += t.dig(:inference, 'LN_FLAGS') || []
+          end
+          ln_flags = [ ln_flags.uniq.join(' ') ]
+          ln_flags += fws.map  { |f| "-framework #{f.shellescape}" }
+          ln_flags += libs.map { |l| "-l#{l.shellescape}" }
+          ln_flags += static
+
+          test_executable = File.join(target[:builddir], '_Tests', "#{target[:name]}_test")
+          rules << {
+            name:         'Link',
+            in:           objs.sort.uniq,
+            out:          test_executable,
+            flags:        ln_flags.join(' '),
+            command:      'xcrun --sdk macosx clang -o $out $flags $in',
+            description:  'Link test ‘${out}’…',
+            dependencies: deps.uniq.sort,
+          }
+
+          rules << {
+            name: 'phony',
+            in:   test_executable,
+            out:  "#{target[:identifier]}/test",
+          }
+
+          run_marker = File.join(target[:builddir], '.always-run-' + target[:name] + '_test')
+          rules << {
+            name:        'RunExecutable',
+            in:          test_executable,
+            out:         run_marker,
+            command:     '$in',
+            description: 'Run test ‘$in’…',
+            pool:        'console',
+          }
+          rules << {
+            name: 'phony',
+            in:   run_marker,
+            out:  "#{target[:identifier]}/test/run",
+          }
+        end
+      end
+
+      target[:build][:rules] += rules
+      target[:build][:tests]  = test_executable
+    end
+
+    target[:build][:tests]
+  end
+
   def notarize(archs, targets)
     target = archs.values.first
 
@@ -1492,6 +1580,7 @@ if __FILE__ == $PROGRAM_NAME
     Target.runner(archs, targets)
     Target.signature(archs, targets)
     Target.defines(archs, targets)
+    Target.tests(archs, targets)
   end
 
   rules = targets.flat_map do |_, archs|
