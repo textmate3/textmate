@@ -74,7 +74,7 @@ MARKDOWN_COMPILERS = %w[ multimarkdown ]
 filter = MARKDOWN_COMPILERS.find { |exe| find_exe exe }
 abort "Unable to find a markdown compiler" if filter.nil?
 
-filters    = "|#{filter} --nosmart"
+filters    = "#{filter} --nosmart"
 
 document   = ARGF.read
 document   = wrap_authors(wrap_key_equivalents(document))
@@ -88,5 +88,5 @@ js_files   = headers['js'].to_s.split(/,\s*/)
 meta_data  = Hash[*headers['meta'].to_s.scan(/(.*?)="(.*?)"(?:,\s*)?/).flatten]
 
 STDOUT << expand_tpl_file(header, binding) unless header.nil?
-STDOUT << open(filters, 'r+') { |io| io << body; io.close_write; wrap_in_article(expand_tpl(io.read, binding)) }
+STDOUT << IO.popen(filters, 'r+') { |io| io << body; io.close_write; wrap_in_article(expand_tpl(io.read, binding)) }
 STDOUT << expand_tpl_file(footer, binding) unless footer.nil?
