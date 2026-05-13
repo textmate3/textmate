@@ -52,7 +52,7 @@ void test_variables ()
 {
 	setup_t wc("true");
 	OAK_ASSERT_EQ(wc.variable("TM_SCM_NAME"),   "git");
-	OAK_ASSERT_EQ(wc.variable("TM_SCM_BRANCH"), "master");
+	OAK_ASSERT_EQ(wc.variable("TM_SCM_BRANCH"), "main");
 }
 
 void test_empty_folder ()
