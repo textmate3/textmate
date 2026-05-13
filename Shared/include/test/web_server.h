@@ -164,9 +164,6 @@ static void send_file_head (int sock, std::string const& path)
 			headers += str;
 		}
 
-		for(auto const& pair : path::attributes(path))
-			headers += pair.first + ": " + pair.second + "\r\n";
-
 		close(fd);
 		send_head(sock, 200, "OK", headers.c_str());
 	}
@@ -226,7 +223,7 @@ namespace web
 			else
 				send_head(fd, 501, "Not Implemented");
 
-			shutdown(fd, SHUT_RDWR);
+			shutdown(fd, SHUT_WR);
 			close(fd);
 		}
 	}
