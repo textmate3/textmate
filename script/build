@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+# script/build — compile TextMate (release config by default)
+#
+# Usage:
+#   script/build           # release build
+#   script/build debug     # debug build
+
+Dir.chdir(File.expand_path('..', __dir__))
+
+target = ARGV.first == 'debug' ? 'TextMate/debug' : 'TextMate'
+exec 'ninja', target

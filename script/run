@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+# script/run — build TextMate and launch it
+#
+# Usage:
+#   script/run             # release build, then launch
+#   script/run debug       # debug build, then launch
+
+Dir.chdir(File.expand_path('..', __dir__))
+
+target = ARGV.first == 'debug' ? 'TextMate/debug/run' : 'TextMate/run'
+exec 'ninja', target

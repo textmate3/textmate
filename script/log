@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+# script/log — stream the macOS unified log for the TextMate process
+#
+# Usage:
+#   script/log                  # all levels (default + info + debug)
+#   script/log foo              # only lines containing "foo"
+#   script/log foo bar          # lines containing both "foo" AND "bar"
+#
+# ⌃C to stop. Append ‘2>&1 | less -R’ if it scrolls too fast.
+
+Dir.chdir(File.expand_path('..', __dir__))
+
+cmd = [
+  'log', 'stream',
+  '--predicate', 'process == "TextMate"',
+  '--level=debug',
+  '--style=compact',
+]
+
+if ARGV.empty?
+  exec(*cmd)
+else
+  patterns = ARGV
+  IO.popen(cmd) do |io|
+    io.each_line { |line| puts line if patterns.all? { |p| line.include?(p) } }
+  end
+end
