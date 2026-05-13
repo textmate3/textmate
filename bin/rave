@@ -1214,7 +1214,7 @@ module Target
       rules, test_executable = [], nil
 
       if (test_files = target[:tests]) && !test_files.empty?
-        runner_cc = File.join(target[:builddir], '_GenTest', target[:name], 'test_runner.cc')
+        runner_cc = File.join(target[:builddir], '_GenTest', target[:name], 'test_runner.mm')
         rules << {
           name:         'GenTest',
           in:           test_files.sort,
