@@ -23,7 +23,9 @@ void test_attributes ()
 	OAK_ASSERT_EQ(path::get_attr(file, "buz"), "jazz");
 	OAK_ASSERT_EQ(path::get_attr(file, "new"), "value");
 
-	OAK_ASSERT_EQ(path::attributes(file).size(), 2);
+	auto attrs = path::attributes(file);
+	attrs.erase("com.apple.provenance");
+	OAK_ASSERT_EQ(attrs.size(), 2);
 
 	OAK_ASSERT_EQ(path::content(file), "«some content»");
 }
