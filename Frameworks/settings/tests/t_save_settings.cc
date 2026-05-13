@@ -6,6 +6,7 @@ void test_save_settings ()
 	test::jail_t jail;
 	settings_t::set_default_settings_path(jail.path("default"));
 	settings_t::set_global_settings_path(jail.path("global"));
+	settings_t::set_cascade_root_path(jail.path());
 
 	settings_t::set("testKey_1", "set");
 	settings_t::set("testKey_2", "set",   "attr.untitled");

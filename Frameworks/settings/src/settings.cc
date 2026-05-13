@@ -25,6 +25,17 @@ namespace
 		return res;
 	}
 
+	static std::string& cascade_root_path ()
+	{
+		static std::string res = NULL_STR;
+		return res;
+	}
+
+	static std::string cascade_root ()
+	{
+		return cascade_root_path() != NULL_STR ? cascade_root_path() : path::home();
+	}
+
 	static std::vector< std::pair<std::string, std::string> > global_variables ()
 	{
 		std::vector< std::pair<std::string, std::string> > res;
@@ -55,10 +66,10 @@ namespace
 	static std::vector<std::string> paths (std::string const& directory)
 	{
 		std::vector<std::string> res;
-		for(std::string cwd = path::is_absolute(directory) ? directory : path::home(); true; cwd = cwd == "/" ? path::home() : path::parent(cwd))
+		for(std::string cwd = path::is_absolute(directory) ? directory : cascade_root(); true; cwd = cwd == "/" ? cascade_root() : path::parent(cwd))
 		{
 			res.push_back(path::join(cwd, ".tm_properties"));
-			if(cwd == path::home())
+			if(cwd == cascade_root())
 				break;
 		}
 		std::reverse(res.begin(), res.end());
@@ -263,6 +274,11 @@ void settings_t::set_default_settings_path (std::string const& path)
 void settings_t::set_global_settings_path (std::string const& path)
 {
 	global_settings_path() = path;
+}
+
+void settings_t::set_cascade_root_path (std::string const& path)
+{
+	cascade_root_path() = path;
 }
 
 settings_t settings_for_path (std::string const& path, scope::scope_t const& scope, std::string const& directory, std::map<std::string, std::string> variables)

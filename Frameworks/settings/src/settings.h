@@ -50,6 +50,7 @@ struct settings_t
 
 	static void set_default_settings_path (std::string const& path);
 	static void set_global_settings_path (std::string const& path);
+	static void set_cascade_root_path (std::string const& path);
 
 private:
 	std::map<std::string, std::string> settings;
