@@ -19,6 +19,7 @@ void test_create_glob ()
 	test::jail_t jail;
 	settings_t::set_default_settings_path(jail.path("default"));
 	settings_t::set_global_settings_path(jail.path("global"));
+	settings_t::set_cascade_root_path(jail.path());
 
 	OAK_ASSERT_EQ(file::type_from_path("/path/to/foo.rb"),         "source.ruby");
 	OAK_ASSERT_EQ(file::type_from_path("/path/to/foo_spec.rb"),    "source.ruby.rspec");

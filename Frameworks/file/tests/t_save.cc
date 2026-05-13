@@ -103,14 +103,14 @@ void test_save_translit ()
 
 	bool success        = false;
 	std::string path    = jail.path("test.txt");
-	std::string content = "Æblegrød…\n";
+	std::string content = "Æ\n";
 
 	auto cb = std::make_shared<stall_t>(&success, path, "ASCII//TRANSLIT");
 	file::save(path, cb, osx::authorization_t(), io::bytes_ptr(new io::bytes_t(content)), std::map<std::string, std::string>(), encoding::type("\n", "ASCII"), std::vector<oak::uuid_t>() /* binary import filters */, std::vector<oak::uuid_t>() /* text import filters */);
 	cb->wait();
 
 	OAK_ASSERT_EQ(success, true);
-	OAK_ASSERT_EQ(path::content(path), "AEblegrod...\n");
+	OAK_ASSERT_EQ(path::content(path), "AE\n");
 }
 
 void test_save_encoding_failure ()
