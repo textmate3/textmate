@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+# script/test — run TextMate framework tests
+#
+# Usage:
+#   script/test                  # run every framework's tests
+#   script/test plist scope      # run just the listed frameworks
+
+Dir.chdir(File.expand_path('..', __dir__))
+
+targets =
+  if ARGV.empty?
+    `ninja -t targets`.lines
+                      .filter_map { it[%r{^([A-Za-z][\w]*)/test/run:}, 1] }
+                      .uniq
+                      .sort
+                      .map { "#{it}/test/run" }
+  else
+    ARGV.map { "#{it}/test/run" }
+  end
+
+abort 'no test targets found (did you run ./configure?)' if targets.empty?
+
+exec 'ninja', '-k', '0', *targets
