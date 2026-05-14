@@ -8,4 +8,8 @@ target "TextMateQL" {
 	sources src/*.{c,mm}
 	executable "MacOS/${target}"
 	frameworks CoreFoundation QuickLook AppKit OSAKit
+
+	# Inherit the app's entitlements so hardened runtime + library validation
+	# don't reject the Homebrew-signed libcapnp/libkj dylibs we link against.
+	add CS_FLAGS "--entitlements '${dir}/../TextMate/Entitlements.plist'"
 }

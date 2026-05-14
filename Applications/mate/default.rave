@@ -3,4 +3,8 @@ target "${dirname}" {
 	sources src/*.mm
 	executable "${target}"
 	frameworks ApplicationServices Security
+
+	# Inherit the app's entitlements so hardened runtime + library validation
+	# don't reject the Homebrew-signed libcapnp/libkj dylibs we link against.
+	add CS_FLAGS "--entitlements '${dir}/../TextMate/Entitlements.plist'"
 }
