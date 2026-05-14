@@ -9,7 +9,8 @@ target "TextMateQL" {
 	executable "MacOS/${target}"
 	frameworks CoreFoundation QuickLook AppKit OSAKit
 
-	# Inherit the app's entitlements so hardened runtime + library validation
-	# don't reject the Homebrew-signed libcapnp/libkj dylibs we link against.
-	add CS_FLAGS "--entitlements '${dir}/../TextMate/Entitlements.plist'"
+	# Disable library validation so Hardened Runtime accepts the Homebrew-signed
+	# libcapnp / libkj dylibs we link against (helper is adhoc-signed → different
+	# Team ID than brew). Shared minimal entitlements file across helper targets.
+	add CS_FLAGS "--entitlements '${dir}/../HelperEntitlements.plist'"
 }
