@@ -2,39 +2,52 @@
 
 ## Engineering principles
 
-These shape how we add to, change, and trim TextMate's code. They are opinions, not laws — but if you're about to violate one, expect to justify it in the commit message.
+This is a living document about how we work.
 
-1. **Don't be clever.** A regular reader should understand the code at a glance. Save the clever bits for the rare case where the simple version is genuinely worse, and leave a one-line comment explaining why.
+1. **Make small moves.** Small changes, methods, classes, releases. Aim small, miss small.
 
-2. **Don't use abbreviations.** In code, comments, commit messages, CHANGELOG entries, and documentation: spell things out. Use the full word.
-   - **OK:** initialisms that are the canonical term — `HTML`, `JSON`, `UI`, `API`, `URL`, `UUID`, `XML`, `CSS`, `JS`.
-   - **Not OK:** keystroke-saving shortenings like `compat`, `dep`, `idx`, `ctx`, `cfg`, `dest`, `tmp`, `cnt`, or single-letter variables outside one-line loops.
-   - Conversation is exempt — talk however you like in chat, pairing, or PR comments. The rule is about committed artifacts that outlive the conversation.
+2. **Incremental change.** No Grand Rewrites™. Commit early and often. One concept per commit.
 
-3. **Investigate before deciding.** Don't pattern-match a fix from elsewhere in the codebase and assume it transfers. Read the failure mode, the source, the surrounding code. Most of the time, the "obvious" fix is the wrong one.
+3. **Include tests.** New code should be covered by tests. Add test coverage to existing code when updating it. Prefer TDD. Commit tests and code together.
 
-4. **Find the root cause; don't bypass the symptom.** Reaching for `--no-verify`, `rescue nil`, turning off `--options runtime`, or silently widening a regular expression is a tell that you stopped one step short. Fix the underlying thing.
+4. **Use prior art.** If a library exists that implements a spec/RFC or feature we want, use that. Don't reinvent the wheels just to put a tire on. Avoid "Not Invented Here Syndrome".
 
-5. **Verify your own work.** Don't claim "fixed" without running the relevant build / test / smoke. If you change a build script, run a build. If you change a test, run it. Pattern-matching is not verification.
+5. **Use code generators.** When available use tools to generate predictable boilerplate code, like `bundle gem`. Don't write it yourself.
 
-6. **Match the platform's conventions.** macOS expects Hardened Runtime, code signing, notarization, the unified log, sandboxing, and so on. Fighting the OS to ship faster pays interest forever. Conform.
+6. **Stay green on main.** Always ensure tests and linter are passing before committing. Branches can break green, only while the work is in progress.
 
-7. **Use the system when it works.** `plutil`, `FSEvents`, `os_log`, `SecureRandom`, `NSUserDefaults`, `CFPropertyList`, REXML in standard library. Reinventing for zero-dependency purity almost always loses to a small focused dependency or a system primitive.
+7. **Don't be clever.** Future readers (including future you) should easily understand the code. Some duplication is better than the wrong abstraction. Make it work, make it good, make it fast.
 
-8. **Latest dependencies, not heroic backward-compatibility.** Target current Ruby, current macOS, current Xcode. Drop legacy paths once they outlive their users. Compatibility layers compound; modernization compounds the other way.
+8. **Expand abbreviations.** Use the full words. Avoid keystroke-saving shortenings (`compat`, `dep`, `idx`, `dest`) and single-letter variables. Canonical form initialisms of a concept (`HTML`, `JSON`, `UI`, `API`, `URL`, …) are acceptable.
 
-9. **Don't break bundle authors lightly.** TextMate bundles are 15+ years of community work. Breaking changes get a migration note in CHANGELOG and a reasonable upgrade path. Outright deletions get a crumbtrail.
+---
 
-10. **Prefer the native (C++) path for hot loops.** Editor pipeline, syntax engine, file scanning, completion — these are C++ for a reason. Ruby-side reimplementations of hot paths become latency users feel.
+## TODO
 
-11. **Native UI uses SwiftUI/AppKit. Web UI uses WKWebView.** No new code against deprecated APIs (Carbon, WebView, OSAtomic, FSRef, and similar). When you touch existing deprecated code for any other reason, migrate it.
+Decide which of these to keep / how to edit them down to short and small.
 
-12. **Commit incrementally.** One logical change per commit. During migrations, commit-often beats commit-green — each step should leave the tree in a better state than the last, even if it's not all the way green yet.
+1. **Investigate before deciding.** Don't pattern-match a fix from elsewhere in the codebase and assume it transfers. Read the failure mode, the source, the surrounding code. The "obvious" fix isn't always the right one.
 
-13. **Update CHANGELOG with the change, not later.** Every meaningful change gets a line under `[Unreleased]`. Past tense, terse, follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Breaking changes are flagged inline.
+2. **Find the root cause; don't bypass the symptom.** Reaching for `--no-verify`, `rescue nil`, turning off `--options runtime`, or silently widening a regular expression is a tell that you stopped one step short. Fix the underlying thing.
 
-14. **Record decisions with reasons.** Anything load-bearing (minimum version, breaking change, vendor swap, architecture shift) gets an entry in `the planning notes`. The *why* is the load-bearing part — the *what* rots without it.
+3. **Verify your own work.** Don't claim "fixed" without running the relevant build / test / smoke. If you change a build script, run a build. If you change a test, run it. Pattern-matching is not verification.
 
-15. **Leave a crumbtrail when you delete.** A future reader shouldn't have to reconstruct why something vanished. Note the deletion commit, the affected paths, and how to revive if needed.
+4. **Match the platform's conventions.** macOS expects Hardened Runtime, code signing, notarization, the unified log, sandboxing, and so on. Fighting the OS to ship faster pays interest forever. Conform.
 
-16. **Scripts to Rule Them All.** Anything a developer runs frequently lives in `script/*` — `build`, `run`, `test`, `log`. No incantations memorized in heads.
+5. **Use the system when it works.** `plutil`, `FSEvents`, `os_log`, `SecureRandom`, `NSUserDefaults`, `CFPropertyList`, REXML in standard library. Reinventing for zero-dependency purity almost always loses to a small focused dependency or a system primitive.
+
+6. **Latest dependencies, not heroic backward-compatibility.** Target current Ruby, current macOS, current Xcode. Drop legacy paths once they outlive their users. Compatibility layers compound; modernization compounds the other way.
+
+7. **Don't break bundle authors lightly.** TextMate bundles are 15+ years of community work. Breaking changes get a migration note in CHANGELOG and a reasonable upgrade path. Outright deletions get a crumbtrail.
+
+8. **Native UI uses SwiftUI/AppKit. Web UI uses WKWebView.** No new code against deprecated APIs (Carbon, WebView, OSAtomic, FSRef, and similar). When you touch existing deprecated code for any other reason, migrate it.
+
+9. **Commit incrementally.** One logical change per commit. During migrations, commit-often beats commit-green — each step should leave the tree in a better state than the last, even if it's not all the way green yet.
+
+10. **Update CHANGELOG with the change, not later.** Every meaningful change gets a line under `[Unreleased]`. Past tense, terse, follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Breaking changes are flagged inline.
+
+11. **Record decisions with reasons.** Anything load-bearing (minimum version, breaking change, vendor swap, architecture shift) gets an entry in `the planning notes`. The _why_ is the load-bearing part — the _what_ rots without it.
+
+12. **Leave a crumbtrail when you delete.** A future reader shouldn't have to reconstruct why something vanished. Note the deletion commit, the affected paths, and how to revive if needed.
+
+13. **Scripts to Rule Them All.** Anything a developer runs frequently [lives](https://github.blog/engineering/engineering-principles/scripts-to-rule-them-all) in `script/*` — `build`, `run`, `test`, `log` to avoid magic spell incantations.
