@@ -24,7 +24,10 @@ Target: **3.0.0**.
 ### Changed
 
 - **BREAKING** — Bundle Support's Ruby plist parser swapped from the vendored patsplat/plist gem (XML only, Ruby 1.8-compat) to CFPropertyList 4.0.0 (XML + binary + OpenStep ASCII). Public API for bundle authors: `OSX::PropertyList.load(input)` becomes `Plist.load(input)`, accepting an IO, path, or raw bytes with format auto-detected. `Hash#to_plist` / `Array#to_plist` / `Enumerator#to_plist` are preserved via `Module#prepend` and continue to default to XML output for `tm_dialog` IPC.
-- **BREAKING** — Minimum Ruby for `bundle-support` shared libs is now Ruby 2.6 (macOS system Ruby), with an in-progress path to Ruby 4.0. Bundle authors must update Ruby command shebangs from `#!/usr/bin/env ruby18 -KU` / `ruby20` to `#!/usr/bin/env ruby` or `#!/usr/bin/env ${TM_RUBY:-ruby}`. The legacy `ruby18`/`ruby20` shim scripts are still on disk but will be removed in a follow-on Phase 2 sweep.
+- **BREAKING** — Minimum Ruby for `bundle-support` shared libs is now Ruby 2.6 (macOS system Ruby), with an in-progress path to Ruby 4.0. Bundle authors writing new commands should use `#!/usr/bin/env ruby` as the shebang.
+- **BREAKING** — Swept `#!/usr/bin/env ruby18` / `ruby20` shebangs to `#!/usr/bin/env ruby` across 95 bundle repositories (782 files). Legacy Ruby 1.8 flags `-K U` / `-Ku` / `-KU` / `-KA` / `-rjcode` were dropped; combined forms like `-wKU` were split (the `-w` portion preserved). Non-shebang invocations of the `ruby18` command (shell heredocs, pipes, `ruby18 -r "…" <<END` patterns) were also converted. Absolute-path legacy shebangs (`#! /usr/local/bin/ruby18`, `#!/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby`) were canonicalized to `#!/usr/bin/env ruby` in the same pass.
+- New-command default in the Bundle Editor (`Frameworks/BundleEditor/templates/Command.plist` and `Drag Command.plist`) — shebang now `#!/usr/bin/env ruby` (was `ruby18 -wKU` and `ruby18 -KU` respectively).
+- Bundled `Applications/TextMate/support/Bundles/Avian.tmbundle` — 4 commands' shebangs swept along with the rest.
 - `bundle-development.tmbundle/Support/bin/sort_bundle.rb` — separator UUID generator now uses `SecureRandom.uuid.upcase`. The previous `Array#to_s`-as-implicit-join idiom was a Ruby 1.8-only construct that produced `["4","D",…]`-literal strings under Ruby 1.9+.
 
 ### Removed
@@ -35,6 +38,9 @@ Target: **3.0.0**.
 - `bundle-support.tmbundle/Support/shared/private/track_usage.rb` (Ruby 1.8 → 1.9 migration tracker; no-op on any Ruby ≥ 2.0) plus the 21 `require ".../private/track_usage.rb"` sites that pulled it in.
 - `bundle-support.tmbundle/Support/shared/lib/ruby1.9/add_1.8_features.rb` (dead compat shim; zero `require` sites anywhere).
 - Vendored patsplat/plist git submodule at `bundle-support.tmbundle/Support/shared/private/vendor/plist/` (superseded — see Changed).
+- **BREAKING** — `bundle-support.tmbundle/Support/shared/bin/ruby18` shim (1905 bytes). Used to either `exec` the system-shipped Ruby 1.8 framework (removed by Apple in macOS 10.15, 2019) or download a Ruby 1.8.7 tarball from `archive.textmate.org` to `~/Library/Application Support/TextMate/Ruby/1.8.7/`. Both fallbacks are obsolete on macOS 26. The `archive.textmate.org` download URL is gone with the shim.
+- **BREAKING** — `bundle-support.tmbundle/Support/shared/bin/ruby20` shim (513 bytes). Same family — invoked Apple's frozen system Ruby 2.0.
+- `bundle-support.tmbundle/Support/shared/private/ruby18_fix_loadpath.rb` (orphaned helper that fixed the downloaded 1.8.7 tarball's hardcoded `$LOAD_PATH`; only ever called by the deleted `ruby18` shim).
 
 ### Fixed
 
