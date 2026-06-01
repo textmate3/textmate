@@ -25,6 +25,11 @@ namespace network
 		std::string const& signee () const    { return _signee_header; }
 		std::string const& signature () const { return _signature_header; }
 
+		// Bypass signature checking. Callers set this when the download URL
+		// points at localhost during local development against the
+		// `api.textmate3.com` stand-in server. See the planning notes.
+		void skip_validation ()               { _skip = true; }
+
 	private:
 		key_chain_t const _key_chain;
 		std::string const _signee_header;
@@ -34,6 +39,7 @@ namespace network
 
 		std::string _signee    = NULL_STR;
 		std::string _signature = NULL_STR;
+		bool        _skip      = false;
 	};
 
 } /* network */

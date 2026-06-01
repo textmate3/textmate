@@ -8,6 +8,12 @@ namespace bundles_db
 	std::string download_etag (std::string const& url, key_chain_t const& keyChain, std::string* etag, double* progress, double min, double max)
 	{
 		network::check_signature_t validator(keyChain, kHTTPSigneeHeader, kHTTPSignatureHeader);
+
+		// Local-dev path against api.textmate3.com: skip signature check
+		// when the bundle index is served from localhost. See ADR-006.
+		if(url.find("://localhost") != std::string::npos || url.find("://127.0.0.1") != std::string::npos)
+			validator.skip_validation();
+
 		network::save_t archiver(false);
 		network::header_t collect_etag("etag");
 

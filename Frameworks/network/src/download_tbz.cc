@@ -124,6 +124,11 @@ namespace network
 
 			user_data_t data(keyChain, progress, progressStart, progressStop, stopFlag, tbz.input_fd(), tmpInput);
 
+			// Local-dev path against api.textmate3.com: skip signature check
+			// when the bundle tarball is served from localhost. See ADR-006.
+			if(url.find("://localhost") != std::string::npos || url.find("://127.0.0.1") != std::string::npos)
+				data.verify_signature.skip_validation();
+
 			curl_easy_setopt(handle, CURLOPT_URL,              url.c_str());
 			curl_easy_setopt(handle, CURLOPT_FOLLOWLOCATION,   true);
 			curl_easy_setopt(handle, CURLOPT_FAILONERROR,      true);
