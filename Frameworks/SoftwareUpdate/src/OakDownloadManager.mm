@@ -4,6 +4,16 @@
 static NSString* const OakHTTPHeaderSignee    = @"x-amz-meta-x-signee";
 static NSString* const OakHTTPHeaderSignature = @"x-amz-meta-x-signature";
 
+// Returns YES when the URL targets the local development bundle catalog
+// server (api.textmate3.com on localhost). The two C++-side download paths
+// (Frameworks/network/src/filter_check_signature.cc and
+// Frameworks/updater/src/download.cc) have an equivalent bypass. See ADR-006.
+static BOOL IsLocalhostURL(NSURL* url)
+{
+	NSString* host = url.host.lowercaseString;
+	return [host isEqualToString:@"localhost"] || [host isEqualToString:@"127.0.0.1"];
+}
+
 @interface OakDownloadManager ()
 - (BOOL)data:(NSData*)contentData hasValidBase64EncodedSignature:(NSString*)encodedSignature usingPublicKeyString:(NSString*)publicKeyString;
 @end
@@ -236,7 +246,7 @@ static NSString* GetHardwareInfo (int field, BOOL isInteger = NO)
 		os_log_error(OS_LOG_DEFAULT, "Failed to download %{public}@: %{public}@", dataTask.originalRequest.URL, error.localizedDescription);
 		_completionHandler(nil, error);
 	}
-	else if(![OakDownloadManager.sharedInstance data:_data hasValidBase64EncodedSignature:_signature usingPublicKeyString:_publicKeys[_signee]])
+	else if(!IsLocalhostURL(dataTask.originalRequest.URL) && ![OakDownloadManager.sharedInstance data:_data hasValidBase64EncodedSignature:_signature usingPublicKeyString:_publicKeys[_signee]])
 	{
 		os_log_error(OS_LOG_DEFAULT, "Unable to verify signature");
 		_completionHandler(nil, [NSError errorWithDomain:@"OakDownloadManager" code:0 userInfo:@{ NSLocalizedDescriptionKey: @"Unable to verify signature." }]);
@@ -341,6 +351,20 @@ static NSString* GetHardwareInfo (int field, BOOL isInteger = NO)
 		{
 			if(!error && statusCode != 304)
 				error = [NSError errorWithDomain:@"OakDownloadManager" code:0 userInfo:@{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Server returned %ld for %@", statusCode, serverURL.absoluteString] }];
+		}
+		else if(IsLocalhostURL(serverURL))
+		{
+			// Local-dev path: skip signature check, write the response directly.
+			if([data writeToURL:localFileURL options:NSDataWritingAtomic error:&error])
+			{
+				wasUpdated = YES;
+				if(NSString* newETag = ((NSHTTPURLResponse*)response).allHeaderFields[@"ETag"])
+				{
+					char const* str = newETag.UTF8String;
+					if(setxattr(localFileURL.fileSystemRepresentation, "org.w3.http.etag", str, strlen(str), 0, 0) == -1)
+						os_log_error(OS_LOG_DEFAULT, "setxattr(%{public}@): %{darwin.errno}d", localFileURL.path, errno);
+				}
+			}
 		}
 		else
 		{

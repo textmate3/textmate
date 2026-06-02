@@ -109,6 +109,19 @@ static NSString* SafeBasename (NSString* name)
 				}];
 			});
 		}];
+
+		// Kick off an immediate fetch on top of the scheduler.
+		// NSBackgroundActivityScheduler is deferrable — macOS may delay
+		// the first run by minutes or hours based on power / network /
+		// idle conditions. For both dev-loop testing against the local
+		// api.textmate3.com server and for real users coming back to
+		// the app after a long pause, an immediate first-fire makes
+		// "newer bundles are available" actually responsive.
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self tryUpdateBundleIndexAndCallback:^(BOOL wasUpdated){
+				os_log(OS_LOG_DEFAULT, "Initial bundle index fetch: %{public}s", wasUpdated ? "updated" : "unchanged");
+			}];
+		});
 	}
 }
 
