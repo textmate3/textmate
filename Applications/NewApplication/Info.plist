@@ -8,7 +8,6 @@
 	// CFBundleHelpBookName
 	// CFBundleHelpBookFolder
 	// LSMinimumSystemVersion
-	// NSContactsUsageDescription
 
 	CFBundleDevelopmentRegion     = "English";
 	CFBundleInfoDictionaryVersion = "6.0";
