@@ -24,6 +24,10 @@ Target: **3.0.0**.
 
 ### Changed
 
+- **BREAKING** — Minimum deployment target raised from macOS 10.12 to macOS 13.
+- C++ standard raised from `c++2a` to `c++23`. The stricter standard surfaced and forced the fix of a latent crash (see Fixed, `selection_t`).
+- The macOS version is read via `sysctl kern.osproductversion` instead of the deprecated `Gestalt` API, which had capped its answers at 10.9-era values — `attr.os-version` scope attributes and the software update user agent now report the true version for the first time in a decade.
+- The six custom iterators (basic_tree, indexed_map, buffer storage, utf8, diacritics, tokenize) declare their traits as member typedefs instead of inheriting `std::iterator` (deprecated in C++17). A full build's warning count dropped from the mid five hundreds to double digits, making the remaining real deprecation worklist readable.
 - **BREAKING** — Bundle Support's Ruby plist parser swapped from the vendored patsplat/plist gem (XML only, Ruby 1.8-compat) to CFPropertyList 4.0.0 (XML + binary + OpenStep ASCII). Public API for bundle authors: `OSX::PropertyList.load(input)` becomes `Plist.load(input)`, accepting an IO, path, or raw bytes with format auto-detected. `Hash#to_plist` / `Array#to_plist` / `Enumerator#to_plist` are preserved via `Module#prepend` and continue to default to XML output for `tm_dialog` IPC.
 - **BREAKING** — Minimum Ruby for `bundle-support` shared libs is now Ruby 2.6 (macOS system Ruby), with an in-progress path to Ruby 4.0. Bundle authors writing new commands should use `#!/usr/bin/env ruby` as the shebang.
 - **BREAKING** — Swept `#!/usr/bin/env ruby18` / `ruby20` shebangs to `#!/usr/bin/env ruby` across 95 bundle repositories (782 files). Legacy Ruby 1.8 flags `-K U` / `-Ku` / `-KU` / `-KA` / `-rjcode` were dropped; combined forms like `-wKU` were split (the `-w` portion preserved). Non-shebang invocations of the `ruby18` command (shell heredocs, pipes, `ruby18 -r "…" <<END` patterns) were also converted. Absolute-path legacy shebangs (`#! /usr/local/bin/ruby18`, `#!/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby`) were canonicalized to `#!/usr/bin/env ruby` in the same pass.
@@ -53,6 +57,7 @@ Target: **3.0.0**.
 
 ### Fixed
 
+- `selection_t`'s empty-selection fallback constructed a range from the literal `0`, which resolved through `std::string((char*)0)` — undefined behavior whenever a selection string parsed to nothing. Now constructs from `pos_t()`. Found by the C++23 standard bump, which deletes that string constructor.
 - `bundle-support.tmbundle/Support/shared/lib/ui.rb` — `Kernel#open("|cmd", …)` → `IO.popen(…)`. The pipe-prefix form of `Kernel#open` was removed in Ruby 3.0.
 - `bundle-support.tmbundle/Support/shared/lib/tm/htmloutput.rb` — `ERB.new(str, 0, '%-')` → `ERB.new(str, trim_mode: '%-')`. The positional-arg form was removed in Ruby 3.0 (it was tied to `$SAFE`, also removed).
 - Seven files across `bundle-support.tmbundle/Support/shared/lib/` and `bundle-development.tmbundle/Support/bin/` — `File.exists?` → `File.exist?`. The plural form was deprecated in Ruby 2.1 and removed in 3.2.
