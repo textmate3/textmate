@@ -121,11 +121,11 @@ namespace document
 				return res;
 
 			plist::any_t const& plist = plist::parse(str);
-			if(plist::array_t const* array = boost::get<plist::array_t>(&plist))
+			if(plist::array_t const* array = plist::get_if<plist::array_t>(&plist))
 			{
 				for(auto const& bm : *array)
 				{
-					if(std::string const* str = boost::get<std::string>(&bm))
+					if(std::string const* str = plist::get_if<std::string>(&bm))
 						res.emplace(*str, std::string());
 				}
 			}
