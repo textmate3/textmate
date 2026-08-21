@@ -3,6 +3,16 @@
 #import "HOStatusBar.h"
 #import <OakAppKit/OakUIConstructionFunctions.h>
 
+// Private WebPreferences setters (WebPreferencesPrivate.h). Modern WebKit
+// defaults allowFileAccessFromFileURLs to NO, which blocks local-origin pages
+// (including the registered-as-local x-txmt-filehandle command output pages)
+// from loading file:// subresources, so themes' style sheets, scripts, and
+// images in HTML output windows fail to load without it.
+@interface WebPreferences (TMHTMLOutputPrivate)
+- (void)setAllowFileAccessFromFileURLs:(BOOL)flag;
+- (void)setAllowUniversalAccessFromFileURLs:(BOOL)flag;
+@end
+
 static NSString* EscapeHTML (NSString* str)
 {
 	return [[[str stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"] stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"] stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"];
@@ -31,6 +41,8 @@ static void ShowLoadErrorForURL (WebFrame* frame, NSURL* url, NSError* error)
 		NSString* const kHTMLOutputPreferencesIdentifier = @"HTML Output Preferences Identifier";
 		WebPreferences* webViewPrefs = [[WebPreferences alloc] initWithIdentifier:kHTMLOutputPreferencesIdentifier];
 		webViewPrefs.plugInsEnabled = NO;
+		if([webViewPrefs respondsToSelector:@selector(setAllowFileAccessFromFileURLs:)])
+			[webViewPrefs setAllowFileAccessFromFileURLs:YES];
 		self.webView.preferencesIdentifier = kHTMLOutputPreferencesIdentifier;
 
 		_statusBar = [[HOStatusBar alloc] initWithFrame:NSZeroRect];

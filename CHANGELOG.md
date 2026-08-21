@@ -45,6 +45,8 @@ Target: **3.0.0**.
 
 ### Fixed
 
+- HTML output windows (command output, web previews) render their themes again. Modern WebKit defaults `allowFileAccessFromFileURLs` to off, which blocked the local-origin command output pages from loading their `file://` style sheets, scripts, and header images — output rendered as unstyled HTML with visible image alt text. The HTML output web view now opts in via the long-standing private `WebPreferences` setter, guarded by a `respondsToSelector:` check.
+
 - `bundle-support.tmbundle/Support/shared/lib/ui.rb` — `Kernel#open("|cmd", …)` → `IO.popen(…)`. The pipe-prefix form of `Kernel#open` was removed in Ruby 3.0.
 - `bundle-support.tmbundle/Support/shared/lib/tm/htmloutput.rb` — `ERB.new(str, 0, '%-')` → `ERB.new(str, trim_mode: '%-')`. The positional-arg form was removed in Ruby 3.0 (it was tied to `$SAFE`, also removed).
 - Seven files across `bundle-support.tmbundle/Support/shared/lib/` and `bundle-development.tmbundle/Support/bin/` — `File.exists?` → `File.exist?`. The plural form was deprecated in Ruby 2.1 and removed in 3.2.
