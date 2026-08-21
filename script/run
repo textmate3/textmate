@@ -5,7 +5,19 @@
 #   script/run             # release build, then launch
 #   script/run debug       # debug build, then launch
 
+require 'socket'
+
 Dir.chdir(File.expand_path('..', __dir__))
+
+# Local builds point REST_API at the catalog server (see local.rave and
+# ../api.textmate3.com/). The app runs fine without it, but bundle installs
+# and update checks will fail quietly, which has cost debugging time before.
+begin
+  Socket.tcp('127.0.0.1', 3000, connect_timeout: 0.25) { }
+rescue StandardError
+  warn '~~> Catalog server is not running on localhost:3000.'
+  warn '~~> Bundle installs and update checks will fail until you run: ../api.textmate3.com/script/server'
+end
 
 target = ARGV.first == 'debug' ? 'TextMate/debug/run' : 'TextMate/run'
 exec 'ninja', target
