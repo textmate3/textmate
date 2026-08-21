@@ -33,6 +33,9 @@ Target: **3.0.0**.
 
 ### Removed
 
+- The license manager. TextMate has been free for years; the validation framework (`Frameworks/license/`, about 430 lines of key validation, trial logic, and Keychain storage), the About window's Registration tab and page, and the JavaScript bridge's `addLicense` plumbing are gone. Verified: the built binary contains no `LicenseManager` symbols.
+- `Applications/SyntaxMate/` — an XPC syntax highlighting service that was never shipped and is not referenced by the build (its bundled `SyntaxMate.tmBundle` submodule is gone with it).
+- `Applications/NewApplication/` — a template application skeleton, never shipped.
 - The AddressBook lookup in the Bundle Editor. Creating a new bundle no longer reads the primary email of the "me" card via the deprecated `AddressBook.framework` (removed: the lookup in `BundleEditor.mm`, the framework link in `Frameworks/BundleEditor/default.rave`, the `#import` in the Objective-C precompiled header, the `NSContactsUsageDescription` entries, and the `contactEmailRot13 = "$TM_ROT13_EMAIL"` line in the new-bundle template). First launch no longer triggers a Contacts permission prompt; the contact email field of a new bundle starts empty and can be filled in from the bundle editor.
 - **BREAKING** — `bundle-support.tmbundle/Support/shared/lib/osx/plist.bundle` (compiled C extension for Ruby 1.8). Replace `require ".../lib/osx/plist"` with `require "#{ENV['TM_SUPPORT_PATH']}/private/plist"` and `OSX::PropertyList.load(…)` with `Plist.load(…)`.
 - **BREAKING** — `bundle-support.tmbundle/Support/shared/lib/osx/keychain.bundle` (compiled C extension; zero callers in any bundle).
