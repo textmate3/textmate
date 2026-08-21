@@ -1,9 +1,9 @@
 [submodule "bin/CxxTest"]
 	path = bin/CxxTest
-	url = https://github.com/textmate/cxxtest.git
+	url = https://github.com/textmate3/cxxtest.git
 [submodule "Applications/TextMate/icons"]
 	path = Applications/TextMate/icons
-	url = https://github.com/textmate/document-icons.git
+	url = https://github.com/textmate3/document-icons.git
 [submodule "PlugIns/dialog-1.x"]
 	path = PlugIns/dialog-1.x
 	url = https://github.com/textmate3/dialog-1.x.git
@@ -12,7 +12,7 @@
 	url = https://github.com/textmate3/dialog.git
 [submodule "vendor/Onigmo/vendor"]
 	path = vendor/Onigmo/vendor
-	url = https://github.com/textmate/Onigmo.git
+	url = https://github.com/textmate3/Onigmo.git
 [submodule "vendor/kvdb/vendor"]
 	path = vendor/kvdb/vendor
-	url = https://github.com/textmate/kvdb.git
+	url = https://github.com/textmate3/kvdb.git
