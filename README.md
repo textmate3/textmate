@@ -27,19 +27,18 @@ To build TextMate, you need the following:
  * [multimarkdown][]    — marked-up plain text compiler
  * [ninja][]            — build system similar to `make`
  * [ragel][]            — state machine compiler
- * [sparsehash][]       — a cache friendly `hash_map`
  * **Ruby 4.0+**        — `bin/rave` (the build system) and the other `bin/*.rb` scripts. Install via [`chruby`][chruby] + [`ruby-install`][ruby-install]; the project pins `4.0.5` in `.ruby-version`. (This is a temporary explicit requirement during the Ruby modernization; expect distribution to change later.)
 
 All this can be installed using either [Homebrew][] or [MacPorts][]:
 
 ```sh
 # Homebrew
-brew install boost capnp google-sparsehash multimarkdown ninja ragel chruby ruby-install
+brew install boost capnp multimarkdown ninja ragel chruby ruby-install
 ruby-install ruby-4.0.5
 chruby ruby-4.0.5
 
 # MacPorts
-sudo port install boost capnproto multimarkdown ninja ragel sparsehash
+sudo port install boost capnproto multimarkdown ninja ragel
 ```
 
 After installing dependencies, make sure you have a full checkout (including submodules) and then run `./configure` followed by `ninja`, for example:
@@ -97,6 +96,5 @@ TextMate is a trademark of Allan Odgaard.
 [MacPorts]:      http://www.macports.org/
 [Homebrew]:      http://brew.sh/
 [NinjaBundle]:   https://github.com/textmate/ninja.tmbundle
-[sparsehash]:    https://code.google.com/p/sparsehash/
 [#textmate]:     irc://irc.freenode.net/#textmate
 [freenode.net]:  http://freenode.net/

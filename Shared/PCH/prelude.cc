@@ -22,6 +22,5 @@
 #include <random>
 #include <thread>
 #include <boost/crc.hpp>
-#include <sparsehash/dense_hash_map>
 
 #endif /* end of include guard: PRELUDE_CC_PCH_U5CKEP2N */
