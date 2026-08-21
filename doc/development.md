@@ -20,6 +20,8 @@ This is a living document about how we work.
 
 8. **Expand abbreviations.** Use the full words. Avoid keystroke-saving shortenings (`compat`, `dep`, `idx`, `dest`) and single-letter variables. Canonical form initialisms of a concept (`HTML`, `JSON`, `UI`, `API`, `URL`, …) are acceptable.
 
+9. **Sweep by complement, and know where code lives.** When sweeping the tree for a pattern, do not filter by the extensions you expect; list everything that is *not* the canonical form, or search all files and exclude noise. Code in this repository lives in more places than `.h`/`.cc`/`.mm`: also `.c`, `.m`, `.hh`, `.hpp`, `.inc`, `.pch` (C family), `.rl` (Ragel state machines that generate C++), `.capnp` (Cap'n Proto schemas that generate C++), `.rave` (the build system's own language), `.js` (WKWebView bridge scripts), `.xslt`, `.strings`, `.plist` (some carry embedded logic), and extensionless Ruby scripts under `bin/` and `script/`. The `.rl` file was missed by an extension-filtered sweep during the variant migration; the compiler caught it, but only because C++ fails loudly — the same mistake in a scripting layer stays silent.
+
 ---
 
 ## TODO
