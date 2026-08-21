@@ -35,14 +35,7 @@ static NSString* GetHardwareInfo (int field, BOOL isInteger = NO)
 {
 	if(self = [super init])
 	{
-		if(@available(macos 10.14, *))
-		{
-			UNUserNotificationCenter.currentNotificationCenter.delegate = self;
-		}
-		else
-		{
-			NSUserNotificationCenter.defaultUserNotificationCenter.delegate = self;
-		}
+		UNUserNotificationCenter.currentNotificationCenter.delegate = self;
 	}
 	return self;
 }
@@ -137,7 +130,6 @@ static NSString* GetHardwareInfo (int field, BOOL isInteger = NO)
 					if(NSString* locationURLString = ((NSHTTPURLResponse*)response).allHeaderFields[@"Location"])
 					{
 						os_log(OS_LOG_DEFAULT, "Crash report available at %{public}@", locationURLString);
-						if(@available(macos 10.14, *))
 						{
 							[UNUserNotificationCenter.currentNotificationCenter requestAuthorizationWithOptions:UNAuthorizationOptionAlert completionHandler:^(BOOL granted, NSError* error){
 								if(granted)
@@ -158,14 +150,6 @@ static NSString* GetHardwareInfo (int field, BOOL isInteger = NO)
 									os_log_info(OS_LOG_DEFAULT, "User notifications disallowed");
 								}
 							}];
-						}
-						else
-						{
-							NSUserNotification* notification = [[NSUserNotification alloc] init];
-							notification.title           = @"Crash Report Sent";
-							notification.informativeText = @"Diagnostic information has been sent to MacroMates.com regarding your last crash.";
-							notification.userInfo        = @{ @"path": reportPath, @"url": locationURLString };
-							[NSUserNotificationCenter.defaultUserNotificationCenter deliverNotification:notification];
 						}
 					}
 				}

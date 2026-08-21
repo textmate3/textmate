@@ -203,14 +203,10 @@ static NSString* const kRecordingPlaceholderString = @"…";
 	NSRect frame = [self bounds];
 
 	NSColor* frameColor      = NSColor.lightGrayColor;
-	NSColor* backgroundColor = NSColor.whiteColor;
+	NSColor* backgroundColor = NSColor.controlColor;
 
-	if(@available(macos 10.14, *))
-	{
-		if([[NSApp.effectiveAppearance bestMatchFromAppearancesWithNames:@[ NSAppearanceNameAqua, NSAppearanceNameDarkAqua ]] isEqualToString:NSAppearanceNameDarkAqua])
-			frameColor = NSColor.tertiaryLabelColor;
-		backgroundColor = NSColor.controlColor;
-	}
+	if([[NSApp.effectiveAppearance bestMatchFromAppearancesWithNames:@[ NSAppearanceNameAqua, NSAppearanceNameDarkAqua ]] isEqualToString:NSAppearanceNameDarkAqua])
+		frameColor = NSColor.tertiaryLabelColor;
 
 	[frameColor set];
 	NSFrameRect(frame);
