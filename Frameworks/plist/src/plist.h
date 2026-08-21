@@ -51,12 +51,5 @@ namespace plist
 
 } /* plist */
 
-namespace boost // transitional forwarding shim; previously any_t lived in this namespace for ADL
-{
-	inline std::string to_s (plist::any_t const& plist, int flags = plist::kStandard, std::vector<std::string> const& keySortOrder = std::vector<std::string>())
-	{
-		return plist::to_s(plist, flags, keySortOrder);
-	}
-}
 
 #endif /* end of include guard: PLIST_H_34L7NUFO */

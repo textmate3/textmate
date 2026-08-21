@@ -26,6 +26,27 @@ namespace parser
 	struct case_change_t               { case_change_t (case_change::type type) : type(type) { } case_change::type type; };
 	struct code_t                      { std::string code; };
 
+	// Defined here rather than in parser_fwd.h because std::variant needs
+	// complete alternative types. C++23 (P2162) lets std::visit accept the
+	// derived type directly.
+	struct node_t : std::variant<
+		text_t,
+		placeholder_t, placeholder_transform_t, placeholder_choice_t,
+		variable_t, variable_transform_t, variable_fallback_t, variable_condition_t, variable_change_t,
+		case_change_t,
+		code_t
+	>
+	{
+		using variant::variant;
+	};
+
+	// std::get_if and std::get do not accept types derived from std::variant
+	// (C++23 extends only std::visit), so these helpers cast to the base.
+	template <typename T> T const* get_if (node_t const* v) { return v ? std::get_if<T>(static_cast<node_t::variant const*>(v)) : nullptr; }
+	template <typename T> T*       get_if (node_t* v)       { return v ? std::get_if<T>(static_cast<node_t::variant*>(v)) : nullptr; }
+	template <typename T> T const& get_ref (node_t const& v) { return std::get<T>(static_cast<node_t::variant const&>(v)); }
+	template <typename T> T&       get_ref (node_t& v)       { return std::get<T>(static_cast<node_t::variant&>(v)); }
+
 	OnigOptionType convert (regexp_options::type const& options);
 
 	nodes_t parse_format_string (std::string const& str, char const* stopChars = "", size_t* length = nullptr);
