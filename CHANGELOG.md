@@ -43,9 +43,11 @@ Target: **3.0.0**.
 - **BREAKING** — `bundle-support.tmbundle/Support/shared/bin/ruby20` shim (513 bytes). Same family — invoked Apple's frozen system Ruby 2.0.
 - `bundle-support.tmbundle/Support/shared/private/ruby18_fix_loadpath.rb` (orphaned helper that fixed the downloaded 1.8.7 tarball's hardcoded `$LOAD_PATH`; only ever called by the deleted `ruby18` shim).
 
-### Fixed
+### Known issues
 
-- HTML output windows (command output, web previews) render their themes again. Modern WebKit defaults `allowFileAccessFromFileURLs` to off, which blocked the local-origin command output pages from loading their `file://` style sheets, scripts, and header images — output rendered as unstyled HTML with visible image alt text. The HTML output web view now opts in via the long-standing private `WebPreferences` setter, guarded by a `respondsToSelector:` check.
+- HTML output windows (command output, web previews) render unstyled: their `file://` style sheets, scripts, and header images fail to load, leaving bare HTML with visible image alt text. The command output pages are served from the `x-txmt-filehandle` scheme, registered as local since 2012. Enabling the private `WebPreferences` `allowFileAccessFromFileURLs` setter did not resolve it, so another WebKit gate is involved. Next steps: watch the unified log during a command run for "Not allowed to load local resource", and enable the web inspector (`developerExtrasEnabled`) on the output view to read the console directly.
+
+### Fixed
 
 - `bundle-support.tmbundle/Support/shared/lib/ui.rb` — `Kernel#open("|cmd", …)` → `IO.popen(…)`. The pipe-prefix form of `Kernel#open` was removed in Ruby 3.0.
 - `bundle-support.tmbundle/Support/shared/lib/tm/htmloutput.rb` — `ERB.new(str, 0, '%-')` → `ERB.new(str, trim_mode: '%-')`. The positional-arg form was removed in Ruby 3.0 (it was tied to `$SAFE`, also removed).
