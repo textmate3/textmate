@@ -625,8 +625,8 @@ struct socket_observer_t
 
 static bool rmate_connection_handler_t (socket_t const& socket)
 {
-	socklen_t dummyLen = std::max(sizeof(sockaddr_un), sizeof(sockaddr_in));
-	char dummy[dummyLen];
+	char dummy[std::max(sizeof(sockaddr_un), sizeof(sockaddr_in))];
+	socklen_t dummyLen = sizeof(dummy);
 	int newFd = accept(socket, (sockaddr*)&dummy[0], &dummyLen);
 
 	std::string welcome = "220 " + sys_info(KERN_HOSTNAME) + " RMATE TextMate (" + sys_info(KERN_OSTYPE) + " " + sys_info(KERN_OSRELEASE) + ")\n";
