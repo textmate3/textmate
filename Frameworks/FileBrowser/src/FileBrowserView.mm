@@ -31,7 +31,7 @@
 
 		[_outlineView setDraggingSourceOperationMask:NSDragOperationLink|NSDragOperationMove|NSDragOperationCopy forLocal:YES];
 		[_outlineView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:NO];
-		[_outlineView registerForDraggedTypes:@[ NSFilenamesPboardType ]];
+		[_outlineView registerForDraggedTypes:@[ NSPasteboardTypeFileURL ]];
 
 		NSTableColumn* tableColumn = [[NSTableColumn alloc] init];
 		[_outlineView addTableColumn:tableColumn];
