@@ -3,6 +3,7 @@
 #import <OakFoundation/OakFoundation.h>
 #import <OakAppKit/OakUIConstructionFunctions.h>
 #import <OakAppKit/OakScopeBarView.h>
+#import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 
 static NSUserInterfaceItemIdentifier const kTableColumnIdentifierInstalled   = @"Installed";
 static NSUserInterfaceItemIdentifier const kTableColumnIdentifierBundleName  = @"BundleName";
@@ -137,7 +138,7 @@ static NSUserInterfaceItemIdentifier const kTableColumnIdentifierDescription = @
 @end
 
 @implementation BundlesPreferences
-- (NSImage*)toolbarItemImage { return [NSWorkspace.sharedWorkspace iconForFileType:@"tmbundle"]; }
+- (NSImage*)toolbarItemImage { return [NSWorkspace.sharedWorkspace iconForContentType:([UTType typeWithFilenameExtension:@"tmbundle"] ?: UTTypeItem)]; }
 
 - (id)init
 {
