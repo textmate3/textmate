@@ -42,35 +42,54 @@ static std::tuple<pid_t, int, int> my_fork (char const* cmd, int inputRead, std:
 
 	oak::c_array env(environment);
 
-	pid_t pid = vfork();
-	if(pid == 0)
+	pid_t pid = -1;
+
+	posix_spawn_file_actions_t fileActions;
+	if(posix_spawn_file_actions_init(&fileActions) == 0)
 	{
-		int const signals[] = { SIGINT, SIGTERM, SIGPIPE, SIGUSR1 };
-		for(int sig : signals) signal(sig, SIG_DFL);
+		posix_spawn_file_actions_adddup2(&fileActions, inputRead,   STDIN_FILENO);
+		posix_spawn_file_actions_adddup2(&fileActions, outputWrite, STDOUT_FILENO);
+		posix_spawn_file_actions_adddup2(&fileActions, errorWrite,  STDERR_FILENO);
+		// The forked implementation called chdir() in the child and let a failure pass.
+		// posix_spawn instead fails the entire spawn when a file action fails, so only
+		// ask for the directory change when there is a directory to change to.
+		struct stat workingDirInfo;
+		if(workingDir && *workingDir && stat(workingDir, &workingDirInfo) == 0 && S_ISDIR(workingDirInfo.st_mode))
+			posix_spawn_file_actions_addchdir_np(&fileActions, workingDir);
 
-		int const oldOutErr[] = { STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO };
-		int const newOutErr[] = { inputRead, outputWrite, errorWrite };
-
-		for(int fd = getdtablesize(); --fd > STDERR_FILENO; )
+		posix_spawnattr_t attributes;
+		if(posix_spawnattr_init(&attributes) == 0)
 		{
-			int flags = fcntl(fd, F_GETFD);
-			if((flags == -1 && errno == EBADF) || (flags & FD_CLOEXEC) == FD_CLOEXEC)
-				continue;
+			sigset_t defaultSignals;
+			sigemptyset(&defaultSignals);
+			for(int signalNumber : { SIGINT, SIGTERM, SIGPIPE, SIGUSR1 })
+				sigaddset(&defaultSignals, signalNumber);
+			posix_spawnattr_setsigdefault(&attributes, &defaultSignals);
 
-			if(close(fd) == -1)
-				perror("runner_t: close");
+			// A process group of zero means the child leads a new group of its own,
+			// which is what setpgid(0, getpid()) did in the forked child.
+			posix_spawnattr_setpgroup(&attributes, 0);
+			posix_spawnattr_setflags(&attributes, POSIX_SPAWN_SETSIGDEF|POSIX_SPAWN_SETPGROUP|POSIX_SPAWN_CLOEXEC_DEFAULT);
+
+			char* const argv[] = { (char*)cmd, nullptr };
+			if(int rc = posix_spawn(&pid, argv[0], &fileActions, &attributes, argv, env))
+			{
+				fprintf(stderr, "runner_t: posix_spawn(\"%s\"): %s\n", argv[0], strerror(rc));
+				pid = -1;
+			}
+
+			posix_spawnattr_destroy(&attributes);
+		}
+		else
+		{
+			perror("runner_t: posix_spawnattr_init");
 		}
 
-		for(int fd : oldOutErr) close(fd);
-		for(int fd : newOutErr) dup(fd);
-
-		setpgid(0, getpid());
-		chdir(workingDir);
-
-		char* argv[] = { (char*)cmd, NULL };
-		execve(argv[0], argv, env);
-		perror("runner_t: execve");
-		_exit(EXIT_FAILURE);
+		posix_spawn_file_actions_destroy(&fileActions);
+	}
+	else
+	{
+		perror("runner_t: posix_spawn_file_actions_init");
 	}
 
 	int const fds[] = { inputRead, outputWrite, errorWrite };

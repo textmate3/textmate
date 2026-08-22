@@ -5,6 +5,7 @@
 #include <text/parse.h>
 #include <io/path.h>
 #include <plist/uuid.h>
+#include <crt_externs.h>
 
 static char const* const AppVersion = "2.13.3";
 
@@ -88,14 +89,14 @@ static void install_auth_tool ()
 			exit(EX_UNAVAILABLE);
 		}
 
-		pid_t pid = vfork();
-		if(pid == 0)
-		{
-			execl(arg0, arg0, "--install", nullptr);
-			_exit(errno);
-		}
+		char* const argv[] = { (char*)arg0, (char*)"--install", nullptr };
 
-		if(pid != -1)
+		pid_t pid;
+		if(int rc = posix_spawn(&pid, arg0, nullptr, nullptr, argv, *_NSGetEnviron()))
+		{
+			fprintf(stderr, "%s: %s\n", arg0, strerror(rc));
+		}
+		else
 		{
 			int status = 0;
 			if(waitpid(pid, &status, 0) == pid && WIFEXITED(status) && WEXITSTATUS(status) != 0)
