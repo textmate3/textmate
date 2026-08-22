@@ -1169,7 +1169,7 @@ static NSMutableIndexSet* MutableLongestCommonSubsequence (NSArray* lhs, NSArray
 
 - (id)sessionState
 {
-	if(NSKeyedArchiver* coder = [[NSKeyedArchiver alloc] init])
+	if(NSKeyedArchiver* coder = [[NSKeyedArchiver alloc] initRequiringSecureCoding:NO])
 	{
 		[self encodeRestorableStateWithCoder:coder];
 		[coder finishEncoding];
@@ -1182,8 +1182,19 @@ static NSMutableIndexSet* MutableLongestCommonSubsequence (NSArray* lhs, NSArray
 {
 	if([state isKindOfClass:[NSData class]])
 	{
-		if(NSCoder* coder = [[NSKeyedUnarchiver alloc] initForReadingWithData:state])
+		NSError* error;
+		if(NSKeyedUnarchiver* coder = [[NSKeyedUnarchiver alloc] initForReadingFromData:state error:&error])
+		{
+			// restoreStateWithCoder: decodes by key without naming the classes it
+			// expects, which is what secure coding requires, so asking for it here
+			// would throw instead of restoring.
+			coder.requiresSecureCoding = NO;
 			[self restoreStateWithCoder:coder];
+		}
+		else
+		{
+			NSLog(@"%s *** unable to read saved state: %@", sel_getName(_cmd), error.localizedDescription);
+		}
 	}
 	else if([state isKindOfClass:[NSDictionary class]])
 	{
