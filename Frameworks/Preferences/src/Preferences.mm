@@ -8,8 +8,8 @@
 #import "Keys.h"
 #import <OakAppKit/OakTransitionViewController.h>
 
-static NSString* const kMASPreferencesFrameTopLeftKey = @"MASPreferences Frame Top Left";
-static NSString* const kMASPreferencesSelectedViewKey = @"MASPreferences Selected Identifier View";
+static NSString* const kUserDefaultsPreferencesWindowFrameTopLeftKey = @"preferencesWindowFrameTopLeft";
+static NSString* const kUserDefaultsPreferencesSelectedPaneKey       = @"preferencesSelectedPane";
 
 // =============================
 // = PreferencesViewController =
@@ -22,7 +22,7 @@ static NSString* const kMASPreferencesSelectedViewKey = @"MASPreferences Selecte
 @implementation PreferencesViewController
 - (void)viewWillAppear
 {
-	NSString* viewIdentifier = [NSUserDefaults.standardUserDefaults stringForKey:kMASPreferencesSelectedViewKey];
+	NSString* viewIdentifier = [NSUserDefaults.standardUserDefaults stringForKey:kUserDefaultsPreferencesSelectedPaneKey];
 	self.selectedViewIdentifier = viewIdentifier ?: self.childViewControllers.firstObject.identifier;
 }
 
@@ -40,7 +40,7 @@ static NSString* const kMASPreferencesSelectedViewKey = @"MASPreferences Selecte
 
 	_selectedViewIdentifier = viewIdentifier;
 	self.view.window.toolbar.selectedItemIdentifier = viewIdentifier;
-	[NSUserDefaults.standardUserDefaults setObject:_selectedViewIdentifier forKey:kMASPreferencesSelectedViewKey];
+	[NSUserDefaults.standardUserDefaults setObject:_selectedViewIdentifier forKey:kUserDefaultsPreferencesSelectedPaneKey];
 
 	NSViewController* newViewController = [self viewControllerForIdentifier:viewIdentifier];
 	self.title = newViewController.title ?: @"Preferences";
@@ -85,7 +85,7 @@ static NSString* const kMASPreferencesSelectedViewKey = @"MASPreferences Selecte
 	PreferencesViewController* contentViewController = [[PreferencesViewController alloc] init];
 
 	NSWindow* window = [NSPanel windowWithContentViewController:contentViewController];
-	if(NSString* topLeft = [NSUserDefaults.standardUserDefaults stringForKey:kMASPreferencesFrameTopLeftKey])
+	if(NSString* topLeft = [NSUserDefaults.standardUserDefaults stringForKey:kUserDefaultsPreferencesWindowFrameTopLeftKey])
 		[window setFrameTopLeftPoint:NSPointFromString(topLeft)];
 
 	if((self = [super initWithWindow:window]))
@@ -124,7 +124,7 @@ static NSString* const kMASPreferencesSelectedViewKey = @"MASPreferences Selecte
 
 - (void)windowDidMove:(NSNotification*)aNotification
 {
-   [NSUserDefaults.standardUserDefaults setObject:NSStringFromPoint(NSMakePoint(NSMinX(self.window.frame), NSMaxY(self.window.frame))) forKey:kMASPreferencesFrameTopLeftKey];
+   [NSUserDefaults.standardUserDefaults setObject:NSStringFromPoint(NSMakePoint(NSMinX(self.window.frame), NSMaxY(self.window.frame))) forKey:kUserDefaultsPreferencesWindowFrameTopLeftKey];
 }
 
 - (void)selectViewAtRelativeOffset:(NSInteger)offset
