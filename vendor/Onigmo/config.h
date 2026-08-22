@@ -98,6 +98,12 @@
 /* The size of `long', as computed by sizeof. */
 #define SIZEOF_LONG 8
 
+/* The size of `long long', as computed by sizeof. */
+#define SIZEOF_LONG_LONG 8
+
+/* The size of `void *', as computed by sizeof. */
+#define SIZEOF_VOIDP 8
+
 /* The size of `short', as computed by sizeof. */
 #define SIZEOF_SHORT 2
 
