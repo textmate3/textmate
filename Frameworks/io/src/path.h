@@ -77,6 +77,7 @@ namespace path
 	std::string cwd ();
 	std::string home ();
 	std::string temp (std::string const& file = NULL_STR, std::string const& content = NULL_STR);
+	std::string temp_dir (std::string const& name);
 	std::string cache (std::string const& file = NULL_STR);
 	std::string desktop ();
 

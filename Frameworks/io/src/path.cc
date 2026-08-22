@@ -833,7 +833,7 @@ namespace path
 		return passwd_entry()->pw_dir;
 	}
 
-	static std::string system_directory (int name, std::string const& file, std::string const& content)
+	static std::string temp_template (int name, std::string const& file)
 	{
 		std::string str(128, '\0');
 		size_t len = confstr(name, &str[0], str.size());
@@ -845,7 +845,16 @@ namespace path
 		{
 			str = join(str, std::string(getprogname() ?: "untitled") + "_" + file + ".XXXXXX");
 			str.c_str(); // ensure the buffer is zero terminated, should probably move to a better approach
+		}
+		return str;
+	}
 
+	static std::string system_directory (int name, std::string const& file, std::string const& content)
+	{
+		std::string str = temp_template(name, file);
+
+		if(file != NULL_STR)
+		{
 			if(content != NULL_STR)
 			{
 				int fd = mkstemp(&str[0]);
@@ -861,7 +870,10 @@ namespace path
 			}
 			else
 			{
-				mktemp(&str[0]);
+				int fd = mkstemp(&str[0]);
+				if(fd != -1)
+						close(fd);
+				else	str = NULL_STR;
 			}
 		}
 		return str;
@@ -870,6 +882,14 @@ namespace path
 	std::string temp (std::string const& file, std::string const& content)
 	{
 		return system_directory(_CS_DARWIN_USER_TEMP_DIR, file, content);
+	}
+
+	std::string temp_dir (std::string const& name)
+	{
+		std::string str = temp_template(_CS_DARWIN_USER_TEMP_DIR, name);
+		if(name == NULL_STR)
+			return str;
+		return mkdtemp(&str[0]) ? str : NULL_STR;
 	}
 
 	std::string cache (std::string const& file)
