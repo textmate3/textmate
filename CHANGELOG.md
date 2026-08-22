@@ -24,6 +24,7 @@ Target: **3.0.0**.
 
 ### Changed
 
+- File system watching moved from run loop scheduling to dispatch queues, replacing the deprecated `FSEventStreamScheduleWithRunLoop` in the file browser, the `io` framework, and source control status. Callbacks are delivered on the main queue, which preserves the previous threading and timing. The two `FSEventStreamFlushSync` calls were removed, since a synchronous flush cannot be serviced by the queue that is blocked calling it.
 - The preferences window remembers its position and selected pane under new user defaults keys, `preferencesWindowFrameTopLeft` and `preferencesSelectedPane`. They were previously named after MASPreferences, a library the app stopped using years ago when the window was reimplemented natively, and the stale names implied a dependency that does not exist. Upgrading users open the preferences window once at its default position on the first pane, after which it remembers again as before.
 - **BREAKING** — Minimum deployment target raised from macOS 10.12 to macOS 13.
 - C++ standard raised from `c++2a` to `c++23`. The stricter standard surfaced and forced the fix of a latent crash (see Fixed, `selection_t`).
