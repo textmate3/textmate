@@ -48,8 +48,7 @@ namespace test
 		{
 			helper_t ()
 			{
-				root = path::resolve(path::temp("jail"));
-				path::make_dir(root);
+				root = path::resolve(path::temp_dir("jail"));
 			}
 
 			~helper_t ()
