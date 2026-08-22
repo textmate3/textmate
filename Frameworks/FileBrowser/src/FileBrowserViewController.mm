@@ -132,7 +132,7 @@ static NSMutableIndexSet* MutableLongestCommonSubsequence (NSArray* lhs, NSArray
 
 + (void)initialize
 {
-	[NSApplication.sharedApplication registerServicesMenuSendTypes:@[ NSFilenamesPboardType, NSURLPboardType ] returnTypes:@[ ]];
+	[NSApplication.sharedApplication registerServicesMenuSendTypes:@[ NSPasteboardTypeFileURL, NSPasteboardTypeURL ] returnTypes:@[ ]];
 
 	[NSUserDefaults.standardUserDefaults registerDefaults:@{
 		kUserDefaultsFoldersOnTopKey: [[[NSUserDefaults alloc] initWithSuiteName:@"com.apple.finder"] objectForKey:@"_FXSortFoldersFirst"] ?: @NO,
@@ -2218,7 +2218,7 @@ static NSMutableIndexSet* MutableLongestCommonSubsequence (NSArray* lhs, NSArray
 
 - (id)validRequestorForSendType:(NSString*)sendType returnType:(NSString*)returnType
 {
-	return returnType == nil && sendType != nil && [@[ NSFilenamesPboardType, NSURLPboardType ] containsObject:sendType] ? self : nil;
+	return returnType == nil && sendType != nil && [@[ NSPasteboardTypeFileURL, NSPasteboardTypeURL ] containsObject:sendType] ? self : nil;
 }
 
 - (BOOL)writeSelectionToPasteboard:(NSPasteboard*)pboard types:(NSArray*)types
@@ -2242,16 +2242,17 @@ static NSMutableIndexSet* MutableLongestCommonSubsequence (NSArray* lhs, NSArray
 		return NSDragOperationNone;
 
 	NSPasteboard* pboard  = info.draggingPasteboard;
-	NSArray* draggedPaths = [pboard propertyListForType:NSFilenamesPboardType];
+	NSArray<NSURL*>* draggedURLs = [pboard readObjectsForClasses:@[ NSURL.class ] options:@{ NSPasteboardURLReadingFileURLsOnlyKey: @YES }];
 
 	dev_t targetDevice   = path::device(dropURL.fileSystemRepresentation);
 	BOOL linkOperation   = (NSApp.currentEvent.modifierFlags & NSEventModifierFlagControl) == NSEventModifierFlagControl;
 	BOOL toggleOperation = (NSApp.currentEvent.modifierFlags & NSEventModifierFlagOption) == NSEventModifierFlagOption;
 
 	// We accept the drop as long as it is valid for at least one of the items
-	for(NSString* draggedPath in draggedPaths)
+	for(NSURL* draggedURL in draggedURLs)
 	{
-		BOOL sameSource = (path::device(draggedPath.fileSystemRepresentation) == targetDevice);
+		NSString* draggedPath = draggedURL.path;
+		BOOL sameSource = (path::device(draggedURL.fileSystemRepresentation) == targetDevice);
 		NSDragOperation operation = linkOperation ? NSDragOperationLink : ((sameSource != toggleOperation) ? NSDragOperationMove : NSDragOperationCopy);
 
 		// Can’t move into same location
