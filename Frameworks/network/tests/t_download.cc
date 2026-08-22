@@ -62,13 +62,13 @@ void test_download ()
 	if(fd != -1 && fstat(fd, &buf) != -1)
 	{
 		size_t fileSize = buf.st_size;
-		char fileContent[fileSize];
-		if(read(fd, fileContent, fileSize) == fileSize)
+		std::vector<char> fileContent(fileSize);
+		if(read(fd, fileContent.data(), fileSize) == fileSize)
 		{
 			OAK_ASSERT_EQ(status, "HTTP/1.0 200 OK");
 			OAK_ASSERT(headers.find("content-length") != headers.end());
 			OAK_ASSERT_EQ(headers.find("content-length")->second, std::to_string(fileSize));
-			OAK_ASSERT_EQ(body, std::string(fileContent, fileContent + fileSize));
+			OAK_ASSERT_EQ(body, std::string(fileContent.begin(), fileContent.end()));
 		}
 		close(fd);
 	}
