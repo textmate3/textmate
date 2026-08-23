@@ -21,9 +21,11 @@ namespace scm
 		FSEventStreamContext contextInfo = { 0, this, nullptr, nullptr, nullptr };
 		if(stream = FSEventStreamCreateRelativeToDevice(kCFAllocatorDefault, &callback_function, &contextInfo, device, cf::wrap(std::vector<std::string>(1, devicePath)), kFSEventStreamEventIdSinceNow, 1, kFSEventStreamCreateFlagNone))
 		{
-			FSEventStreamScheduleWithRunLoop(stream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+			// Callbacks must arrive on the main thread: shared_info_t::schedule_update
+			// reads CFRunLoopGetCurrent() to hop back to, and touches shared state
+			// without locking.
+			FSEventStreamSetDispatchQueue(stream, dispatch_get_main_queue());
 			FSEventStreamStart(stream);
-			FSEventStreamFlushSync(stream);
 		}
 		else
 		{

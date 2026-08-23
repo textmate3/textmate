@@ -23,6 +23,7 @@
 #import <io/environment.h>
 #import <settings/settings.h>
 #import <oak/debug.h>
+#import <OakAppKit/NSWorkspace Additions.h>
 
 @class OakCommand;
 
@@ -56,6 +57,7 @@
 @property (nonatomic) NSMutableDictionary* bundleItemProperties;
 - (bundles::item_ptr const&)bundleItem;
 - (void)setBundleItem:(bundles::item_ptr const&)aBundleItem;
+- (BOOL)commitEditing;
 @end
 
 namespace
@@ -906,7 +908,7 @@ static NSMutableDictionary* DictionaryForPropertyList (plist::dictionary_t const
 	else
 	{
 		self.window.representedFilename = NSHomeDirectory();
-		[self.window standardWindowButton:NSWindowDocumentIconButton].image = [NSWorkspace.sharedWorkspace iconForFileType:[NSString stringWithCxxString:info.file_type]];
+		[self.window standardWindowButton:NSWindowDocumentIconButton].image = [NSWorkspace.sharedWorkspace iconForFilenameExtension:[NSString stringWithCxxString:info.file_type]];
 	}
 
 	plist::dictionary_t const& plist = it != changes.end() ? it->second : bundleItem->plist();

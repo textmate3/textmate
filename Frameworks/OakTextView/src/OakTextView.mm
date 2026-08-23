@@ -45,6 +45,7 @@
 #import <editor/write.h>
 #import <io/exec.h>
 #import <Find/Find.h>
+#import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 
 int32_t const NSWrapColumnWindowWidth =  0;
 int32_t const NSWrapColumnAskUser     = -1;
@@ -3660,8 +3661,8 @@ static char const* kOakMenuItemTitle = "OakMenuItemTitle";
 
 + (NSArray*)dropTypes
 {
-	return @[ NSColorPboardType, NSFilenamesPboardType,
-		@"WebURLsWithTitlesPboardType", (NSString*)kUTTypeURL, @"public.url-name", NSURLPboardType,
+	return @[ NSPasteboardTypeColor, NSPasteboardTypeFileURL,
+		@"WebURLsWithTitlesPboardType", UTTypeURL.identifier, @"public.url-name", NSPasteboardTypeURL,
 		NSPasteboardTypeString ];
 }
 
@@ -3673,7 +3674,7 @@ static char const* kOakMenuItemTitle = "OakMenuItemTitle";
 	documentView->set_drop_marker(dropPosition);
 }
 
-- (void)dropFiles:(NSArray*)someFiles
+- (void)dropFiles:(NSArray<NSString*>*)someFiles
 {
 	std::set<bundles::item_ptr> allHandlers;
 	std::map<oak::uuid_t, std::vector<std::string> > handlerToFiles;
@@ -3794,7 +3795,7 @@ static char const* kOakMenuItemTitle = "OakMenuItemTitle";
 		BOOL hoveringSelection = [self isPointInSelection:[self convertPoint:[info draggingLocation] fromView:nil]];
 		res = hoveringSelection ? NSDragOperationNone : ((mask & NSDragOperationMove) ?: (mask & NSDragOperationCopy));
 	}
-	else if([[info draggingPasteboard] availableTypeFromArray:@[ NSFilenamesPboardType ]])
+	else if([[info draggingPasteboard] availableTypeFromArray:@[ NSPasteboardTypeFileURL ]])
 	{
 		res = (mask & NSDragOperationCopy) ?: (mask & NSDragOperationLink);
 	}
@@ -3841,12 +3842,13 @@ static char const* kOakMenuItemTitle = "OakMenuItemTitle";
 	ng::index_t pos = dropPosition;
 	documentView->set_drop_marker(dropPosition = ng::index_t());
 
-	NSArray* files = [pboard availableTypeFromArray:@[ NSFilenamesPboardType ]] ? [pboard propertyListForType:NSFilenamesPboardType] : nil;
+	NSArray<NSURL*>* files = [pboard readObjectsForClasses:@[ NSURL.class ] options:@{ NSPasteboardURLReadingFileURLsOnlyKey: @YES }];
+	files = files.count ? files : nil;
 	if(shouldLink && files)
 	{
 		std::vector<std::string> paths;
-		for(NSString* path in files)
-			paths.push_back(to_s(path));
+		for(NSURL* url in files)
+			paths.push_back(to_s(url.path));
 
 		documentView->set_ranges(ng::range_t(pos));
 		documentView->insert(text::join(paths, "\n"));
@@ -3872,7 +3874,7 @@ static char const* kOakMenuItemTitle = "OakMenuItemTitle";
 	else if(files)
 	{
 		documentView->set_ranges(ng::range_t(pos));
-		[self performSelector:@selector(dropFiles:) withObject:files afterDelay:0.05]; // we use “afterDelay” so that slow commands won’t trigger a timeout of the drop event
+		[self performSelector:@selector(dropFiles:) withObject:[files valueForKey:@"path"] afterDelay:0.05]; // we use “afterDelay” so that slow commands won’t trigger a timeout of the drop event
 	}
 	else
 	{

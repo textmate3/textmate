@@ -6,6 +6,7 @@
 #import <OakFoundation/OakFoundation.h>
 #import <TMFileReference/TMFileReference.h>
 #import <oak/misc.h>
+#import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 
 static NSString* kUserDefaultsTabItemMinWidthKey = @"tabItemMinWidth";
 static NSString* kUserDefaultsTabItemMaxWidthKey = @"tabItemMaxWidth";
@@ -861,7 +862,7 @@ static void* kOakTabViewSelectedContext  = &kOakTabViewSelectedContext;
 		}
 		else
 		{
-			item.image = [[NSWorkspace.sharedWorkspace iconForFileType:NSFileTypeForHFSTypeCode(kUnknownFSObjectIcon)] copy];
+			item.image = [[NSWorkspace.sharedWorkspace iconForContentType:UTTypeItem] copy];
 			item.image.size = NSMakeSize(16, 16);
 		}
 

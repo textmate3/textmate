@@ -44,11 +44,14 @@ static double calculate_rank (std::string const& lhs, std::string const& rhs, st
 {
 	size_t const n = lhs.size();
 	size_t const m = rhs.size();
-	size_t matrix[n][m], first[n], last[n];
-	bool capitals[m];
-	bzero(matrix, sizeof(matrix));
-	std::fill_n(&first[0], n, m);
-	std::fill_n(&last[0],  n, 0);
+	std::vector<size_t> matrixStorage(n * m);
+	std::vector<size_t*> matrix(n);
+	for(size_t i = 0; i < n; ++i)
+		matrix[i] = matrixStorage.data() + i * m;
+
+	std::vector<size_t> first(n, m);
+	std::vector<size_t> last(n, 0);
+	std::vector<bool> capitals(m);
 
 	bool at_bow = true;
 	for(size_t j = 0; j < m; ++j)
@@ -169,7 +172,7 @@ static double calculate_rank (std::string const& lhs, std::string const& rhs, st
 	// = Calculate rank based on walk =
 	// ================================
 
-	size_t totalCapitals = std::count(&capitals[0], &capitals[0] + m, true);
+	size_t totalCapitals = std::count(capitals.begin(), capitals.end(), true);
 	double score = 0.0;
 	double denom = n*(n+1) + 1;
 	if(n == capitalsTouched)

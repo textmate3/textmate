@@ -5,5 +5,5 @@ target "${dirname}" {
 	files resources/* "Resources"
 
 	sources src/*.{cc,mm}
-	frameworks Cocoa
+	frameworks Cocoa UniformTypeIdentifiers
 }
