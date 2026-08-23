@@ -3674,7 +3674,7 @@ static char const* kOakMenuItemTitle = "OakMenuItemTitle";
 	documentView->set_drop_marker(dropPosition);
 }
 
-- (void)dropFiles:(NSArray*)someFiles
+- (void)dropFiles:(NSArray<NSString*>*)someFiles
 {
 	std::set<bundles::item_ptr> allHandlers;
 	std::map<oak::uuid_t, std::vector<std::string> > handlerToFiles;
@@ -3874,7 +3874,7 @@ static char const* kOakMenuItemTitle = "OakMenuItemTitle";
 	else if(files)
 	{
 		documentView->set_ranges(ng::range_t(pos));
-		[self performSelector:@selector(dropFiles:) withObject:files afterDelay:0.05]; // we use “afterDelay” so that slow commands won’t trigger a timeout of the drop event
+		[self performSelector:@selector(dropFiles:) withObject:[files valueForKey:@"path"] afterDelay:0.05]; // we use “afterDelay” so that slow commands won’t trigger a timeout of the drop event
 	}
 	else
 	{
