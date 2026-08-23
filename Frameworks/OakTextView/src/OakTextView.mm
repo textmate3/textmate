@@ -1716,7 +1716,7 @@ doScroll:
 	return [self nsRangeForRange:ng::range_t(index, index + length)];
 }
 
-- (NSArray*)accessibilityCustomRotors API_AVAILABLE(macos(10.13))
+- (NSArray*)accessibilityCustomRotors
 {
 	return @[
 		[[NSAccessibilityCustomRotor alloc] initWithLabel:@"Symbols" itemSearchDelegate:self],
@@ -1807,7 +1807,7 @@ doScroll:
 // = NSAccessibilityCustomRotorItemSearchDelegate =
 // ================================================
 
-- (NSAccessibilityCustomRotorItemResult*)rotor:(NSAccessibilityCustomRotor*)rotor resultForSearchParameters:(NSAccessibilityCustomRotorSearchParameters*)searchParameters API_AVAILABLE(macos(10.13))
+- (NSAccessibilityCustomRotorItemResult*)rotor:(NSAccessibilityCustomRotor*)rotor resultForSearchParameters:(NSAccessibilityCustomRotorSearchParameters*)searchParameters
 {
 	auto const symbols = documentView->symbols();
 
