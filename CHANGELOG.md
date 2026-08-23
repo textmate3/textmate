@@ -66,7 +66,6 @@ Target: **3.0.0**.
 - **BREAKING** — `bundle-support.tmbundle/Support/shared/bin/ruby18` shim (1905 bytes). Used to either `exec` the system-shipped Ruby 1.8 framework (removed by Apple in macOS 10.15, 2019) or download a Ruby 1.8.7 tarball from `archive.textmate.org` to `~/Library/Application Support/TextMate/Ruby/1.8.7/`. Both fallbacks are obsolete on macOS 26. The `archive.textmate.org` download URL is gone with the shim.
 - **BREAKING** — `bundle-support.tmbundle/Support/shared/bin/ruby20` shim (513 bytes). Same family — invoked Apple's frozen system Ruby 2.0.
 - `bundle-support.tmbundle/Support/shared/private/ruby18_fix_loadpath.rb` (orphaned helper that fixed the downloaded 1.8.7 tarball's hardcoded `$LOAD_PATH`; only ever called by the deleted `ruby18` shim).
-
 - The last of the `NSUserNotification` code in the crash reporter. Delivery already went through `UserNotifications`, but the class still declared `NSUserNotificationCenterDelegate`, kept both of its methods, and carried an `applicationDidFinishLaunching:` hook whose only job was forwarding `NSApplicationLaunchUserNotificationKey` to one of them. `UNUserNotificationCenter` delivers a launch-time notification click through `didReceiveNotificationResponse:` instead.
 - `Frameworks/io/src/resource.cc` and its header, which had no callers.
 
