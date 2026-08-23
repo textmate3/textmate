@@ -49,7 +49,7 @@ Target: **3.0.0**.
 - `NSKeyedArchiver` and `NSKeyedUnarchiver` use the secure coding initialisers rather than the deprecated whole-object convenience methods.
 - `mktemp` replaced with `mkstemp`, which is a real security fix rather than a warning silencing: the old call returned a name, leaving a window between the check and the create, while the new one returns a descriptor to a file that already exists.
 - `commitEditing` is declared where it is implemented, in the bundle editor and the find window, so the selector resolves against the local declaration rather than the deprecated one.
-- The selection colour in the Go to File and Go to Symbol windows uses `selectedContentBackgroundColor` instead of the deprecated `alternateSelectedControlColor`.
+- The selection color in the Go to File and Go to Symbol windows uses `selectedContentBackgroundColor` instead of the deprecated `alternateSelectedControlColor`.
 
 ### Removed
 
