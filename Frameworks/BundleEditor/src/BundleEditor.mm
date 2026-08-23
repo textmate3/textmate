@@ -23,7 +23,7 @@
 #import <io/environment.h>
 #import <settings/settings.h>
 #import <oak/debug.h>
-#import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
+#import <OakAppKit/NSWorkspace Additions.h>
 
 @class OakCommand;
 
@@ -907,7 +907,7 @@ static NSMutableDictionary* DictionaryForPropertyList (plist::dictionary_t const
 	else
 	{
 		self.window.representedFilename = NSHomeDirectory();
-		[self.window standardWindowButton:NSWindowDocumentIconButton].image = [NSWorkspace.sharedWorkspace iconForContentType:([UTType typeWithFilenameExtension:[NSString stringWithCxxString:info.file_type]] ?: UTTypeItem)];
+		[self.window standardWindowButton:NSWindowDocumentIconButton].image = [NSWorkspace.sharedWorkspace iconForFilenameExtension:[NSString stringWithCxxString:info.file_type]];
 	}
 
 	plist::dictionary_t const& plist = it != changes.end() ? it->second : bundleItem->plist();
