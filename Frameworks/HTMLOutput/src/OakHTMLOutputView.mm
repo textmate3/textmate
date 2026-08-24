@@ -89,6 +89,23 @@
 	}
 }
 
+// The web view is what should take focus, but callers should not have to know
+// that, nor which class it is. Returning it as a plain NSView keeps the web
+// engine an implementation detail.
+- (NSView*)contentView
+{
+	return self.webView;
+}
+
+// A page calling window.close() reaches the UI delegate, which knows how to
+// fold the output away. Callers that want the same effect asked for it through
+// the web view before; now they ask this.
+- (void)closeAsIfRequestedByPage
+{
+	if(id delegate = self.webView.UIDelegate)
+		[delegate performSelector:@selector(webViewClose:) withObject:self.webView];
+}
+
 - (void)setContent:(NSString*)someHTML
 {
 	self.pendingVisibleRect = [[[[self.webView mainFrame] frameView] documentView] visibleRect];

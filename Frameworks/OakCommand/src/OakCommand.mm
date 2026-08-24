@@ -642,7 +642,7 @@ static pid_t run_command (dispatch_group_t rootGroup, std::string const& cmd, in
 	{
 		if([view.window.delegate respondsToSelector:@selector(showWindow:)])
 			[view.window.delegate performSelector:@selector(showWindow:) withObject:self];
-		[view.window makeFirstResponder:view.webView];
+		[view.window makeFirstResponder:view.contentView];
 	}
 
 	return view;
@@ -652,8 +652,7 @@ static pid_t run_command (dispatch_group_t rootGroup, std::string const& cmd, in
 {
 	if(id target = [self targetForAction:_cmd])
 		[target discardHTMLOutputView:htmlOutputView];
-	else if(id delegate = htmlOutputView.webView.UIDelegate)
-		[delegate performSelector:@selector(webViewClose:) withObject:htmlOutputView.webView];
+	else	[htmlOutputView closeAsIfRequestedByPage];
 }
 
 - (void)showToolTip:(NSString*)aToolTip
