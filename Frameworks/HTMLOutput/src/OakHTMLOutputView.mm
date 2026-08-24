@@ -2,6 +2,7 @@
 #import "browser/HOStatusBar.h"
 #import "helpers/HOAutoScroll.h"
 #import "helpers/HOJSBridge.h"
+#import "HOFileHandleSchemeHandler.h"
 #import <OakFoundation/OakFoundation.h>
 #import <OakFoundation/NSString Additions.h>
 #import <OakAppKit/NSAlert Additions.h>
@@ -141,26 +142,23 @@
 // = Frame Load Delegate =
 // =======================
 
-- (void)webView:(WebView*)sender didStartProvisionalLoadForFrame:(WebFrame*)frame
+- (void)webView:(WKWebView*)webView didStartProvisionalNavigation:(WKNavigation*)navigation
 {
 	self.statusBar.busy = YES;
 	[self setUpdatesProgress:!self.isRunningCommand];
 }
 
-- (void)webView:(WebView*)sender didClearWindowObject:(WebScriptObject*)windowScriptObject forFrame:(WebFrame*)frame
-{
-	if(self.disableJavaScriptAPI)
-		return;
-
-	NSString* scheme = self.webView.URL.scheme;
-	if(self.isRunningCommand || [@[ @"tm-file", @"file" ] containsObject:scheme])
-	{
-		HOJSBridge* bridge = [HOJSBridge new];
-		[bridge setDelegate:self.statusBar];
-		[bridge setEnvironment:_environment];
-		[windowScriptObject setValue:bridge forKey:@"TextMate"];
-	}
-}
+// The JavaScript bridge is not installed yet.
+//
+// It used to arrive here, through didClearWindowObject:, which handed the page a
+// live Objective-C object it could call synchronously. WKWebView has no such hook
+// and no synchronous path: scripts are registered on the configuration's user
+// content controller, and calls into the application return promises. Choosing how
+// to bridge that gap is a decision about the bundle API, not a porting detail, so
+// it is deliberately left undone rather than guessed at.
+//
+// Until it lands, TextMate.system is unavailable, which is what Command-R uses for
+// most languages. See the planning notes.
 
 - (void)webView:(WKWebView*)webView didFinishNavigation:(WKNavigation*)navigation
 {
@@ -207,31 +205,31 @@
 	[super webView:webView didFailNavigation:navigation withError:error];
 }
 
-// =========================================
-// = WebPolicyDelegate : Intercept txmt:// =
-// =========================================
+// ==================================================
+// = Navigation Delegate : Intercept txmt:// links =
+// ==================================================
 
-- (void)webView:(WebView*)sender decidePolicyForNavigationAction:(NSDictionary*)actionInformation request:(NSURLRequest*)request frame:(WebFrame*)frame decisionListener:(id <WebPolicyDecisionListener>)listener
+- (void)webView:(WKWebView*)webView decidePolicyForNavigationAction:(WKNavigationAction*)navigationAction decisionHandler:(void(^)(WKNavigationActionPolicy))decisionHandler
 {
-	if([NSURLConnection canHandleRequest:request])
+	NSURL* url = navigationAction.request.URL;
+
+	// Anything the loader can fetch itself, including this view's own scheme, is
+	// left to it. The rest is a link the page wants the application to act on.
+	if([NSURLConnection canHandleRequest:navigationAction.request] || [url.scheme isEqualToString:HOFileHandleURLScheme])
+		return decisionHandler(WKNavigationActionPolicyAllow);
+
+	decisionHandler(WKNavigationActionPolicyCancel);
+
+	if([url.scheme isEqualToString:@"txmt"])
 	{
-		[listener use];
+		auto projectUUID = _environment.find("TM_PROJECT_UUID");
+		if(projectUUID != _environment.end())
+			url = [NSURL URLWithString:[url.absoluteString stringByAppendingFormat:@"&project=%@", [NSString stringWithCxxString:projectUUID->second]]];
+		[NSApp sendAction:@selector(handleTxMtURL:) to:nil from:url];
 	}
 	else
 	{
-		[listener ignore];
-		NSURL* url = request.URL;
-		if([[url scheme] isEqualToString:@"txmt"])
-		{
-			auto projectUUID = _environment.find("TM_PROJECT_UUID");
-			if(projectUUID != _environment.end())
-				url = [NSURL URLWithString:[[url absoluteString] stringByAppendingFormat:@"&project=%@", [NSString stringWithCxxString:projectUUID->second]]];
-			[NSApp sendAction:@selector(handleTxMtURL:) to:nil from:url];
-		}
-		else
-		{
-			[NSWorkspace.sharedWorkspace openURL:url];
-		}
+		[NSWorkspace.sharedWorkspace openURL:url];
 	}
 }
 

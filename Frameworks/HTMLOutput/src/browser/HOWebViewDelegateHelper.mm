@@ -34,21 +34,9 @@ static BOOL IsProtocolRelativeURL (NSURL* url)
 // = WebViewUIDelegate =
 // =====================
 
-- (void)webView:(WebView*)sender setStatusText:(NSString*)text
-{
-	[_delegate setStatusText:(text ?: @"")];
-}
-
-- (NSString*)webViewStatusText:(WebView*)sender
-{
-	return [_delegate statusText];
-}
-
-- (void)webView:(WebView*)sender mouseDidMoveOverElement:(NSDictionary*)elementInformation modifierFlags:(NSUInteger)modifierFlags
-{
-	NSURL* url = [elementInformation objectForKey:@"WebElementLinkURL"];
-	[self webView:sender setStatusText:[[url absoluteString] stringByRemovingPercentEncoding]];
-}
+// The status bar previewed a link's target while the pointer was over it, through
+// setStatusText: and mouseDidMoveOverElement:. WKUIDelegate has neither, so that
+// preview is gone. Reinstating it means a script that reports mouseover events.
 
 - (void)webView:(WKWebView*)webView runJavaScriptAlertPanelWithMessage:(NSString*)message initiatedByFrame:(WKFrameInfo*)frame completionHandler:(void(^)(void))completionHandler
 {
@@ -108,64 +96,21 @@ static BOOL IsProtocolRelativeURL (NSURL* url)
 	self.needsNewWebView = YES;
 }
 
-// This is an undocumented WebView delegate method
-- (void)webView:(WebView*)webView addMessageToConsole:(NSDictionary*)dictionary;
-{
-	if([dictionary respondsToSelector:@selector(objectForKey:)])
-		os_log(OS_LOG_DEFAULT, "%{public}@: %{public}@ on line %d\n", webView.mainFrame.dataSource.request.URL.absoluteString, [dictionary objectForKey:@"message"], [[dictionary objectForKey:@"lineNumber"] intValue]);
-}
+// Three behaviours lived in the resource load delegate and have no WKWebView
+// equivalent, because there is no hook for rewriting arbitrary subresource
+// requests. They are recorded here so their loss is deliberate rather than
+// silent, and are written up in the planning notes.
+//
+//   1. tm-file:// was rewritten to file://, preserving any fragment.
+//   2. Protocol relative URLs, //example.com, were given a scheme from the
+//      defaults key this class still registers.
+//   3. A file:// URL that did not resolve was redirected to a bundled
+//      error_not_found.html page, and a directory containing index.html was
+//      redirected to it.
+//
+// Link clicks can be handled in decidePolicyForNavigationAction, which
+// OakHTMLOutputView implements. Subresources cannot.
 
-// =====================================================
-// = WebResourceLoadDelegate: Redirect tm-file to file =
-// =====================================================
-
-- (NSURLRequest*)webView:(WebView*)sender resource:(id)identifier willSendRequest:(NSURLRequest*)request redirectResponse:(NSURLResponse*)redirectResponse fromDataSource:(WebDataSource*)dataSource
-{
-	if([[[request URL] scheme] isEqualToString:@"tm-file"])
-	{
-		NSString* fragment = [[request URL] fragment];
-		request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"file://localhost%@%s%@", [[[request URL] path] stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLPathAllowedCharacterSet], fragment ? "#" : "", fragment ?: @""]]];
-	}
-
-	if(IsProtocolRelativeURL([request URL]))
-	{
-		NSURLComponents* components = [NSURLComponents componentsWithURL:[request URL] resolvingAgainstBaseURL:YES];
-		components.scheme = [NSUserDefaults.standardUserDefaults stringForKey:kUserDefaultsDefaultURLProtocolKey];
-		request = [NSURLRequest requestWithURL:components.URL];
-	}
-
-	if([[request URL] isFileURL])
-	{
-		NSURL* redirectURL = [NSURL URLWithString:[NSString stringWithFormat:@"file://localhost%@?path=%@&error=1", [[[NSBundle bundleForClass:[self class]] pathForResource:@"error_not_found" ofType:@"html"] stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLPathAllowedCharacterSet], [[[request URL] path] stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet]]];
-		char const* path = [[request URL] fileSystemRepresentation];
-
-		struct stat buf;
-		if(path && stat(path, &buf) == 0)
-		{
-			if(S_ISREG(buf.st_mode) || S_ISLNK(buf.st_mode))
-			{
-				redirectURL = nil;
-			}
-			else if(S_ISDIR(buf.st_mode))
-			{
-				if(path::exists(path::join(path, "index.html")))
-				{
-					NSString* urlString = [[NSURL URLWithString:@"index.html" relativeToURL:[request URL]] absoluteString];
-					if(NSString* query = [[request URL] query])
-						urlString = [urlString stringByAppendingFormat:@"?%@", query];
-					if(NSString* fragment = [[request URL] fragment])
-						urlString = [urlString stringByAppendingFormat:@"#%@", fragment];
-					redirectURL = [NSURL URLWithString:urlString];
-				}
-			}
-		}
-
-		if(redirectURL)
-			request = [NSURLRequest requestWithURL:redirectURL];
-	}
-
-	return request;
-}
 @end
 
 @interface HTMLTMFileDummyProtocol : NSURLProtocol { }

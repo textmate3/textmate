@@ -95,7 +95,7 @@
 
 	BOOL caseSensitive = ![NSUserDefaults.standardUserDefaults boolForKey:kUserDefaultsFindIgnoreCase];
 	BOOL wraps         = [NSUserDefaults.standardUserDefaults boolForKey:kUserDefaultsFindWrapAround];
-	[self findString:entry.string withConfiguration:[self findConfigurationBackwards:backwards caseSensitive:caseSensitive wraps:wraps] completionHandler:nil];
+	[self findString:entry.string withConfiguration:[self findConfigurationBackwards:backwards caseSensitive:caseSensitive wraps:wraps] completionHandler:^(WKFindResult* result){ }];
 }
 
 - (IBAction)findNext:(id)sender
