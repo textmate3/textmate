@@ -18,8 +18,10 @@
 	std::string output, error;
 }
 @property (nonatomic, copy) void(^streamHandler)(NSString* text, BOOL isError);
+@property (nonatomic) NSString* command;
 @property (nonatomic, copy) void(^completionHandler)(NSString* output, NSString* error, int status);
 - (id)initShellCommand:(NSString*)aCommand withEnvironment:(const std::map<std::string, std::string>&)someEnvironment;
+- (BOOL)start;
 - (void)cancelCommand;
 - (void)writeToInput:(NSString*)someData;
 - (void)closeInput;
@@ -130,9 +132,6 @@
 		return replyHandler(nil, @"TextMate.system: missing command");
 
 	HOJSShellCommand* task = [[HOJSShellCommand alloc] initShellCommand:command withEnvironment:environment];
-	if(!task)
-		return replyHandler(nil, [NSString stringWithFormat:@"TextMate.system: unable to run ‘%@’", command]);
-
 	_tasks[taskId] = task;
 
 	__weak HOJSBridge* weakSelf = self;
@@ -144,6 +143,12 @@
 		[weakSelf removeTask:taskId];
 		replyHandler(@{ @"outputString": out ?: @"", @"errorString": err ?: @"", @"status": @(status) }, nil);
 	};
+
+	if(![task start])
+	{
+		[self removeTask:taskId];
+		replyHandler(nil, [NSString stringWithFormat:@"TextMate.system: unable to run ‘%@’", command]);
+	}
 }
 
 - (void)removeTask:(NSNumber*)taskId
@@ -176,38 +181,52 @@
 @end
 
 @implementation HOJSShellCommand
+{
+	std::map<std::string, std::string> _environment;
+}
 - (id)initShellCommand:(NSString*)aCommand withEnvironment:(const std::map<std::string, std::string>&)someEnvironment
 {
 	if(self = [super init])
 	{
-		if(!(process = io::spawn(std::vector<std::string>{ "/bin/sh", "-c", to_s(aCommand) }, someEnvironment)))
-			return nil;
-
-		auto group = dispatch_group_create();
-		dispatch_queue_t queue = dispatch_get_main_queue();
-
-		[self exhaustFileDescriptor:process.out inQueue:queue group:group buffer:output isError:NO];
-		[self exhaustFileDescriptor:process.err inQueue:queue group:group buffer:error isError:YES];
-
-		__block int status = 0;
-		dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-			int result = 0;
-			if(waitpid(process.pid, &result, 0) != process.pid)
-				perror("HOJSShellCommand: waitpid");
-			process.pid = -1;
-			status = WIFEXITED(result) ? WEXITSTATUS(result) : -1;
-		});
-
-		dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-			close(process.out);
-			close(process.err);
-			if(self.completionHandler)
-				self.completionHandler([NSString stringWithCxxString:output], [NSString stringWithCxxString:error], status);
-			self.completionHandler = nil;
-			self.streamHandler     = nil;
-		});
+		_command     = aCommand;
+		_environment = someEnvironment;
 	}
 	return self;
+}
+
+// Separate from construction so the caller can attach handlers first. Output written
+// between the spawn and a handler being attached would otherwise be buffered and
+// never streamed, losing the first chunk from a command that writes immediately.
+- (BOOL)start
+{
+	if(!(process = io::spawn(std::vector<std::string>{ "/bin/sh", "-c", to_s(_command) }, _environment)))
+		return NO;
+
+	auto group = dispatch_group_create();
+	dispatch_queue_t queue = dispatch_get_main_queue();
+
+	[self exhaustFileDescriptor:process.out inQueue:queue group:group buffer:output isError:NO];
+	[self exhaustFileDescriptor:process.err inQueue:queue group:group buffer:error isError:YES];
+
+	__block int status = 0;
+	dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		int result = 0;
+		if(waitpid(process.pid, &result, 0) != process.pid)
+			perror("HOJSShellCommand: waitpid");
+		process.pid = -1;
+		status = WIFEXITED(result) ? WEXITSTATUS(result) : -1;
+	});
+
+	dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+		close(process.out);
+		close(process.err);
+		if(self.completionHandler)
+			self.completionHandler([NSString stringWithCxxString:output], [NSString stringWithCxxString:error], status);
+		self.completionHandler = nil;
+		self.streamHandler     = nil;
+	});
+
+	return YES;
 }
 
 - (void)exhaustFileDescriptor:(int)fd inQueue:(dispatch_queue_t)queue group:(dispatch_group_t)group buffer:(std::string&)buf isError:(BOOL)isError
