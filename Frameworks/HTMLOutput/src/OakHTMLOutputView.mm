@@ -2,6 +2,7 @@
 #import "browser/HOStatusBar.h"
 #import "helpers/HOAutoScroll.h"
 #import "helpers/HOJSBridge.h"
+#import "HOFileHandleSchemeHandler.h"
 #import <OakFoundation/OakFoundation.h>
 #import <OakFoundation/NSString Additions.h>
 #import <OakAppKit/NSAlert Additions.h>
@@ -15,6 +16,8 @@
 @property (nonatomic) HOAutoScroll* autoScrollHelper;
 @property (nonatomic) std::map<std::string, std::string> environment;
 @property (nonatomic) NSRect pendingVisibleRect;
+@property (nonatomic) NSURLRequest* loadedRequest;
+@property (nonatomic) HOJSBridge* jsBridge;   // WKWebView does not expose the request it loaded
 @property (nonatomic, getter = isVisible) BOOL visible;
 @end
 
@@ -38,21 +41,25 @@
 	if(flag)
 	{
 		self.autoScrollHelper = [HOAutoScroll new];
-		self.autoScrollHelper.webFrame = self.webView.mainFrame.frameView;
+		self.autoScrollHelper.webView = self.webView;
 	}
 
 	self.environment = anEnvironment;
+	[self installJavaScriptBridgeIfNeeded];
+	[_jsBridge setEnvironment:anEnvironment];
 	self.commandIdentifier = [NSURLProtocol propertyForKey:@"commandIdentifier" inRequest:aRequest];
 	self.runningCommand = self.commandIdentifier != nil;
 
+	self.loadedRequest = aRequest;
+
 	[self willChangeValueForKey:@"mainFrameTitle"];
-	[self.webView.mainFrame loadRequest:aRequest];
+	[self.webView loadRequest:aRequest];
 	[self didChangeValueForKey:@"mainFrameTitle"];
 }
 
 - (void)stopLoadingWithUserInteraction:(BOOL)askUserFlag completionHandler:(void(^)(BOOL didStop))handler
 {
-	NSURLRequest* request = self.webView.mainFrame.dataSource.initialRequest;
+	NSURLRequest* request = self.loadedRequest;
 	if(id command = [NSURLProtocol propertyForKey:@"command" inRequest:request])
 	{
 		NSAlert* alert = askUserFlag ? [NSAlert tmAlertWithMessageText:[NSString stringWithFormat:@"Stop “%@”?", [NSURLProtocol propertyForKey:@"processName" inRequest:request]] informativeText:@"The job that the task is performing will not be completed." buttons:@"Stop", @"Cancel", nil] : nil;
@@ -69,7 +76,7 @@
 			[alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode){
 				if(returnCode == NSAlertFirstButtonReturn) /* "Stop" */
 				{
-					[self.webView.mainFrame stopLoading];
+					[self.webView stopLoading];
 				}
 				else
 				{
@@ -80,7 +87,7 @@
 		}
 		else
 		{
-			[self.webView.mainFrame stopLoading];
+			[self.webView stopLoading];
 		}
 	}
 	else
@@ -89,21 +96,36 @@
 	}
 }
 
+// The web view is what should take focus, but callers should not have to know
+// that, nor which class it is. Returning it as a plain NSView keeps the web
+// engine an implementation detail.
+- (NSView*)contentView
+{
+	return self.webView;
+}
+
+// A page calling window.close() reaches the UI delegate, which knows how to
+// fold the output away. Callers that want the same effect asked for it through
+// the web view before; now they ask this.
+- (void)closeAsIfRequestedByPage
+{
+	if(id delegate = self.webView.UIDelegate)
+		[delegate performSelector:@selector(webViewClose:) withObject:self.webView];
+}
+
 - (void)setContent:(NSString*)someHTML
 {
-	self.pendingVisibleRect = [[[[self.webView mainFrame] frameView] documentView] visibleRect];
-	[[self.webView mainFrame] loadHTMLString:someHTML baseURL:[NSURL fileURLWithPath:NSHomeDirectory()]];
+	[self.webView loadHTMLString:someHTML baseURL:[NSURL fileURLWithPath:NSHomeDirectory()]];
 }
 
 - (NSString*)mainFrameTitle
 {
-	if(OakIsEmptyString(self.webView.mainFrameTitle))
+	if(OakIsEmptyString(self.webView.title))
 	{
-		WebFrame* frame = self.webView.mainFrame;
-		if(NSURLRequest* request = (frame.provisionalDataSource ?: frame.dataSource).initialRequest)
+		if(NSURLRequest* request = self.loadedRequest)
 			return [NSURLProtocol propertyForKey:@"processName" inRequest:request] ?: @"";
 	}
-	return self.webView.mainFrameTitle;
+	return self.webView.title ?: @"";
 }
 
 - (void)viewDidMoveToWindow
@@ -123,98 +145,100 @@
 // = Frame Load Delegate =
 // =======================
 
-- (void)webView:(WebView*)sender didStartProvisionalLoadForFrame:(WebFrame*)frame
+- (void)webView:(WKWebView*)webView didStartProvisionalNavigation:(WKNavigation*)navigation
 {
 	self.statusBar.busy = YES;
 	[self setUpdatesProgress:!self.isRunningCommand];
 }
 
-- (void)webView:(WebView*)sender didClearWindowObject:(WebScriptObject*)windowScriptObject forFrame:(WebFrame*)frame
+// The bridge used to be attached per navigation, when the window object was
+// cleared. WKWebView has no such hook: user scripts and message handlers belong to
+// the configuration, so this runs once and the TextMate object is present on every
+// page the view loads.
+- (void)installJavaScriptBridgeIfNeeded
 {
-	if(self.disableJavaScriptAPI)
+	if(_jsBridge || self.disableJavaScriptAPI)
 		return;
 
-	NSString* scheme = [[[[[self.webView mainFrame] dataSource] request] URL] scheme];
-	if(self.isRunningCommand || [@[ @"tm-file", @"file" ] containsObject:scheme])
-	{
-		HOJSBridge* bridge = [HOJSBridge new];
-		[bridge setDelegate:self.statusBar];
-		[bridge setEnvironment:_environment];
-		[windowScriptObject setValue:bridge forKey:@"TextMate"];
-	}
+	_jsBridge          = [HOJSBridge new];
+	_jsBridge.delegate = self.statusBar;
+	_jsBridge.webView  = self.webView;
+
+	WKUserContentController* controller = self.webView.configuration.userContentController;
+	[controller addScriptMessageHandlerWithReply:_jsBridge contentWorld:WKContentWorld.pageWorld name:[HOJSBridge messageHandlerName]];
+	[controller addUserScript:[[WKUserScript alloc] initWithSource:[HOJSBridge userScriptSource] injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES]];
 }
 
-- (void)webView:(WebView*)sender didFinishLoadForFrame:(WebFrame*)frame
+- (void)webView:(WKWebView*)webView didFinishNavigation:(WKNavigation*)navigation
 {
 	self.runningCommand = NO;
 	self.autoScrollHelper = nil;
 
-	// Sending goBack:/goForward: to a WebView does not call this WebFrameLoadDelegate method
-	if(frame == [sender mainFrame])
-	{
-		[self webView:sender didClearWindowObject:[frame windowObject] forFrame:frame];
+	// The JavaScript bridge was installed here, through didClearWindowObject:, which
+	// has no equivalent. WKWebView injects scripts through its configuration's user
+	// content controller instead, at construction rather than per navigation.
 
-		// This happens when we redirect to a PDF file
-		if(self.window.firstResponder == self.window)
+	// This happens when we redirect to a PDF file
+	if(self.window.firstResponder == self.window)
+	{
+		NSRect rect = webView.frame;
+		for(NSView* view = [webView hitTest:NSMakePoint(NSMidX(rect), NSMidY(rect))]; view; view = view.superview)
 		{
-			NSRect rect = [sender frame];
-			for(NSView* view = [sender hitTest:NSMakePoint(NSMidX(rect), NSMidY(rect))]; view; view = [view superview])
+			if(view.acceptsFirstResponder)
 			{
-				if([view acceptsFirstResponder])
-				{
-					[self.window makeFirstResponder:view];
-					break;
-				}
+				[self.window makeFirstResponder:view];
+				break;
 			}
 		}
 	}
 
-	if(!NSIsEmptyRect(self.pendingVisibleRect))
-		[[[[self.webView mainFrame] frameView] documentView] scrollRectToVisible:self.pendingVisibleRect];
-	self.pendingVisibleRect = NSZeroRect;
+	// Scroll restoration across reloads is not carried over yet. The old code read
+	// the document view's visible rect directly, which WKWebView does not expose
+	// because the content lives in another process. Restoring it means asking the
+	// page for window.scrollY and setting it back through JavaScript.
 
-	[super webView:sender didFinishLoadForFrame:frame];
+	[super webView:webView didFinishNavigation:navigation];
 }
 
-- (void)webView:(WebView*)sender didFailProvisionalLoadWithError:(NSError*)error forFrame:(WebFrame*)frame
+- (void)webView:(WKWebView*)webView didFailProvisionalNavigation:(WKNavigation*)navigation withError:(NSError*)error
 {
 	self.runningCommand = NO;
 	self.autoScrollHelper = nil;
-	[super webView:sender didFailProvisionalLoadWithError:error forFrame:frame];
+	[super webView:webView didFailProvisionalNavigation:navigation withError:error];
 }
 
-- (void)webView:(WebView*)sender didFailLoadWithError:(NSError*)error forFrame:(WebFrame*)frame
+- (void)webView:(WKWebView*)webView didFailNavigation:(WKNavigation*)navigation withError:(NSError*)error
 {
 	self.runningCommand = NO;
 	self.autoScrollHelper = nil;
-	[super webView:sender didFailLoadWithError:error forFrame:frame];
+	[super webView:webView didFailNavigation:navigation withError:error];
 }
 
-// =========================================
-// = WebPolicyDelegate : Intercept txmt:// =
-// =========================================
+// ==================================================
+// = Navigation Delegate : Intercept txmt:// links =
+// ==================================================
 
-- (void)webView:(WebView*)sender decidePolicyForNavigationAction:(NSDictionary*)actionInformation request:(NSURLRequest*)request frame:(WebFrame*)frame decisionListener:(id <WebPolicyDecisionListener>)listener
+- (void)webView:(WKWebView*)webView decidePolicyForNavigationAction:(WKNavigationAction*)navigationAction decisionHandler:(void(^)(WKNavigationActionPolicy))decisionHandler
 {
-	if([NSURLConnection canHandleRequest:request])
+	NSURL* url = navigationAction.request.URL;
+
+	// Anything the loader can fetch itself, including this view's own scheme, is
+	// left to it. The rest is a link the page wants the application to act on.
+	if([NSURLConnection canHandleRequest:navigationAction.request] || [url.scheme isEqualToString:HOFileHandleURLScheme])
+		return decisionHandler(WKNavigationActionPolicyAllow);
+
+	decisionHandler(WKNavigationActionPolicyCancel);
+
+	if([url.scheme isEqualToString:@"txmt"])
 	{
-		[listener use];
+		auto projectUUID = _environment.find("TM_PROJECT_UUID");
+		if(projectUUID != _environment.end())
+			url = [NSURL URLWithString:[url.absoluteString stringByAppendingFormat:@"&project=%@", [NSString stringWithCxxString:projectUUID->second]]];
+		[NSApp sendAction:@selector(handleTxMtURL:) to:nil from:url];
 	}
 	else
 	{
-		[listener ignore];
-		NSURL* url = request.URL;
-		if([[url scheme] isEqualToString:@"txmt"])
-		{
-			auto projectUUID = _environment.find("TM_PROJECT_UUID");
-			if(projectUUID != _environment.end())
-				url = [NSURL URLWithString:[[url absoluteString] stringByAppendingFormat:@"&project=%@", [NSString stringWithCxxString:projectUUID->second]]];
-			[NSApp sendAction:@selector(handleTxMtURL:) to:nil from:url];
-		}
-		else
-		{
-			[NSWorkspace.sharedWorkspace openURL:url];
-		}
+		[NSWorkspace.sharedWorkspace openURL:url];
 	}
 }
 
@@ -224,7 +248,7 @@
 
 - (IBAction)printDocument:(id)sender
 {
-	NSPrintOperation* printer = [NSPrintOperation printOperationWithView:self.webView.mainFrame.frameView.documentView];
+	NSPrintOperation* printer = [NSPrintOperation printOperationWithView:self.webView];
 	[[printer printPanel] setOptions:[[printer printPanel] options] | NSPrintPanelShowsPaperSize | NSPrintPanelShowsOrientation];
 
 	NSPrintInfo* info = [printer printInfo];

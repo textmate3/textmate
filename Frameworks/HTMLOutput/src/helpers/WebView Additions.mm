@@ -5,8 +5,16 @@
 #import <document/OakDocument.h>
 #import <document/OakDocumentController.h>
 #import <ns/ns.h>
+#import <WebKit/WebKit.h>
 
-@interface WebView (OakFindNextPrevious)
+// Find and selection for HTML output windows.
+//
+// Everything here used to reach into the DOM synchronously. WKWebView renders in
+// another process, so each of these is asynchronous now: the selection comes back
+// through JavaScript, and searching goes through findString:withConfiguration:.
+// The callers are all menu actions and the find server, none of which need an
+// answer inline.
+@interface WKWebView (OakFindNextPrevious)
 - (void)performFindOperation:(id <OakFindServerProtocol>)aFindServer;
 
 - (IBAction)findNext:(id)sender;
@@ -16,31 +24,41 @@
 - (IBAction)copySelectionToReplacePboard:(id)sender;
 @end
 
-@implementation WebView (OakFindNextPrevious)
-- (NSString*)selection
+@implementation WKWebView (OakFindNextPrevious)
+- (void)getSelection:(void(^)(NSString* selection))handler
 {
-	DOMDocumentFragment* selection = [[self selectedDOMRange] cloneContents];
-	DOMNodeIterator* iter = selection ? [[[self selectedFrame] DOMDocument] createNodeIterator:selection whatToShow:DOM_SHOW_TEXT filter:nil expandEntityReferences:YES] : nil;
+	[self evaluateJavaScript:@"window.getSelection().toString()" completionHandler:^(id result, NSError* error){
+		NSString* str = [result isKindOfClass:NSString.class] ? result : nil;
+		handler(OakIsEmptyString(str) ? nil : str);
+	}];
+}
 
-	NSMutableString* str = [NSMutableString string];
-	while(DOMNode* node = [iter nextNode])
-		[str appendString:[node nodeValue]];
-
-	return OakIsEmptyString(str) ? nil : str;
+- (void)copySelectionToPasteboard:(OakPasteboard*)pasteboard
+{
+	[self getSelection:^(NSString* selection){
+		if(selection)
+				[pasteboard addEntryWithString:selection];
+		else	NSBeep();
+	}];
 }
 
 - (IBAction)copySelectionToFindPboard:(id)sender
 {
-	if(NSString* str = [self selection])
-			[OakPasteboard.findPasteboard addEntryWithString:str];
-	else	NSBeep();
+	[self copySelectionToPasteboard:OakPasteboard.findPasteboard];
 }
 
 - (IBAction)copySelectionToReplacePboard:(id)sender
 {
-	if(NSString* str = [self selection])
-			[OakPasteboard.replacePasteboard addEntryWithString:str];
-	else	NSBeep();
+	[self copySelectionToPasteboard:OakPasteboard.replacePasteboard];
+}
+
+- (WKFindConfiguration*)findConfigurationBackwards:(BOOL)backwards caseSensitive:(BOOL)caseSensitive wraps:(BOOL)wraps
+{
+	WKFindConfiguration* configuration = [WKFindConfiguration new];
+	configuration.backwards     = backwards;
+	configuration.caseSensitive = caseSensitive;
+	configuration.wraps         = wraps;
+	return configuration;
 }
 
 - (void)performFindOperation:(id <OakFindServerProtocol>)aFindServer
@@ -54,61 +72,62 @@
 			BOOL ignoreCase = aFindServer.findOptions & find::ignore_case;
 			BOOL wrapAround = aFindServer.findOptions & find::wrap_around;
 
-			if([self searchFor:aFindServer.findString direction:!backwards caseSensitive:!ignoreCase wrap:wrapAround])
-					[aFindServer didFind:1 occurrencesOf:[self selection] atPosition:text::pos_t::undefined wrapped:NO];
-			else	[aFindServer didFind:0 occurrencesOf:aFindServer.findString atPosition:text::pos_t::undefined wrapped:NO];
+			NSString* findString = aFindServer.findString;
+			[self findString:findString withConfiguration:[self findConfigurationBackwards:backwards caseSensitive:!ignoreCase wraps:wrapAround] completionHandler:^(WKFindResult* result){
+				if(!result.matchFound)
+					return [aFindServer didFind:0 occurrencesOf:findString atPosition:text::pos_t::undefined wrapped:NO];
+
+				// Report what was actually matched, which needs one more hop to the page.
+				[self getSelection:^(NSString* selection){
+					[aFindServer didFind:1 occurrencesOf:(selection ?: findString) atPosition:text::pos_t::undefined wrapped:NO];
+				}];
+			}];
 		}
 		break;
 	}
 }
 
-- (IBAction)findNext:(id)sender
+- (void)findEntryBackwards:(BOOL)backwards
 {
 	OakPasteboardEntry* entry = [OakPasteboard.findPasteboard current];
-	if(OakNotEmptyString(entry.string))
-		[self searchFor:entry.string direction:YES caseSensitive:![NSUserDefaults.standardUserDefaults boolForKey:kUserDefaultsFindIgnoreCase] wrap:[NSUserDefaults.standardUserDefaults boolForKey:kUserDefaultsFindWrapAround]];
+	if(OakIsEmptyString(entry.string))
+		return;
+
+	BOOL caseSensitive = ![NSUserDefaults.standardUserDefaults boolForKey:kUserDefaultsFindIgnoreCase];
+	BOOL wraps         = [NSUserDefaults.standardUserDefaults boolForKey:kUserDefaultsFindWrapAround];
+	[self findString:entry.string withConfiguration:[self findConfigurationBackwards:backwards caseSensitive:caseSensitive wraps:wraps] completionHandler:^(WKFindResult* result){ }];
+}
+
+- (IBAction)findNext:(id)sender
+{
+	[self findEntryBackwards:NO];
 }
 
 - (IBAction)findPrevious:(id)sender
 {
-	OakPasteboardEntry* entry = [OakPasteboard.findPasteboard current];
-	if(OakNotEmptyString(entry.string))
-		[self searchFor:entry.string direction:NO caseSensitive:![NSUserDefaults.standardUserDefaults boolForKey:kUserDefaultsFindIgnoreCase] wrap:[NSUserDefaults.standardUserDefaults boolForKey:kUserDefaultsFindWrapAround]];
+	[self findEntryBackwards:YES];
 }
 
 - (void)viewSource:(id)sender
 {
-	WebDataSource* dataSource = [[self mainFrame] dataSource];
+	// The data source that held the raw bytes and their encoding is gone. Ask the
+	// page for its markup instead, which arrives already decoded, so the encoding
+	// branches the old implementation carried are no longer needed.
+	[self evaluateJavaScript:@"document.documentElement.outerHTML" completionHandler:^(id result, NSError* error){
+		NSString* str = [result isKindOfClass:NSString.class] ? result : nil;
+		if(!str)
+		{
+			NSAlert* alert        = [[NSAlert alloc] init];
+			alert.messageText     = @"Cannot Show Source";
+			alert.informativeText = error.localizedDescription ?: @"The page did not return its markup.";
+			[alert addButtonWithTitle:@"Continue"];
+			[alert runModal];
+			return;
+		}
 
-	NSString* encoding = [[dataSource textEncodingName] lowercaseString];
-	if(OakIsEmptyString(encoding))
-		encoding = @"utf-8";
-
-	NSString* str;
-	if([encoding isEqualToString:@"utf-8"])
-	{
-		str = [[NSString alloc] initWithData:[dataSource data] encoding:NSUTF8StringEncoding];
-	}
-	else if([encoding isEqualToString:@"utf-16"] || [encoding isEqualToString:@"utf16"])
-	{
-		str = [[NSString alloc] initWithData:[dataSource data] encoding:NSUnicodeStringEncoding];
-	}
-	else if([encoding isEqualToString:@"macintosh"])
-	{
-		str = [[NSString alloc] initWithData:[dataSource data] encoding:NSMacOSRomanStringEncoding];
-	}
-	else
-	{
-		NSAlert* alert        = [[NSAlert alloc] init];
-		alert.messageText     = @"Unknown Encoding";
-		alert.informativeText = [NSString stringWithFormat:@"The encoding used for this HTML buffer (“%@”) is unsupported.\nPlease file a bug report stating the encoding name and how you got to it.", [dataSource textEncodingName]];
-		[alert addButtonWithTitle:@"Continue"];
-		[alert runModal];
-		return;
-	}
-
-	NSString* name = OakNotEmptyString(self.mainFrameTitle) ? self.mainFrameTitle : nil;
-	OakDocument* doc = [OakDocument documentWithString:str fileType:@"text.html.basic" customName:name];
-	[OakDocumentController.sharedInstance showDocument:doc inProject:nil bringToFront:YES];
+		NSString* name = OakNotEmptyString(self.title) ? self.title : nil;
+		OakDocument* doc = [OakDocument documentWithString:str fileType:@"text.html.basic" customName:name];
+		[OakDocumentController.sharedInstance showDocument:doc inProject:nil bringToFront:YES];
+	}];
 }
 @end

@@ -11,7 +11,10 @@
 @property (nonatomic, getter = isReusable) BOOL reusable;
 @property (nonatomic) BOOL disableJavaScriptAPI;
 
-// Read-only access to the webview is given to allow reading page title, etc.
-@property (nonatomic, readonly) WebView* webView;
+// The view that should take keyboard focus when this output is shown.
+@property (nonatomic, readonly) NSView* contentView;
+
+// Ask the output to close itself the way the user closing it would.
+- (void)closeAsIfRequestedByPage;
 @property (nonatomic, readonly) BOOL needsNewWebView;
 @end
