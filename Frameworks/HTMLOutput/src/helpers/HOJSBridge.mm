@@ -99,6 +99,12 @@
 		return replyHandler(nil, nil);
 	}
 
+	if([method isEqualToString:@"consoleMessage"])
+	{
+		os_log_error(OS_LOG_DEFAULT, "HTML output %{public}@: %{public}@", body[@"kind"], body[@"message"]);
+		return replyHandler(nil, nil);
+	}
+
 	if([method isEqualToString:@"log"])
 	{
 		NSLog(@"JavaScript Log: %@", body[@"message"]);

@@ -91,4 +91,26 @@
 	};
 
 	window.TextMate = TextMate;
+
+	// Surface page errors to the application. Without this a bundle that catches an
+	// exception and discards it, which several do, fails with no trace anywhere.
+	var report = function (kind, text) {
+		try { post({ method: 'consoleMessage', kind: kind, message: String(text) }); } catch (e) { }
+	};
+
+	if (window.addEventListener) window.addEventListener('error', function (event) {
+		report('error', (event.error && event.error.stack) || event.message);
+	});
+
+	if (window.addEventListener) window.addEventListener('unhandledrejection', function (event) {
+		report('error', 'unhandled promise rejection: ' + ((event.reason && event.reason.stack) || event.reason));
+	});
+
+	if (typeof console === 'object') ['error', 'warn'].forEach(function (level) {
+		var original = console[level];
+		console[level] = function () {
+			report(level, Array.prototype.join.call(arguments, ' '));
+			if (original) original.apply(console, arguments);
+		};
+	});
 })();
