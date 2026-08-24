@@ -176,13 +176,16 @@ in the hierachy returns YES, the key (equivalent) event is then passed to the me
 
 - (void)webView:(WKWebView*)webView didFailProvisionalNavigation:(WKNavigation*)navigation withError:(NSError*)error
 {
-	ShowLoadErrorForURL(webView, webView.URL, error);
+	NSURL* url = error.userInfo[NSURLErrorFailingURLErrorKey] ?: webView.URL;
+	SchemeTrace(@"navigation failed: %@ (%@ %ld)", url, error.domain, (long)error.code);
+	ShowLoadErrorForURL(webView, url, error);
 	[self webView:webView didFinishNavigation:navigation];
 }
 
 - (void)webView:(WKWebView*)webView didFailNavigation:(WKNavigation*)navigation withError:(NSError*)error
 {
-	ShowLoadErrorForURL(webView, webView.URL, error);
+	NSURL* url = error.userInfo[NSURLErrorFailingURLErrorKey] ?: webView.URL;
+	ShowLoadErrorForURL(webView, url, error);
 	[self webView:webView didFinishNavigation:navigation];
 }
 

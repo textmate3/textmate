@@ -5,6 +5,19 @@
 
 NSString* const HOFileHandleURLScheme = @"x-txmt-filehandle";
 
+void SchemeTrace (NSString* format, ...)
+{
+	va_list ap;
+	va_start(ap, format);
+	NSString* line = [[NSString alloc] initWithFormat:format arguments:ap];
+	va_end(ap);
+	if(FILE* fp = fopen("/tmp/tm_wk.log", "a"))
+	{
+		fprintf(fp, "%s\n", line.UTF8String);
+		fclose(fp);
+	}
+}
+
 @interface HOJob : NSObject
 @property (nonatomic) NSFileHandle* fileHandle;
 @property (nonatomic) pid_t processIdentifier;
@@ -21,10 +34,21 @@ NSString* const HOFileHandleURLScheme = @"x-txmt-filehandle";
 
 // Keyed by absolute URL string. One registry for the process, because the content
 // process may ask through any web view that has this handler installed.
+// Registration happens on whichever queue the command's output handler runs on,
+// while lookup happens on the main thread when the content process asks. An
+// unsynchronised dictionary gives no visibility guarantee across that boundary,
+// which showed up as a job registered and then not found, and a frame load
+// interrupted error in its place. Every access takes the lock.
 + (NSMutableDictionary<NSString*, HOJob*>*)jobs
 {
 	static NSMutableDictionary* jobs = [NSMutableDictionary new];
 	return jobs;
+}
+
++ (NSLock*)jobsLock
+{
+	static NSLock* lock = [NSLock new];
+	return lock;
 }
 
 + (void)registerFileHandle:(NSFileHandle*)fileHandle processIdentifier:(pid_t)processIdentifier forURL:(NSURL*)url
@@ -32,12 +56,25 @@ NSString* const HOFileHandleURLScheme = @"x-txmt-filehandle";
 	HOJob* job = [HOJob new];
 	job.fileHandle        = fileHandle;
 	job.processIdentifier = processIdentifier;
+
+	[[self jobsLock] lock];
 	[self jobs][url.absoluteString] = job;
+	[[self jobsLock] unlock];
+}
+
++ (HOJob*)jobForURL:(NSURL*)url
+{
+	[[self jobsLock] lock];
+	HOJob* job = [self jobs][url.absoluteString];
+	[[self jobsLock] unlock];
+	return job;
 }
 
 + (void)unregisterURL:(NSURL*)url
 {
+	[[self jobsLock] lock];
 	[[self jobs] removeObjectForKey:url.absoluteString];
+	[[self jobsLock] unlock];
 }
 
 - (instancetype)init
@@ -51,7 +88,7 @@ NSString* const HOFileHandleURLScheme = @"x-txmt-filehandle";
 {
 	[_activeTasks addObject:task];
 
-	if(HOJob* job = [[self class] jobs][task.request.URL.absoluteString])
+	if(HOJob* job = [[self class] jobForURL:task.request.URL])
 		return [self startJob:job forTask:task];
 
 	// No job for this URL, so it is one of the page's own assets: a style sheet,
@@ -131,7 +168,7 @@ NSString* const HOFileHandleURLScheme = @"x-txmt-filehandle";
 {
 	[_activeTasks removeObject:task];
 
-	if(HOJob* job = [[self class] jobs][task.request.URL.absoluteString])
+	if(HOJob* job = [[self class] jobForURL:task.request.URL])
 	{
 		job.stopped = YES;
 		if(job.processIdentifier)
