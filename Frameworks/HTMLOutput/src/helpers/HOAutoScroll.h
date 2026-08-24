@@ -1,3 +1,3 @@
 @interface HOAutoScroll : NSObject
-@property (nonatomic) WebFrameView* webFrame;
+@property (nonatomic, weak) WKWebView* webView;
 @end

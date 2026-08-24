@@ -2,33 +2,25 @@
 #import "HOWebViewDelegateHelper.h"
 #import "HOStatusBar.h"
 #import <OakAppKit/OakUIConstructionFunctions.h>
-
-// Private WebPreferences setters (WebPreferencesPrivate.h). Modern WebKit
-// defaults allowFileAccessFromFileURLs to NO, which blocks local-origin pages
-// (including the registered-as-local x-txmt-filehandle command output pages)
-// from loading file:// subresources, so themes' style sheets, scripts, and
-// images in HTML output windows fail to load without it.
-@interface WebPreferences (TMHTMLOutputPrivate)
-- (void)setAllowFileAccessFromFileURLs:(BOOL)flag;
-- (void)setAllowUniversalAccessFromFileURLs:(BOOL)flag;
-@end
+#import <WebKit/WebKit.h>
 
 static NSString* EscapeHTML (NSString* str)
 {
 	return [[[str stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"] stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"] stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"];
 }
 
-static void ShowLoadErrorForURL (WebFrame* frame, NSURL* url, NSError* error)
+static void ShowLoadErrorForURL (WKWebView* webView, NSURL* url, NSError* error)
 {
-	NSString* options  = [[url scheme] isEqualToString:@"file"] ? @" -R" : @"";
-	NSString* errorMsg = [NSString stringWithFormat:@"<title>Load Error</title><h1>Load Error</h1><p>WebKit reported <em>%@</em> while loading <tt><a href=\"#\" onClick=\"javascript:TextMate.system('/usr/bin/open%@ &quot;%@&quot;', null)\">%@</a></tt>.</p>", EscapeHTML([error localizedDescription]), options, EscapeHTML([url absoluteString]), EscapeHTML([url absoluteString])];
-	[frame loadHTMLString:errorMsg baseURL:[NSURL fileURLWithPath:NSTemporaryDirectory()]];
+	NSString* options  = [url.scheme isEqualToString:@"file"] ? @" -R" : @"";
+	NSString* errorMsg = [NSString stringWithFormat:@"<title>Load Error</title><h1>Load Error</h1><p>WebKit reported <em>%@</em> while loading <tt><a href=\"#\" onClick=\"javascript:TextMate.system('/usr/bin/open%@ &quot;%@&quot;', null)\">%@</a></tt>.</p>", EscapeHTML(error.localizedDescription), options, EscapeHTML(url.absoluteString), EscapeHTML(url.absoluteString)];
+	[webView loadHTMLString:errorMsg baseURL:[NSURL fileURLWithPath:NSTemporaryDirectory()]];
 }
 
-@interface HOBrowserView () <WebPolicyDelegate, WebUIDelegate, WebResourceLoadDelegate>
-@property (nonatomic, readwrite) WebView* webView;
+@interface HOBrowserView () <WKNavigationDelegate>
+@property (nonatomic, readwrite) WKWebView* webView;
 @property (nonatomic, readwrite) HOStatusBar* statusBar;
 @property (nonatomic) HOWebViewDelegateHelper* webViewDelegateHelper;
+@property (nonatomic) BOOL observingProgress;
 @end
 
 @implementation HOBrowserView
@@ -36,24 +28,16 @@ static void ShowLoadErrorForURL (WebFrame* frame, NSURL* url, NSError* error)
 {
 	if(self = [super initWithFrame:frame])
 	{
-		_webView = [[WebView alloc] initWithFrame:NSZeroRect];
-
-		NSString* const kHTMLOutputPreferencesIdentifier = @"HTML Output Preferences Identifier";
-		WebPreferences* webViewPrefs = [[WebPreferences alloc] initWithIdentifier:kHTMLOutputPreferencesIdentifier];
-		webViewPrefs.plugInsEnabled = NO;
-		if([webViewPrefs respondsToSelector:@selector(setAllowFileAccessFromFileURLs:)])
-			[webViewPrefs setAllowFileAccessFromFileURLs:YES];
-		self.webView.preferencesIdentifier = kHTMLOutputPreferencesIdentifier;
+		WKWebViewConfiguration* configuration = [WKWebViewConfiguration new];
+		_webView = [[WKWebView alloc] initWithFrame:NSZeroRect configuration:configuration];
 
 		_statusBar = [[HOStatusBar alloc] initWithFrame:NSZeroRect];
 		_statusBar.delegate = _webView;
 
 		_webViewDelegateHelper          = [HOWebViewDelegateHelper new];
 		_webViewDelegateHelper.delegate = _statusBar;
-		_webView.policyDelegate         = self;
-		_webView.resourceLoadDelegate   = _webViewDelegateHelper;
+		_webView.navigationDelegate     = self;
 		_webView.UIDelegate             = _webViewDelegateHelper;
-		_webView.frameLoadDelegate      = self;
 
 		NSDictionary* views = @{
 			@"webView":   _webView,
@@ -73,35 +57,33 @@ static void ShowLoadErrorForURL (WebFrame* frame, NSURL* url, NSError* error)
 	return _webViewDelegateHelper.needsNewWebView;
 }
 
-- (void)webViewProgressEstimateChanged:(NSNotification*)notification
-{
-	_statusBar.progress = _webView.estimatedProgress;
-}
-
 - (void)dealloc
 {
 	[self setUpdatesProgress:NO];
-	_webView.frameLoadDelegate      = nil;
-	_webView.UIDelegate             = nil;
-	_webView.resourceLoadDelegate   = nil;
-	_webView.policyDelegate         = nil;
-	[[_webView mainFrame] stopLoading];
+	_webView.navigationDelegate = nil;
+	_webView.UIDelegate         = nil;
+	[_webView stopLoading];
 }
 
+// The legacy web view announced progress through three notifications. There is
+// no equivalent, so observe the property the notifications were reporting on.
 - (void)setUpdatesProgress:(BOOL)flag
 {
+	if(flag == _observingProgress)
+		return;
+
 	if(flag)
-	{
-		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(webViewProgressEstimateChanged:) name:WebViewProgressFinishedNotification object:_webView];
-		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(webViewProgressEstimateChanged:) name:WebViewProgressEstimateChangedNotification object:_webView];
-		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(webViewProgressEstimateChanged:) name:WebViewProgressStartedNotification object:_webView];
-	}
-	else
-	{
-		[NSNotificationCenter.defaultCenter removeObserver:self name:WebViewProgressStartedNotification object:_webView];
-		[NSNotificationCenter.defaultCenter removeObserver:self name:WebViewProgressEstimateChangedNotification object:_webView];
-		[NSNotificationCenter.defaultCenter removeObserver:self name:WebViewProgressFinishedNotification object:_webView];
-	}
+			[_webView addObserver:self forKeyPath:@"estimatedProgress" options:0 context:nullptr];
+	else	[_webView removeObserver:self forKeyPath:@"estimatedProgress"];
+
+	_observingProgress = flag;
+}
+
+- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
+{
+	if([keyPath isEqualToString:@"estimatedProgress"])
+			_statusBar.progress = _webView.estimatedProgress;
+	else	[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
 // ==============
@@ -180,29 +162,29 @@ in the hierachy returns YES, the key (equivalent) event is then passed to the me
 	}];
 }
 
-// =======================
-// = Frame Load Delegate =
-// =======================
+// ========================
+// = Navigation  Delegate =
+// ========================
 
-- (void)webView:(WebView*)sender didStartProvisionalLoadForFrame:(WebFrame*)frame
+- (void)webView:(WKWebView*)webView didStartProvisionalNavigation:(WKNavigation*)navigation
 {
 	_statusBar.busy = YES;
 	[self setUpdatesProgress:YES];
 }
 
-- (void)webView:(WebView*)sender didFailProvisionalLoadWithError:(NSError*)error forFrame:(WebFrame*)frame
+- (void)webView:(WKWebView*)webView didFailProvisionalNavigation:(WKNavigation*)navigation withError:(NSError*)error
 {
-	ShowLoadErrorForURL(frame, [[[frame provisionalDataSource] request] URL], error);
-	[self webView:sender didFinishLoadForFrame:frame];
+	ShowLoadErrorForURL(webView, webView.URL, error);
+	[self webView:webView didFinishNavigation:navigation];
 }
 
-- (void)webView:(WebView*)sender didFailLoadWithError:(NSError*)error forFrame:(WebFrame*)frame
+- (void)webView:(WKWebView*)webView didFailNavigation:(WKNavigation*)navigation withError:(NSError*)error
 {
-	ShowLoadErrorForURL(frame, [[[frame provisionalDataSource] request] URL], error);
-	[self webView:sender didFinishLoadForFrame:frame];
+	ShowLoadErrorForURL(webView, webView.URL, error);
+	[self webView:webView didFinishNavigation:navigation];
 }
 
-- (void)webView:(WebView*)sender didFinishLoadForFrame:(WebFrame*)frame
+- (void)webView:(WKWebView*)webView didFinishNavigation:(WKNavigation*)navigation
 {
 	_statusBar.canGoBack    = _webView.canGoBack;
 	_statusBar.canGoForward = _webView.canGoForward;

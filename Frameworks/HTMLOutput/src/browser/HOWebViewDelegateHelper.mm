@@ -50,59 +50,61 @@ static BOOL IsProtocolRelativeURL (NSURL* url)
 	[self webView:sender setStatusText:[[url absoluteString] stringByRemovingPercentEncoding]];
 }
 
-- (void)webView:(WebView*)sender runJavaScriptAlertPanelWithMessage:(NSString*)message initiatedByFrame:(WebFrame*)frame
+- (void)webView:(WKWebView*)webView runJavaScriptAlertPanelWithMessage:(NSString*)message initiatedByFrame:(WKFrameInfo*)frame completionHandler:(void(^)(void))completionHandler
 {
 	NSAlert* alert = [NSAlert tmAlertWithMessageText:NSLocalizedString(@"Script Message", @"JavaScript alert title") informativeText:message buttons:NSLocalizedString(@"OK", @"JavaScript alert confirmation"), nil];
-	[alert beginSheetModalForWindow:[sender window] completionHandler:nil];
+	[alert beginSheetModalForWindow:webView.window completionHandler:^(NSModalResponse response){
+		completionHandler();
+	}];
 }
 
-- (BOOL)webView:(WebView*)sender runJavaScriptConfirmPanelWithMessage:(NSString*)message initiatedByFrame:(WebFrame*)frame
+- (void)webView:(WKWebView*)webView runJavaScriptConfirmPanelWithMessage:(NSString*)message initiatedByFrame:(WKFrameInfo*)frame completionHandler:(void(^)(BOOL result))completionHandler
 {
 	NSAlert* alert        = [[NSAlert alloc] init];
 	alert.messageText     = NSLocalizedString(@"Script Message", @"JavaScript alert title");
 	alert.informativeText = message;
 	[alert addButtons:NSLocalizedString(@"OK", @"JavaScript alert confirmation"), NSLocalizedString(@"Cancel", @"JavaScript alert cancel"), nil];
-	return [alert runModal] == NSAlertFirstButtonReturn;
+	[alert beginSheetModalForWindow:webView.window completionHandler:^(NSModalResponse response){
+		completionHandler(response == NSAlertFirstButtonReturn);
+	}];
 }
 
-- (void)webView:(WebView*)sender runOpenPanelForFileButtonWithResultListener:(id <WebOpenPanelResultListener>)resultListener
+- (void)webView:(WKWebView*)webView runOpenPanelWithParameters:(WKOpenPanelParameters*)parameters initiatedByFrame:(WKFrameInfo*)frame completionHandler:(void(^)(NSArray<NSURL*>* URLs))completionHandler
 {
 	NSOpenPanel* panel = [NSOpenPanel openPanel];
-	[panel setDirectoryURL:[NSURL fileURLWithPath:NSHomeDirectory()]];
-	if([panel runModal] == NSModalResponseOK)
-		[resultListener chooseFilename:[[[panel URLs] objectAtIndex:0] path]];
+	panel.directoryURL          = [NSURL fileURLWithPath:NSHomeDirectory()];
+	panel.allowsMultipleSelection = parameters.allowsMultipleSelection;
+	[panel beginSheetModalForWindow:webView.window completionHandler:^(NSModalResponse response){
+		completionHandler(response == NSModalResponseOK ? panel.URLs : nil);
+	}];
 }
 
-- (WebView*)webView:(WebView*)sender createWebViewWithRequest:(NSURLRequest*)request
+- (WKWebView*)webView:(WKWebView*)webView createWebViewWithConfiguration:(WKWebViewConfiguration*)configuration forNavigationAction:(WKNavigationAction*)navigationAction windowFeatures:(WKWindowFeatures*)windowFeatures
 {
-	NSPoint origin = [sender.window cascadeTopLeftFromPoint:NSMakePoint(NSMinX(sender.window.frame), NSMaxY(sender.window.frame))];
-	origin.y -= NSHeight(sender.window.frame);
+	NSPoint origin = [webView.window cascadeTopLeftFromPoint:NSMakePoint(NSMinX(webView.window.frame), NSMaxY(webView.window.frame))];
+	origin.y -= NSHeight(webView.window.frame);
 
 	HOBrowserView* view = [HOBrowserView new];
 	NSWindow* window = [[NSWindow alloc] initWithContentRect:(NSRect){origin, NSMakeSize(750, 800)}
-																  styleMask:(NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskResizable|NSWindowStyleMaskMiniaturizable)
-																	 backing:NSBackingStoreBuffered
-																		defer:NO];
-	[window bind:NSTitleBinding toObject:view.webView withKeyPath:@"mainFrameTitle" options:nil];
+														  styleMask:(NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskResizable|NSWindowStyleMaskMiniaturizable)
+															 backing:NSBackingStoreBuffered
+																defer:NO];
+	[window bind:NSTitleBinding toObject:view.webView withKeyPath:@"title" options:nil];
 	[window setContentView:view];
-	[[view.webView mainFrame] loadRequest:request];
+	[window makeKeyAndOrderFront:self];
 
 	__attribute__ ((unused)) CFTypeRef dummy = CFBridgingRetain(window);
 	[window setReleasedWhenClosed:YES];
 
+	// Returning the new view tells WebKit to load the navigation into it, so unlike
+	// the old delegate there is no separate loadRequest: here.
 	return view.webView;
 }
 
-- (void)webViewShow:(WebView*)sender
+- (void)webViewDidClose:(WKWebView*)webView
 {
-	[[sender window] makeKeyAndOrderFront:self];
-}
-
-- (void)webViewClose:(WebView*)sender
-{
-	if(![sender tryToPerform:@selector(toggleHTMLOutput:) with:self])
-		[sender tryToPerform:@selector(performClose:) with:self];
-	// We cannot re-use WebView objects where window.close() has been executed because of https://bugs.webkit.org/show_bug.cgi?id=121232
+	if(![webView tryToPerform:@selector(toggleHTMLOutput:) with:self])
+		[webView tryToPerform:@selector(performClose:) with:self];
 	self.needsNewWebView = YES;
 }
 

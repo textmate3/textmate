@@ -1,73 +1,40 @@
 #import "HOAutoScroll.h"
 #import <oak/debug.h>
 
-@interface HOAutoScroll ()
-@property (nonatomic) NSRect lastFrame;
-@property (nonatomic) NSRect lastVisibleRect;
-@end
+// Keep a streaming command's output pinned to the bottom while the user has not
+// scrolled away from it.
+//
+// The previous implementation observed NSViewFrameDidChangeNotification on the
+// web view's document view and called scrollRectToVisible: when the content grew.
+// WKWebView renders in another process and exposes no document view, so there is
+// nothing to observe from here. The same rule is expressed inside the page: watch
+// the document for mutations, and if the viewport was already at the bottom before
+// the mutation, put it back there afterwards.
+static NSString* const kAutoScrollScript = @""
+	"(function() {"
+	"  if (window.__tmAutoScroll) return;"
+	"  var threshold = 2;"
+	"  var atBottom = function() {"
+	"    var doc = document.documentElement;"
+	"    return (window.innerHeight + window.scrollY) >= (doc.scrollHeight - threshold);"
+	"  };"
+	"  var wasAtBottom = true;"
+	"  var observer = new MutationObserver(function() {"
+	"    if (wasAtBottom) window.scrollTo(0, document.documentElement.scrollHeight);"
+	"    wasAtBottom = atBottom();"
+	"  });"
+	"  window.addEventListener('scroll', function() { wasAtBottom = atBottom(); });"
+	"  observer.observe(document.documentElement, { childList: true, subtree: true, characterData: true });"
+	"  window.__tmAutoScroll = observer;"
+	"})();";
 
 @implementation HOAutoScroll
-- (void)scrollViewToBottom:(NSView*)aView
+- (void)setWebView:(WKWebView*)aWebView
 {
-	NSRect visibleRect = [aView visibleRect];
-	visibleRect.origin.y = NSHeight([aView frame]) - NSHeight(visibleRect);
-	[aView scrollRectToVisible:visibleRect];
-}
-
-- (void)dealloc
-{
-	self.webFrame = nil;
-}
-
-- (void)setWebFrame:(WebFrameView*)aWebFrame
-{
-	if(aWebFrame == _webFrame)
+	if(aWebView == _webView)
 		return;
 
-	if(_webFrame = aWebFrame)
-	{
-		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(webViewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:nil];
-		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(webViewDidChangeBounds:) name:NSViewBoundsDidChangeNotification object:nil];
-
-		_lastFrame       = [[_webFrame documentView] frame];
-		_lastVisibleRect = [[_webFrame documentView] visibleRect];
-	}
-	else
-	{
-		[NSNotificationCenter.defaultCenter removeObserver:self name:NSViewFrameDidChangeNotification object:nil];
-		[NSNotificationCenter.defaultCenter removeObserver:self name:NSViewBoundsDidChangeNotification object:nil];
-	}
-}
-
-- (void)webViewDidChangeBounds:(NSNotification*)aNotification
-{
-	NSClipView* clipView = [[[_webFrame documentView] enclosingScrollView] contentView];
-	if(clipView != [aNotification object])
-		return;
-
-	_lastVisibleRect = [[clipView documentView] visibleRect];
-}
-
-- (void)webViewDidChangeFrame:(NSNotification*)aNotification
-{
-	NSView* view = [aNotification object];
-	if(view != _webFrame && view != [_webFrame documentView])
-		return;
-
-	if(view == [_webFrame documentView])
-	{
-		if(NSMaxY(_lastVisibleRect) >= NSMaxY(_lastFrame))
-		{
-			[self scrollViewToBottom:view];
-			_lastVisibleRect = [view visibleRect];
-		}
-		_lastFrame = [view frame];
-	}
-
-	if(view == _webFrame)
-	{
-		if(NSMaxY(_lastVisibleRect) >= NSMaxY(_lastFrame))
-			[self scrollViewToBottom:[_webFrame documentView]];
-	}
+	if(_webView = aWebView)
+		[_webView evaluateJavaScript:kAutoScrollScript completionHandler:nil];
 }
 @end

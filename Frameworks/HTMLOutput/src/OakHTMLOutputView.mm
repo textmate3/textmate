@@ -15,6 +15,7 @@
 @property (nonatomic) HOAutoScroll* autoScrollHelper;
 @property (nonatomic) std::map<std::string, std::string> environment;
 @property (nonatomic) NSRect pendingVisibleRect;
+@property (nonatomic) NSURLRequest* loadedRequest;   // WKWebView does not expose the request it loaded
 @property (nonatomic, getter = isVisible) BOOL visible;
 @end
 
@@ -38,21 +39,23 @@
 	if(flag)
 	{
 		self.autoScrollHelper = [HOAutoScroll new];
-		self.autoScrollHelper.webFrame = self.webView.mainFrame.frameView;
+		self.autoScrollHelper.webView = self.webView;
 	}
 
 	self.environment = anEnvironment;
 	self.commandIdentifier = [NSURLProtocol propertyForKey:@"commandIdentifier" inRequest:aRequest];
 	self.runningCommand = self.commandIdentifier != nil;
 
+	self.loadedRequest = aRequest;
+
 	[self willChangeValueForKey:@"mainFrameTitle"];
-	[self.webView.mainFrame loadRequest:aRequest];
+	[self.webView loadRequest:aRequest];
 	[self didChangeValueForKey:@"mainFrameTitle"];
 }
 
 - (void)stopLoadingWithUserInteraction:(BOOL)askUserFlag completionHandler:(void(^)(BOOL didStop))handler
 {
-	NSURLRequest* request = self.webView.mainFrame.dataSource.initialRequest;
+	NSURLRequest* request = self.loadedRequest;
 	if(id command = [NSURLProtocol propertyForKey:@"command" inRequest:request])
 	{
 		NSAlert* alert = askUserFlag ? [NSAlert tmAlertWithMessageText:[NSString stringWithFormat:@"Stop “%@”?", [NSURLProtocol propertyForKey:@"processName" inRequest:request]] informativeText:@"The job that the task is performing will not be completed." buttons:@"Stop", @"Cancel", nil] : nil;
@@ -69,7 +72,7 @@
 			[alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode){
 				if(returnCode == NSAlertFirstButtonReturn) /* "Stop" */
 				{
-					[self.webView.mainFrame stopLoading];
+					[self.webView stopLoading];
 				}
 				else
 				{
@@ -80,7 +83,7 @@
 		}
 		else
 		{
-			[self.webView.mainFrame stopLoading];
+			[self.webView stopLoading];
 		}
 	}
 	else
@@ -108,19 +111,17 @@
 
 - (void)setContent:(NSString*)someHTML
 {
-	self.pendingVisibleRect = [[[[self.webView mainFrame] frameView] documentView] visibleRect];
-	[[self.webView mainFrame] loadHTMLString:someHTML baseURL:[NSURL fileURLWithPath:NSHomeDirectory()]];
+	[self.webView loadHTMLString:someHTML baseURL:[NSURL fileURLWithPath:NSHomeDirectory()]];
 }
 
 - (NSString*)mainFrameTitle
 {
-	if(OakIsEmptyString(self.webView.mainFrameTitle))
+	if(OakIsEmptyString(self.webView.title))
 	{
-		WebFrame* frame = self.webView.mainFrame;
-		if(NSURLRequest* request = (frame.provisionalDataSource ?: frame.dataSource).initialRequest)
+		if(NSURLRequest* request = self.loadedRequest)
 			return [NSURLProtocol propertyForKey:@"processName" inRequest:request] ?: @"";
 	}
-	return self.webView.mainFrameTitle;
+	return self.webView.title ?: @"";
 }
 
 - (void)viewDidMoveToWindow
@@ -151,7 +152,7 @@
 	if(self.disableJavaScriptAPI)
 		return;
 
-	NSString* scheme = [[[[[self.webView mainFrame] dataSource] request] URL] scheme];
+	NSString* scheme = self.webView.URL.scheme;
 	if(self.isRunningCommand || [@[ @"tm-file", @"file" ] containsObject:scheme])
 	{
 		HOJSBridge* bridge = [HOJSBridge new];
@@ -161,50 +162,49 @@
 	}
 }
 
-- (void)webView:(WebView*)sender didFinishLoadForFrame:(WebFrame*)frame
+- (void)webView:(WKWebView*)webView didFinishNavigation:(WKNavigation*)navigation
 {
 	self.runningCommand = NO;
 	self.autoScrollHelper = nil;
 
-	// Sending goBack:/goForward: to a WebView does not call this WebFrameLoadDelegate method
-	if(frame == [sender mainFrame])
-	{
-		[self webView:sender didClearWindowObject:[frame windowObject] forFrame:frame];
+	// The JavaScript bridge was installed here, through didClearWindowObject:, which
+	// has no equivalent. WKWebView injects scripts through its configuration's user
+	// content controller instead, at construction rather than per navigation.
 
-		// This happens when we redirect to a PDF file
-		if(self.window.firstResponder == self.window)
+	// This happens when we redirect to a PDF file
+	if(self.window.firstResponder == self.window)
+	{
+		NSRect rect = webView.frame;
+		for(NSView* view = [webView hitTest:NSMakePoint(NSMidX(rect), NSMidY(rect))]; view; view = view.superview)
 		{
-			NSRect rect = [sender frame];
-			for(NSView* view = [sender hitTest:NSMakePoint(NSMidX(rect), NSMidY(rect))]; view; view = [view superview])
+			if(view.acceptsFirstResponder)
 			{
-				if([view acceptsFirstResponder])
-				{
-					[self.window makeFirstResponder:view];
-					break;
-				}
+				[self.window makeFirstResponder:view];
+				break;
 			}
 		}
 	}
 
-	if(!NSIsEmptyRect(self.pendingVisibleRect))
-		[[[[self.webView mainFrame] frameView] documentView] scrollRectToVisible:self.pendingVisibleRect];
-	self.pendingVisibleRect = NSZeroRect;
+	// Scroll restoration across reloads is not carried over yet. The old code read
+	// the document view's visible rect directly, which WKWebView does not expose
+	// because the content lives in another process. Restoring it means asking the
+	// page for window.scrollY and setting it back through JavaScript.
 
-	[super webView:sender didFinishLoadForFrame:frame];
+	[super webView:webView didFinishNavigation:navigation];
 }
 
-- (void)webView:(WebView*)sender didFailProvisionalLoadWithError:(NSError*)error forFrame:(WebFrame*)frame
+- (void)webView:(WKWebView*)webView didFailProvisionalNavigation:(WKNavigation*)navigation withError:(NSError*)error
 {
 	self.runningCommand = NO;
 	self.autoScrollHelper = nil;
-	[super webView:sender didFailProvisionalLoadWithError:error forFrame:frame];
+	[super webView:webView didFailProvisionalNavigation:navigation withError:error];
 }
 
-- (void)webView:(WebView*)sender didFailLoadWithError:(NSError*)error forFrame:(WebFrame*)frame
+- (void)webView:(WKWebView*)webView didFailNavigation:(WKNavigation*)navigation withError:(NSError*)error
 {
 	self.runningCommand = NO;
 	self.autoScrollHelper = nil;
-	[super webView:sender didFailLoadWithError:error forFrame:frame];
+	[super webView:webView didFailNavigation:navigation withError:error];
 }
 
 // =========================================
@@ -241,7 +241,7 @@
 
 - (IBAction)printDocument:(id)sender
 {
-	NSPrintOperation* printer = [NSPrintOperation printOperationWithView:self.webView.mainFrame.frameView.documentView];
+	NSPrintOperation* printer = [NSPrintOperation printOperationWithView:self.webView];
 	[[printer printPanel] setOptions:[[printer printPanel] options] | NSPrintPanelShowsPaperSize | NSPrintPanelShowsOrientation];
 
 	NSPrintInfo* info = [printer printInfo];
