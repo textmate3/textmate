@@ -136,6 +136,7 @@ void SchemeTrace (NSString* format, ...)
 			perror("HTMLOutput: read");
 
 		[job.fileHandle closeFile];
+		[[self class] unregisterURL:task.request.URL];
 		dispatch_sync(dispatch_get_main_queue(), ^{
 			if([self isTaskActive:task])
 			{

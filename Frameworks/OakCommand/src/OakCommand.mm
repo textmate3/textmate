@@ -275,7 +275,10 @@ static pid_t run_command (dispatch_group_t rootGroup, std::string const& cmd, in
 		if(NSMutableURLRequest* request = std::exchange(_urlRequest, nil))
 		{
 			[NSURLProtocol removePropertyForKey:@"command" inRequest:request];
-			[HOFileHandleSchemeHandler unregisterURL:request.URL];
+			// The job is deliberately left registered. Loading is asynchronous, so a fast
+			// command can finish before the web view has asked for its output, and the
+			// pipe still holds everything written. The scheme handler clears the job once
+			// it has read to the end.
 		}
 	}
 }
