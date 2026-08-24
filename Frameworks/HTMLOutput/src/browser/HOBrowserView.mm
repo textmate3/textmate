@@ -3,6 +3,7 @@
 #import "HOStatusBar.h"
 #import <OakAppKit/OakUIConstructionFunctions.h>
 #import <WebKit/WebKit.h>
+#import "../HOFileHandleSchemeHandler.h"
 
 static NSString* EscapeHTML (NSString* str)
 {
@@ -29,6 +30,7 @@ static void ShowLoadErrorForURL (WKWebView* webView, NSURL* url, NSError* error)
 	if(self = [super initWithFrame:frame])
 	{
 		WKWebViewConfiguration* configuration = [WKWebViewConfiguration new];
+		[configuration setURLSchemeHandler:[HOFileHandleSchemeHandler new] forURLScheme:HOFileHandleURLScheme];
 		_webView = [[WKWebView alloc] initWithFrame:NSZeroRect configuration:configuration];
 
 		_statusBar = [[HOStatusBar alloc] initWithFrame:NSZeroRect];
