@@ -7,21 +7,6 @@
 
 static NSString* const kUserDefaultsDefaultURLProtocolKey = @"defaultURLProtocol";
 
-static BOOL IsProtocolRelativeURL (NSURL* url)
-{
-	if([url.scheme hasPrefix:@"x-txmt"] && ![url.host isEqualToString:@"job"])
-		return YES;
-
-	if([url.scheme isEqualToString:@"file"] && url.host)
-	{
-		// If host has a dot and does not exist on disk then treat as protocol-relative URL
-		if([url.host containsString:@"."] && ![NSFileManager.defaultManager fileExistsAtPath:[@"/" stringByAppendingPathComponent:url.host]])
-			return YES;
-	}
-
-	return NO;
-}
-
 @implementation HOWebViewDelegateHelper
 + (void)initialize
 {
