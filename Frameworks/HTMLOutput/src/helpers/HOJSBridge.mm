@@ -7,218 +7,205 @@
 #import <document/OakDocumentController.h>
 #import <text/utf8.h>
 #import <ns/ns.h>
-#import <cf/run_loop.h>
 #import <io/exec.h>
 
+// A command started by TextMate.system(). Output is streamed to the page as it
+// arrives, and the completion block carries the final result back to the reply
+// handler that the page is awaiting.
 @interface HOJSShellCommand : NSObject
-- (id)initShellCommand:(NSString*)aCommand withEnvironment:(const std::map<std::string, std::string>&)someEnvironment andExitHandler:(id)aHandler;
+{
+	io::process_t process;
+	std::string output, error;
+}
+@property (nonatomic, copy) void(^streamHandler)(NSString* text, BOOL isError);
+@property (nonatomic, copy) void(^completionHandler)(NSString* output, NSString* error, int status);
+- (id)initShellCommand:(NSString*)aCommand withEnvironment:(const std::map<std::string, std::string>&)someEnvironment;
+- (void)cancelCommand;
+- (void)writeToInput:(NSString*)someData;
+- (void)closeInput;
 @end
-
-/*
-	This class exposes a ‘TextMate’ object to the JavaScript interpreter.
-	The object will have the following methods available:
-
-		system()                 See HOJSShellCommand class below for information.
-		log(msg)                 Adds a message to the system console (using NSLog).
-		open(path, options)      Opens a file on disk as a document in the current application.
-		                         options may be either a selection range string or a (line) number.
-
-	in addition, these properties are exposed:
-
-		busy       (boolean)     The busy spinner in the output window will be displayed when this is true.
-		progress   (double, 0-1) Controls the value displayed in the determinate progress indicator.
-*/
 
 @implementation HOJSBridge
 {
 	std::map<std::string, std::string> environment;
-
-	// unused dummy keys to get them exposed to javascript
-	BOOL isBusy;
-	float progress;
+	NSMutableDictionary<NSNumber*, HOJSShellCommand*>* _tasks;
 }
 
-- (std::map<std::string, std::string> const&)environment;
++ (NSString*)messageHandlerName
+{
+	return @"textmate";
+}
+
++ (NSString*)userScriptSource
+{
+	NSString* path = [[NSBundle bundleForClass:self] pathForResource:@"TextMateBridge" ofType:@"js"];
+	NSString* source = path ? [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nullptr] : nil;
+	if(!source)
+		os_log_error(OS_LOG_DEFAULT, "HTMLOutput: unable to load TextMateBridge.js");
+	return source ?: @"";
+}
+
+- (instancetype)init
+{
+	if(self = [super init])
+		_tasks = [NSMutableDictionary new];
+	return self;
+}
+
+- (std::map<std::string, std::string> const&)environment
 {
 	return environment;
 }
 
-- (void)setEnvironment:(const std::map<std::string, std::string>&)variables;
+- (void)setEnvironment:(const std::map<std::string, std::string>&)variables
 {
 	environment = variables;
 }
 
-+ (BOOL)isSelectorExcludedFromWebScript:(SEL)aSelector
+// ===================
+// = Message Handler =
+// ===================
+
+- (void)userContentController:(WKUserContentController*)controller didReceiveScriptMessage:(WKScriptMessage*)message replyHandler:(void(^)(id reply, NSString* errorMessage))replyHandler
 {
-	return aSelector != @selector(system:handler:) && aSelector != @selector(log:) && aSelector != @selector(openFile:withOptions:);
+	if(![message.body isKindOfClass:NSDictionary.class])
+		return replyHandler(nil, @"TextMate bridge: malformed message");
+
+	NSDictionary* body = message.body;
+	NSString* method   = body[@"method"];
+	NSNumber* taskId   = body[@"taskId"];
+
+	if([method isEqualToString:@"system"])
+		return [self startCommand:body[@"command"] taskId:taskId replyHandler:replyHandler];
+
+	if([method isEqualToString:@"cancel"])
+	{
+		[_tasks[taskId] cancelCommand];
+		[_tasks removeObjectForKey:taskId];
+		return replyHandler(nil, nil);
+	}
+
+	if([method isEqualToString:@"write"])
+	{
+		[_tasks[taskId] writeToInput:body[@"string"]];
+		return replyHandler(nil, nil);
+	}
+
+	if([method isEqualToString:@"close"])
+	{
+		[_tasks[taskId] closeInput];
+		return replyHandler(nil, nil);
+	}
+
+	if([method isEqualToString:@"log"])
+	{
+		NSLog(@"JavaScript Log: %@", body[@"message"]);
+		return replyHandler(nil, nil);
+	}
+
+	if([method isEqualToString:@"openFile"])
+	{
+		[self openFile:body[@"path"] withOptions:body[@"options"]];
+		return replyHandler(nil, nil);
+	}
+
+	if([method isEqualToString:@"setBusy"])
+	{
+		_delegate.busy = [body[@"value"] boolValue];
+		return replyHandler(nil, nil);
+	}
+
+	if([method isEqualToString:@"setProgress"])
+	{
+		_delegate.progress = [body[@"value"] doubleValue];
+		return replyHandler(nil, nil);
+	}
+
+	replyHandler(nil, [NSString stringWithFormat:@"TextMate bridge: unknown method ‘%@’", method]);
 }
 
-+ (NSString*)webScriptNameForSelector:(SEL)aSelector
+- (void)startCommand:(NSString*)command taskId:(NSNumber*)taskId replyHandler:(void(^)(id reply, NSString* errorMessage))replyHandler
 {
-	if(aSelector == @selector(system:handler:))
-		return @"system";
-	else if(aSelector == @selector(log:))
-		return @"log";
-	else if(aSelector == @selector(openFile:withOptions:))
-		return @"open";
-	return NSStringFromSelector(aSelector);
+	if(!command || !taskId)
+		return replyHandler(nil, @"TextMate.system: missing command");
+
+	HOJSShellCommand* task = [[HOJSShellCommand alloc] initShellCommand:command withEnvironment:environment];
+	if(!task)
+		return replyHandler(nil, [NSString stringWithFormat:@"TextMate.system: unable to run ‘%@’", command]);
+
+	_tasks[taskId] = task;
+
+	__weak HOJSBridge* weakSelf = self;
+	task.streamHandler = ^(NSString* text, BOOL isError){
+		[weakSelf emitForTask:taskId which:(isError ? @"error" : @"output") text:text];
+	};
+
+	task.completionHandler = ^(NSString* out, NSString* err, int status){
+		[weakSelf removeTask:taskId];
+		replyHandler(@{ @"outputString": out ?: @"", @"errorString": err ?: @"", @"status": @(status) }, nil);
+	};
 }
 
-+ (BOOL)isKeyExcludedFromWebScript:(char const*)name
+- (void)removeTask:(NSNumber*)taskId
 {
-	return strcmp(name, "isBusy") != 0 && strcmp(name, "progress") != 0;
+	[_tasks removeObjectForKey:taskId];
 }
 
-+ (NSString*)webScriptNameForKey:(char const*)name
+// Streaming runs the other way, so it goes back through the page rather than a reply.
+- (void)emitForTask:(NSNumber*)taskId which:(NSString*)which text:(NSString*)text
 {
-	return @(name);
-}
+	NSData* json = [NSJSONSerialization dataWithJSONObject:@[ taskId, which, text ?: @"" ] options:0 error:nullptr];
+	if(!json)
+		return;
 
-- (void)setIsBusy:(BOOL)flag
-{
-	[_delegate setBusy:flag];
-}
-
-- (void)setProgress:(id)newProgress;
-{
-	[_delegate setProgress:[newProgress floatValue]];
-}
-
-- (double)progress
-{
-	return [_delegate progress];
-}
-
-- (void)log:(NSString*)aMessage
-{
-	NSLog(@"JavaScript Log: %@", aMessage);
+	NSString* args   = [[NSString alloc] initWithData:json encoding:NSUTF8StringEncoding];
+	NSString* script = [NSString stringWithFormat:@"window.__tmBridgeEmit && window.__tmBridgeEmit.apply(null, %@);", args];
+	[_webView evaluateJavaScript:script completionHandler:nil];
 }
 
 - (void)openFile:(NSString*)path withOptions:(id)options
 {
 	text::range_t range = text::range_t::undefined;
-	if([options isKindOfClass:[NSNumber class]])
+	if([options isKindOfClass:NSNumber.class])
 		range = text::pos_t([options intValue]-1, 0);
-	else if([options isKindOfClass:[NSString class]])
+	else if([options isKindOfClass:NSString.class])
 		range = to_s(options);
 	if(OakDocument* doc = [OakDocumentController.sharedInstance documentWithPath:path])
 		[OakDocumentController.sharedInstance showDocument:doc andSelect:range inProject:nil bringToFront:YES];
 }
-
-- (id)system:(NSString*)aCommand handler:(id)aHandler
-{
-	return [[HOJSShellCommand alloc] initShellCommand:aCommand withEnvironment:[self environment] andExitHandler:[aHandler isKindOfClass:[WebUndefined class]] ? nil : aHandler];
-}
-@end
-
-/*
-	<http://developer.apple.com/documentation/AppleApplications/Conceptual/Dashboard_ProgTopics/Articles/CommandLine.html>
-
-	# Synchronous Operation
-
-	Example: obj = TextMate.system("/usr/bin/id -un", null);
-
-	Result is an object with following properties:
-
-		outputString:  The output of the command, as placed on stdout.
-		errorString:   The output of the command, as placed on stderr.
-		status:        The exit status of the command.
-
-	# Asynchronous Operation
-
-	Example: obj = TextMate.system("/usr/bin/id -un", handler);
-
-	Handler is called when the command is finished and given an object with the following properties:
-
-		outputString:  The last output of the command, as placed on stdout.
-		errorString:   The last output of the command, as placed on stderr.
-		status:        The exit status of the command.
-
-	Result is an object with following properties/methods:
-
-		outputString:  The current string written to stdout (standard output) by the command.
-		errorString:   The current string written to stderr (standard error output) by the command.
-		status:        The command’s exit status, as defined by the command.
-		onreadoutput:  A function called whenever the command writes to stdout. The handler must accept a single argument; when called, the argument contains the current string placed on stdout.
-		onreaderror:   A function called whenever the command writes to stderr. The handler must accept a single argument; when called, the argument contains the current string placed on stderr.
-		cancel():      Cancels the execution of the command.
-		write(string): Writes a string to stdin (standard input).
-		close():       Closes stdin (EOF).
-
-*/
-
-@interface HOJSShellCommand ()
-{
-	io::process_t process;
-	std::string output, error;
-
-	// unused dummy keys to get them exposed to javascript
-	NSString* outputString;
-	NSString* errorString;
-}
-@property (nonatomic) id exitHandler;
-@property (nonatomic) id onreadoutput;
-@property (nonatomic) id onreaderror;
-@property (nonatomic) int status;
 @end
 
 @implementation HOJSShellCommand
-// We need @synthesize to avoid the instance variables from being prefixed with an underscore, as they are mapped to JavaScript
-@synthesize onreadoutput, onreaderror, status;
-
-- (id)initShellCommand:(NSString*)aCommand withEnvironment:(const std::map<std::string, std::string>&)someEnvironment andExitHandler:(id)aHandler
+- (id)initShellCommand:(NSString*)aCommand withEnvironment:(const std::map<std::string, std::string>&)someEnvironment
 {
 	if(self = [super init])
 	{
-		self.exitHandler = aHandler;
-		if(process = io::spawn(std::vector<std::string>{ "/bin/sh", "-c", to_s(aCommand) }, someEnvironment))
-		{
-			auto runLoop = std::make_shared<cf::run_loop_t>(kCFRunLoopDefaultMode, 15);
-			auto weakRunLoop = std::weak_ptr<cf::run_loop_t>(runLoop);
-			auto group = dispatch_group_create();
-			auto queue = aHandler ? dispatch_get_main_queue() : dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+		if(!(process = io::spawn(std::vector<std::string>{ "/bin/sh", "-c", to_s(aCommand) }, someEnvironment)))
+			return nil;
 
-			[self exhaustFileDescriptor:process.out inQueue:queue group:group buffer:output isError:NO];
-			[self exhaustFileDescriptor:process.err inQueue:queue group:group buffer:error isError:YES];
+		auto group = dispatch_group_create();
+		dispatch_queue_t queue = dispatch_get_main_queue();
 
-			dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-				int result = 0;
-				if(waitpid(process.pid, &result, 0) != process.pid)
-					perror("HOJSShellCommand: waitpid");
-				process.pid = -1;
-				dispatch_sync(queue, ^{
-					self.status = WIFEXITED(result) ? WEXITSTATUS(result) : -1;
-				});
-			});
+		[self exhaustFileDescriptor:process.out inQueue:queue group:group buffer:output isError:NO];
+		[self exhaustFileDescriptor:process.err inQueue:queue group:group buffer:error isError:YES];
 
-			dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-				close(process.out);
-				close(process.err);
-				if(self.exitHandler)
-					[self.exitHandler callWebScriptMethod:@"call" withArguments:@[ self.exitHandler, self ]];
-				else if(auto runLoop = weakRunLoop.lock())
-					runLoop->stop();
-			});
+		__block int status = 0;
+		dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+			int result = 0;
+			if(waitpid(process.pid, &result, 0) != process.pid)
+				perror("HOJSShellCommand: waitpid");
+			process.pid = -1;
+			status = WIFEXITED(result) ? WEXITSTATUS(result) : -1;
+		});
 
-			if(!self.exitHandler)
-			{
-				[self closeInput];
-
-				while(runLoop->start() == false) // timeout
-				{
-					NSAlert* alert        = [[NSAlert alloc] init];
-					alert.messageText     = @"JavaScript Warning";
-					alert.informativeText = [NSString stringWithFormat:@"The command ‘%@’ has been running for 15 seconds. Would you like to stop it?\n\nTo avoid this warning, the bundle command should use the asynchronous version of TextMate.system().", aCommand];
-					[alert addButtons:@"Stop Command", @"Cancel", nil];
-					if([alert runModal] == NSAlertFirstButtonReturn) // "Stop Command"
-					{
-						runLoop.reset();
-						[self cancelCommand];
-						break;
-					}
-				}
-			}
-		}
+		dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+			close(process.out);
+			close(process.err);
+			if(self.completionHandler)
+				self.completionHandler([NSString stringWithCxxString:output], [NSString stringWithCxxString:error], status);
+			self.completionHandler = nil;
+			self.streamHandler     = nil;
+		});
 	}
 	return self;
 }
@@ -234,11 +221,10 @@
 
 			char const* bytes = &tmp[0];
 			dispatch_sync(queue, ^{
-				id handler = isError ? self.onreaderror : self.onreadoutput;
-
-				auto range = add_bytes_to_utf8_buffer(buf, bytes, bytes + len, handler != nil);
-				if(handler && range.first != range.second)
-					[handler callWebScriptMethod:@"call" withArguments:@[ handler, [NSString stringWithCxxString:std::string(range.first, range.second)] ]];
+				BOOL streaming = self.streamHandler != nil;
+				auto range = add_bytes_to_utf8_buffer(buf, bytes, bytes + len, streaming);
+				if(streaming && range.first != range.second)
+					self.streamHandler([NSString stringWithCxxString:std::string(range.first, range.second)], isError);
 			});
 		}
 	});
@@ -246,9 +232,8 @@
 
 - (void)cancelCommand
 {
-	self.onreadoutput = nil;
-	self.onreaderror  = nil;
-	self.exitHandler  = nil;
+	self.streamHandler     = nil;
+	self.completionHandler = nil;
 
 	[self closeInput];
 
@@ -275,60 +260,6 @@
 }
 
 - (void)dealloc
-{
-	[self cancelCommand];
-}
-
-// =========================
-// = JavaScript Properties =
-// =========================
-
-+ (BOOL)isKeyExcludedFromWebScript:(char const*)name
-{
-	static auto const PublicProperties = new std::set<std::string>{ "outputString", "errorString", "onreadoutput", "onreaderror" };
-	return PublicProperties->find(name) == PublicProperties->end();
-}
-
-+ (NSString*)webScriptNameForKey:(char const*)name
-{
-	return @(name);
-}
-
-+ (BOOL)isSelectorExcludedFromWebScript:(SEL)aSelector
-{
-	static auto const PublicMethods = new std::set<SEL>{ @selector(cancelCommand), @selector(writeToInput:), @selector(closeInput) };
-	return PublicMethods->find(aSelector) == PublicMethods->end();
-}
-
-+ (NSString*)webScriptNameForSelector:(SEL)aSelector
-{
-	if(aSelector == @selector(cancelCommand))
-		return @"cancel";
-	else if(aSelector == @selector(writeToInput:))
-		return @"write";
-	else if(aSelector == @selector(closeInput))
-		return @"close";
-
-	ASSERT(false);
-	return @"undefined";
-}
-
-- (NSString*)outputString     { return output.empty() ? @"" : [NSString stringWithUTF8String:output.data() length:utf8::find_safe_end(output.begin(), output.end()) - output.begin()]; }
-- (NSString*)errorString      { return error.empty()  ? @"" : [NSString stringWithUTF8String:error.data()  length:utf8::find_safe_end(error.begin(),  error.end())  - error.begin()];  }
-
-- (void)setOnreadoutput:(id)aHandler
-{
-	if(onreadoutput = aHandler)
-		[onreadoutput callWebScriptMethod:@"call" withArguments:@[ onreadoutput, [self outputString] ]];
-}
-
-- (void)setOnreaderror:(id)aHandler
-{
-	if(onreaderror = aHandler)
-		[onreaderror callWebScriptMethod:@"call" withArguments:@[ onreaderror, [self errorString] ]];
-}
-
-- (void)finalizeForWebScript
 {
 	[self cancelCommand];
 }

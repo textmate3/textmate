@@ -16,7 +16,8 @@
 @property (nonatomic) HOAutoScroll* autoScrollHelper;
 @property (nonatomic) std::map<std::string, std::string> environment;
 @property (nonatomic) NSRect pendingVisibleRect;
-@property (nonatomic) NSURLRequest* loadedRequest;   // WKWebView does not expose the request it loaded
+@property (nonatomic) NSURLRequest* loadedRequest;
+@property (nonatomic) HOJSBridge* jsBridge;   // WKWebView does not expose the request it loaded
 @property (nonatomic, getter = isVisible) BOOL visible;
 @end
 
@@ -44,6 +45,8 @@
 	}
 
 	self.environment = anEnvironment;
+	[self installJavaScriptBridgeIfNeeded];
+	[_jsBridge setEnvironment:anEnvironment];
 	self.commandIdentifier = [NSURLProtocol propertyForKey:@"commandIdentifier" inRequest:aRequest];
 	self.runningCommand = self.commandIdentifier != nil;
 
@@ -148,17 +151,23 @@
 	[self setUpdatesProgress:!self.isRunningCommand];
 }
 
-// The JavaScript bridge is not installed yet.
-//
-// It used to arrive here, through didClearWindowObject:, which handed the page a
-// live Objective-C object it could call synchronously. WKWebView has no such hook
-// and no synchronous path: scripts are registered on the configuration's user
-// content controller, and calls into the application return promises. Choosing how
-// to bridge that gap is a decision about the bundle API, not a porting detail, so
-// it is deliberately left undone rather than guessed at.
-//
-// Until it lands, TextMate.system is unavailable, which is what Command-R uses for
-// most languages. See the planning notes.
+// The bridge used to be attached per navigation, when the window object was
+// cleared. WKWebView has no such hook: user scripts and message handlers belong to
+// the configuration, so this runs once and the TextMate object is present on every
+// page the view loads.
+- (void)installJavaScriptBridgeIfNeeded
+{
+	if(_jsBridge || self.disableJavaScriptAPI)
+		return;
+
+	_jsBridge          = [HOJSBridge new];
+	_jsBridge.delegate = self.statusBar;
+	_jsBridge.webView  = self.webView;
+
+	WKUserContentController* controller = self.webView.configuration.userContentController;
+	[controller addScriptMessageHandlerWithReply:_jsBridge contentWorld:WKContentWorld.pageWorld name:[HOJSBridge messageHandlerName]];
+	[controller addUserScript:[[WKUserScript alloc] initWithSource:[HOJSBridge userScriptSource] injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES]];
+}
 
 - (void)webView:(WKWebView*)webView didFinishNavigation:(WKNavigation*)navigation
 {
