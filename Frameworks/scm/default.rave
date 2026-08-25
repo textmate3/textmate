@@ -6,5 +6,4 @@ target "${dirname}" {
 
 	sources src/**/*.cc
 	tests tests/t_*.cc
-	frameworks Security
 }
