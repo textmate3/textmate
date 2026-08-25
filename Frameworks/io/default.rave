@@ -3,5 +3,4 @@ target "${dirname}" {
 	headers src/*.h
 	sources src/*.{cc,mm}
 	tests tests/*.cc
-	frameworks Carbon
 }

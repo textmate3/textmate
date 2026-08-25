@@ -71,7 +71,7 @@ namespace path
 	// = Global Info =
 	// ===============
 
-	passwd* passwd_entry (); // wrapper for getpwuid() that shows dialog incase of <rdar://10261043>
+	passwd* passwd_entry (); // wrapper for getpwuid() that shows a dialog and blocks in case of <rdar://10261043>
 
 	std::vector<std::string> volumes ();
 	std::string cwd ();
