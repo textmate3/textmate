@@ -4,7 +4,6 @@
 #import "prelude.c"
 
 #import <AudioToolbox/AudioToolbox.h>
-#import <Carbon/Carbon.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreServices/CoreServices.h>

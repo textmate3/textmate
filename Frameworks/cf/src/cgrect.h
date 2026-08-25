@@ -1,6 +1,8 @@
 #ifndef CGRECT_H_MTNVMRAF
 #define CGRECT_H_MTNVMRAF
 
+#include <CoreGraphics/CoreGraphics.h>
+
 #include <oak/oak.h>
 #include <oak/debug.h>
 

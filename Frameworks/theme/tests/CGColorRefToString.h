@@ -1,6 +1,8 @@
 #ifndef CGCOLORREF_TO_STRING_H_5BXZF34O
 #define CGCOLORREF_TO_STRING_H_5BXZF34O
 
+#include <CoreGraphics/CoreGraphics.h>
+
 #include <text/format.h>
 
 inline std::string to_s (CGColorRef color)

@@ -6,6 +6,11 @@
 #import <ns/ns.h>
 #import <text/utf8.h>
 
+// PushSymbolicHotKeyMode and PopSymbolicHotKeyMode live in HIToolbox, which is only reachable
+// through the Carbon umbrella, since its subframework headers cannot be included on their own.
+// This is the one remaining Carbon link in the project, and it is what OakAppKit's build file earns.
+#import <Carbon/Carbon.h>
+
 static NSString* const kRecordingPlaceholderString = @"…";
 
 @interface OakKeyEquivalentView ()

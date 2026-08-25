@@ -1,6 +1,9 @@
 #ifndef THEME_H_T0VVCP8F
 #define THEME_H_T0VVCP8F
 
+#include <CoreGraphics/CoreGraphics.h>
+#include <CoreText/CoreText.h>
+
 #include <bundles/bundles.h>
 #include <scope/scope.h>
 
