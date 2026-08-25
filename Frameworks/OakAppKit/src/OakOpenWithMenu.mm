@@ -71,7 +71,7 @@ static NSURL* CanonicalURL (NSURL* url, BOOL isDirectoryFlag = YES)
 		for(NSURL* documentURL in _documentURLs)
 		{
 			NSMutableSet<NSURL*>* appURLs = [NSMutableSet set];
-			NSArray<NSURL*>* appURLsArray = (NSArray*)CFBridgingRelease(LSCopyApplicationURLsForURL((__bridge CFURLRef)documentURL, kLSRolesAll));
+			NSArray<NSURL*>* appURLsArray = [NSWorkspace.sharedWorkspace URLsForApplicationsToOpenURL:documentURL];
 			for(NSURL* appURL in appURLsArray)
 				[appURLs addObject:CanonicalURL(appURL)];
 
