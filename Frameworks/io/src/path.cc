@@ -818,6 +818,24 @@ namespace path
 
 	std::string home ()
 	{
+		// getpwuid stays the primary source, so nothing changes in the normal case. HOME is a
+		// fallback for <rdar://10261043>, where the directory services lookup fails for reasons
+		// outside our control. launchd sets HOME at login, so unlike getpwuid it does not need
+		// that lookup to succeed at the moment we ask.
+		//
+		// This deliberately does not call passwd_entry(), which would put up its alert and block
+		// before the fallback could be tried. Should neither source name a readable folder, it
+		// falls through to passwd_entry() and the alert, which is what has always happened.
+		passwd* entry = getpwuid(getuid());
+		if(entry && entry->pw_dir && access(entry->pw_dir, R_OK) == 0)
+			return entry->pw_dir;
+
+		if(char const* dir = getenv("HOME"))
+		{
+			if(*dir && access(dir, R_OK) == 0)
+				return dir;
+		}
+
 		return passwd_entry()->pw_dir;
 	}
 

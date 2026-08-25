@@ -71,7 +71,7 @@ namespace path
 	// = Global Info =
 	// ===============
 
-	passwd* passwd_entry (); // wrapper for getpwuid() that shows a dialog and blocks in case of <rdar://10261043>
+	passwd* passwd_entry (); // wrapper for getpwuid() that shows a dialog and blocks in case of <rdar://10261043>. Callers wanting only the home folder should use home(), which falls back to HOME rather than blocking.
 
 	std::vector<std::string> volumes ();
 	std::string cwd ();
