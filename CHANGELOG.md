@@ -73,6 +73,8 @@ Target: **3.0.0**.
 
 ### Removed
 
+- **Touch Bar support is gone.** Apple discontinued the hardware, and the feature was partly broken anyway. The document window contributed tab navigation, New Tab, Quick Open, Find and Favorite Projects; the text view contributed Add/Remove Bookmark and Previous/Next Bookmark. All of it is deleted, along with the `NSTouchBarDelegate` conformances on `DocumentWindowController` and `OakTextView`, the `previousNextTouchBarControl` property, the `TouchBarNewTabTemplate` and `TouchBarQuickOpenTemplate` image assets, and the now empty `Frameworks/DocumentWindow/resources` directory with its `files` line in the build file. The View menu loses its "Customize Touch Bar…" item.
+
 - The license manager. TextMate has been free for years; the validation framework (`Frameworks/license/`, about 430 lines of key validation, trial logic, and Keychain storage), the About window's Registration tab and page, and the JavaScript bridge's `addLicense` plumbing are gone. Verified: the built binary contains no `LicenseManager` symbols.
 - `Applications/SyntaxMate/` — an XPC syntax highlighting service that was never shipped and is not referenced by the build (its bundled `SyntaxMate.tmBundle` submodule is gone with it).
 - `Applications/NewApplication/` — a template application skeleton, never shipped.

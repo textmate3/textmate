@@ -294,8 +294,6 @@ BOOL HasDocumentWindow (NSArray* windows)
 				{ /* -------- */ },
 				{ @"View Source",            @selector(viewSource:),           @"u", .modifierFlags = NSEventModifierFlagCommand|NSEventModifierFlagOption },
 				{ @"Enter Full Screen",      @selector(toggleFullScreen:),     @"f", .modifierFlags = NSEventModifierFlagCommand|NSEventModifierFlagControl },
-				{ /* -------- */ },
-				{ @"Customize Touch Bar…",   @selector(toggleTouchBarCustomizationPalette:) },
 			}
 		},
 		{ @"Navigate",
@@ -586,9 +584,6 @@ BOOL HasDocumentWindow (NSArray* windows)
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification
 {
 	NSWindow.allowsAutomaticWindowTabbing = NO;
-
-	if([NSApp respondsToSelector:@selector(setAutomaticCustomizeTouchBarMenuItemEnabled)]) // MAC_OS_X_VERSION_10_12_1
-		NSApp.automaticCustomizeTouchBarMenuItemEnabled = YES;
 
 	if(!HasDocumentWindow([NSApp orderedWindows]))
 	{
