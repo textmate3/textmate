@@ -801,11 +801,12 @@ namespace path
 		passwd* entry = getpwuid(getuid());
 		while(!entry || !entry->pw_dir || access(entry->pw_dir, R_OK) != 0) // Home folder might be missing <rdar://10261043>
 		{
-			// getpwuid does not set errno when it simply has no record to return, so reading
-			// strerror(errno) here used to print “Undefined error: 0” in the very case this alert
-			// exists for. The radar this refers to was filed in 2011 and marked a duplicate of a
-			// bug that was never resolved, so waiting for the system to right itself, which is all
-			// Retry does, is the only thing on offer.
+			// The message deliberately carries no errno: getpwuid does not set one when it simply
+			// has no record to return, which is the case this alert exists for.
+			//
+			// Retry is the only thing on offer because it is the only thing that can help. The
+			// radar names a bug filed in 2011 and marked a duplicate of one that was never
+			// resolved, so the system righting itself is all there is to wait for.
 			std::string message = text::format("Unable to obtain basic system information such as your home folder.\n\ngetpwuid(%d) did not return a readable home folder.", getuid());
 
 			CFOptionFlags responseFlags;
