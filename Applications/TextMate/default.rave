@@ -29,7 +29,6 @@ target "${dirname}" {
 	files Info.plist         "."
 	copy  support/*          "SharedSupport"
 	copy  @Dialog @Dialog2   "PlugIns"
-	copy  @TextMateQL        "Library/QuickLook"
 
 	sources src/*.{cc,mm}
 	executable "MacOS/${target}"

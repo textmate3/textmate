@@ -114,8 +114,6 @@ void test_xml_markup ()
 // These 4 tests will fail with 0 misspellings until that app bug is fixed;
 // they're skipped via OAK_WARN + early return. To re-enable: delete the
 // OAK_WARN line and the return below it in each function.
-// See the planning notes §4 "Fix live-spelling pipeline" for investigation
-// notes.
 
 void test_spelling ()
 {

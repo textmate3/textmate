@@ -48,7 +48,7 @@ Decide which of these to keep / how to edit them down to short and small.
 
 10. **Update CHANGELOG with the change, not later.** Every meaningful change gets a line under `[Unreleased]`. Past tense, terse, follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Breaking changes are flagged inline.
 
-11. **Record decisions with reasons.** Anything load-bearing (minimum version, breaking change, vendor swap, architecture shift) gets an entry in `the planning notes`. The _why_ is the load-bearing part — the _what_ rots without it.
+11. **Record decisions with reasons.** Anything load-bearing (minimum version, breaking change, vendor swap, architecture shift) gets written down where a future reader will find it: the CHANGELOG entry for the change, and a comment at the code that embodies it. The _why_ is the load-bearing part — the _what_ rots without it.
 
 12. **Leave a crumbtrail when you delete.** A future reader shouldn't have to reconstruct why something vanished. Note the deletion commit, the affected paths, and how to revive if needed.
 

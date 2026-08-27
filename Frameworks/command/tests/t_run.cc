@@ -136,9 +136,8 @@ void test_new_document ()
 //     Intermittent — only happens on some runs of the full suite.
 //
 // Both fail or hang the test binary, which is why they're skipped here to
-// keep ./script/test reliable. See the planning notes §4 "Fix command runner
-// stderr race" for investigation notes. Re-enable by removing OAK_WARN +
-// return and unwrapping the /* */ in each.
+// keep ./script/test reliable. Re-enable by removing OAK_WARN + return and
+// unwrapping the /* */ in each.
 void test_html_success ()
 {
 	OAK_WARN("Skipping test_html_success: command runner subprocess race (see comment above)");

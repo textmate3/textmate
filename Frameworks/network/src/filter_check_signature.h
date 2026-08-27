@@ -27,7 +27,7 @@ namespace network
 
 		// Bypass signature checking. Callers set this when the download URL
 		// points at localhost during local development against the
-		// `api.textmate3.com` stand-in server. See the planning notes.
+		// `api.textmate3.com` stand-in server, which serves unsigned bundles.
 		void skip_validation ()               { _skip = true; }
 
 	private:

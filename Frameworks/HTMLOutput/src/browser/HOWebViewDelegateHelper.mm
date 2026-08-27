@@ -84,7 +84,8 @@ static NSString* const kUserDefaultsDefaultURLProtocolKey = @"defaultURLProtocol
 // Three behaviours lived in the resource load delegate and have no WKWebView
 // equivalent, because there is no hook for rewriting arbitrary subresource
 // requests. They are recorded here so their loss is deliberate rather than
-// silent, and are written up in the planning notes.
+// silent. Link clicks can still be intercepted, in the navigation delegate;
+// subresources cannot.
 //
 //   1. tm-file:// was rewritten to file://, preserving any fragment.
 //   2. Protocol relative URLs, //example.com, were given a scheme from the
