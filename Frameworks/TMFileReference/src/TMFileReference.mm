@@ -163,6 +163,39 @@ static NSImage* ImageNamed (NSString* imageName)
 	}
 }
 
+// A symbolic link gets a badge drawn over its icon. macOS composites its own whenever it hands out an
+// icon for a link, but by the time this runs a custom document type icon has already been substituted,
+// so the badge is needed on its own, and nothing public vends it separately.
+//
+// The system's badge is a pale disc holding a black arrow that turns up and to the right, in the lower
+// left. `arrowshape.turn.up.forward.circle.fill` is that shape with the arrow as negative space, so the
+// disc is filled black first and the symbol laid over it in a pale tone: what reads as the arrow is the
+// black underneath showing through the cut-out.
+//
+// Both tones are fixed rather than taken from the appearance, which is what the system does. Its badge
+// is the same pale disc and black arrow in light and dark mode alike, because it has to read against
+// icon artwork rather than against a window background.
+static void DrawLinkBadge (NSRect dstRect)
+{
+	NSImage* badge = [NSImage imageWithSystemSymbolName:@"arrowshape.turn.up.forward.circle.fill" accessibilityDescription:@"symbolic link"];
+	if(!badge)
+		return;
+
+	CGFloat const size = round(std::min(NSWidth(dstRect), NSHeight(dstRect)) * 0.45);
+	NSRect badgeRect   = NSMakeRect(NSMinX(dstRect), NSMinY(dstRect), size, size);
+
+	NSImage* tinted = [NSImage imageWithSize:badgeRect.size flipped:NO drawingHandler:^BOOL(NSRect rect){
+		[badge drawInRect:rect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1];
+		[[NSColor colorWithWhite:0.85 alpha:1] set];
+		NSRectFillUsingOperation(rect, NSCompositingOperationSourceAtop);
+		return YES;
+	}];
+
+	[NSColor.blackColor set];
+	[[NSBezierPath bezierPathWithOvalInRect:NSInsetRect(badgeRect, 1, 1)] fill];
+	[tinted drawInRect:badgeRect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1];
+}
+
 - (NSImage*)image
 {
 	static NSDictionary* customBindings;
@@ -254,18 +287,7 @@ static NSImage* ImageNamed (NSString* imageName)
 			}
 
 			if(drawLinkBadge)
-			{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-				IconRef iconRef;
-				if(GetIconRef(kOnSystemDisk, kSystemIconsCreator, kAliasBadgeIcon, &iconRef) == noErr)
-				{
-					NSImage* badge = [[NSImage alloc] initWithIconRef:iconRef];
-					[badge drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1];
-					ReleaseIconRef(iconRef);
-				}
-#pragma clang diagnostic pop
-			}
+				DrawLinkBadge(dstRect);
 
 			return YES;
 		}];
