@@ -69,8 +69,8 @@ static NSString* const kUserDefaultsDefaultURLProtocolKey = @"defaultURLProtocol
 	__attribute__ ((unused)) CFTypeRef dummy = CFBridgingRetain(window);
 	[window setReleasedWhenClosed:YES];
 
-	// Returning the new view tells WebKit to load the navigation into it, so unlike
-	// the old delegate there is no separate loadRequest: here.
+	// Returning the new view is what tells WebKit to load the navigation into it. Nothing else has
+	// to request the load.
 	return view.webView;
 }
 
@@ -81,18 +81,8 @@ static NSString* const kUserDefaultsDefaultURLProtocolKey = @"defaultURLProtocol
 	self.needsNewWebView = YES;
 }
 
-// Three behaviours lived in the resource load delegate and have no WKWebView
-// equivalent, because there is no hook for rewriting arbitrary subresource
-// requests. They are recorded here so their loss is deliberate rather than
-// silent. Link clicks can still be intercepted, in the navigation delegate;
-// subresources cannot.
-//
-//   1. tm-file:// was rewritten to file://, preserving any fragment.
-//   2. Protocol relative URLs, //example.com, were given a scheme from the
-//      defaults key this class still registers.
-//   3. A file:// URL that did not resolve was redirected to a bundled
-//      error_not_found.html page, and a directory containing index.html was
-//      redirected to it.
+// There is no hook for rewriting arbitrary subresource requests. Link clicks can be intercepted, in
+// the navigation delegate, but the requests a page makes for its own assets cannot.
 //
 // Link clicks can be handled in decidePolicyForNavigationAction, which
 // OakHTMLOutputView implements. Subresources cannot.

@@ -322,7 +322,7 @@ static NSArray* const kObservedKeyPaths = @[ @"arrayController.arrangedObjects.p
 
 	self.documents           = nil;
 	self.selectedDocument    = nil;
-	self.fileBrowserVisible  = NO; // Make window frame small as we no longer respond to savableWindowFrame
+	self.fileBrowserVisible  = NO; // Collapses the file browser, shrinking the window. The frame worth keeping is saved above.
 	self.identifier          = nil; // This removes us from AllControllers and causes a release
 }
 

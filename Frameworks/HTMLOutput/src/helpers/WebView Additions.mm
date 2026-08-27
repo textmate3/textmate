@@ -9,11 +9,9 @@
 
 // Find and selection for HTML output windows.
 //
-// Everything here used to reach into the DOM synchronously. WKWebView renders in
-// another process, so each of these is asynchronous now: the selection comes back
-// through JavaScript, and searching goes through findString:withConfiguration:.
-// The callers are all menu actions and the find server, none of which need an
-// answer inline.
+// The page renders in another process, so everything here is asynchronous: the selection comes back
+// through JavaScript, and searching goes through findString:withConfiguration:. The callers are all
+// menu actions and the find server, none of which need an answer inline.
 @interface WKWebView (OakFindNextPrevious)
 - (void)performFindOperation:(id <OakFindServerProtocol>)aFindServer;
 
@@ -110,9 +108,8 @@
 
 - (void)viewSource:(id)sender
 {
-	// The data source that held the raw bytes and their encoding is gone. Ask the
-	// page for its markup instead, which arrives already decoded, so the encoding
-	// branches the old implementation carried are no longer needed.
+	// Ask the page for its own markup. It arrives already decoded, so nothing here has to reason
+	// about encodings.
 	[self evaluateJavaScript:@"document.documentElement.outerHTML" completionHandler:^(id result, NSError* error){
 		NSString* str = [result isKindOfClass:NSString.class] ? result : nil;
 		if(!str)

@@ -151,10 +151,8 @@
 	[self setUpdatesProgress:!self.isRunningCommand];
 }
 
-// The bridge used to be attached per navigation, when the window object was
-// cleared. WKWebView has no such hook: user scripts and message handlers belong to
-// the configuration, so this runs once and the TextMate object is present on every
-// page the view loads.
+// User scripts and message handlers belong to the web view's configuration rather than to a
+// navigation, so this runs once and the TextMate object is then present on every page the view loads.
 - (void)installJavaScriptBridgeIfNeeded
 {
 	if(_jsBridge || self.disableJavaScriptAPI)
@@ -192,10 +190,9 @@
 		}
 	}
 
-	// Scroll restoration across reloads is not carried over yet. The old code read
-	// the document view's visible rect directly, which WKWebView does not expose
-	// because the content lives in another process. Restoring it means asking the
-	// page for window.scrollY and setting it back through JavaScript.
+	// TODO Restore the scroll position across reloads. The content lives in another process, so
+	// there is no visible rect to read: it means asking the page for window.scrollY and setting it
+	// back through JavaScript.
 
 	[super webView:webView didFinishNavigation:navigation];
 }
