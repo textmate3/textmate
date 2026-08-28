@@ -1,61 +1,49 @@
 #include <CommitWindow/CommitWindow.h>
 #include <oak/oak.h>
+#include <sys/socket.h>
+#include <sys/un.h>
 
-static double const AppVersion = 1.1;
+static double const AppVersion = 1.2;
 
-@interface OakCommitWindowClient : NSObject <OakCommitWindowClientProtocol>
-@property (nonatomic) NSString*     portName;
-@property (nonatomic) NSConnection* connection;
-@property (nonatomic) NSInteger     returnCode;
-@end
-
-@implementation OakCommitWindowClient
-- (id)init
+// Reads until the peer closes its end. The reply is small and the editor sends it in one go, but a
+// short read is always legal, so this cannot assume a single read suffices.
+static NSData* ReadToEndOfStream (int fd)
 {
-	if(self = [super init])
+	NSMutableData* res = [NSMutableData data];
+	char buf[4096];
+	while(ssize_t len = read(fd, buf, sizeof(buf)))
 	{
-		_portName   = [NSString stringWithFormat:@"com.macromates.commit-window-client.%d", getpid()];
-		_connection = [NSConnection new];
-
-		[_connection setRootObject:self];
-		if([_connection registerName:_portName] == NO)
+		if(len == -1)
 		{
-			fprintf(stderr, "%s: failed vending object as ‘%s’\n", getprogname(), [_portName UTF8String]);
+			if(errno == EINTR)
+				continue;
+			perror("commit: read");
 			return nil;
 		}
+		[res appendBytes:buf length:len];
 	}
-	return self;
+	return res;
 }
 
-- (void)connectFromServerWithOptions:(NSDictionary*)someOptions
+static bool WriteAll (int fd, NSData* data)
 {
-	if(NSString* err = someOptions[kOakCommitWindowStandardError])
-		fprintf(stderr, "%s", [err UTF8String]);
-
-	if(NSString* out = someOptions[kOakCommitWindowStandardOutput])
+	char const* bytes = (char const*)data.bytes;
+	size_t left       = data.length;
+	while(left)
 	{
-		fprintf(stdout, "%s", [out UTF8String]);
-
-		if([someOptions[kOakCommitWindowContinue] boolValue])
-			fprintf(stdout, "TM_SCM_COMMIT_CONTINUE=1\n");
+		ssize_t len = write(fd, bytes, left);
+		if(len == -1)
+		{
+			if(errno == EINTR)
+				continue;
+			perror("commit: write");
+			return false;
+		}
+		bytes += len;
+		left  -= len;
 	}
-
-	_returnCode = [someOptions[kOakCommitWindowReturnCode] intValue];
-
-	// Tear down the connection in next run loop iteration.
-	// This should make us run long enough to allow the sender to get a reply.
-	[self performSelector:@selector(setConnection:) withObject:nil afterDelay:0];
-
-	// Prior to 10.9 the above does not cause runMode:beforeDate: to return,
-	// so for the benefit of 10.7 and 10.8 users, we explicitly call exit()
-	[self performSelector:@selector(terminate:) withObject:nil afterDelay:0];
+	return true;
 }
-
-- (void)terminate:(id)sender
-{
-	exit(self.returnCode);
-}
-@end
 
 int main (int argc, char* argv[])
 {
@@ -66,34 +54,74 @@ int main (int argc, char* argv[])
 	}
 
 	@autoreleasepool {
-		if(OakCommitWindowClient* client = [[OakCommitWindowClient alloc] init])
+		NSString* socketPath = OakCommitWindowSocketPath((pid_t)NSProcessInfo.processInfo.environment[@"TM_PID"].intValue);
+
+		int fd = socket(AF_UNIX, SOCK_STREAM, 0);
+		if(fd == -1)
 		{
-			NSMutableArray* arg = [NSMutableArray array];
-			for(size_t i = 0; i < argc; ++i)
-				[arg addObject:@(argv[i])];
-
-			NSDictionary* plist = @{
-				kOakCommitWindowClientPortName: client.portName,
-				kOakCommitWindowArguments:      arg,
-				kOakCommitWindowEnvironment:    [[NSProcessInfo processInfo] environment],
-			};
-
-			NSString* serviceName = [NSString stringWithFormat:@"%@.CommitWindow.%@", NSProcessInfo.processInfo.environment[@"TM_APP_IDENTIFIER"], NSProcessInfo.processInfo.environment[@"TM_PID"]];
-			if(id proxy = [NSConnection rootProxyForConnectionWithRegisteredName:serviceName host:nil])
-			{
-				[proxy setProtocolForProxy:@protocol(OakCommitWindowServerProtocol)];
-				[proxy connectFromClientWithOptions:plist];
-
-				while(client.connection)
-					[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
-
-				return client.returnCode;
-			}
-			else
-			{
-				fprintf(stderr, "%s: failed connecting to ‘%s’\n", getprogname(), serviceName.UTF8String);
-			}
+			perror("commit: socket");
+			return EX_OSERR;
 		}
+
+		struct sockaddr_un addr = { 0, AF_UNIX };
+		if(strlcpy(addr.sun_path, socketPath.fileSystemRepresentation, sizeof(addr.sun_path)) >= sizeof(addr.sun_path))
+		{
+			fprintf(stderr, "%s: socket path too long: %s\n", getprogname(), socketPath.UTF8String);
+			return EX_OSERR;
+		}
+		addr.sun_len = SUN_LEN(&addr);
+
+		if(connect(fd, (sockaddr*)&addr, sizeof(addr)) == -1)
+		{
+			fprintf(stderr, "%s: failed connecting to ‘%s’: %s\n", getprogname(), socketPath.UTF8String, strerror(errno));
+			return EX_UNAVAILABLE;
+		}
+
+		NSMutableArray* arguments = [NSMutableArray array];
+		for(size_t i = 0; i < argc; ++i)
+			[arguments addObject:@(argv[i])];
+
+		NSDictionary* request = @{
+			kOakCommitWindowArguments:   arguments,
+			kOakCommitWindowEnvironment: NSProcessInfo.processInfo.environment,
+		};
+
+		NSError* error;
+		NSData* requestData = [NSPropertyListSerialization dataWithPropertyList:request format:NSPropertyListBinaryFormat_v1_0 options:0 error:&error];
+		if(!requestData || !WriteAll(fd, requestData))
+		{
+			fprintf(stderr, "%s: failed sending request: %s\n", getprogname(), error.localizedDescription.UTF8String ?: "");
+			return EX_IOERR;
+		}
+
+		// Half-closing is what tells the editor the request is complete. The connection stays open
+		// for reading, and that is the return path: this blocks here until the sheet is dismissed.
+		shutdown(fd, SHUT_WR);
+
+		NSData* replyData = ReadToEndOfStream(fd);
+		close(fd);
+
+		if(!replyData.length)
+			return EX_UNAVAILABLE; // The editor closed without answering, treat as cancelled.
+
+		NSDictionary* reply = [NSPropertyListSerialization propertyListWithData:replyData options:NSPropertyListImmutable format:nullptr error:&error];
+		if(![reply isKindOfClass:[NSDictionary class]])
+		{
+			fprintf(stderr, "%s: malformed reply: %s\n", getprogname(), error.localizedDescription.UTF8String ?: "");
+			return EX_PROTOCOL;
+		}
+
+		if(NSString* err = reply[kOakCommitWindowStandardError])
+			fprintf(stderr, "%s", err.UTF8String);
+
+		if(NSString* out = reply[kOakCommitWindowStandardOutput])
+		{
+			fprintf(stdout, "%s", out.UTF8String);
+
+			if([reply[kOakCommitWindowContinue] boolValue])
+				fprintf(stdout, "TM_SCM_COMMIT_CONTINUE=1\n");
+		}
+
+		return [reply[kOakCommitWindowReturnCode] intValue];
 	}
-	return EX_OK;
 }

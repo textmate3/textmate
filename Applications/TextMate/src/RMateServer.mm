@@ -31,49 +31,6 @@
 	data: «integer»
 */
 
-// ============================
-// = Socket run loop callback =
-// ============================
-
-struct socket_callback_t
-{
-	socket_callback_t (std::function<bool(socket_t const&)> const& f, socket_t const& fd)
-	{
-		helper = std::make_shared<helper_t>(f, fd, this);
-
-		if(_dispatchSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, (int)fd, 0, dispatch_get_main_queue()))
-		{
-			dispatch_source_set_event_handler(_dispatchSource, ^{
-				(*helper)();
-			});
-			dispatch_resume(_dispatchSource);
-		}
-	}
-
-	~socket_callback_t ()
-	{
-		if(_dispatchSource)
-			dispatch_source_cancel(_dispatchSource);
-	}
-
-private:
-	struct helper_t
-	{
-		helper_t (std::function<bool(socket_t const&)> const& f, socket_t const& socket, socket_callback_t* parent) : f(f), socket(socket), parent(parent) { }
-		void operator() () { if(!f(socket)) delete parent; }
-
-	private:
-		std::function<bool(socket_t const&)> f;
-		socket_t socket;
-		socket_callback_t* parent;
-	};
-
-	std::shared_ptr<helper_t> helper;
-	dispatch_source_t _dispatchSource;
-};
-
-typedef std::shared_ptr<socket_callback_t> socket_callback_ptr;
-
 // ======================
 // = Return system info =
 // ======================
