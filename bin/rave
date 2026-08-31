@@ -1652,13 +1652,17 @@ if __FILE__ == $PROGRAM_NAME
   if new_outputs && old_outputs
     lost_outputs = old_outputs - new_outputs
     lost_outputs.each do |path|
-      if File.exist?(path)
+      # symlink? as well as exist?, because a dangling symbolic link is still an output to remove
+      # and File.exist? follows the link and reports false. rm_rf handles files, directories and
+      # links alike, which matters because bundle outputs (.tmplugin, .appex) are directories:
+      # unlink raises on those, leaving stale nested code that makes codesign reject the
+      # application with "bundle format unrecognized".
+      if File.exist?(path) || File.symlink?(path)
         STDERR << "Remove old target ‘#{path}’…\n"
-        # FIXME Does not seem to work with symbolic links (Proxy.png → Settings.png)
-        File.unlink(path)
+        FileUtils.rm_rf(path)
       end
     rescue Exception => e
-      STDERR << "File.unlink: #{e}\n"
+      STDERR << "Remove old target: #{e}\n"
     end
   end
 
