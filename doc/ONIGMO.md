@@ -11,7 +11,7 @@ hand maintained `config.h`, a small `src/setup.c`, and the tests. The engine sou
 git submodule at `vendor/Onigmo/vendor/`, pointing at the `textmate3/Onigmo` repository. The doubled
 `vendor/Onigmo/vendor` path reads like a typo and is not.
 
-`textmate3/Onigmo` is a fork of the upstream engine, `k-takata/Onigmo`.
+[`textmate3/Onigmo`](https://github.com/textmate3/Onigmo) is a fork of the upstream engine, `k-takata/Onigmo`.
 
 ## What the pin is, and why
 
