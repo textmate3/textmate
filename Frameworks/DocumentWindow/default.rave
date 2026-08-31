@@ -1,6 +1,7 @@
 target "${dirname}" {
-	require BundleEditor BundlesManager FileBrowser Find HTMLOutputWindow MenuBuilder OakAppKit OakTabBarView OakCommand OakFilterList OakFoundation OakSystem OakTextView Preferences bundles crash document file io kvdb ns regexp scm settings text
-	headers src/DocumentWindowController.h
+	require BundleEditor BundlesManager FileBrowser Find HTMLOutputWindow MenuBuilder OakAppKit OakTabBarView OakCommand OakFilterList OakFoundation OakSystem OakTextView Preferences bundles crash document file io ns regexp scm settings text
+	headers src/{DocumentWindowController,OakProjectStateStore}.h
+	libraries sqlite3
 
 	sources src/*.mm
 	frameworks Cocoa

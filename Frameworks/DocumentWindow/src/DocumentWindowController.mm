@@ -33,7 +33,7 @@
 #import <regexp/glob.h>
 #import <settings/settings.h>
 #import <ns/ns.h>
-#import <kvdb/kvdb.h>
+#import "OakProjectStateStore.h"
 #import <crash/info.h>
 
 static NSString* const kUserDefaultsAlwaysFindInDocument = @"alwaysFindInDocument";
@@ -171,12 +171,6 @@ namespace
 static NSArray* const kObservedKeyPaths = @[ @"arrayController.arrangedObjects.path", @"arrayController.arrangedObjects.displayName", @"arrayController.arrangedObjects.documentEdited", @"selectedDocument.path", @"selectedDocument.displayName", @"selectedDocument.icon", @"selectedDocument.onDisk" , @"selectedDocument.documentEdited" ];
 
 @implementation DocumentWindowController
-+ (KVDB*)sharedProjectStateDB
-{
-	NSString* appSupport = [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"TextMate"];
-	return [KVDB sharedDBUsingFile:@"RecentProjects.db" inDirectory:appSupport];
-}
-
 - (id)init
 {
 	if((self = [super init]))
@@ -603,7 +597,7 @@ static NSArray* const kObservedKeyPaths = @[ @"arrayController.arrangedObjects.p
 - (void)saveProjectState
 {
 	if(self.treatAsProjectWindow)
-		[[DocumentWindowController sharedProjectStateDB] setValue:[self sessionInfoIncludingUntitledDocuments:NO] forKey:self.projectPath];
+		[OakProjectStateStore.sharedInstance setValue:[self sessionInfoIncludingUntitledDocuments:NO] forProjectAtPath:self.projectPath];
 }
 
 - (BOOL)windowShouldClose:(id)sender
@@ -2757,7 +2751,7 @@ static NSUInteger DisableSessionSavingCount = 0;
 
 	NSDictionary* project;
 	if(![NSUserDefaults.standardUserDefaults boolForKey:kUserDefaultsDisableFolderStateRestore])
-		project = [[DocumentWindowController sharedProjectStateDB] valueForKey:folder];
+		project = [OakProjectStateStore.sharedInstance valueForProjectAtPath:folder];
 
 	if(project && [project[@"documents"] count])
 	{

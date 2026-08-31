@@ -12,7 +12,7 @@
 #import <text/ctype.h>
 #import <io/path.h>
 #import <ns/ns.h>
-#import <kvdb/kvdb.h>
+#import <DocumentWindow/OakProjectStateStore.h>
 
 static NSString* const kUserDefaultsOpenProjectSourceIndex = @"openProjectSourceIndex";
 
@@ -79,12 +79,6 @@ static NSUInteger const kOakSourceIndexFavorites      = 1;
 	[NSUserDefaults.standardUserDefaults registerDefaults:@{
 		kUserDefaultsOpenProjectSourceIndex: @0,
 	}];
-}
-
-- (KVDB*)sharedProjectStateDB
-{
-	NSString* appSupport = [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"TextMate"];
-	return [KVDB sharedDBUsingFile:@"RecentProjects.db" inDirectory:appSupport];
 }
 
 - (id)init
@@ -195,7 +189,7 @@ static NSUInteger const kOakSourceIndexFavorites      = 1;
 	if(_sourceIndex == kOakSourceIndexRecentProjects)
 	{
 		std::vector<std::string> paths;
-		for(id pair in [[[self sharedProjectStateDB] allObjects] sortedArrayUsingDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"value.lastRecentlyUsed" ascending:NO], [NSSortDescriptor sortDescriptorWithKey:@"key.lastPathComponent" ascending:YES selector:@selector(localizedCompare:)] ]])
+		for(id pair in [OakProjectStateStore.sharedInstance.allEntries sortedArrayUsingDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"value.lastRecentlyUsed" ascending:NO], [NSSortDescriptor sortDescriptorWithKey:@"key.lastPathComponent" ascending:YES selector:@selector(localizedCompare:)] ]])
 		{
 			if(access([pair[@"key"] fileSystemRepresentation], F_OK) == 0)
 				[items addObject:[[FavoritesItem alloc] initWithPath:pair[@"key"] isLink:NO isRemovable:YES]];
@@ -306,10 +300,10 @@ static NSUInteger const kOakSourceIndexFavorites      = 1;
 
 	for(FavoritesItem* item in self.selectedItems)
 	{
-		if(NSMutableDictionary* tmp = [[[self sharedProjectStateDB] valueForKey:item.path] mutableCopy])
+		if(NSMutableDictionary* tmp = [[OakProjectStateStore.sharedInstance valueForProjectAtPath:item.path] mutableCopy])
 		{
 			tmp[@"lastRecentlyUsed"] = [NSDate date];
-			[[self sharedProjectStateDB] setValue:tmp forKey:item.path];
+			[OakProjectStateStore.sharedInstance setValue:tmp forProjectAtPath:item.path];
 		}
 	}
 
@@ -328,7 +322,7 @@ static NSUInteger const kOakSourceIndexFavorites      = 1;
 		if(NSString* link = item.link)
 			[NSFileManager.defaultManager trashItemAtURL:[NSURL fileURLWithPath:link] resultingItemURL:nil error:nil];
 		else if(NSString* path = item.path)
-			[[self sharedProjectStateDB] removeObjectForKey:path];
+			[OakProjectStateStore.sharedInstance removeValueForProjectAtPath:path];
 	}
 
 	[self loadItems:self]; // update originalItems
