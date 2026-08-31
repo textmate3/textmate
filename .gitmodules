@@ -4,9 +4,6 @@
 [submodule "Applications/TextMate/icons"]
 	path = Applications/TextMate/icons
 	url = https://github.com/textmate3/document-icons.git
-[submodule "PlugIns/dialog"]
-	path = PlugIns/dialog
-	url = https://github.com/textmate3/dialog.git
 [submodule "vendor/Onigmo/vendor"]
 	path = vendor/Onigmo/vendor
 	url = https://github.com/textmate3/Onigmo.git
