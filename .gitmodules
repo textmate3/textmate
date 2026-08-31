@@ -1,9 +1,6 @@
 [submodule "bin/CxxTest"]
 	path = bin/CxxTest
 	url = https://github.com/textmate3/cxxtest.git
-[submodule "Applications/TextMate/icons"]
-	path = Applications/TextMate/icons
-	url = https://github.com/textmate3/document-icons.git
 [submodule "vendor/Onigmo/vendor"]
 	path = vendor/Onigmo/vendor
 	url = https://github.com/textmate3/Onigmo.git
