@@ -6,18 +6,12 @@
 #import <ns/ns.h>
 #import <text/utf8.h>
 
-// PushSymbolicHotKeyMode and PopSymbolicHotKeyMode live in HIToolbox, which is only reachable
-// through the Carbon umbrella, since its subframework headers cannot be included on their own.
-// This is the one remaining Carbon link in the project, and it is what OakAppKit's build file earns.
-#import <Carbon/Carbon.h>
-
 static NSString* const kRecordingPlaceholderString = @"…";
 
 @interface OakKeyEquivalentView ()
 {
 	OakRolloverButton* _clearButton;
 	id _eventMonitor;
-	void* _hotkeyToken;
 }
 @property (nonatomic) NSString* displayString;
 @property (nonatomic) BOOL showClearButton;
@@ -26,9 +20,7 @@ static NSString* const kRecordingPlaceholderString = @"…";
 @implementation OakKeyEquivalentView
 - (id)initWithFrame:(NSRect)aRect
 {
-	if(self = [super initWithFrame:aRect])
-		self.disableGlobalHotkeys = YES;
-	return self;
+	return [super initWithFrame:aRect];
 }
 
 - (NSSize)intrinsicContentSize
@@ -117,9 +109,6 @@ static NSString* const kRecordingPlaceholderString = @"…";
 
 	if(self.recording)
 	{
-		if(self.disableGlobalHotkeys)
-			_hotkeyToken = PushSymbolicHotKeyMode(kHIHotKeyModeAllDisabled);
-
 		_eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskFlagsChanged|NSEventMaskKeyDown handler:^NSEvent*(NSEvent* event){
 			if([event type] == NSEventTypeFlagsChanged)
 			{
@@ -138,12 +127,6 @@ static NSString* const kRecordingPlaceholderString = @"…";
 	{
 		[NSEvent removeMonitor:_eventMonitor];
 		_eventMonitor = nil;
-
-		if(self.disableGlobalHotkeys)
-		{
-			PopSymbolicHotKeyMode(_hotkeyToken);
-			_hotkeyToken  = nullptr;
-		}
 	}
 }
 
