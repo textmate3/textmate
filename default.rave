@@ -13,8 +13,9 @@ add FLAGS         "-D'NULL_STR=\"\\uFFFF\"' -D'REST_API=\"https://api.textmate3.
 
 # The Ed25519 public key that the bundle catalog index and tarballs must be signed with, base64 of
 # the raw 32 byte key, the same format Sparkle uses for SUPublicEDKey. Local development overrides
-# this in local.rave with a development key, the same way it overrides REST_API.
-add FLAGS         "-D'BUNDLE_PUBLIC_ED_KEY=\"\"'"
+# this in local.rave with a development key, the same way it overrides REST_API. The production
+# private half lives in the maintainer's login keychain as "TextMate bundle signing (production)".
+add FLAGS         "-D'BUNDLE_PUBLIC_ED_KEY=\"/H4k7uGYRnMzP59K/A2lyy6Cduxz++AkUCMRpAo03As=\"'"
 add FLAGS         "-IShared/include"
 add FLAGS         "-mmacosx-version-min=${APP_MIN_OS}"
 
@@ -29,9 +30,10 @@ set CS_FLAGS      "--force --options runtime"
 
 # Sparkle: where the application looks for its update feed, and the Ed25519 public key updates must
 # be signed with. Local development overrides both in local.rave, pointing the feed at the stand-in
-# server on localhost and the key at a development keypair.
+# server on localhost and the key at a development keypair. The production private half lives in the
+# maintainer's login keychain under the Sparkle item's textmate3-production account.
 set SU_FEED_URL      "https://api.textmate3.com/appcast.xml"
-set SU_PUBLIC_ED_KEY ""
+set SU_PUBLIC_ED_KEY "Ql63khOrqqpJie/GjnPx/YxCLWFTaHBKULBpi5Gyuxo="
 
 set PLIST_FLAGS   "-dTARGET_NAME='${target}' -dAPP_MIN_OS='${APP_MIN_OS}' -dSU_FEED_URL='${SU_FEED_URL}' -dSU_PUBLIC_ED_KEY='${SU_PUBLIC_ED_KEY}'"
 
