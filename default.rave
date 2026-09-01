@@ -9,7 +9,7 @@ set OBJCXX_FLAGS  "${OBJC_FLAGS} ${CXX_FLAGS}"
 add FLAGS         "-funsigned-char"
 add FLAGS         "-Wall -Wwrite-strings -Wformat -Winit-self -Wmissing-include-dirs"
 add FLAGS         "-Wno-parentheses -Wno-sign-compare -Wno-switch -Wno-c99-designator"
-add FLAGS         "-D'NULL_STR=\"\\uFFFF\"' -D'REST_API=\"https://api.textmate.org\"'"
+add FLAGS         "-D'NULL_STR=\"\\uFFFF\"' -D'REST_API=\"https://api.textmate3.com\"'"
 add FLAGS         "-IShared/include"
 add FLAGS         "-mmacosx-version-min=${APP_MIN_OS}"
 
@@ -25,7 +25,7 @@ set CS_FLAGS      "--force --options runtime"
 # Sparkle: where the application looks for its update feed, and the Ed25519 public key updates must
 # be signed with. Local development overrides both in local.rave, pointing the feed at the stand-in
 # server on localhost and the key at a development keypair.
-set SU_FEED_URL      "https://api.textmate.org/appcast.xml"
+set SU_FEED_URL      "https://api.textmate3.com/appcast.xml"
 set SU_PUBLIC_ED_KEY ""
 
 set PLIST_FLAGS   "-dTARGET_NAME='${target}' -dAPP_MIN_OS='${APP_MIN_OS}' -dSU_FEED_URL='${SU_FEED_URL}' -dSU_PUBLIC_ED_KEY='${SU_PUBLIC_ED_KEY}'"
