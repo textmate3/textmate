@@ -1,6 +1,5 @@
 #include "download_tbz.h"
 #include "filter_check_signature.h"
-#include "constants.h"
 #include "user_agent.h"
 #include "proxy.h"
 #include "tbz.h"
@@ -18,7 +17,7 @@ namespace network
 	{
 		struct user_data_t
 		{
-			user_data_t (key_chain_t const& keychain, double* progress, double start_progress, double stop_progress, bool const* stop_flag, int tbz_fd, int tmp_fd) : progress(progress), start_progress(start_progress), stop_progress(stop_progress), stop_flag(stop_flag), tbz_fd(tbz_fd), tmp_fd(tmp_fd), verify_signature(keychain, kHTTPSigneeHeader, kHTTPSignatureHeader)
+			user_data_t (std::string const& signatureBase64, std::string const& publicKeyBase64, double* progress, double start_progress, double stop_progress, bool const* stop_flag, int tbz_fd, int tmp_fd) : progress(progress), start_progress(start_progress), stop_progress(stop_progress), stop_flag(stop_flag), tbz_fd(tbz_fd), tmp_fd(tmp_fd), verify_signature(signatureBase64, publicKeyBase64)
 			{
 				verify_signature.setup();
 			}
@@ -87,8 +86,6 @@ namespace network
 						data.etag = value;
 					else if(header == "content-length")
 						data.total = strtol(value.c_str(), nullptr, 10);
-					else if(header == kHTTPSigneeHeader || header == kHTTPSignatureHeader)
-						data.verify_signature.receive_header(header, value);
 				}
 			}
 			return data.should_stop() ? 0 : size * nmemb;
@@ -106,7 +103,7 @@ namespace network
 		}
 	}
 
-	std::string download_tbz (std::string const& url, key_chain_t const& keyChain, std::string const& destination, std::string& error, double* progress, double progressStart, double progressStop, bool const* stopFlag)
+	std::string download_tbz (std::string const& url, std::string const& signatureBase64, std::string const& publicKeyBase64, std::string const& destination, std::string& error, double* progress, double progressStart, double progressStop, bool const* stopFlag)
 	{
 		std::string res = NULL_STR;
 		if(CURL* handle = curl_easy_init())
@@ -122,12 +119,7 @@ namespace network
 			// = Curl =
 			// ========
 
-			user_data_t data(keyChain, progress, progressStart, progressStop, stopFlag, tbz.input_fd(), tmpInput);
-
-			// Local-dev path against api.textmate3.com: skip signature check
-			// when the bundle tarball is served from localhost. See ADR-006.
-			if(url.find("://localhost") != std::string::npos || url.find("://127.0.0.1") != std::string::npos)
-				data.verify_signature.skip_validation();
+			user_data_t data(signatureBase64, publicKeyBase64, progress, progressStart, progressStop, stopFlag, tbz.input_fd(), tmpInput);
 
 			curl_easy_setopt(handle, CURLOPT_URL,              url.c_str());
 			curl_easy_setopt(handle, CURLOPT_FOLLOWLOCATION,   true);
@@ -184,8 +176,6 @@ namespace network
 				if(goodSignature = data.verify_signature.receive_end(error))
 				{
 					path::set_attr(tmpPath, kHTTPEntityTagAttribute, data.etag);
-					path::set_attr(tmpPath, kHTTPSigneeHeader,       data.verify_signature.signee());
-					path::set_attr(tmpPath, kHTTPSignatureHeader,    data.verify_signature.signature());
 					path::rename_or_copy(tmpPath, destination);
 				}
 			}

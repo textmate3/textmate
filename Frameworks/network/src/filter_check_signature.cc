@@ -1,86 +1,29 @@
 #include "filter_check_signature.h"
-#include <cf/cf.h>
-#include <text/decode.h>
-#include <text/format.h>
-#include <oak/debug.h>
+#include "ed25519.h"
 
 namespace network
 {
-	check_signature_t::check_signature_t (key_chain_t const& keyChain, std::string const& signeeHeader, std::string const& signatureHeader) : _key_chain(keyChain), _signee_header(signeeHeader), _signature_header(signatureHeader), _data(nullptr)
+	check_signature_t::check_signature_t (std::string const& signatureBase64, std::string const& publicKeyBase64) : _signature_base64(signatureBase64), _public_key_base64(publicKeyBase64)
 	{
-	}
-
-	check_signature_t::~check_signature_t ()
-	{
-		if(_data)
-			CFRelease(_data);
 	}
 
 	bool check_signature_t::setup ()
 	{
-		if(_data)
-			CFRelease(_data);
-
-		return _data = CFDataCreateMutable(kCFAllocatorDefault, 0);
-	}
-
-	bool check_signature_t::receive_header (std::string const& header, std::string const& value)
-	{
-		if(header == _signee_header)
-			_signee = value;
-		else if(header == _signature_header)
-			_signature = value;
+		_payload.clear();
 		return true;
 	}
 
 	bool check_signature_t::receive_data (char const* buf, size_t len)
 	{
-		CFDataAppendBytes(_data, (const UInt8*)buf, len);
+		_payload.append(buf, len);
 		return true;
 	}
 
 	bool check_signature_t::receive_end (std::string& error)
 	{
-		if(_skip)
-			return true;
-
-		if(_signee == NULL_STR)
-			return (error = "Missing signee."), false;
-		if(_signature == NULL_STR)
+		if(_signature_base64 == NULL_STR || _signature_base64.empty())
 			return (error = "Missing signature."), false;
-
-		bool res = false;
-
-		if(key_chain_t::key_ptr key = _key_chain.find(_signee))
-		{
-			std::string signature = decode::base64(_signature);
-
-			CFErrorRef err = nullptr;
-			CFDataRef sig_data = CFDataCreateWithBytesNoCopy(kCFAllocatorDefault, (const UInt8*)signature.data(), signature.size(), kCFAllocatorNull);
-			if(SecTransformRef verifier = SecVerifyTransformCreate(*key, sig_data, &err))
-			{
-				if(SecTransformSetAttribute(verifier, kSecTransformInputAttributeName, _data, &err))
-				{
-					res = SecTransformExecute(verifier, &err) == kCFBooleanTrue;
-
-					if(!res)
-						error = text::format("Bad signature.");
-				}
-				else
-					error = text::format("Error setting transform input: ‘%s’.", cf::to_s(err).c_str());
-
-				CFRelease(verifier);
-			}
-			else
-				error = text::format("Error creating verify transform: ‘%s’.", cf::to_s(err).c_str());
-
-			if(sig_data)
-				CFRelease(sig_data);
-		}
-		else
-			error = text::format("Unknown signee: ‘%s’.", _signee.c_str());
-
-		return res;
+		return verify_ed25519_signature(_payload, _signature_base64, _public_key_base64, error);
 	}
 
 	std::string check_signature_t::name ()

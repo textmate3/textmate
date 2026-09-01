@@ -1,6 +1,6 @@
 target "${dirname}" {
 	require text cf io plist OakSystem regexp
-	headers src/{constants,download{,_tbz},ed25519,filter_*,key_chain,network,post,proxy,tbz}.h
+	headers src/{download{,_tbz},ed25519,filter_*,network,post,proxy,tbz}.h
 	sources src/*.cc
 	tests tests/*.cc
 	libraries curl

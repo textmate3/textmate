@@ -2,7 +2,6 @@
 #define PUBKEY_H_VC2ABIZU
 
 #include "download.h" // filter_t
-#include "key_chain.h"
 
 // ======================
 // = Validate signature =
@@ -10,36 +9,24 @@
 
 namespace network
 {
+	// Verifies that the downloaded bytes carry a valid Ed25519 signature. The
+	// expected signature comes from the catalog index rather than from response
+	// headers, so callers know it before the download starts. Bytes accumulate
+	// as they arrive and verification happens once in receive_end.
 	struct check_signature_t : filter_t
 	{
-		check_signature_t (key_chain_t const& keyChain, std::string const& signeeHeader, std::string const& signatureHeader);
-		~check_signature_t ();
+		check_signature_t (std::string const& signatureBase64, std::string const& publicKeyBase64);
 
 		bool setup ();
-		bool receive_header (std::string const& header, std::string const& value);
 		bool receive_data (char const* buf, size_t len);
 		bool receive_end (std::string& error);
 
 		std::string name ();
 
-		std::string const& signee () const    { return _signee_header; }
-		std::string const& signature () const { return _signature_header; }
-
-		// Bypass signature checking. Callers set this when the download URL
-		// points at localhost during local development against the
-		// `api.textmate3.com` stand-in server, which serves unsigned bundles.
-		void skip_validation ()               { _skip = true; }
-
 	private:
-		key_chain_t const _key_chain;
-		std::string const _signee_header;
-		std::string const _signature_header;
-
-		CFMutableDataRef _data;
-
-		std::string _signee    = NULL_STR;
-		std::string _signature = NULL_STR;
-		bool        _skip      = false;
+		std::string const _signature_base64;
+		std::string const _public_key_base64;
+		std::string _payload;
 	};
 
 } /* network */

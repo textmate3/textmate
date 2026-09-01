@@ -1,33 +1,56 @@
 #include "download.h"
 #include <network/network.h>
-#include <network/download_tbz.h>
-#include <text/decode.h>
+#include <io/path.h>
 
 namespace bundles_db
 {
-	std::string download_etag (std::string const& url, key_chain_t const& keyChain, std::string* etag, double* progress, double min, double max)
+	// The index signature is a sibling resource: base64 Ed25519 over the exact
+	// bytes of the index, served beside it with ‘.sig’ appended to the URL.
+	static std::string download_index_signature (std::string const& url)
 	{
-		network::check_signature_t validator(keyChain, kHTTPSigneeHeader, kHTTPSignatureHeader);
+		network::save_t archiver(false);
+		std::string error = NULL_STR;
+		long res = network::download(network::request_t(url, &archiver, nullptr), &error);
 
-		// Local-dev path against api.textmate3.com: skip signature check
-		// when the bundle index is served from localhost. See ADR-006.
-		if(url.find("://localhost") != std::string::npos || url.find("://127.0.0.1") != std::string::npos)
-			validator.skip_validation();
+		std::string signature = NULL_STR;
+		if(res == 200)
+		{
+			signature = path::content(archiver.path);
+			while(!signature.empty() && (signature.back() == '\n' || signature.back() == '\r'))
+				signature.pop_back();
+		}
+		else
+		{
+			os_log_error(OS_LOG_DEFAULT, "download_index_signature(‘%{public}s’): got ‘%ld’ from server (expected 200)", url.c_str(), res);
+		}
 
+		path::remove(archiver.path);
+		return signature;
+	}
+
+	std::string download_etag (std::string const& url, std::string* etag, double* progress, double min, double max)
+	{
 		network::save_t archiver(false);
 		network::header_t collect_etag("etag");
 
 		std::string error = NULL_STR;
-		long res = network::download(network::request_t(url, &validator, &archiver, &collect_etag, nullptr).set_entity_tag(etag ? *etag : NULL_STR).update_progress_variable(progress, min, max), &error);
-		if(res == 304) // not modified
+		long res = network::download(network::request_t(url, &archiver, &collect_etag, nullptr).set_entity_tag(etag ? *etag : NULL_STR).update_progress_variable(progress, min, max), &error);
+		if(res == 304) // not modified, and verified when it was first downloaded
 		{
 			path::remove(archiver.path);
 		}
 		else if(res == 200)
 		{
-			if(etag)
-				*etag = collect_etag.value();
-			return archiver.path;
+			std::string const signature = download_index_signature(url + ".sig");
+			if(network::verify_ed25519_signature(path::content(archiver.path), signature, BUNDLE_PUBLIC_ED_KEY, error))
+			{
+				if(etag)
+					*etag = collect_etag.value();
+				return archiver.path;
+			}
+
+			os_log_error(OS_LOG_DEFAULT, "download_etag(‘%{public}s’): rejecting index: %{public}s", url.c_str(), error.c_str());
+			path::remove(archiver.path);
 		}
 		else
 		{

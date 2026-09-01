@@ -2,7 +2,6 @@
 #define UPDATER_H_D2910JR4
 
 #include <plist/plist.h>
-#include <network/key_chain.h>
 
 namespace bundles_db
 {
@@ -29,7 +28,6 @@ namespace bundles_db
 		void set_disabled (bool flag)   { _disabled = flag; }
 
 		std::string path () const;
-		key_chain_t key_chain () const;
 		bool needs_update (double pollInterval = 60*60) const;
 		oak::date_t last_check () const;
 
@@ -53,6 +51,7 @@ namespace bundles_db
 		std::string contact_name () const      { return _contact_name; }
 		std::string contact_email () const     { return _contact_email; }
 		std::string url () const               { return _url; }
+		std::string signature () const         { return _signature; }
 		oak::date_t url_updated () const       { return _url_updated; }
 		std::string path () const              { return _path; }
 		oak::date_t path_updated () const      { return _path_updated; }
@@ -65,7 +64,6 @@ namespace bundles_db
 
 		bool installed () const                { return _path != NULL_STR; }
 		bool has_update () const               { return installed() && _path_updated < _url_updated; }
-		key_chain_t key_chain () const         { return _source ? _source->key_chain() : key_chain_t(); }
 
 		std::vector<grammar_info_ptr> const& grammars () const { return _grammars; }
 		std::vector<bundle_t const*> dependencies (std::vector<bundle_ptr> const& bundles, bool includeImplicitDependencies = true) const;
@@ -96,6 +94,7 @@ namespace bundles_db
 
 		source_ptr _source;
 		std::string _url = NULL_STR;
+		std::string _signature = NULL_STR;
 		oak::date_t _url_updated;
 		int32_t _size = 0;
 		bool _is_default = false;
