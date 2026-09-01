@@ -81,7 +81,7 @@ static std::tuple<pid_t, int, int> my_fork (char const* cmd, int inputRead, std:
 		// ask for the directory change when there is a directory to change to.
 		struct stat workingDirInfo;
 		if(workingDir && *workingDir && stat(workingDir, &workingDirInfo) == 0 && S_ISDIR(workingDirInfo.st_mode))
-			posix_spawn_file_actions_addchdir_np(&fileActions, workingDir);
+			posix_spawn_file_actions_addchdir(&fileActions, workingDir);
 
 		posix_spawnattr_t attributes;
 		if(posix_spawnattr_init(&attributes) == 0)
