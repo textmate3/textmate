@@ -127,6 +127,8 @@ namespace ng
 		if(_spelling)
 			_spelling->set_disabled(true);
 
+		size_t recheckFrom = SIZE_MAX, recheckTo = 0;
+
 		std::lock_guard<std::mutex> lock(grammar()->mutex());
 		while(!_dirty.empty() && !_parser_states.empty())
 		{
@@ -144,10 +146,22 @@ namespace ng
 			std::map<size_t, scope::scope_t> newScopes;
 			auto newState = parse::parse(line.data(), line.data() + line.size(), state->second, newScopes, from == 0);
 			update_scopes(0, from, std::make_pair(from, to), newScopes, newState);
+
+			recheckFrom = std::min(recheckFrom, from);
+			recheckTo   = std::max(recheckTo, to);
 		}
 
 		if(_spelling)
+		{
 			_spelling->set_disabled(false);
+
+			// The disabled did_parse calls above cleared misspellings for every
+			// parsed range without rechecking, so check the whole span once now.
+			// One check here keeps the protection the disable exists for, since
+			// the per-line loop never touches the spell checker.
+			if(recheckFrom < recheckTo)
+				_spelling->recheck(this, recheckFrom, std::min(recheckTo, size()));
+		}
 	}
 
 } /* ng */

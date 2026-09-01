@@ -117,9 +117,6 @@ void test_xml_markup ()
 
 void test_spelling ()
 {
-	OAK_WARN("Skipping test_spelling: live spelling broken in app (see comment above)");
-	return;
-/*
 	ng::buffer_t buf;
 	buf.set_grammar(TestGrammarItem);
 	buf.set_spelling_language("en");
@@ -134,14 +131,10 @@ void test_spelling ()
 	OAK_ASSERT_EQ(bad.size(), 2);
 	std::map<size_t, bool> const expected = { { 5, true }, { 8, false } };
 	OAK_ASSERT(bad == expected);
-*/
 }
 
 void test_spelling_2 ()
 {
-	OAK_WARN("Skipping test_spelling_2: live spelling broken in app (see comment above)");
-	return;
-/*
 	ng::buffer_t buf;
 	buf.set_grammar(TestGrammarItem);
 	buf.set_spelling_language("en");
@@ -154,14 +147,10 @@ void test_spelling_2 ()
 	OAK_ASSERT_EQ(bad.size(), 3);
 	std::map<size_t, bool> const expected = { { 3, true }, { 5, false }, { 6, true } };
 	OAK_ASSERT(bad == expected);
-*/
 }
 
 void test_spelling_3 ()
 {
-	OAK_WARN("Skipping test_spelling_3: live spelling broken in app (see comment above)");
-	return;
-/*
 	ng::buffer_t buf;
 	buf.set_grammar(TestGrammarItem);
 	buf.set_live_spelling(true);
@@ -173,14 +162,10 @@ void test_spelling_3 ()
 	OAK_ASSERT_EQ(bad.size(), 3);
 	std::map<size_t, bool> const expected = { { 0, true }, { 1, false }, { 2, true } };
 	OAK_ASSERT(bad == expected);
-*/
 }
 
 void test_spelling_4 ()
 {
-	OAK_WARN("Skipping test_spelling_4: live spelling broken in app (see comment above)");
-	return;
-/*
 	ng::buffer_t buf;
 	buf.set_grammar(TestGrammarItem);
 	buf.set_live_spelling(true);
@@ -196,7 +181,6 @@ void test_spelling_4 ()
 
 	std::map<size_t, bool> bad = buf.misspellings(0, buf.size());
 	OAK_ASSERT_EQ(bad.size(), 0);
-*/
 }
 
 void test_scopes ()
