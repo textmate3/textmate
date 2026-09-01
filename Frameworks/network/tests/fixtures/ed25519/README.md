@@ -2,12 +2,12 @@
 
 Used by `../../t_check_signature.cc` and `../../t_ed25519.cc`.
 
-| File                      | What it is                                                       |
-| ------------------------- | ---------------------------------------------------------------- |
-| `public_key.base64`       | base64 of the raw 32 byte Ed25519 public key                     |
-| `signed_payload.txt`      | the signed content                                               |
-| `signature.base64`        | base64 of the 64 byte signature over that payload                |
-| `other_public_key.base64` | a second key pair's public half, which must NOT verify           |
+| File                      | What it is                                             |
+| ------------------------- | ------------------------------------------------------ |
+| `public_key.base64`       | base64 of the raw 32 byte Ed25519 public key           |
+| `signed_payload.txt`      | the signed content                                     |
+| `signature.base64`        | base64 of the 64 byte signature over that payload      |
+| `other_public_key.base64` | a second key pair's public half, which must NOT verify |
 
 The public keys are the raw 32 byte form, the same format Sparkle uses for `SUPublicEDKey`, and
 the form `SecKeyCreateWithData` accepts for the Ed25519 key type. The subject public key info
