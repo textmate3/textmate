@@ -1,29 +1,274 @@
-{
-	small-blank                = (  );
-
-	small-text                 = ( mail, eml, man, txt, text, utf8, README, INSTALL, LICENSE, AUTHORS, ChangeLog );
-	small-structured-text      = ( bbcode, mdown, markdown, markdn, md, mmd, rst, rest, etx, etx.txt, textile, t2t );
-	small-web                  = ( html, htm, shtml, xhtml );
-	small-template             = ( tmpl, tpl, mtml, erb, rhtml, html.erb, inc, asp, aspx, ascx, cfm, cfml, cfc, yaws, mhtml, autohandler, dhandler, mc, tt, adp, gsp, twig );
-	small-log                  = ( log );
-	small-angle-brackets-green = ( jsp, php, php3, php4, php5, phpt, phtml, aw, ctp );
-	small-angle-brackets-brown = ( dist, xml, tld, pt, cpt, dtml, rss, opml, xsl, xslt );
-	small-brackets             = ( m, mm, M );
-	small-braces               = ( go, sieve );
-	small-list                 = ( gtd, gtdlog, properties, json, strings, plist, dict, scriptsuite, scriptterminology, savedsearch, defs.rem, reminders, TODO, tasks, todolist, yaml, yml );
-	small-grid                 = ( css, css.erb, scss, sass, less, sql );
-	small-tree-structure       = ( dot, rl, proto, capnp );
-	small-config-file          = ( conf, htaccess, config, gitconfig, gitignore, gitmodules, ini, cfg, capfile, ssh_config, sshd_config, tm_properties, tmproperties, ant.xml, build.xml, pro, pri, cmake, cmakelists.txt, Makefile, gnumakefile, ocamlmakefile, pom.xml, cm, Rakefile, rake, rave, portfile, gemspec, gemfile, ninja, project.clj, xcodeproj, Cargo.toml );
-
-	small-c                    = ( c, cc, cxx, cpp, 'c++' );
-	small-javascript           = ( js, htc, jsx, jsfl, js.erb );
-	small-ruby                 = ( rb, rbx, rjs, cgi, fcgi, irbrc, rxml, builder );
-	small-python               = ( py, rpy, pyw, cpy, sconstruct, sconscript );
-	small-header               = ( h, hh, hpp, "h++" );
-	small-latex                = ( lhs, tex, sty, cls );
-	small-latex-alt            = ( bib, rd, snw, rnw );
-
-	small-grey                 = ( diff, patch, csv, tsv, sh, bash, zsh, bashrc, bash_profile, bash_login, profile, bash_logout );
-	small-charcoal             = ( commit_editmsg, git-rebase-todo, svn-commit.tmp, svn-commit.2.tmp, portfile, gemspec, gemfile, erbsql, sql.erb );
-	small-blue                 = ( groovy, gvy, gradle, java, bsh );
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>small-angle-brackets-brown</key>
+	<array>
+		<string>dist</string>
+		<string>xml</string>
+		<string>tld</string>
+		<string>pt</string>
+		<string>cpt</string>
+		<string>dtml</string>
+		<string>rss</string>
+		<string>opml</string>
+		<string>xsl</string>
+		<string>xslt</string>
+	</array>
+	<key>small-angle-brackets-green</key>
+	<array>
+		<string>jsp</string>
+		<string>php</string>
+		<string>php3</string>
+		<string>php4</string>
+		<string>php5</string>
+		<string>phpt</string>
+		<string>phtml</string>
+		<string>aw</string>
+		<string>ctp</string>
+	</array>
+	<key>small-blank</key>
+	<array/>
+	<key>small-blue</key>
+	<array>
+		<string>groovy</string>
+		<string>gvy</string>
+		<string>gradle</string>
+		<string>java</string>
+		<string>bsh</string>
+	</array>
+	<key>small-braces</key>
+	<array>
+		<string>go</string>
+		<string>sieve</string>
+	</array>
+	<key>small-brackets</key>
+	<array>
+		<string>m</string>
+		<string>mm</string>
+		<string>M</string>
+	</array>
+	<key>small-c</key>
+	<array>
+		<string>c</string>
+		<string>cc</string>
+		<string>cxx</string>
+		<string>cpp</string>
+		<string>c++</string>
+	</array>
+	<key>small-charcoal</key>
+	<array>
+		<string>commit_editmsg</string>
+		<string>git-rebase-todo</string>
+		<string>svn-commit.tmp</string>
+		<string>svn-commit.2.tmp</string>
+		<string>portfile</string>
+		<string>gemspec</string>
+		<string>gemfile</string>
+		<string>erbsql</string>
+		<string>sql.erb</string>
+	</array>
+	<key>small-config-file</key>
+	<array>
+		<string>conf</string>
+		<string>htaccess</string>
+		<string>config</string>
+		<string>gitconfig</string>
+		<string>gitignore</string>
+		<string>gitmodules</string>
+		<string>ini</string>
+		<string>cfg</string>
+		<string>capfile</string>
+		<string>ssh_config</string>
+		<string>sshd_config</string>
+		<string>tm_properties</string>
+		<string>tmproperties</string>
+		<string>ant.xml</string>
+		<string>build.xml</string>
+		<string>pro</string>
+		<string>pri</string>
+		<string>cmake</string>
+		<string>cmakelists.txt</string>
+		<string>Makefile</string>
+		<string>gnumakefile</string>
+		<string>ocamlmakefile</string>
+		<string>pom.xml</string>
+		<string>cm</string>
+		<string>Rakefile</string>
+		<string>rake</string>
+		<string>rave</string>
+		<string>portfile</string>
+		<string>gemspec</string>
+		<string>gemfile</string>
+		<string>ninja</string>
+		<string>project.clj</string>
+		<string>xcodeproj</string>
+		<string>Cargo.toml</string>
+	</array>
+	<key>small-grey</key>
+	<array>
+		<string>diff</string>
+		<string>patch</string>
+		<string>csv</string>
+		<string>tsv</string>
+		<string>sh</string>
+		<string>bash</string>
+		<string>zsh</string>
+		<string>bashrc</string>
+		<string>bash_profile</string>
+		<string>bash_login</string>
+		<string>profile</string>
+		<string>bash_logout</string>
+	</array>
+	<key>small-grid</key>
+	<array>
+		<string>css</string>
+		<string>css.erb</string>
+		<string>scss</string>
+		<string>sass</string>
+		<string>less</string>
+		<string>sql</string>
+	</array>
+	<key>small-header</key>
+	<array>
+		<string>h</string>
+		<string>hh</string>
+		<string>hpp</string>
+		<string>h++</string>
+	</array>
+	<key>small-javascript</key>
+	<array>
+		<string>js</string>
+		<string>htc</string>
+		<string>jsx</string>
+		<string>jsfl</string>
+		<string>js.erb</string>
+	</array>
+	<key>small-latex</key>
+	<array>
+		<string>lhs</string>
+		<string>tex</string>
+		<string>sty</string>
+		<string>cls</string>
+	</array>
+	<key>small-latex-alt</key>
+	<array>
+		<string>bib</string>
+		<string>rd</string>
+		<string>snw</string>
+		<string>rnw</string>
+	</array>
+	<key>small-list</key>
+	<array>
+		<string>gtd</string>
+		<string>gtdlog</string>
+		<string>properties</string>
+		<string>json</string>
+		<string>strings</string>
+		<string>plist</string>
+		<string>dict</string>
+		<string>scriptsuite</string>
+		<string>scriptterminology</string>
+		<string>savedsearch</string>
+		<string>defs.rem</string>
+		<string>reminders</string>
+		<string>TODO</string>
+		<string>tasks</string>
+		<string>todolist</string>
+		<string>yaml</string>
+		<string>yml</string>
+	</array>
+	<key>small-log</key>
+	<array>
+		<string>log</string>
+	</array>
+	<key>small-python</key>
+	<array>
+		<string>py</string>
+		<string>rpy</string>
+		<string>pyw</string>
+		<string>cpy</string>
+		<string>sconstruct</string>
+		<string>sconscript</string>
+	</array>
+	<key>small-ruby</key>
+	<array>
+		<string>rb</string>
+		<string>rbx</string>
+		<string>rjs</string>
+		<string>cgi</string>
+		<string>fcgi</string>
+		<string>irbrc</string>
+		<string>rxml</string>
+		<string>builder</string>
+	</array>
+	<key>small-structured-text</key>
+	<array>
+		<string>bbcode</string>
+		<string>mdown</string>
+		<string>markdown</string>
+		<string>markdn</string>
+		<string>md</string>
+		<string>mmd</string>
+		<string>rst</string>
+		<string>rest</string>
+		<string>etx</string>
+		<string>etx.txt</string>
+		<string>textile</string>
+		<string>t2t</string>
+	</array>
+	<key>small-template</key>
+	<array>
+		<string>tmpl</string>
+		<string>tpl</string>
+		<string>mtml</string>
+		<string>erb</string>
+		<string>rhtml</string>
+		<string>html.erb</string>
+		<string>inc</string>
+		<string>asp</string>
+		<string>aspx</string>
+		<string>ascx</string>
+		<string>cfm</string>
+		<string>cfml</string>
+		<string>cfc</string>
+		<string>yaws</string>
+		<string>mhtml</string>
+		<string>autohandler</string>
+		<string>dhandler</string>
+		<string>mc</string>
+		<string>tt</string>
+		<string>adp</string>
+		<string>gsp</string>
+		<string>twig</string>
+	</array>
+	<key>small-text</key>
+	<array>
+		<string>mail</string>
+		<string>eml</string>
+		<string>man</string>
+		<string>txt</string>
+		<string>text</string>
+		<string>utf8</string>
+		<string>README</string>
+		<string>INSTALL</string>
+		<string>LICENSE</string>
+		<string>AUTHORS</string>
+		<string>ChangeLog</string>
+	</array>
+	<key>small-tree-structure</key>
+	<array>
+		<string>dot</string>
+		<string>rl</string>
+		<string>proto</string>
+		<string>capnp</string>
+	</array>
+	<key>small-web</key>
+	<array>
+		<string>html</string>
+		<string>htm</string>
+		<string>shtml</string>
+		<string>xhtml</string>
+	</array>
+</dict>
+</plist>

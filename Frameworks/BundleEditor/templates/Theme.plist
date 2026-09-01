@@ -1,34 +1,184 @@
-{	author = "$TM_FULLNAME";
-	colorSpaceName = "sRGB";
-	semanticClass = "theme.dark.untitled";
-	settings = (
-		{	settings = {
-				foreground    = "#000000";
-				background    = "#FFFFFF";
-				caret         = "#000000";
-				selection     = "#4D97FF54";
-				invisibles    = "#BFBFBF";
-				lineHighlight = "#00000012";
-			};
-		},
-		{ name = "Comment";               scope = "comment";                            settings = { }; },
-		{ name = "String";                scope = "string";                             settings = { }; },
-		{ name = "Number";                scope = "constant.numeric";                   settings = { }; },
-		{ name = "Built-in constant";     scope = "constant.language";                  settings = { }; },
-		{ name = "User-defined constant"; scope = "constant.character, constant.other"; settings = { }; },
-		{ name = "Variable";              scope = "variable.language, variable.other";  settings = { }; },
-		{ name = "Keyword";               scope = "keyword";                            settings = { }; },
-		{ name = "Storage";               scope = "storage";                            settings = { }; },
-		{ name = "Class name";            scope = "entity.name.class";                  settings = { }; },
-		{ name = "Inherited class";       scope = "entity.other.inherited-class";       settings = { }; },
-		{ name = "Function name";         scope = "entity.name.function";               settings = { }; },
-		{ name = "Function argument";     scope = "variable.parameter";                 settings = { }; },
-		{ name = "Tag name";              scope = "entity.name.tag";                    settings = { }; },
-		{ name = "Tag attribute";         scope = "entity.other.attribute-name";        settings = { }; },
-		{ name = "Library function";      scope = "support.function";                   settings = { }; },
-		{ name = "Library constant";      scope = "support.constant";                   settings = { }; },
-		{ name = "Library class/type";    scope = "support.type, support.class";        settings = { }; },
-		{ name = "Library variable";      scope = "support.other.variable";             settings = { }; },
-		{ name = "Invalid";               scope = "invalid";                            settings = { }; },
-	);
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>author</key>
+	<string>$TM_FULLNAME</string>
+	<key>colorSpaceName</key>
+	<string>sRGB</string>
+	<key>semanticClass</key>
+	<string>theme.dark.untitled</string>
+	<key>settings</key>
+	<array>
+		<dict>
+			<key>settings</key>
+			<dict>
+				<key>background</key>
+				<string>#FFFFFF</string>
+				<key>caret</key>
+				<string>#000000</string>
+				<key>foreground</key>
+				<string>#000000</string>
+				<key>invisibles</key>
+				<string>#BFBFBF</string>
+				<key>lineHighlight</key>
+				<string>#00000012</string>
+				<key>selection</key>
+				<string>#4D97FF54</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Comment</string>
+			<key>scope</key>
+			<string>comment</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>String</string>
+			<key>scope</key>
+			<string>string</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Number</string>
+			<key>scope</key>
+			<string>constant.numeric</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Built-in constant</string>
+			<key>scope</key>
+			<string>constant.language</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>User-defined constant</string>
+			<key>scope</key>
+			<string>constant.character, constant.other</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Variable</string>
+			<key>scope</key>
+			<string>variable.language, variable.other</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Keyword</string>
+			<key>scope</key>
+			<string>keyword</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Storage</string>
+			<key>scope</key>
+			<string>storage</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Class name</string>
+			<key>scope</key>
+			<string>entity.name.class</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Inherited class</string>
+			<key>scope</key>
+			<string>entity.other.inherited-class</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Function name</string>
+			<key>scope</key>
+			<string>entity.name.function</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Function argument</string>
+			<key>scope</key>
+			<string>variable.parameter</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Tag name</string>
+			<key>scope</key>
+			<string>entity.name.tag</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Tag attribute</string>
+			<key>scope</key>
+			<string>entity.other.attribute-name</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Library function</string>
+			<key>scope</key>
+			<string>support.function</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Library constant</string>
+			<key>scope</key>
+			<string>support.constant</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Library class/type</string>
+			<key>scope</key>
+			<string>support.type, support.class</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Library variable</string>
+			<key>scope</key>
+			<string>support.other.variable</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Invalid</string>
+			<key>scope</key>
+			<string>invalid</string>
+			<key>settings</key>
+			<dict/>
+		</dict>
+	</array>
+</dict>
+</plist>
