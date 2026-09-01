@@ -7,7 +7,7 @@ static NSArray* default_environment ()
 	return @[
 		@{ @"enabled": @NO, @"name": @"PATH",            @"value": @"$PATH:/opt/local/bin:/usr/local/bin:/usr/texbin" },
 		@{ @"enabled": @NO, @"name": @"TM_C_POINTER",    @"value": @"* "                               },
-		@{ @"enabled": @NO, @"name": @"TM_CXX_FLAGS",    @"value": @"-framework Carbon -liconv -include vector -include string -include map -include cstdio -funsigned-char -Wall -Wwrite-strings -Wformat=2 -Winit-self -Wmissing-include-dirs -Wno-parentheses -Wno-sign-compare -Wno-switch" },
+		@{ @"enabled": @NO, @"name": @"TM_CXX_FLAGS",    @"value": @"-liconv -include vector -include string -include map -include cstdio -funsigned-char -Wall -Wwrite-strings -Wformat=2 -Winit-self -Wmissing-include-dirs -Wno-parentheses -Wno-sign-compare -Wno-switch" },
 		@{ @"enabled": @NO, @"name": @"TM_FULLNAME",     @"value": @"Scrooge McDuck"                   },
 		@{ @"enabled": @NO, @"name": @"TM_ORGANIZATION", @"value": @"The Billionaires Club"            },
 		@{ @"enabled": @NO, @"name": @"TM_XHTML",        @"value": @" /"                               },

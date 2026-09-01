@@ -4,11 +4,7 @@
 #import <oak/debug.h>
 #import <text/utf8.h>
 
-// The kVK_ virtual key codes below live in HIToolbox, which is only reachable through the Carbon
-// umbrella, since its subframework headers cannot be included on their own. This is a header
-// dependency and not a link one: nothing here calls into Carbon, so the ns target still links Cocoa
-// and nothing else.
-#import <Carbon/Carbon.h>
+#import "virtual_key_codes.h"
 
 NSString* to_ns (std::string const& str)
 {

@@ -1,9 +1,6 @@
 #import <ns/ns.h>
 
-// The kVK_ virtual key codes live in HIToolbox, only reachable through the
-// Carbon umbrella. Like ns.mm itself, this is a compile-time dependency and
-// not a link one.
-#import <Carbon/Carbon.h>
+#import <ns/virtual_key_codes.h>
 
 // to_s(NSEvent) reads only the key code and the modifier flags, then asks the
 // system to translate the key code through the active keyboard layout. Letter
