@@ -12,6 +12,7 @@
 @property (nonatomic) NSString*                     contactName;
 @property (nonatomic) NSString*                     contactEmail;
 @property (nonatomic) NSURL*                        downloadURL;
+@property (nonatomic) NSString*                     downloadSignature; // base64 Ed25519 over the tarball bytes
 @property (nonatomic) NSDate*                       downloadLastUpdated;
 @property (nonatomic) NSInteger                     downloadSize;
 @property (nonatomic, getter = isMandatory)   BOOL  mandatory;

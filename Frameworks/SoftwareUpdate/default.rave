@@ -1,5 +1,5 @@
 target "${dirname}" {
-	require OakAppKit
+	require OakAppKit network
 	headers src/*.h
 
 	sources src/*.mm
