@@ -21,8 +21,14 @@ target "${dirname}" {
 	add MD_FLAGS    "-h'${HTML_HEADER}' -f'${HTML_FOOTER}'"
 	add CS_FLAGS    "--entitlements '${CS_ENTITLEMENTS}'"
 
+	# Sparkle is a vendored prebuilt framework: compiled against, embedded into the application, and
+	# found at run time through the rpath.
+	add FLAGS    "-Fvendor/Sparkle"
+	add LN_FLAGS "-Fvendor/Sparkle -framework Sparkle -Wl,-rpath,@executable_path/../Frameworks"
+
 	prefix "${target}.app/Contents"
 
+	copy  ../../vendor/Sparkle/Sparkle.framework "Frameworks"
 	files resources/* icons/*.icns @PrivilegedTool "Resources"
 	files @mate @tm_query    "MacOS"
 	files about/*            "Resources/About"

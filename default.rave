@@ -22,7 +22,13 @@ add AC_FLAGS      "--minimum-deployment-target=${APP_MIN_OS} --platform=macosx"
 
 set CS_FLAGS      "--force --options runtime"
 
-set PLIST_FLAGS   "-dTARGET_NAME='${target}' -dAPP_MIN_OS='${APP_MIN_OS}'"
+# Sparkle: where the application looks for its update feed, and the Ed25519 public key updates must
+# be signed with. Local development overrides both in local.rave, pointing the feed at the stand-in
+# server on localhost and the key at a development keypair.
+set SU_FEED_URL      "https://api.textmate.org/appcast.xml"
+set SU_PUBLIC_ED_KEY ""
+
+set PLIST_FLAGS   "-dTARGET_NAME='${target}' -dAPP_MIN_OS='${APP_MIN_OS}' -dSU_FEED_URL='${SU_FEED_URL}' -dSU_PUBLIC_ED_KEY='${SU_PUBLIC_ED_KEY}'"
 
 prelude Shared/PCH/prelude.*
 libraries c++

@@ -23,7 +23,7 @@
 #import <Preferences/Keys.h>
 #import <Preferences/Preferences.h>
 #import <Preferences/TerminalPreferences.h>
-#import <SoftwareUpdate/SoftwareUpdate.h>
+#import <Sparkle/Sparkle.h>
 #import <document/OakDocument.h>
 #import <document/OakDocumentController.h>
 #import <bundles/query.h>
@@ -89,9 +89,20 @@ BOOL HasDocumentWindow (NSArray* windows)
 @interface AppController () <OakUserDefaultsObserver>
 @property (nonatomic) BOOL didFinishLaunching;
 @property (nonatomic) BOOL keyWindowHasBackAndForwardActions;
+@property (nonatomic) SPUStandardUpdaterController* updaterController;
 @end
 
 @implementation AppController
+// Sparkle checks for application updates: the feed is the SUFeedURL in Info.plist and updates verify
+// against the SUPublicEDKey beside it. Starting the updater here rather than at launch time keeps it
+// alive from the first moment the menu that targets it exists.
+- (SPUStandardUpdaterController*)updaterController
+{
+	if(!_updaterController)
+		_updaterController = [[SPUStandardUpdaterController alloc] initWithStartingUpdater:YES updaterDelegate:nil userDriverDelegate:nil];
+	return _updaterController;
+}
+
 - (NSMenu*)mainMenu
 {
 	MBMenu const items = {
@@ -100,8 +111,7 @@ BOOL HasDocumentWindow (NSArray* windows)
 				{ @"About TextMate",        @selector(orderFrontAboutPanel:)               },
 				{ /* -------- */ },
 				{ @"Preferences…",          @selector(showPreferences:),            @","   },
-				{ @"Check for Update",      @selector(performSoftwareUpdateCheck:)         },
-				{ @"Check for Test Build",  @selector(performSoftwareUpdateCheck:),       .modifierFlags = NSEventModifierFlagCommand|NSEventModifierFlagOption, .alternate = YES },
+				{ @"Check for Update…",     @selector(checkForUpdates:), .target = self.updaterController },
 				{ /* -------- */ },
 				{ @"Services",              .systemMenu = MBMenuTypeServices               },
 				{ /* -------- */ },
@@ -485,15 +495,6 @@ BOOL HasDocumentWindow (NSArray* windows)
 	if(NSMenu* menu = [self mainMenu])
 		NSApp.mainMenu = menu;
 
-	NSOperatingSystemVersion osVersion = NSProcessInfo.processInfo.operatingSystemVersion;
-	NSString* parms = [NSString stringWithFormat:@"v=%@&os=%ld.%ld.%ld", [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet], osVersion.majorVersion, osVersion.minorVersion, osVersion.patchVersion];
-
-	SoftwareUpdate.sharedInstance.channels = @{
-		kSoftwareUpdateChannelRelease:    [NSURL URLWithString:[NSString stringWithFormat:@"" REST_API "/releases/release?%@", parms]],
-		kSoftwareUpdateChannelPrerelease: [NSURL URLWithString:[NSString stringWithFormat:@"" REST_API "/releases/beta?%@", parms]],
-		kSoftwareUpdateChannelCanary:     [NSURL URLWithString:[NSString stringWithFormat:@"" REST_API "/releases/nightly?%@", parms]],
-	};
-
 	settings_t::set_default_settings_path([[[NSBundle mainBundle] pathForResource:@"Default" ofType:@"tmProperties"] fileSystemRepresentation]);
 	settings_t::set_global_settings_path(path::join(path::home(), "Library/Application Support/TextMate/Global.tmProperties"));
 
@@ -703,11 +704,6 @@ BOOL HasDocumentWindow (NSArray* windows)
 {
 	[goToLinePanel orderOut:self];
 	[NSApp sendAction:@selector(selectAndCenter:) to:nil from:[goToLineTextField stringValue]];
-}
-
-- (IBAction)performSoftwareUpdateCheck:(id)sender
-{
-	[SoftwareUpdate.sharedInstance checkForUpdate:self];
 }
 
 - (IBAction)showPreferences:(id)sender

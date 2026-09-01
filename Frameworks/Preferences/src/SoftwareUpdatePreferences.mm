@@ -2,9 +2,14 @@
 #import "Keys.h"
 #import <OakAppKit/NSImage Additions.h>
 #import <OakAppKit/OakUIConstructionFunctions.h>
-#import <OakFoundation/OakStringListTransformer.h>
-#import <SoftwareUpdate/SoftwareUpdate.h>
 #import <MenuBuilder/MenuBuilder.h>
+
+// Sparkle reads these user defaults, so the pane binds straight to them and no reference to the
+// updater object is needed here. The check itself is a nil-target action that travels the responder
+// chain to the updater controller.
+static NSString* const kSparkleEnableAutomaticChecksKey = @"SUEnableAutomaticChecks";
+static NSString* const kSparkleAutomaticallyUpdateKey   = @"SUAutomaticallyUpdate";
+static NSString* const kSparkleLastCheckTimeKey         = @"SULastCheckTime";
 
 @interface SoftwareUpdatePreferences ()
 {
@@ -15,25 +20,21 @@
 @end
 
 @implementation SoftwareUpdatePreferences
-+ (NSSet*)keyPathsForValuesAffectingLastCheckDescription { return [NSSet setWithObjects:@"softwareUpdateController.checking", @"softwareUpdateController.errorString", @"relativeStringForLastCheck", nil]; }
++ (NSSet*)keyPathsForValuesAffectingLastCheckDescription { return [NSSet setWithObjects:@"relativeStringForLastCheck", nil]; }
 
 - (id)init
 {
-	if(self = [super initWithNibName:nil label:@"Software Update" image:[NSImage imageNamed:@"Software Update" inSameBundleAsClass:[self class]]])
-	{
-		[OakStringListTransformer createTransformerWithName:@"OakSoftwareUpdateChannelTransformer" andObjectsArray:@[ kSoftwareUpdateChannelRelease, kSoftwareUpdateChannelPrerelease ]];
-	}
-	return self;
-}
-
-- (SoftwareUpdate*)softwareUpdateController
-{
-	return SoftwareUpdate.sharedInstance;
+	return self = [super initWithNibName:nil label:@"Software Update" image:[NSImage imageNamed:@"Software Update" inSameBundleAsClass:[self class]]];
 }
 
 - (NSString*)lastCheckDescription
 {
-	return self.softwareUpdateController.isChecking ? @"Checking…" : (self.softwareUpdateController.errorString ?: _relativeStringForLastCheck ?: @"Never");
+	return _relativeStringForLastCheck ?: @"Never";
+}
+
+- (void)performUpdateCheck:(id)sender
+{
+	[NSApp sendAction:@selector(checkForUpdates:) to:nil from:sender];
 }
 
 - (NSString*)relativeStringForDate:(NSDate*)date
@@ -47,14 +48,14 @@
 - (void)viewWillAppear
 {
 	_relativeDateUserDefaultsObserver = [NSNotificationCenter.defaultCenter addObserverForName:NSUserDefaultsDidChangeNotification object:NSUserDefaults.standardUserDefaults queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification* notification){
-		self.relativeStringForLastCheck = [self relativeStringForDate:[NSUserDefaults.standardUserDefaults objectForKey:kUserDefaultsLastSoftwareUpdateCheckKey]];
+		self.relativeStringForLastCheck = [self relativeStringForDate:[NSUserDefaults.standardUserDefaults objectForKey:kSparkleLastCheckTimeKey]];
 	}];
 
 	_relativeDateUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:60 repeats:YES block:^(NSTimer* timer){
-		self.relativeStringForLastCheck = [self relativeStringForDate:[NSUserDefaults.standardUserDefaults objectForKey:kUserDefaultsLastSoftwareUpdateCheckKey]];
+		self.relativeStringForLastCheck = [self relativeStringForDate:[NSUserDefaults.standardUserDefaults objectForKey:kSparkleLastCheckTimeKey]];
 	}];
 
-	self.relativeStringForLastCheck = [self relativeStringForDate:[NSUserDefaults.standardUserDefaults objectForKey:kUserDefaultsLastSoftwareUpdateCheckKey]];
+	self.relativeStringForLastCheck = [self relativeStringForDate:[NSUserDefaults.standardUserDefaults objectForKey:kSparkleLastCheckTimeKey]];
 }
 
 - (void)viewDidDisappear
@@ -65,15 +66,11 @@
 
 - (void)loadView
 {
-	NSButton* watchForUpdatesCheckBox      = OakCreateCheckBox(@"Watch for:");
-	NSPopUpButton* updateChannelPopUp      = OakCreatePopUpButton();
+	NSButton* watchForUpdatesCheckBox      = OakCreateCheckBox(@"Check for updates automatically");
 	NSButton* askBeforeDownloadingCheckBox = OakCreateCheckBox(@"Ask before downloading updates");
 
-	NSStackView* watchForStackView = [NSStackView stackViewWithViews:@[ watchForUpdatesCheckBox, updateChannelPopUp ]];
-	watchForStackView.alignment = NSLayoutAttributeFirstBaseline;
-
 	NSTextField* lastCheckTextField        = OakCreateLabel(@"Some time ago");
-	NSButton* checkNowButton               = [NSButton buttonWithTitle:@"Check Now" target:self.softwareUpdateController action:@selector(checkForUpdate:)];
+	NSButton* checkNowButton               = [NSButton buttonWithTitle:@"Check Now" target:self action:@selector(performUpdateCheck:)];
 
 	NSButton* submitCrashReportsCheckBox   = OakCreateCheckBox(@"Submit to MacroMates");
 
@@ -90,14 +87,8 @@
 	contactStackView.edgeInsets = { .left = 18 };
 	[contactStackView setHuggingPriority:NSLayoutPriorityDefaultHigh-1 forOrientation:NSLayoutConstraintOrientationVertical];
 
-	MBMenu const updateChannelMenuItems = {
-		{ @"Normal releases", .tag = 0 },
-		{ @"Prereleases",     .tag = 1 },
-	};
-	MBCreateMenu(updateChannelMenuItems, updateChannelPopUp.menu);
-
 	NSGridView* gridView = [NSGridView gridViewWithViews:@[
-		@[ OakCreateLabel(@"Software update:"),        watchForStackView                 ],
+		@[ OakCreateLabel(@"Software update:"),        watchForUpdatesCheckBox           ],
 		@[ NSGridCell.emptyContentView,                askBeforeDownloadingCheckBox      ],
 		@[ ],
 		@[ OakCreateLabel(@"Last check:"),             lastCheckTextField                ],
@@ -107,20 +98,17 @@
 		@[ NSGridCell.emptyContentView,                contactStackView                  ],
 	]];
 
-	[contactTextField.trailingAnchor constraintEqualToAnchor:updateChannelPopUp.trailingAnchor].active = YES;
+	[contactTextField.trailingAnchor constraintEqualToAnchor:askBeforeDownloadingCheckBox.trailingAnchor].active = YES;
 
 	self.view = OakSetupGridViewWithSeparators(gridView, { 2, 5 });
 
-	[watchForUpdatesCheckBox      bind:NSValueBinding       toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kUserDefaultsDisableSoftwareUpdateKey]   options:@{ NSValueTransformerNameBindingOption: NSNegateBooleanTransformerName }];
-	[updateChannelPopUp           bind:NSSelectedTagBinding toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kUserDefaultsSoftwareUpdateChannelKey]   options:@{ NSValueTransformerNameBindingOption: @"OakSoftwareUpdateChannelTransformer" }];
-	[askBeforeDownloadingCheckBox bind:NSValueBinding       toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kUserDefaultsAskBeforeUpdatingKey]       options:nil];
-	[lastCheckTextField           bind:NSValueBinding       toObject:self                                                  withKeyPath:@"lastCheckDescription"                                                           options:nil];
-	[submitCrashReportsCheckBox   bind:NSValueBinding       toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kUserDefaultsDisableCrashReportingKey]   options:@{ NSValueTransformerNameBindingOption: NSNegateBooleanTransformerName }];
-	[contactTextField             bind:NSValueBinding       toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kUserDefaultsCrashReportsContactInfoKey] options:nil];
+	[watchForUpdatesCheckBox      bind:NSValueBinding   toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kSparkleEnableAutomaticChecksKey]            options:nil];
+	[askBeforeDownloadingCheckBox bind:NSValueBinding   toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kSparkleAutomaticallyUpdateKey]              options:@{ NSValueTransformerNameBindingOption: NSNegateBooleanTransformerName }];
+	[lastCheckTextField           bind:NSValueBinding   toObject:self                                                  withKeyPath:@"lastCheckDescription"                                                              options:nil];
+	[submitCrashReportsCheckBox   bind:NSValueBinding   toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kUserDefaultsDisableCrashReportingKey]       options:@{ NSValueTransformerNameBindingOption: NSNegateBooleanTransformerName }];
+	[contactTextField             bind:NSValueBinding   toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kUserDefaultsCrashReportsContactInfoKey]     options:nil];
 
-	[updateChannelPopUp           bind:NSEnabledBinding     toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kUserDefaultsDisableSoftwareUpdateKey]   options:@{ NSValueTransformerNameBindingOption: NSNegateBooleanTransformerName }];
-	[askBeforeDownloadingCheckBox bind:NSEnabledBinding     toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kUserDefaultsDisableSoftwareUpdateKey]   options:@{ NSValueTransformerNameBindingOption: NSNegateBooleanTransformerName }];
-	[checkNowButton               bind:NSEnabledBinding     toObject:self.softwareUpdateController                         withKeyPath:@"checking"                                                                       options:@{ NSValueTransformerNameBindingOption: NSNegateBooleanTransformerName }];
-	[contactTextField             bind:NSEnabledBinding     toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kUserDefaultsDisableCrashReportingKey]   options:@{ NSValueTransformerNameBindingOption: NSNegateBooleanTransformerName }];
+	[askBeforeDownloadingCheckBox bind:NSEnabledBinding toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kSparkleEnableAutomaticChecksKey]            options:nil];
+	[contactTextField             bind:NSEnabledBinding toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kUserDefaultsDisableCrashReportingKey]       options:@{ NSValueTransformerNameBindingOption: NSNegateBooleanTransformerName }];
 }
 @end
