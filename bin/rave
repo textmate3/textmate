@@ -1292,22 +1292,17 @@ module Target
             dependencies: signature(archs, targets),
           }
 
-          rules << { user: args[0], pass: args[1], bundle: args[2] }.merge(
+          # notarytool submits and waits in one call, and its credentials come
+          # from a keychain profile created once with
+          # ‘xcrun notarytool store-credentials’, so the rave ‘notarize’
+          # command takes the profile name as its only argument.
+          rules << { profile: args[0] }.merge(
             name:        'NotarizeSubmit',
             in:          rules.last[:out],
-            out:         "#{guardfile}-submit.xml",
-            command:     'xcrun altool --notarize-app > $out~ -u "$user" -p "$pass" --output-format xml -f $in --primary-bundle-id "$bundle" -t osx && mv $out~ $out',
-            description: 'Submit ‘${in}’ for notarization…',
-          )
-
-          rules << { user: args[0], pass: args[1] }.merge(
-            name:         'NotarizeStatus',
-            in:           rules.last[:out],
-            out:          "#{guardfile}-status.xml",
-            command:      "#{__dir__}/notarize_await \"xcrun altool --notarization-info '$(plutil -extract notarization-upload.RequestUUID xml1 -o - $in|sed -n 's/.*<string>\\(.*\\)<\\/string>.*/\\1/p')' -u '$user' -p '$pass' --output-format xml\" > $out~ && mv $out~ $out",
-            description:  'Waiting for notarization…',
-            dependencies: "#{__dir__}/notarize_await",
-            pool:         'console',
+            out:         "#{guardfile}-submission.plist",
+            command:     'xcrun notarytool submit $in --keychain-profile "$profile" --wait --output-format plist > $out~ && plutil -extract status raw -o - $out~ | grep -qx Accepted && mv $out~ $out',
+            description: 'Notarize ‘${in}’…',
+            pool:        'console',
           )
 
           if application
