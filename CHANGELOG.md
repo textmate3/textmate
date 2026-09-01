@@ -13,7 +13,7 @@ Ordering: newest first within each section, like a feed.
 
 ## [Unreleased]
 
-Target: **3.0.0**.
+Target: **2.1.0**, the first release of the project. Version 3.0.0 is the eventual milestone, not the next release.
 
 ### Added
 - Automated key event tests in the `ns` suite, `tests/t_event.mm`, replacing what the deleted `gui_key_events.mm` demo let a human eyeball. They construct synthetic `NSEvent`s and assert the exact event strings `to_s` produces, covering the modifier symbol ordering, the literal-shift rule for non-ASCII keys, and the numeric keypad flag in both modes. Every case uses a key whose translation is identical on all keyboard layouts, because the letter keys go through the active layout and would make the expectations machine-dependent.
