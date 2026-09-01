@@ -9,8 +9,6 @@
 #import <Security/Security.h>
 #import <ServiceManagement/ServiceManagement.h>
 
-#import <machine/byte_order.h>
-
 #import <os/activity.h>
 #import <os/log.h>
 

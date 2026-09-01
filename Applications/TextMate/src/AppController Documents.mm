@@ -1,6 +1,5 @@
 #import "AppController.h"
 #import <DocumentWindow/DocumentWindowController.h>
-#import "ODBEditorSuite.h"
 #import <Preferences/Keys.h>
 #import <OakAppKit/NSSavePanel Additions.h>
 #import <OakFoundation/NSString Additions.h>
@@ -48,15 +47,13 @@
 
 - (BOOL)application:(NSApplication*)theApplication openFile:(NSString*)aPath
 {
-	if(!DidHandleODBEditorEvent([[NSAppleEventManager.sharedAppleEventManager currentAppleEvent] aeDesc]))
-		OakOpenDocuments(@[ aPath ]);
+	OakOpenDocuments(@[ aPath ]);
 	return YES;
 }
 
 - (void)application:(NSApplication*)sender openFiles:(NSArray*)filenames
 {
-	if(!DidHandleODBEditorEvent([[NSAppleEventManager.sharedAppleEventManager currentAppleEvent] aeDesc]))
-		OakOpenDocuments(filenames);
+	OakOpenDocuments(filenames);
 	[sender replyToOpenOrPrint:NSApplicationDelegateReplySuccess];
 }
 

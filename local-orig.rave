@@ -11,12 +11,11 @@ extend pretty_plist {
 }
 
 config debug {
-	capture BUILD_ARCH "uname -m"
-	add LN_FLAGS "-L${HOME}/.nix-profile/sdk/${BUILD_ARCH}/lib"
+	add LN_FLAGS "-L${HOME}/.nix-profile/sdk/arm64/lib"
 }
 
 config release {
-	arch "arm64" "x86_64" {
+	arch "arm64" {
 		add FLAGS    "-target macos-${arch}"
 		add LN_FLAGS "-target macos-${arch}"
 		add LN_FLAGS "-L${HOME}/.nix-profile/sdk/${arch}/lib"
