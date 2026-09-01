@@ -2,6 +2,5 @@
 #define NETWORK_H_L3XXH7J6
 
 #include "ed25519.h"
-#include "tbz.h"
 
 #endif /* end of include guard: NETWORK_H_L3XXH7J6 */

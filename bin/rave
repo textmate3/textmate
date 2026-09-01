@@ -731,38 +731,6 @@ class CompileMarkdown < Compiler
   end
 end
 
-class CreateBundlesArchive < Compiler
-  transforms '.tbz.bl' => '.tbz'
-
-  def transform(file, config, builddir)
-    bundles = {
-      name:        "DownloadBundles",
-      in:          file,
-      out:         File.join(builddir, "_#{self.class}", File.dirname(file), 'Managed'),
-      command:     "$bl -C $out install $(<$in) && touch $out",
-      description: 'Download bundles…',
-      pool:        'console',
-      bl:          "#{builddir}/Applications/bl/bl",
-      order_only:  "#{builddir}/Applications/bl/bl",
-    }
-
-    flags = [ '--disable-copyfile' ]
-    if pbzip2 = ENV['PATH'].split(':').map { |path| File.join(path, 'pbzip2') }.find { |path| File.exist?(path) }
-      flags << "--use-compress-prog=#{pbzip2.shellescape}"
-    else
-      flags << '-j'
-    end
-
-    super.merge(
-      before:      [ bundles ],
-      in:          bundles[:out],
-      flags:       flags.join(' '),
-      command:     '/usr/bin/tar $flags -cf $out~ -C $(dirname $in) $(basename $in) && mv $out~ $out',
-      description: 'Archive ‘${in}’…',
-    )
-  end
-end
-
 # ==========
 # = Target =
 # ==========

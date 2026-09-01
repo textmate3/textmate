@@ -1,6 +1,6 @@
 target "${dirname}" {
 	require text cf io
-	headers src/{ed25519,network,tbz}.h
+	headers src/{ed25519,network}.h
 	sources src/*.cc
 	tests tests/*.cc
 	frameworks Security
