@@ -103,6 +103,13 @@ BOOL HasDocumentWindow (NSArray* windows)
 	return _updaterController;
 }
 
+// The Check Now button in the Software Update preferences sends this as a nil-target action, and the
+// application delegate is the place in the responder chain that knows the updater.
+- (IBAction)checkForUpdates:(id)sender
+{
+	[self.updaterController checkForUpdates:sender];
+}
+
 - (NSMenu*)mainMenu
 {
 	MBMenu const items = {
