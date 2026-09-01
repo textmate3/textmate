@@ -1,0 +1,72 @@
+#!/usr/bin/env ruby
+# script/update_seed_bundles — refresh the built-in seed bundles.
+#
+# The application ships a minimal set of bundles in Resources/SeedBundles so a
+# first launch with no network still feels like TextMate: themes, the core
+# grammars, and the support code the bundle system requires. Everything else
+# arrives from the catalog. The archives here are committed to the repository,
+# so the build has no dependency outside its own tree; run this script after
+# meaningful changes to any seed bundle, then commit the result.
+#
+# Reads from ../api.textmate3.com/tarballs, the same prebuilt archives the
+# development catalog serves, and repacks each with its proper display name as
+# the top level directory, so first launch extraction needs nothing but tar.
+
+require "fileutils"
+require "tmpdir"
+
+SEED_BUNDLES = %w[
+  bundle-support.tmbundle
+  html.tmbundle
+  javascript.tmbundle
+  json.tmbundle
+  markdown.tmbundle
+  property-list.tmbundle
+  ruby-on-rails-tmbundle
+  ruby.tmbundle
+  source.tmbundle
+  text.tmbundle
+  themes.tmbundle
+  xml.tmbundle
+  yaml.tmbundle
+]
+
+repository_root = File.expand_path("..", __dir__)
+tarballs_root   = File.expand_path("../api.textmate3.com/tarballs", repository_root)
+destination     = File.join(repository_root, "Applications/TextMate/resources/SeedBundles")
+
+abort "No tarballs at #{tarballs_root}. Run script/build in ../api.textmate3.com first." unless File.directory?(tarballs_root)
+
+FileUtils.mkdir_p(destination)
+Dir.children(destination).each { FileUtils.rm(File.join(destination, it)) }
+
+SEED_BUNDLES.each do |directory_name|
+  source = File.join(tarballs_root, "#{directory_name}.tbz")
+  abort "Missing tarball: #{source}" unless File.exist?(source)
+
+  Dir.mktmpdir do |workspace|
+    system("/usr/bin/tar", "-xjf", source, "-C", workspace) or abort "Extraction failed: #{source}"
+
+    extracted = Dir.children(workspace)
+    abort "Expected one top level directory in #{source}, found: #{extracted.join(", ")}" unless extracted.size == 1
+
+    info_plist = File.join(workspace, extracted.first, "info.plist")
+    display_name = `plutil -extract name raw '#{info_plist}'`.strip
+    abort "No bundle name in #{info_plist}" if display_name.empty?
+
+    proper_directory = "#{display_name}.tmbundle"
+    if extracted.first != proper_directory
+      # Two renames, because a case-only rename like html.tmbundle to
+      # HTML.tmbundle targets the same directory on a case-insensitive volume.
+      interim = File.join(workspace, "renaming.tmp")
+      File.rename(File.join(workspace, extracted.first), interim)
+      File.rename(interim, File.join(workspace, proper_directory))
+    end
+
+    output = File.join(destination, "#{proper_directory}.tbz")
+    system("/usr/bin/tar", "-cjf", output, "-C", workspace, proper_directory) or abort "Repack failed: #{output}"
+    puts "  seeded  #{proper_directory}"
+  end
+end
+
+puts "#{SEED_BUNDLES.size} seed bundles written to #{destination}"

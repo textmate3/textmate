@@ -512,6 +512,33 @@ BOOL HasDocumentWindow (NSArray* windows)
 
 	[TMPlugInController.sharedInstance loadAllPlugIns:nil];
 
+	// A first launch extracts the seed bundles from Resources/SeedBundles, a
+	// minimal set so the application works before the catalog is reachable:
+	// themes, the core grammars, and the bundle support code. The catalog
+	// installs everything else and keeps these updated once it is reachable.
+	std::string const managedDirectory = path::join(path::home(), "Library/Application Support/TextMate/Managed");
+	if(!path::exists(managedDirectory))
+	{
+		std::string const bundlesDirectory = path::join(managedDirectory, "Bundles");
+		path::make_dir(bundlesDirectory);
+
+		for(NSURL* url in [NSBundle.mainBundle URLsForResourcesWithExtension:@"tbz" subdirectory:@"SeedBundles"])
+		{
+			NSTask* task = [[NSTask alloc] init];
+			task.executableURL = [NSURL fileURLWithPath:@"/usr/bin/tar"];
+			task.arguments = @[ @"-xjf", url.path, @"-C", [NSString stringWithCxxString:bundlesDirectory] ];
+
+			NSError* error;
+			if([task launchAndReturnError:&error])
+				[task waitUntilExit];
+			else
+				os_log_error(OS_LOG_DEFAULT, "Failed to launch tar for %{public}@: %{public}@", url.lastPathComponent, error.localizedDescription);
+
+			if(task.terminationStatus != 0)
+				os_log_error(OS_LOG_DEFAULT, "Seed bundle extraction exited %d for %{public}@", task.terminationStatus, url.lastPathComponent);
+		}
+	}
+
 	[BundlesManager.sharedInstance loadBundlesIndex];
 
 	if(BOOL restoreSession = ![NSUserDefaults.standardUserDefaults boolForKey:kUserDefaultsDisableSessionRestoreKey])
