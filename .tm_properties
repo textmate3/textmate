@@ -37,7 +37,3 @@ TM_NINJA_TARGET = '${TM_DIRECTORY/^.*\/Applications\/([^\/]+)(\/.*)?$/$1\/run/}'
 
 [ tests/t_*.{cc,mm} ]
 TM_NINJA_TARGET  = '${TM_FILEPATH/^.*?([^\/]*)\/tests\/.*$/$1\/test/}'
-
-[ tests/gui_*.mm ]
-GUI_TESTS        = '${TM_FILENAME/^gui_(.*)\.mm$/$1/}'
-TM_NINJA_TARGET  = '${TM_FILEPATH/^.*?([^\/]*)\/tests\/.*$/$1\/cxx_test/}'

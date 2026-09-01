@@ -133,7 +133,7 @@ class Parser
       command, args = line
 
       inputs = nil
-      if [ :prelude, :sources, :headers, :tests, :cxx_tests ].include?(command)
+      if [ :prelude, :sources, :headers, :tests ].include?(command)
         inputs, args = args, []
       elsif [ :files, :copy ].include?(command)
         args, inputs = args.partition { |e| e.start_with?('@') }
@@ -302,7 +302,7 @@ class Parser
             when :define
               target[command] ||= []
               target[command] << args
-            when :require, :require_headers, :prelude, :headers, :sources, :tests, :cxx_tests, :frameworks
+            when :require, :require_headers, :prelude, :headers, :sources, :tests, :frameworks
               target[command] ||= []
               target[command] += args
             when :libraries
