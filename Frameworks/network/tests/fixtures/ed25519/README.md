@@ -9,13 +9,9 @@ Used by `../../t_check_signature.cc` and `../../t_ed25519.cc`.
 | `signature.base64`        | base64 of the 64 byte signature over that payload      |
 | `other_public_key.base64` | a second key pair's public half, which must NOT verify |
 
-The public keys are the raw 32 byte form, the same format Sparkle uses for `SUPublicEDKey`, and
-the form `SecKeyCreateWithData` accepts for the Ed25519 key type. The subject public key info
-form is rejected by that call, which is why the recipe below strips the 12 byte DER header with
-`tail -c 32`.
+The public keys are the raw 32 byte form, the same format Sparkle uses for `SUPublicEDKey`, and the form `SecKeyCreateWithData` accepts for the Ed25519 key type. The subject public key info form is rejected by that call, which is why the recipe below strips the 12 byte DER header with `tail -c 32`.
 
-The private keys are deliberately absent. Tests only need the public halves, and committing a
-private key invites secret scanners to flag the repository for no benefit.
+The private keys are deliberately absent. Tests only need the public halves, and committing a private key invites secret scanners to flag the repository for no benefit.
 
 To regenerate everything, including fresh key pairs:
 
