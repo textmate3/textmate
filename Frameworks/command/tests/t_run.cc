@@ -124,42 +124,20 @@ void test_new_document ()
 	OAK_ASSERT_EQ(res->rc, 0);
 }
 
-// Both test_html_success and test_html_error are skipped: command::runner_t
-// has a race in its subprocess + CFRunLoopRun machinery on macOS 26 that
-// affects BOTH the rc=0 and rc=1 completion paths.
-//
-//   - rc=0 path (test_html_success): `_err` sometimes arrives empty at
-//     completion time, so stderr lines are dropped from the HTML output
-//     (runner.mm:347-348).
-//   - rc=1 path (test_html_error): wait_for_command() sometimes spins forever
-//     in CFRunLoopRun, never receiving the subprocess-exit notification.
-//     Intermittent — only happens on some runs of the full suite.
-//
-// Both fail or hang the test binary, which is why they're skipped here to
-// keep ./script/test reliable. Re-enable by removing OAK_WARN + return and
-// unwrapping the /* */ in each.
 void test_html_success ()
 {
-	OAK_WARN("Skipping test_html_success: command runner subprocess race (see comment above)");
-	return;
-/*
 	delegate_ptr res = run_command("echo >&2 Error && echo Hello && true", "showAsHTML");
 	OAK_ASSERT_EQ(res->html, "Hello\nError\n");
 	OAK_ASSERT_EQ(res->out, "");
 	OAK_ASSERT_EQ(res->err, "");
 	OAK_ASSERT_EQ(res->rc, 0);
-*/
 }
 
 void test_html_error ()
 {
-	OAK_WARN("Skipping test_html_error: command runner subprocess race (see comment above)");
-	return;
-/*
 	delegate_ptr res = run_command("echo >&2 Error && echo Hello && exit 1", "showAsHTML");
 	OAK_ASSERT_EQ(res->html, "Hello\n");
 	OAK_ASSERT_EQ(res->out, "");
 	OAK_ASSERT_EQ(res->err, "Error\n");
 	OAK_ASSERT_EQ(res->rc, 1);
-*/
 }

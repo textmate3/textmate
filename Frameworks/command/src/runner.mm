@@ -284,16 +284,26 @@ namespace command
 
 		if(_did_detach)
 		{
+			// The flag must flip on the run loop itself, not on the notify's
+			// queue thread. The completion handler is a block already queued on
+			// this run loop, and run loop blocks execute in order, so queueing
+			// the flip after it guarantees did_exit has run, and with it the
+			// standard error flush to the HTML output, before the wait ends.
+			// The old CFRunLoopStop from another thread could stop the loop
+			// before the queued completion ran, or arrive before the loop
+			// started and be lost, leaving this wait spinning forever.
 			__block bool shouldWait = true;
 			CFRunLoopRef runLoop = CFRunLoopGetCurrent();
 
 			dispatch_group_notify(_dispatch_group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-				shouldWait = false;
-				CFRunLoopStop(runLoop);
+				CFRunLoopPerformBlock(runLoop, kCFRunLoopCommonModes, ^{
+					shouldWait = false;
+				});
+				CFRunLoopWakeUp(runLoop);
 			});
 
 			while(shouldWait)
-				CFRunLoopRun();
+				CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1, true);
 		}
 		else
 		{
