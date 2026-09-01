@@ -32,6 +32,7 @@ static NSString* SafeBasename (NSString* name)
 @interface BundlesManager () <OakUserDefaultsObserver>
 {
 	NSBackgroundActivityScheduler* _updateBundleIndexScheduler;
+	NSMutableArray* _pendingIndexUpdateCallbacks;
 
 	std::vector<std::string> bundlesPaths;
 	std::string bundlesIndexPath;
@@ -125,8 +126,28 @@ static NSString* SafeBasename (NSString* name)
 	}
 }
 
+- (void)finishBundleIndexUpdate:(BOOL)wasUpdated
+{
+	NSArray* callbacks = _pendingIndexUpdateCallbacks;
+	_pendingIndexUpdateCallbacks = nil;
+	for(void(^callback)(BOOL) in callbacks)
+		callback(wasUpdated);
+}
+
 - (void)tryUpdateBundleIndexAndCallback:(void(^)(BOOL wasUpdated))completionHandler
 {
+	// One update cycle at a time. At launch the background scheduler's first
+	// fire can land at the same moment as the immediate fetch, and two
+	// overlapping cycles race two install waves over the same Bundle objects.
+	// Callers arriving while a cycle runs get its result instead of a second
+	// download. Main thread confined, which is where every caller ends up.
+	if(!NSThread.isMainThread)
+		return dispatch_async(dispatch_get_main_queue(), ^{ [self tryUpdateBundleIndexAndCallback:completionHandler]; });
+
+	if(_pendingIndexUpdateCallbacks)
+		return [_pendingIndexUpdateCallbacks addObject:[completionHandler copy]];
+	_pendingIndexUpdateCallbacks = [NSMutableArray arrayWithObject:[completionHandler copy]];
+
 	[OakDownloadManager.sharedInstance downloadFileAtURL:_remoteIndexURL replacingFileAtURL:[NSURL fileURLWithPath:_remoteIndexPath] detachedSignatureURL:[_remoteIndexURL URLByAppendingPathExtension:@"sig"] publicKey:@BUNDLE_PUBLIC_ED_KEY completionHandler:^(BOOL wasUpdated, NSError* error){
 		path::set_attr(_remoteIndexPath.fileSystemRepresentation, "last-check", to_s(oak::date_t::now()));
 		if(!error)
@@ -143,12 +164,12 @@ static NSString* SafeBasename (NSString* name)
 					[self installBundles:bundlesToUpdate completionHandler:^(NSArray<Bundle*>* updatedBundles){
 						for(Bundle* bundle in updatedBundles)
 							os_log(OS_LOG_DEFAULT, "%{public}@ bundle updated: %{public}@", bundle.name, bundle.path);
-						completionHandler(wasUpdated);
+						[self finishBundleIndexUpdate:wasUpdated];
 					}];
 				}
 				else
 				{
-					completionHandler(wasUpdated);
+					[self finishBundleIndexUpdate:wasUpdated];
 				}
 			});
 		}
@@ -156,7 +177,9 @@ static NSString* SafeBasename (NSString* name)
 		{
 			if(error)
 				os_log_error(OS_LOG_DEFAULT, "Failed to update bundle index: %{public}@", error.localizedDescription);
-			completionHandler(wasUpdated);
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[self finishBundleIndexUpdate:wasUpdated];
+			});
 		}
 	}];
 }
