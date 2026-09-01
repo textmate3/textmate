@@ -253,7 +253,20 @@ static NSString* SafeBasename (NSString* name)
 		dispatch_group_enter(group);
 
 		Bundle* bundle = bundles[i];
-		NSURL* destURL = [NSURL fileURLWithPath:bundle.path ?: [[bundlesDirectory stringByAppendingPathComponent:SafeBasename(bundle.name)] stringByAppendingPathExtension:@"tmbundle"] isDirectory:YES];
+
+		// The replacement below deletes whatever is at the destination, so a
+		// corrupt recorded path must never win over the derived one. A poisoned
+		// local index once resolved a bundle's path to the install directory
+		// itself, and installing that bundle deleted every installed bundle.
+		NSString* defaultDestinationPath = [[bundlesDirectory stringByAppendingPathComponent:SafeBasename(bundle.name)] stringByAppendingPathExtension:@"tmbundle"];
+		NSString* destinationPath = bundle.path ?: defaultDestinationPath;
+		if(![destinationPath hasPrefix:[bundlesDirectory stringByAppendingString:@"/"]] || [destinationPath.pathComponents containsObject:@".."])
+		{
+			os_log_error(OS_LOG_DEFAULT, "Refusing install destination %{public}@ outside %{public}@, using %{public}@ instead", destinationPath, bundlesDirectory, defaultDestinationPath);
+			destinationPath = defaultDestinationPath;
+		}
+
+		NSURL* destURL = [NSURL fileURLWithPath:destinationPath isDirectory:YES];
 		os_log(OS_LOG_DEFAULT, "Download %{public}@ as %{public}@", bundle.downloadURL, destURL.path);
 
 		[progress becomeCurrentWithPendingUnitCount:1];
@@ -639,11 +652,22 @@ namespace
 
 		for(NSDictionary* item in [[NSDictionary dictionaryWithContentsOfFile:localIndexPath] objectForKey:@"bundles"])
 		{
+			// A managed bundle lives under Bundles/. Any other recorded path is
+			// corruption, and treating it as installed would later hand it to
+			// the install machinery as a replacement destination. Skip it and
+			// let the disk scan or a reinstall recover the bundle.
+			NSString* relativePath = item[@"path"];
+			if(![relativePath isKindOfClass:NSString.class] || ![relativePath hasPrefix:@"Bundles/"] || [relativePath.pathComponents containsObject:@".."])
+			{
+				os_log_error(OS_LOG_DEFAULT, "Ignoring local index entry %{public}@ with path ‘%{public}@’", item[@"uuid"], relativePath);
+				continue;
+			}
+
 			NSUUID* identifier = [[NSUUID alloc] initWithUUIDString:item[@"uuid"]];
 			Bundle* bundle = res[identifier] ?: [[Bundle alloc] initWithIdentifier:identifier];
 
 			bundle.installed   = YES;
-			bundle.path        = [installDir stringByAppendingPathComponent:item[@"path"]];
+			bundle.path        = [installDir stringByAppendingPathComponent:relativePath];
 			bundle.category    = item[@"category"] ?: bundle.category ?: @"Discontinued";
 			bundle.lastUpdated = item[@"updated"];
 			bundle.dependency  = [item[@"isDependency"] boolValue];
@@ -730,9 +754,18 @@ namespace
 	NSMutableArray* bundles = [NSMutableArray array];
 	for(Bundle* bundle : [_bundles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isInstalled == YES AND path != NULL"]])
 	{
+		// Only paths under Bundles/ are written. Anything else would round-trip
+		// through the load guard as corruption, so refuse it at the source.
+		NSString* relativePath = [bundle.path stringByReplacingOccurrencesOfString:[_installDirectory stringByAppendingString:@"/"] withString:@""];
+		if(![relativePath hasPrefix:@"Bundles/"] || [relativePath.pathComponents containsObject:@".."])
+		{
+			os_log_error(OS_LOG_DEFAULT, "Not writing local index entry for %{public}@ with path ‘%{public}@’", bundle.name, bundle.path);
+			continue;
+		}
+
 		NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:@{
 			@"uuid": [bundle.identifier UUIDString],
-			@"path": [bundle.path stringByReplacingOccurrencesOfString:[_installDirectory stringByAppendingString:@"/"] withString:@""],
+			@"path": relativePath,
 		}];
 
 		if(bundle.lastUpdated)
