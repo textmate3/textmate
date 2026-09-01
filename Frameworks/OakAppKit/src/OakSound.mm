@@ -7,8 +7,7 @@ void OakPlayUISound (OakSoundIdentifier aSound)
 	{
 		OakSoundIdentifier name;
 		std::string path;
-		bool initialized;
-		SystemSoundID sound;
+		NSSound* sound;
 	};
 
 	static sound_info_t sounds[] =
@@ -20,27 +19,19 @@ void OakPlayUISound (OakSoundIdentifier aSound)
 		{ OakSoundDidEndRecordingUISound,      "system/end_record.caf"    }
 	};
 
-	for(auto sound : sounds)
+	for(auto& sound : sounds)
 	{
 		if(sound.name == aSound)
 		{
-			if(!sound.initialized)
+			if(!sound.sound)
 			{
-				std::string const path_10_6 = path::join("/System/Library/Components/CoreAudio.component/Contents/Resources/SystemSounds", sound.path);
-				std::string const path_10_7 = path::join("/System/Library/Components/CoreAudio.component/Contents/SharedSupport/SystemSounds", sound.path);
-				std::string const path = path::exists(path_10_7) ? path_10_7 : path_10_6;
-
-				if(CFURLRef url = CFURLCreateFromFileSystemRepresentation(kCFAllocatorDefault, (UInt8 const*)path.data(), path.size(), false))
-				{
-					AudioServicesCreateSystemSoundID(url, &sound.sound);
-					sound.initialized = true;
-					CFRelease(url);
-				}
+				// The system UI sounds have lived here since macOS 10.7 and still
+				// do on macOS 26. Missing files degrade to silence, not to errors.
+				std::string const path = path::join("/System/Library/Components/CoreAudio.component/Contents/SharedSupport/SystemSounds", sound.path);
+				sound.sound = [[NSSound alloc] initWithContentsOfFile:[NSString stringWithUTF8String:path.c_str()] byReference:YES];
 			}
 
-			if(sound.sound)
-				AudioServicesPlaySystemSound(sound.sound);
-
+			[sound.sound play];
 			break;
 		}
 	}
