@@ -1007,7 +1007,7 @@ module Target
                   end
                 end
 
-                if File.directory?(file)
+                if File.directory?(file) && !File.symlink?(file)
                   queue << [
                     File.join(dest, File.basename(file)),
                     Dir.entries(file).reject { |path| path =~ /^\./ }.map { |entry| File.join(file, entry) }
@@ -1104,7 +1104,11 @@ module Target
                 name:         'CopyFile',
                 in:           src,
                 out:          File.join(target[:builddir], target[:dir], target[:prefix], dst),
-                command:      '/bin/cp -Xp $in $out && touch $out',
+                # -R so that -P takes effect: a symbolic link is copied as a link rather than
+                # followed, which is what keeps an embedded framework's Versions layout intact.
+                # touch -h stamps the link itself, and cannot fail on a link whose target is
+                # copied by a later edge.
+                command:      'rm -f $out && /bin/cp -RXpP $in $out && touch -h $out',
                 description:  'Copy ‘${in}’…',
                 dependencies: deps,
               }
