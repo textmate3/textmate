@@ -42,22 +42,6 @@ static NSString* const kUserDefaultsHideStatusBarKey = @"hideStatusBar";
 static NSString* const kUserDefaultsDisableBundleSuggestionsKey = @"disableBundleSuggestions";
 static NSString* const kUserDefaultsGrammarsToNeverSuggestKey = @"grammarsToNeverSuggest";
 
-static bool can_reach_host (char const* host)
-{
-	bool res = false;
-	if(SCNetworkReachabilityRef ref = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, host))
-	{
-		SCNetworkReachabilityFlags flags;
-		if(SCNetworkReachabilityGetFlags(ref, &flags))
-		{
-			if(flags & kSCNetworkReachabilityFlagsReachable)
-				res = true;
-		}
-		CFRelease(ref);
-	}
-	return res;
-}
-
 static void show_command_error (std::string const& message, oak::uuid_t const& uuid, NSWindow* window = nil, std::string commandName = NULL_STR)
 {
 	bundles::item_ptr bundleItem = bundles::lookup(uuid);
@@ -1005,7 +989,7 @@ static NSArray* const kObservedKeyPaths = @[ @"arrayController.arrangedObjects.p
 				if(_bundlesAlreadySuggested)
 					grammars = [grammars filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT (bundle IN %@)", _bundlesAlreadySuggested]];
 
-				if([grammars count] && can_reach_host([[[NSURL URLWithString:@(REST_API)] host] UTF8String]))
+				if([grammars count])
 				{
 					self.bundlesAlreadySuggested = [(_bundlesAlreadySuggested ?: @[ ]) arrayByAddingObject:[grammars firstObject].bundle];
 
