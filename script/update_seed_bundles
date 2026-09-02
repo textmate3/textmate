@@ -22,7 +22,7 @@ SEED_BUNDLES = %w[
   json.tmbundle
   markdown.tmbundle
   property-list.tmbundle
-  ruby-on-rails-tmbundle
+  ruby-on-rails.tmbundle
   ruby.tmbundle
   source.tmbundle
   text.tmbundle
