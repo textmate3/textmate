@@ -21,6 +21,11 @@
 @property (nonatomic, readonly) id               sessionState;
 
 - (void)setupViewWithState:(id)state;
+
+// The decoders restoreStateWithCoder: uses, naming every class the archive can
+// hold so it reads under secure coding. Public so a test can round trip them.
++ (NSArray<NSDictionary*>*)historyFromRestorableState:(NSCoder*)state;
++ (NSArray<NSURL*>*)URLsForKey:(NSString*)key fromRestorableState:(NSCoder*)state;
 - (std::map<std::string, std::string>)variables;
 
 - (void)goToURL:(NSURL*)url;
