@@ -22,23 +22,19 @@ Before you submit a bug report please read the [writing bug reports](https://git
 
 To build TextMate, you need the following:
 
- * [boost][]            — portable C++ source libraries
- * [Cap’n Proto][capnp] — serialization library
- * [multimarkdown][]    — marked-up plain text compiler
- * [ninja][]            — build system similar to `make`
- * [ragel][]            — state machine compiler
- * **Ruby 4.0+**        — `bin/rave` (the build system) and the other `bin/*.rb` scripts. Install via [`chruby`][chruby] + [`ruby-install`][ruby-install]; the project pins `4.0.5` in `.ruby-version`. (This is a temporary explicit requirement during the Ruby modernization; expect distribution to change later.)
+| Dependency           | Usage                                                      |
+| -------------------- | ---------------------------------------------------------- |
+| [boost][]            | portable C++ source libraries                              |
+| [Cap’n Proto][capnp] | serialization library                                      |
+| [multimarkdown][]    | marked-up plain text compiler                              |
+| [ninja][]            | build system similar to `make`                             |
+| [ragel][]            | state machine compiler                                     |
+| [Ruby 4.0+][ruby]    | `bin/rave` (build system) and the other `bin/*.rb` scripts |
 
-All this can be installed using either [Homebrew][] or [MacPorts][]:
+The `Brewfile` at the repository root lists every [Homebrew][] dependency, including the two the test suite needs.
 
 ```sh
-# Homebrew
-brew install boost capnp multimarkdown ninja ragel chruby ruby-install
-ruby-install ruby-4.0.5
-chruby ruby-4.0.5
-
-# MacPorts
-sudo port install boost capnproto multimarkdown ninja ragel
+brew bundle
 ```
 
 After installing dependencies, make sure you have a full checkout (including submodules) and then run `./configure` followed by `ninja`, for example:
@@ -86,15 +82,13 @@ The source for TextMate is released under the GNU General Public License as publ
 
 TextMate is a trademark of Allan Odgaard.
 
-[boost]:         http://www.boost.org/
-[ninja]:         https://ninja-build.org/
-[multimarkdown]: http://fletcherpenney.net/multimarkdown/
-[ragel]:         http://www.complang.org/ragel/
-[capnp]:         https://github.com/capnproto/capnproto.git
-[chruby]:        https://github.com/postmodern/chruby
-[ruby-install]:  https://github.com/postmodern/ruby-install
-[MacPorts]:      http://www.macports.org/
-[Homebrew]:      http://brew.sh/
-[NinjaBundle]:   https://github.com/textmate/ninja.tmbundle
-[#textmate]:     irc://irc.freenode.net/#textmate
-[freenode.net]:  http://freenode.net/
+[boost]: http://www.boost.org
+[capnp]: https://github.com/capnproto/capnproto
+[multimarkdown]: http://fletcherpenney.net/multimarkdown
+[ninja]: https://ninja-build.org
+[ragel]: https://colm.net/open-source/ragel
+[ruby]: https://ruby-lang.org
+[Homebrew]: http://brew.sh
+[NinjaBundle]: https://github.com/textmate/ninja.tmbundle
+[#textmate]: irc://irc.freenode.net/#textmate
+[freenode.net]: http://freenode.net
