@@ -10,6 +10,17 @@ void SchemeTrace (NSString* format, ...);
 // so a job is registered here by URL before loading and looked up when the
 // content process asks for it.
 @interface HOFileHandleSchemeHandler : NSObject <WKURLSchemeHandler>
-+ (void)registerFileHandle:(NSFileHandle*)fileHandle processIdentifier:(pid_t)processIdentifier forURL:(NSURL*)url;
+// The allowed directories are where the page may load its own assets from, on
+// top of the bundle locations every page may use: the directory of the document
+// and the project the command ran against.
++ (void)registerFileHandle:(NSFileHandle*)fileHandle processIdentifier:(pid_t)processIdentifier allowedDirectories:(NSArray<NSString*>*)allowedDirectories forURL:(NSURL*)url;
 + (void)unregisterURL:(NSURL*)url;
+// Marks the page's output as delivered while keeping its directories, since the
+// page goes on loading assets after that.
++ (void)finishURL:(NSURL*)url;
+
+// Whether a page's asset request may be read from disk: the path must sit
+// under a bundle location, or under a directory registered for the page the
+// request belongs to, identified by the request's main document URL.
+- (BOOL)isAssetPathAllowed:(NSString*)path forMainDocumentURL:(NSURL*)mainDocumentURL;
 @end
