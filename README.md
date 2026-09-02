@@ -29,17 +29,13 @@ To build TextMate, you need the following:
  * [ragel][]            — state machine compiler
  * **Ruby 4.0+**        — `bin/rave` (the build system) and the other `bin/*.rb` scripts. Install via [`chruby`][chruby] + [`ruby-install`][ruby-install].
 
-The `Brewfile` at the repository root lists every Homebrew dependency, including the two the test suite needs, so [Homebrew][] users install everything with one command. [MacPorts][] users install the same list by hand:
+The `Brewfile` at the repository root lists every [Homebrew][] dependency, including the two the test suite needs, so one command installs everything:
 
 ```sh
-# Homebrew
 brew bundle
 brew install chruby ruby-install
 ruby-install ruby-4.0.6
 chruby ruby-4.0.6
-
-# MacPorts
-sudo port install boost capnproto multimarkdown ninja ragel mercurial subversion
 ```
 
 After installing dependencies, make sure you have a full checkout (including submodules) and then run `./configure` followed by `ninja`, for example:
@@ -94,7 +90,6 @@ TextMate is a trademark of Allan Odgaard.
 [capnp]:         https://github.com/capnproto/capnproto.git
 [chruby]:        https://github.com/postmodern/chruby
 [ruby-install]:  https://github.com/postmodern/ruby-install
-[MacPorts]:      http://www.macports.org/
 [Homebrew]:      http://brew.sh/
 [NinjaBundle]:   https://github.com/textmate/ninja.tmbundle
 [#textmate]:     irc://irc.freenode.net/#textmate

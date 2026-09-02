@@ -93,7 +93,7 @@ namespace bundles
 		{
 			std::string _executable; // e.g. ‘git’
 			std::string _variable;   // e.g. ‘TM_GIT’
-			std::string _help;       // e.g. ‘Install from MacPorts: sudo port install git-core’
+			std::string _help;       // e.g. ‘Install from Homebrew: brew install git’
 		};
 
 		bool _deleted;
