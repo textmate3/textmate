@@ -2,6 +2,7 @@
 #define HTML_OUTPUT_ASSET_POLICY_H
 
 #include <io/path.h>
+#include <io/entries.h>
 
 namespace html_output
 {
@@ -28,6 +29,32 @@ namespace html_output
 				return true;
 		}
 		return false;
+	}
+
+	// The roots that come from the bundle locations: each location itself, and the
+	// target of every link placed in its `Bundles` directory. A bundle repository
+	// checked out elsewhere and linked in there is handed to commands by its
+	// resolved path, and the pages those commands produce ask for their assets by
+	// that path, so the target has to be a root in its own right.
+	inline std::vector<std::string> asset_roots (std::vector<std::string> const& locations)
+	{
+		std::vector<std::string> res;
+		for(auto const& location : locations)
+		{
+			if(location == NULL_STR || location.empty())
+				continue;
+			res.push_back(location);
+
+			std::string const bundles = path::join(location, "Bundles");
+			if(!path::is_directory(bundles))
+				continue;
+			for(auto entry : path::entries(bundles))
+			{
+				if(entry->d_type == DT_LNK)
+					res.push_back(path::resolve(path::join(bundles, entry->d_name)));
+			}
+		}
+		return res;
 	}
 
 } /* html_output */

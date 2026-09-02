@@ -82,6 +82,15 @@ void SchemeTrace (NSString* format, ...)
 	[[self jobsLock] unlock];
 }
 
+// The page keeps asking for assets after its output has all arrived, so the job
+// stays registered with its directories and only the output side is let go.
++ (void)finishURL:(NSURL*)url
+{
+	[[self jobsLock] lock];
+	[self jobs][url.absoluteString].fileHandle = nil;
+	[[self jobsLock] unlock];
+}
+
 - (instancetype)init
 {
 	if(self = [super init])
@@ -93,7 +102,8 @@ void SchemeTrace (NSString* format, ...)
 {
 	[_activeTasks addObject:task];
 
-	if(HOJob* job = [[self class] jobForURL:task.request.URL])
+	HOJob* job = [[self class] jobForURL:task.request.URL];
+	if(job && job.fileHandle)
 		return [self startJob:job forTask:task];
 
 	// No job for this URL, so it is one of the page's own assets: a style sheet,
@@ -123,9 +133,7 @@ void SchemeTrace (NSString* format, ...)
 
 - (BOOL)isAssetPathAllowed:(NSString*)path forMainDocumentURL:(NSURL*)mainDocumentURL
 {
-	std::vector<std::string> roots;
-	for(auto const& location : bundles::locations())
-		roots.push_back(location);
+	std::vector<std::string> roots = html_output::asset_roots(bundles::locations());
 
 	if(HOJob* job = mainDocumentURL ? [[self class] jobForURL:mainDocumentURL] : nil)
 	{
@@ -162,7 +170,7 @@ void SchemeTrace (NSString* format, ...)
 			perror("HTMLOutput: read");
 
 		[job.fileHandle closeFile];
-		[[self class] unregisterURL:task.request.URL];
+		[[self class] finishURL:task.request.URL];
 		dispatch_sync(dispatch_get_main_queue(), ^{
 			if([self isTaskActive:task])
 			{

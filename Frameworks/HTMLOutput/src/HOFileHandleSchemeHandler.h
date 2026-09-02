@@ -15,6 +15,9 @@ void SchemeTrace (NSString* format, ...);
 // and the project the command ran against.
 + (void)registerFileHandle:(NSFileHandle*)fileHandle processIdentifier:(pid_t)processIdentifier allowedDirectories:(NSArray<NSString*>*)allowedDirectories forURL:(NSURL*)url;
 + (void)unregisterURL:(NSURL*)url;
+// Marks the page's output as delivered while keeping its directories, since the
+// page goes on loading assets after that.
++ (void)finishURL:(NSURL*)url;
 
 // Whether a page's asset request may be read from disk: the path must sit
 // under a bundle location, or under a directory registered for the page the

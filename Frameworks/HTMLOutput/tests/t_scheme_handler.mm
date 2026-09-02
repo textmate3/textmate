@@ -30,3 +30,21 @@ void test_bundle_locations_are_always_allowed ()
 	OAK_ASSERT([handler isAssetPathAllowed:managed forMainDocumentURL:nil]);
 	OAK_ASSERT(![handler isAssetPathAllowed:@"/etc/hosts" forMainDocumentURL:nil]);
 }
+
+// Images and scripts are requested after the page's output has finished, so the
+// directories outlive the output and go away only when the page is unregistered.
+void test_page_directories_outlive_the_output ()
+{
+	test::jail_t jail;
+	jail.touch("project/pic.png");
+
+	NSURL* pageURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://job/test/3", HOFileHandleURLScheme]];
+	[HOFileHandleSchemeHandler registerFileHandle:nil processIdentifier:0 allowedDirectories:@[ to_ns(jail.path("project")) ] forURL:pageURL];
+	[HOFileHandleSchemeHandler finishURL:pageURL];
+
+	HOFileHandleSchemeHandler* handler = [HOFileHandleSchemeHandler new];
+	OAK_ASSERT([handler isAssetPathAllowed:to_ns(jail.path("project/pic.png")) forMainDocumentURL:pageURL]);
+
+	[HOFileHandleSchemeHandler unregisterURL:pageURL];
+	OAK_ASSERT(![handler isAssetPathAllowed:to_ns(jail.path("project/pic.png")) forMainDocumentURL:pageURL]);
+}
