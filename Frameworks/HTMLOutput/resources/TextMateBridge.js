@@ -10,6 +10,12 @@
 // return value cannot work, because those require the command to have finished. That
 // case throws with instructions rather than returning undefined, which would render
 // wrong output silently.
+//
+// A command's standard input is a pipe from the page. It closes on its own once the
+// script task that started the command has finished, unless that task wrote to it,
+// in which case the page closes it with close() or the write is the last thing the
+// command reads. Left open, tools that forward their input to the application, such
+// as tm_dialog2, would wait for an end of file that never comes.
 (function () {
 	if (window.TextMate) return;
 
@@ -51,13 +57,21 @@
 				return result;
 			});
 
+			var inputTouched = false;
+			setTimeout(function () {
+				if (!inputTouched) post({ method: 'close', taskId: taskId });
+			}, 0);
+
 			return new Proxy(promise, {
 				get: function (target, property) {
 					if (property === 'outputString' || property === 'errorString')
 						throw unavailable(property, command);
 
 					if (liveMethods[property])
-						return function (arg) { return post({ method: property, taskId: taskId, string: arg }); };
+						return function (arg) {
+							if (property === 'write' || property === 'close') inputTouched = true;
+							return post({ method: property, taskId: taskId, string: arg });
+						};
 
 					if (liveSetters[property])
 						return streams[taskId] ? streams[taskId][property] : undefined;
