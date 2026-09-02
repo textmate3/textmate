@@ -1,4 +1,5 @@
 #include "selection.h"
+#include <text/grapheme.h>
 #include <buffer/buffer.h>
 #include <bundles/bundles.h>
 #include <regexp/find.h>
@@ -12,6 +13,32 @@
 
 namespace ng
 {
+	// Without a layout the caret steps through the line by grapheme cluster, so
+	// a decomposed accent or a joined emoji is one step. Crossing a line end is
+	// still one byte, the newline.
+	static size_t grapheme_left_of (ng::buffer_api_t const& buffer, size_t caret)
+	{
+		if(caret == 0)
+			return caret;
+		size_t const line = buffer.convert(caret).line;
+		size_t const bol  = buffer.begin(line);
+		if(caret == bol)
+			return caret - buffer[caret-1].size();
+		return bol + text::grapheme_begin(buffer.substr(bol, buffer.eol(line)), caret - bol);
+	}
+
+	static size_t grapheme_right_of (ng::buffer_api_t const& buffer, size_t caret)
+	{
+		if(caret >= buffer.size())
+			return caret;
+		size_t const line = buffer.convert(caret).line;
+		size_t const bol  = buffer.begin(line);
+		size_t const eol  = buffer.eol(line);
+		if(caret >= eol)
+			return caret + buffer[caret].size();
+		return bol + text::grapheme_end(buffer.substr(bol, eol), caret - bol);
+	}
+
 	static size_t count_columns (buffer_api_t const& buffer, index_t caret)
 	{
 		size_t const tabSize = buffer.indent().tab_size();
@@ -565,8 +592,8 @@ namespace ng
 			case kSelectionMoveToEndOfSoftLine:       return layout ? layout->index_at_eol_for(caret) : buffer.eol(line);
 			case kSelectionMoveUp:                    return layout ? layout->index_above(index) : (line ? at_column(buffer, line-1, count_columns(buffer, index)) : 0);
 			case kSelectionMoveDown:                  return layout ? layout->index_below(index) : (line+1 < buffer.lines() ? at_column(buffer, line+1, count_columns(buffer, index)) : buffer.size());
-			case kSelectionMoveLeft:                  return layout ? layout->index_left_of(caret)  : (caret ? caret - buffer[caret-1].size() : caret);
-			case kSelectionMoveRight:                 return layout ? layout->index_right_of(caret) : (caret < buffer.size() ? caret + buffer[caret].size() : caret);
+			case kSelectionMoveLeft:                  return layout ? layout->index_left_of(caret)  : grapheme_left_of(buffer, caret);
+			case kSelectionMoveRight:                 return layout ? layout->index_right_of(caret) : grapheme_right_of(buffer, caret);
 			case kSelectionMoveToBeginOfTypingPair:   return begin_of_typing_pair(buffer, caret, false);
 			case kSelectionMoveToEndOfTypingPair:     return end_of_typing_pair(buffer, caret, false);
 			case kSelectionMovePageUp:                return layout ? layout->page_up_for(index)   : index;
