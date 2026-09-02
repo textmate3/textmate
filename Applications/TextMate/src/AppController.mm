@@ -599,7 +599,7 @@ BOOL HasDocumentWindow (NSArray* windows)
 	[TerminalPreferences updateMateIfRequired];
 	[AboutWindowController showChangesIfUpdated];
 
-	[CrashReporter.sharedInstance postNewCrashReportsToURLString:[NSString stringWithFormat:@"%s/crashes", REST_API]];
+	[CrashReporter.sharedInstance logNewCrashReports];
 
 	[OakCommitWindowServer sharedInstance]; // Setup server
 

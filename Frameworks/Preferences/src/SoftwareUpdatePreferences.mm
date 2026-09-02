@@ -72,43 +72,20 @@ static NSString* const kSparkleLastCheckTimeKey         = @"SULastCheckTime";
 	NSTextField* lastCheckTextField        = OakCreateLabel(@"Some time ago");
 	NSButton* checkNowButton               = [NSButton buttonWithTitle:@"Check Now" target:self action:@selector(performUpdateCheck:)];
 
-	NSButton* submitCrashReportsCheckBox   = OakCreateCheckBox(@"Submit to MacroMates");
-
-	NSTextField* contactTextField          = [NSTextField textFieldWithString:@"Anonymous"];
-
-	NSFont* smallFont = [NSFont messageFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]];
-	contactTextField.font        = smallFont;
-	contactTextField.controlSize = NSControlSizeSmall;
-
-	NSStackView* contactStackView = [NSStackView stackViewWithViews:@[
-		OakCreateLabel(@"Contact:", smallFont), contactTextField
-	]];
-	contactStackView.alignment  = NSLayoutAttributeFirstBaseline;
-	contactStackView.edgeInsets = { .left = 18 };
-	[contactStackView setHuggingPriority:NSLayoutPriorityDefaultHigh-1 forOrientation:NSLayoutConstraintOrientationVertical];
-
 	NSGridView* gridView = [NSGridView gridViewWithViews:@[
 		@[ OakCreateLabel(@"Software update:"),        watchForUpdatesCheckBox           ],
 		@[ NSGridCell.emptyContentView,                askBeforeDownloadingCheckBox      ],
 		@[ ],
 		@[ OakCreateLabel(@"Last check:"),             lastCheckTextField                ],
 		@[ NSGridCell.emptyContentView,                checkNowButton                    ],
-		@[ ],
-		@[ OakCreateLabel(@"Crash reports:"),          submitCrashReportsCheckBox        ],
-		@[ NSGridCell.emptyContentView,                contactStackView                  ],
 	]];
 
-	[contactTextField.trailingAnchor constraintEqualToAnchor:askBeforeDownloadingCheckBox.trailingAnchor].active = YES;
-
-	self.view = OakSetupGridViewWithSeparators(gridView, { 2, 5 });
+	self.view = OakSetupGridViewWithSeparators(gridView, { 2 });
 
 	[watchForUpdatesCheckBox      bind:NSValueBinding   toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kSparkleEnableAutomaticChecksKey]            options:nil];
 	[askBeforeDownloadingCheckBox bind:NSValueBinding   toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kSparkleAutomaticallyUpdateKey]              options:@{ NSValueTransformerNameBindingOption: NSNegateBooleanTransformerName }];
 	[lastCheckTextField           bind:NSValueBinding   toObject:self                                                  withKeyPath:@"lastCheckDescription"                                                              options:nil];
-	[submitCrashReportsCheckBox   bind:NSValueBinding   toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kUserDefaultsDisableCrashReportingKey]       options:@{ NSValueTransformerNameBindingOption: NSNegateBooleanTransformerName }];
-	[contactTextField             bind:NSValueBinding   toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kUserDefaultsCrashReportsContactInfoKey]     options:nil];
 
 	[askBeforeDownloadingCheckBox bind:NSEnabledBinding toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kSparkleEnableAutomaticChecksKey]            options:nil];
-	[contactTextField             bind:NSEnabledBinding toObject:NSUserDefaultsController.sharedUserDefaultsController withKeyPath:[NSString stringWithFormat:@"values.%@", kUserDefaultsDisableCrashReportingKey]       options:@{ NSValueTransformerNameBindingOption: NSNegateBooleanTransformerName }];
 }
 @end
