@@ -19,8 +19,10 @@ jobs:
         with:
           ruby-version: "4.0"
 
-      - name: Install build dependencies
-        run: brew install boost capnp multimarkdown ninja ragel
+      # mercurial and subversion are not build dependencies: the scm test suite
+      # drives them, and without them it fails rather than skips.
+      - name: Install build and test dependencies
+        run: brew install boost capnp multimarkdown ninja ragel mercurial subversion
 
       # Homebrew lives under /opt/homebrew on Apple Silicon, and configure
       # only writes local.rave with the /usr/local paths when none exists.
