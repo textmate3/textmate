@@ -20,4 +20,16 @@ targets =
 
 abort 'no test targets found (did you run ./configure?)' if targets.empty?
 
-exec 'ninja', '-k', '0', *targets
+# Ninja numbers a status line by the edges finished when an edge starts, and
+# test edges run in the console pool, which prints nothing on completion. So
+# ninja's own last line always ends short of the total, whether or not every
+# suite ran. The verdict comes from the exit status, so it is printed here.
+system('ninja', '-k', '0', *targets)
+status = $?.exitstatus
+
+if status.zero?
+  puts "All #{targets.size} test suites passed."
+else
+  puts "Test suites failed, see above. ninja exited #{status}."
+end
+exit status
