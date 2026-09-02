@@ -3,24 +3,19 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-// The cases a normal user can set up are built in a temporary directory and
-// asserted here. Two groups still need privileges the test does not have:
-// files owned by root, and a read-only volume. Those are checked only when the
-// operator has created them by hand:
+// file::status answers whether a path can be written, and if not, why. The
+// user-owned cases are built in a temporary directory. The other-owner cases
+// use files every macOS install has, since what matters is only that root owns
+// them. The read-only volume case mounts a disk image, which takes a moment
+// and touches the machine, so it runs only when asked for:
 //
-//   mkdir -p /tmp/x/o_{rw,ro}
-//   touch /tmp/x/o_{rw,ro}/{rw,ro}.txt
-//   chmod u-w /tmp/x/o_{rw,ro}/ro.txt /tmp/x/o_ro
-//   chmod a+w /tmp/x/o_rw
-//   sudo chown -R root /tmp/x
-//
-// and a read-only volume mounted at /Volumes/ro holding rw.txt.
+//   TM_TEST_READ_ONLY_VOLUME=1 script/test file
 
 void test_status_user_owned ()
 {
 	if(getuid() == 0)
 	{
-		OAK_WARN("Skipping file::status user tests: access() ignores permission bits for root");
+		OAK_WARN("Skipping file::status user-owned tests: access() ignores permission bits for root");
 		return;
 	}
 
@@ -48,30 +43,48 @@ void test_status_user_owned ()
 	chmod(jail.path("u_ro").c_str(), 0755);
 }
 
-void test_status_root_owned ()
+void test_status_other_owner ()
 {
-	if(access("/tmp/x/o_rw", F_OK) != 0)
+	if(getuid() == 0)
 	{
-		OAK_WARN("Skipping file::status root-owned tests: no /tmp/x fixtures, see the recipe at the top of t_status.cc");
+		OAK_WARN("Skipping file::status other-owner tests: access() ignores permission bits for root");
 		return;
 	}
 
-	OAK_ASSERT_EQ(file::status("/tmp/x/o_rw/cr.txt"), kFileTestWritable);
-	OAK_ASSERT_EQ(file::status("/tmp/x/o_rw/rw.txt"), kFileTestWritableByRoot);
-	OAK_ASSERT_EQ(file::status("/tmp/x/o_rw/ro.txt"), kFileTestNotWritable);
-	OAK_ASSERT_EQ(file::status("/tmp/x/o_ro/cr.txt"), kFileTestWritableByRoot);
-	OAK_ASSERT_EQ(file::status("/tmp/x/o_ro/rw.txt"), kFileTestWritableByRoot);
-	OAK_ASSERT_EQ(file::status("/tmp/x/o_ro/ro.txt"), kFileTestNotWritable);
+	// /etc belongs to root and is not writable by anyone else. /etc/hosts is
+	// mode 0644, so root could write it. /etc/sudoers is mode 0440, so nobody
+	// writes it without changing the mode first. /tmp belongs to root but is
+	// world writable.
+	OAK_ASSERT_EQ(file::status("/etc/hosts"), kFileTestWritableByRoot);
+	OAK_ASSERT_EQ(file::status("/etc/sudoers"), kFileTestNotWritable);
+	OAK_ASSERT_EQ(file::status("/etc/textmate-file-status-test-does-not-exist"), kFileTestWritableByRoot);
+	OAK_ASSERT_EQ(file::status("/tmp/textmate-file-status-test-does-not-exist"), kFileTestWritable);
 }
 
 void test_status_read_only_volume ()
 {
-	if(access("/Volumes/ro", F_OK) != 0)
+	if(!getenv("TM_TEST_READ_ONLY_VOLUME"))
 	{
-		OAK_WARN("Skipping file::status read-only volume tests: nothing mounted at /Volumes/ro");
+		OAK_WARN("Skipping file::status read-only volume test: set TM_TEST_READ_ONLY_VOLUME=1 to mount a disk image for it");
 		return;
 	}
 
-	OAK_ASSERT_EQ(file::status("/Volumes/ro/cr.txt"), kFileTestReadOnly);
-	OAK_ASSERT_EQ(file::status("/Volumes/ro/rw.txt"), kFileTestReadOnly);
+	test::jail_t jail;
+	jail.touch("source/rw.txt");
+	jail.mkdir("mount");
+
+	std::string image = jail.path("ro.dmg");
+	std::string mount = jail.path("mount");
+
+	std::string create = "hdiutil create -quiet -ov -srcfolder \"" + jail.path("source") + "\" -volname textmate-test-ro \"" + image + "\"";
+	OAK_ASSERT_EQ(system(create.c_str()), 0);
+
+	std::string attach = "hdiutil attach -quiet -readonly -nobrowse -mountpoint \"" + mount + "\" \"" + image + "\"";
+	OAK_ASSERT_EQ(system(attach.c_str()), 0);
+
+	OAK_ASSERT_EQ(file::status(mount + "/rw.txt"), kFileTestReadOnly);
+	OAK_ASSERT_EQ(file::status(mount + "/cr.txt"), kFileTestReadOnly);
+
+	std::string detach = "hdiutil detach -quiet \"" + mount + "\"";
+	OAK_ASSERT_EQ(system(detach.c_str()), 0);
 }
