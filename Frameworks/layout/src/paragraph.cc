@@ -1,4 +1,5 @@
 #include "paragraph.h"
+#include <text/grapheme.h>
 #include "ct.h"
 #include "render.h"
 #include <cf/cf.h>
@@ -692,7 +693,7 @@ namespace ng
 	size_t paragraph_t::index_left_of (size_t index, ng::buffer_t const& buffer, size_t bufferOffset) const
 	{
 		if(index != bufferOffset)
-			index -= buffer[index-1].size();
+			index = bufferOffset + text::grapheme_begin(buffer.substr(bufferOffset, bufferOffset + length()), index - bufferOffset);
 
 		size_t i = bufferOffset;
 		for(auto const& node : _nodes)
@@ -708,7 +709,7 @@ namespace ng
 	size_t paragraph_t::index_right_of (size_t index, ng::buffer_t const& buffer, size_t bufferOffset) const
 	{
 		if(index != bufferOffset + length())
-			index += buffer[index].size();
+			index = bufferOffset + text::grapheme_end(buffer.substr(bufferOffset, bufferOffset + length()), index - bufferOffset);
 
 		size_t i = bufferOffset;
 		for(auto const& node : _nodes)
