@@ -40,9 +40,9 @@ Commits authored in the `textmate3` fork sit above the upstream merge they are b
 
 ## Taking upstream changes, if Onigmo wakes up
 
-Work in a clone of `textmate3/Onigmo`, not in the submodule working copy.
+Work in a fresh clone of `textmate3/Onigmo`, not in the submodule working copy. Clone it anywhere disposable and delete it when the merge is pushed.
 
-1. Add upstream once: `git remote add upstream https://github.com/k-takata/Onigmo.git`
+1. Add upstream: `git remote add upstream https://github.com/k-takata/Onigmo.git`
 2. `git fetch upstream` and merge `upstream/master` into `main`.
 3. Expect conflicts wherever the fork's own commits touch, today `st.h`, `st.c` and the four
    `st_foreach` callbacks in `regparse.c`. Keep the full prototypes. If upstream has adopted
