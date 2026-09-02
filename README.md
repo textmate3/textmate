@@ -27,18 +27,19 @@ To build TextMate, you need the following:
  * [multimarkdown][]    — marked-up plain text compiler
  * [ninja][]            — build system similar to `make`
  * [ragel][]            — state machine compiler
- * **Ruby 4.0+**        — `bin/rave` (the build system) and the other `bin/*.rb` scripts. Install via [`chruby`][chruby] + [`ruby-install`][ruby-install]; the project pins `4.0.5` in `.ruby-version`. (This is a temporary explicit requirement during the Ruby modernization; expect distribution to change later.)
+ * **Ruby 4.0+**        — `bin/rave` (the build system) and the other `bin/*.rb` scripts. Install via [`chruby`][chruby] + [`ruby-install`][ruby-install].
 
-All this can be installed using either [Homebrew][] or [MacPorts][]:
+The `Brewfile` at the repository root lists every Homebrew dependency, including the two the test suite needs, so [Homebrew][] users install everything with one command. [MacPorts][] users install the same list by hand:
 
 ```sh
 # Homebrew
-brew install boost capnp multimarkdown ninja ragel chruby ruby-install
-ruby-install ruby-4.0.5
-chruby ruby-4.0.5
+brew bundle
+brew install chruby ruby-install
+ruby-install ruby-4.0.6
+chruby ruby-4.0.6
 
 # MacPorts
-sudo port install boost capnproto multimarkdown ninja ragel
+sudo port install boost capnproto multimarkdown ninja ragel mercurial subversion
 ```
 
 After installing dependencies, make sure you have a full checkout (including submodules) and then run `./configure` followed by `ninja`, for example:
