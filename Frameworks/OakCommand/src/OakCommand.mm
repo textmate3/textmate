@@ -248,7 +248,16 @@ static pid_t run_command (dispatch_group_t rootGroup, std::string const& cmd, in
 			[NSURLProtocol setProperty:self.identifier forKey:@"commandIdentifier" inRequest:_urlRequest];
 			[NSURLProtocol setProperty:to_ns(_bundleCommand.name) forKey:@"processName" inRequest:_urlRequest];
 			[NSURLProtocol setProperty:self forKey:@"command" inRequest:_urlRequest];
-			[HOFileHandleSchemeHandler registerFileHandle:pipe.fileHandleForReading processIdentifier:_processIdentifier forURL:_urlRequest.URL];
+			// The page may load assets from the document's and the project's directory,
+			// on top of the bundle locations every page may use.
+			NSMutableArray<NSString*>* allowedDirectories = [NSMutableArray array];
+			for(auto const& key : { "TM_DIRECTORY", "TM_PROJECT_DIRECTORY" })
+			{
+				auto it = _environment.find(key);
+				if(it != _environment.end() && !it->second.empty())
+					[allowedDirectories addObject:to_ns(it->second)];
+			}
+			[HOFileHandleSchemeHandler registerFileHandle:pipe.fileHandleForReading processIdentifier:_processIdentifier allowedDirectories:allowedDirectories forURL:_urlRequest.URL];
 
 			_htmlOutputView.disableJavaScriptAPI = _bundleCommand.disable_javascript_api;
 			[_htmlOutputView loadRequest:_urlRequest environment:_environment autoScrolls:_bundleCommand.auto_scroll_output];

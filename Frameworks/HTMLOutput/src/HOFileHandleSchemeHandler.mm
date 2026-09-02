@@ -1,5 +1,8 @@
 #import "HOFileHandleSchemeHandler.h"
+#import "helpers/asset_policy.h"
 #import <OakSystem/process.h>
+#import <bundles/bundles.h>
+#import <ns/ns.h>
 #import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 #import <oak/debug.h>
 
@@ -22,6 +25,7 @@ void SchemeTrace (NSString* format, ...)
 @property (nonatomic) NSFileHandle* fileHandle;
 @property (nonatomic) pid_t processIdentifier;
 @property (nonatomic) BOOL stopped;
+@property (nonatomic) NSArray<NSString*>* allowedDirectories;
 @end
 
 @implementation HOJob
@@ -51,11 +55,12 @@ void SchemeTrace (NSString* format, ...)
 	return lock;
 }
 
-+ (void)registerFileHandle:(NSFileHandle*)fileHandle processIdentifier:(pid_t)processIdentifier forURL:(NSURL*)url
++ (void)registerFileHandle:(NSFileHandle*)fileHandle processIdentifier:(pid_t)processIdentifier allowedDirectories:(NSArray<NSString*>*)allowedDirectories forURL:(NSURL*)url
 {
 	HOJob* job = [HOJob new];
-	job.fileHandle        = fileHandle;
-	job.processIdentifier = processIdentifier;
+	job.fileHandle         = fileHandle;
+	job.processIdentifier  = processIdentifier;
+	job.allowedDirectories = allowedDirectories;
 
 	[[self jobsLock] lock];
 	[self jobs][url.absoluteString] = job;
@@ -94,10 +99,16 @@ void SchemeTrace (NSString* format, ...)
 	// No job for this URL, so it is one of the page's own assets: a style sheet,
 	// a script, an image. Those cannot be file:// URLs, because a page served from
 	// a custom scheme is not permitted to load them, so they come back through this
-	// scheme and are read from disk here.
+	// scheme and are read from disk here. The read is confined to the bundle
+	// locations and to the directories the page's command ran against, which the
+	// page is identified by through the request's main document URL.
 	if(NSString* path = task.request.URL.path)
 	{
-		if(NSData* data = [NSData dataWithContentsOfFile:path])
+		if(![self isAssetPathAllowed:path forMainDocumentURL:task.request.mainDocumentURL])
+		{
+			os_log(OS_LOG_DEFAULT, "HTMLOutput: refusing to serve %{public}@ to %{public}@, outside every allowed directory", path, task.request.mainDocumentURL);
+		}
+		else if(NSData* data = [NSData dataWithContentsOfFile:path])
 		{
 			UTType* type = [UTType typeWithFilenameExtension:path.pathExtension];
 			NSURLResponse* response = [[NSURLResponse alloc] initWithURL:task.request.URL MIMEType:(type.preferredMIMEType ?: @"application/octet-stream") expectedContentLength:data.length textEncodingName:nil];
@@ -108,6 +119,21 @@ void SchemeTrace (NSString* format, ...)
 
 	NSURLResponse* response = [[NSHTTPURLResponse alloc] initWithURL:task.request.URL statusCode:404 HTTPVersion:@"HTTP/1.1" headerFields:nil];
 	[self finishTask:task withResponse:response data:nil];
+}
+
+- (BOOL)isAssetPathAllowed:(NSString*)path forMainDocumentURL:(NSURL*)mainDocumentURL
+{
+	std::vector<std::string> roots;
+	for(auto const& location : bundles::locations())
+		roots.push_back(location);
+
+	if(HOJob* job = mainDocumentURL ? [[self class] jobForURL:mainDocumentURL] : nil)
+	{
+		for(NSString* directory in job.allowedDirectories)
+			roots.push_back(to_s(directory));
+	}
+
+	return html_output::is_asset_allowed(to_s(path), roots);
 }
 
 - (void)startJob:(HOJob*)job forTask:(id <WKURLSchemeTask>)task
