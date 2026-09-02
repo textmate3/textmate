@@ -1119,18 +1119,33 @@ static NSMutableIndexSet* MutableLongestCommonSubsequence (NSArray* lhs, NSArray
 	return @[ @"showExcludedItems" ];
 }
 
+// The archive holds a history of dictionaries with a URL and a scroll offset,
+// an index into it, and two arrays of URLs. Secure coding needs every class
+// that can appear named at the decode, including the collection classes.
++ (NSArray<NSDictionary*>*)historyFromRestorableState:(NSCoder*)state
+{
+	NSSet* classes = [NSSet setWithObjects:NSArray.class, NSDictionary.class, NSURL.class, NSNumber.class, NSString.class, nil];
+	return [state decodeObjectOfClasses:classes forKey:@"history"];
+}
+
++ (NSArray<NSURL*>*)URLsForKey:(NSString*)key fromRestorableState:(NSCoder*)state
+{
+	NSSet* classes = [NSSet setWithObjects:NSArray.class, NSURL.class, nil];
+	return [state decodeObjectOfClasses:classes forKey:key];
+}
+
 - (void)restoreStateWithCoder:(NSCoder*)state
 {
 	[super restoreStateWithCoder:state];
 
-	NSArray* newHistory = [state decodeObjectForKey:@"history"];
+	NSArray* newHistory = [[self class] historyFromRestorableState:state];
 	if(newHistory.count)
 	{
 		self.history      = [newHistory mutableCopy];
 		self.historyIndex = std::clamp<NSInteger>([state decodeIntegerForKey:@"historyIndex"], 0, newHistory.count);
 
-		NSArray<NSURL*>* expandedURLs = [state decodeObjectForKey:@"expandedURLs"];
-		NSArray<NSURL*>* selectedURLs = [state decodeObjectForKey:@"selectedURLs"];
+		NSArray<NSURL*>* expandedURLs = [[self class] URLsForKey:@"expandedURLs" fromRestorableState:state];
+		NSArray<NSURL*>* selectedURLs = [[self class] URLsForKey:@"selectedURLs" fromRestorableState:state];
 		[self expandURLs:expandedURLs selectURLs:selectedURLs];
 	}
 }
@@ -1170,7 +1185,7 @@ static NSMutableIndexSet* MutableLongestCommonSubsequence (NSArray* lhs, NSArray
 
 - (id)sessionState
 {
-	if(NSKeyedArchiver* coder = [[NSKeyedArchiver alloc] initRequiringSecureCoding:NO])
+	if(NSKeyedArchiver* coder = [[NSKeyedArchiver alloc] initRequiringSecureCoding:YES])
 	{
 		[self encodeRestorableStateWithCoder:coder];
 		[coder finishEncoding];
@@ -1186,10 +1201,8 @@ static NSMutableIndexSet* MutableLongestCommonSubsequence (NSArray* lhs, NSArray
 		NSError* error;
 		if(NSKeyedUnarchiver* coder = [[NSKeyedUnarchiver alloc] initForReadingFromData:state error:&error])
 		{
-			// restoreStateWithCoder: decodes by key without naming the classes it
-			// expects, which is what secure coding requires, so asking for it here
-			// would throw instead of restoring.
-			coder.requiresSecureCoding = NO;
+			// The unarchiver requires secure coding by default, and every decode in
+			// restoreStateWithCoder: names the classes it expects.
 			[self restoreStateWithCoder:coder];
 		}
 		else
