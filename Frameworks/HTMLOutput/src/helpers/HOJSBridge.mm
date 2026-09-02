@@ -9,22 +9,11 @@
 #import <ns/ns.h>
 #import <io/exec.h>
 
-// A command started by TextMate.system(). Output is streamed to the page as it
-// arrives, and the completion block carries the final result back to the reply
-// handler that the page is awaiting.
-@interface HOJSShellCommand : NSObject
+@interface HOJSShellCommand ()
 {
 	io::process_t process;
 	std::string output, error;
 }
-@property (nonatomic, copy) void(^streamHandler)(NSString* text, BOOL isError);
-@property (nonatomic) NSString* command;
-@property (nonatomic, copy) void(^completionHandler)(NSString* output, NSString* error, int status);
-- (id)initShellCommand:(NSString*)aCommand withEnvironment:(const std::map<std::string, std::string>&)someEnvironment;
-- (BOOL)start;
-- (void)cancelCommand;
-- (void)writeToInput:(NSString*)someData;
-- (void)closeInput;
 @end
 
 @implementation HOJSBridge
@@ -246,9 +235,11 @@
 
 			char const* bytes = &tmp[0];
 			dispatch_sync(queue, ^{
-				BOOL streaming = self.streamHandler != nil;
-				auto range = add_bytes_to_utf8_buffer(buf, bytes, bytes + len, streaming);
-				if(streaming && range.first != range.second)
+				// The buffer keeps everything, so the completion handler gets the whole
+				// output. The range is only what this read completed, which is what
+				// a streaming handler wants to see next.
+				auto range = add_bytes_to_utf8_buffer(buf, bytes, bytes + len, false);
+				if(self.streamHandler && range.first != range.second)
 					self.streamHandler([NSString stringWithCxxString:std::string(range.first, range.second)], isError);
 			});
 		}

@@ -21,3 +21,17 @@
 + (NSString*)messageHandlerName;
 + (NSString*)userScriptSource;
 @end
+
+// A command started by TextMate.system(). Output is streamed to the handler as it
+// arrives, and the completion block carries the whole output, the whole error
+// output and the exit status once the command has finished.
+@interface HOJSShellCommand : NSObject
+@property (nonatomic, copy) void(^streamHandler)(NSString* text, BOOL isError);
+@property (nonatomic) NSString* command;
+@property (nonatomic, copy) void(^completionHandler)(NSString* output, NSString* error, int status);
+- (id)initShellCommand:(NSString*)aCommand withEnvironment:(const std::map<std::string, std::string>&)someEnvironment;
+- (BOOL)start;
+- (void)cancelCommand;
+- (void)writeToInput:(NSString*)someData;
+- (void)closeInput;
+@end
