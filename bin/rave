@@ -917,31 +917,11 @@ module Target
     target[:build][:executable]
   end
 
-  def lipo(archs, targets)
+  def linked_executable(archs, targets)
+    abort "Multi-architecture builds are no longer supported; the build is arm64 only." if archs.size > 1
+
     target = archs.values.first
-
-    unless target[:build][:lipo]
-      rules, lipo = [], nil
-
-      executables = archs.map { |_, target| executable(target, targets) }.reject { |e| e.nil? }
-      if executables.size > 1
-        lipo = File.join(*[ target[:builddir], target[:dir], target[:prefix], target[:executable] ].reject { |e| e.nil? })
-        rules << {
-          name:        'Lipo',
-          in:          executables,
-          out:         lipo,
-          command:     'xcrun --sdk macosx lipo $in -create -output $out',
-          description: 'Lipo ‘${out}’…',
-        }
-      else
-        lipo = executables.first
-      end
-
-      target[:build][:rules] += rules
-      target[:build][:lipo]   = lipo
-    end
-
-    target[:build][:lipo]
+    target[:build][:linked_executable] ||= executable(target, targets)
   end
 
   def assets(archs, targets)
@@ -1002,7 +982,7 @@ module Target
     unless target[:build][:bundle]
       bundle, rules = [], []
 
-      executable = lipo(archs, targets)
+      executable = linked_executable(archs, targets)
       signature  = signature(archs, targets)
 
       if prefix = target[:prefix]
@@ -1034,7 +1014,7 @@ module Target
       application, rules = nil, []
 
       if prefix = target[:prefix]
-        if executable = Target.lipo(archs, targets)
+        if executable = Target.linked_executable(archs, targets)
           application = executable.chomp(File.join(prefix, target[:executable]).sub(%r{^[^/]+}, ''))
 
           rules << {
@@ -1057,7 +1037,7 @@ module Target
     unless target[:build][:signature]
       signature, rules = nil, []
 
-      if executable = Target.lipo(archs, targets)
+      if executable = Target.linked_executable(archs, targets)
         signature    = File.join(target[:builddir], '_Sign', "#{target[:name]}.ok")
         dependencies = []
 
@@ -1116,7 +1096,7 @@ module Target
     unless target[:build][:runner]
       runner, rules = nil, []
 
-      if executable = Target.lipo(archs, targets)
+      if executable = Target.linked_executable(archs, targets)
         runner = File.join(target[:builddir], '.always-run-' + target[:name])
 
         if application = application(archs, targets)
@@ -1276,7 +1256,7 @@ module Target
 
       if args = target[:notarize]
         application = application(archs, targets)
-        executable  = Target.lipo(archs, targets)
+        executable  = Target.linked_executable(archs, targets)
         if application || executable
           guardfile = File.join(target[:builddir], '_Notarize', target[:name])
           guardfile << '_' + target[:variables]['version'] if target[:variables].include?('version')
@@ -1347,7 +1327,7 @@ module Target
 
       if defines = target[:define]
         variables = target[:variables].merge(
-          'executable'  => lipo(archs, targets),
+          'executable'  => linked_executable(archs, targets),
           'application' => application(archs, targets),
         )
 
