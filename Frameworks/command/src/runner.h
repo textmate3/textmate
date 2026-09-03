@@ -11,6 +11,11 @@
 namespace command
 {
 	void fix_shebang (std::string* command);
+
+	// As above, and a shebang that asks for ruby, through /usr/bin/env or by
+	// path, is pointed at TM_RUBY when the environment sets it to an absolute
+	// path, so the Ruby a user picked for Command-R runs their bundle commands too.
+	void fix_shebang (std::string* command, std::map<std::string, std::string> const& environment);
 	std::string create_script_path (std::string const& command);
 
 	struct delegate_t;
