@@ -8,6 +8,10 @@ import SwiftUI
 @objc(TMAboutViewController)
 public final class AboutViewController: NSViewController {
 	public override func loadView() {
-		view = NSHostingView(rootView: AboutView(info: ApplicationInfo.main))
+		let hostingView = NSHostingView(rootView: AboutView(info: ApplicationInfo.main))
+		// A hosting view that is a window's content view rewrites the window's
+		// minimum and maximum size from its content. The window sets its own.
+		hostingView.sizingOptions = []
+		view = hostingView
 	}
 }
