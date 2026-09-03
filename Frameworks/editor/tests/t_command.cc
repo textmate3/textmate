@@ -39,3 +39,27 @@ void test_replace_selection_command ()
 	});
 	OAK_ASSERT_EQ(editor.as_string(), "Hello\n");
 }
+
+// The caret is carried across a replacement by code point, not by byte, so a
+// character that grows from one byte to two keeps the caret on its far side.
+void test_caret_carried_by_code_point_across_a_replacement ()
+{
+	ng::buffer_t buf;
+	ng::editor_t editor(buf);
+	editor.insert("say a");
+	ng::ranges_t line(ng::range_t(0, 5));
+	editor.handle_result("say \xC3\xA1", output::replace_input, output_format::text, output_caret::interpolate_by_char, line, std::map<std::string, std::string>());
+	OAK_ASSERT_EQ(editor.as_string(), "say \xC3\xA1");
+	OAK_ASSERT_EQ(editor.ranges().last().last.index, 6);
+}
+
+void test_caret_before_a_replaced_character_stays_before_it ()
+{
+	ng::buffer_t buf;
+	ng::editor_t editor(buf);
+	editor.insert("say a");
+	editor.perform(ng::kMoveBackward);
+	ng::ranges_t line(ng::range_t(0, 5));
+	editor.handle_result("say \xC3\xA1", output::replace_input, output_format::text, output_caret::interpolate_by_char, line, std::map<std::string, std::string>());
+	OAK_ASSERT_EQ(editor.ranges().last().last.index, 4);
+}

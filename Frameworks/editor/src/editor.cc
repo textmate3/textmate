@@ -1305,6 +1305,27 @@ namespace ng
 		_selections = this->replace(replacements, true);
 	}
 
+	// A caret carried across a replacement is measured in code points, because the
+	// replacement may spell the same characters in a different number of bytes: a
+	// caret after the ‘a’ of “say a” must sit after the ‘á’ of “say á”, and its byte
+	// offset would land inside that character.
+	static size_t code_points_in (std::string const& str)
+	{
+		return std::count_if(str.begin(), str.end(), [](char ch){ return (ch & 0xC0) != 0x80; });
+	}
+
+	static size_t bytes_for_code_points (std::string const& str, size_t codePoints)
+	{
+		size_t bytes = 0;
+		for(size_t seen = 0; seen < codePoints && bytes < str.size(); ++seen)
+		{
+			++bytes;
+			while(bytes < str.size() && (str[bytes] & 0xC0) == 0x80)
+				++bytes;
+		}
+		return bytes;
+	}
+
 	bool editor_t::handle_result (std::string const& uncheckedOut, output::type placement, output_format::type format, output_caret::type outputCaret, ng::ranges_t const& inputRanges, std::map<std::string, std::string> const& environment)
 	{
 		std::string const& out = utf8::is_valid(uncheckedOut.begin(), uncheckedOut.end()) ? uncheckedOut : sanitized_utf8(uncheckedOut);
@@ -1357,7 +1378,7 @@ namespace ng
 		if(range && format == output_format::text && outputCaret == output_caret::interpolate_by_char)
 		{
 			ASSERT_LE(range.min().index, caret); ASSERT_LE(caret, range.max().index);
-			offset = caret - range.min().index; // TODO we should let offset be number of code points (for non-combining marks)
+			offset = code_points_in(_buffer.substr(range.min().index, caret));
 		}
 		else if(format == output_format::text && outputCaret == output_caret::interpolate_by_line)
 		{
@@ -1403,8 +1424,7 @@ namespace ng
 
 				if(range && outputCaret == output_caret::interpolate_by_char)
 				{
-					offset = utf8::find_safe_end(out.begin(), out.begin() + std::min(offset, out.size())) - out.begin();
-					_selections = range_t(range.min().index + offset);
+					_selections = range_t(range.min().index + bytes_for_code_points(out, offset));
 				}
 				else if(outputCaret == output_caret::interpolate_by_line)
 				{
