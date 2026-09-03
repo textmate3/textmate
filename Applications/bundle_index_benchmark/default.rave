@@ -1,0 +1,14 @@
+target "${dirname}" {
+	require bundles plist
+	sources src/*.mm
+	executable "${target}"
+
+	# libyaml, from Homebrew, is only here so the YAML candidate can be
+	# measured. Nothing shipped links it.
+	libraries yaml
+	frameworks Foundation
+
+	# Links the Homebrew capnp and kj dylibs like every other tool, so it needs
+	# the same entitlements to start under the hardened runtime.
+	add CS_FLAGS "--entitlements '${dir}/../HelperEntitlements.plist'"
+}
