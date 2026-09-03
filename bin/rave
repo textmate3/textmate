@@ -878,7 +878,9 @@ module Target
 
         frameworks = required_targets.flat_map { |target| target[:frameworks] }.reject { |e| e.nil? }.sort.uniq
         libraries  = required_targets.flat_map { |target| target[:libraries]  }.reject { |e| e.nil? }.sort.uniq
-        static, libraries = libraries.partition { |lib| lib =~ /\.a$/ }
+        # A library given as a path to an archive or a text-based stub is passed as is, so a
+        # target can name the SDK's copy of a library rather than whatever -L finds first.
+        static, libraries = libraries.partition { |lib| lib =~ /\.(a|tbd)$/ }
 
         deps = []
         ln_flags = []
