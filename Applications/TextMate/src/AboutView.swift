@@ -57,6 +57,6 @@ struct AboutView: View {
 			Spacer()
 		}
 		.padding(24)
-		.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+		.frame(minWidth: 560, maxWidth: .infinity, minHeight: 200, maxHeight: .infinity, alignment: .topLeading)
 	}
 }

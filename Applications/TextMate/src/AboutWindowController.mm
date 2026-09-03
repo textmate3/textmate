@@ -72,7 +72,6 @@ static NSData* Digest (NSString* someString)
 		[self.toolbar setDelegate:self];
 		[win setToolbar:self.toolbar];
 
-		[win setContentMinSize:NSMakeSize(560, 200)];
 		[win setFrameAutosaveName:@"BundlesReleaseNotes"];
 		[win setDelegate:self];
 		[win setAutorecalculatesKeyViewLoop:YES];
@@ -113,7 +112,9 @@ static NSData* Digest (NSString* someString)
 			os_log_error(OS_LOG_DEFAULT, "Failed to locate WKWebView.js in application bundle");
 		}
 
-		[self.webView.widthAnchor constraintGreaterThanOrEqualToConstant:200].active = YES;
+		// The window takes its minimum size from whichever content view is in
+		// it, so this and the About page declare the same 560 by 200.
+		[self.webView.widthAnchor constraintGreaterThanOrEqualToConstant:560].active = YES;
 		[self.webView.heightAnchor constraintGreaterThanOrEqualToConstant:200].active = YES;
 
 		[win setContentView:self.webView];
