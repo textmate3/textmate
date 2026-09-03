@@ -6,6 +6,12 @@
 	<true/>
 	<key>com.apple.security.personal-information.addressbook</key>
 	<true/>
+	<!-- Library validation admits only code signed by Apple or by the same Team ID as
+	     the application. An ad hoc signed build has no Team ID, so it can never match
+	     the embedded Sparkle framework, whatever Sparkle is signed with, and dyld
+	     refuses to start the application. This entitlement is what lets a local build
+	     run under the hardened runtime. A Developer ID build re-signs Sparkle with the
+	     same identity and does not need it. -->
 	<key>com.apple.security.cs.disable-library-validation</key>
 	<true/>
 	<key>com.apple.security.get-task-allow</key>

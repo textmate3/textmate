@@ -2,9 +2,4 @@ target "${dirname}" {
 	require settings
 	sources src/*.cc
 	executable "${target}"
-
-	# Disable library validation so Hardened Runtime accepts the Homebrew-signed
-	# libcapnp / libkj dylibs we link against (helper is adhoc-signed → different
-	# Team ID than brew). Shared minimal entitlements file across helper targets.
-	add CS_FLAGS "--entitlements '${dir}/../HelperEntitlements.plist'"
 }
