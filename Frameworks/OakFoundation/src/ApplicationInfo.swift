@@ -9,17 +9,17 @@ import Foundation
 /// shared `main` instance needs under Swift 6 strict concurrency.
 @objc(OakApplicationInfo)
 public final class ApplicationInfo: NSObject, @unchecked Sendable {
-	/// The running application's own information.
-	@objc public static let main = ApplicationInfo(infoDictionary: Bundle.main.infoDictionary ?? [:])
+  /// The running application's own information.
+  @objc public static let main = ApplicationInfo(infoDictionary: Bundle.main.infoDictionary ?? [:])
 
-	/// The marketing version, CFBundleShortVersionString, such as 2.1.0.
-	@objc public let shortVersion: String
+  /// The marketing version, CFBundleShortVersionString, such as 2.1.0.
+  @objc public let shortVersion: String
 
-	/// NSHumanReadableCopyright, as the Finder shows it.
-	@objc public let copyright: String
+  /// NSHumanReadableCopyright, as the Finder shows it.
+  @objc public let copyright: String
 
-	@objc public init(infoDictionary: [String: Any]) {
-		shortVersion = infoDictionary["CFBundleShortVersionString"] as? String ?? ""
-		copyright = infoDictionary["NSHumanReadableCopyright"] as? String ?? ""
-	}
+  @objc public init(infoDictionary: [String: Any]) {
+    shortVersion = infoDictionary["CFBundleShortVersionString"] as? String ?? ""
+    copyright = infoDictionary["NSHumanReadableCopyright"] as? String ?? ""
+  }
 }
