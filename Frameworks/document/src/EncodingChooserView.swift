@@ -13,8 +13,15 @@ struct EncodingChooserView: View {
 			Text("Unknown Encoding")
 				.font(.headline)
 
-			Text("The file “\(model.displayName)” contains characters with unknown encoding.\nPlease select the encoding which should be used to open the file.\nThe contents of the file is shown below with the relevant lines highlighted.\nBefore proceeding, check that the chosen encoding makes the preview look correct.")
-				.fixedSize(horizontal: false, vertical: true)
+			Text(
+				"""
+				The file “\(model.displayName)” contains characters with unknown encoding.
+				Please select the encoding which should be used to open the file.
+				The contents of the file is shown below with the relevant lines highlighted.
+				Before proceeding, check that the chosen encoding makes the preview look correct.
+				"""
+			)
+			.fixedSize(horizontal: false, vertical: true)
 
 			Picker("Encoding:", selection: $model.selectedEncoding) {
 				ForEach(model.encodings) { choice in

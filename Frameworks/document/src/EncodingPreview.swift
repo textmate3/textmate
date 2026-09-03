@@ -15,7 +15,8 @@ struct EncodingPreview: NSViewRepresentable {
 		textView.isHorizontallyResizable = true
 		textView.autoresizingMask = [.width, .height]
 		textView.textContainer?.widthTracksTextView = false
-		textView.textContainer?.containerSize = NSSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+		let unbounded = CGFloat.greatestFiniteMagnitude
+		textView.textContainer?.containerSize = NSSize(width: unbounded, height: unbounded)
 
 		let scrollView = NSScrollView(frame: .zero)
 		scrollView.hasVerticalScroller = true

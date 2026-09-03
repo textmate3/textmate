@@ -50,10 +50,11 @@ public final class EncodingChooserController: NSViewController {
 	}
 
 	public override func loadView() {
-		view = NSHostingView(rootView: EncodingChooserView(
-			model: model,
-			onOpen: { [weak self] in self?.openHandler?() },
-			onCancel: { [weak self] in self?.cancelHandler?() }
-		))
+		view = NSHostingView(
+			rootView: EncodingChooserView(
+				model: model,
+				onOpen: { [weak self] in self?.openHandler?() },
+				onCancel: { [weak self] in self?.cancelHandler?() }
+			))
 	}
 }
