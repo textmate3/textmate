@@ -2,4 +2,9 @@ target "${dirname}" {
 	require parse
 	sources src/*.cc
 	executable "${target}"
+
+	# Like the other command line tools, gtm links the Homebrew capnp libraries, which
+	# carry another Team ID, so the hardened runtime needs library validation off for
+	# the tool to start at all.
+	add CS_FLAGS "--entitlements '${dir}/../HelperEntitlements.plist'"
 }
