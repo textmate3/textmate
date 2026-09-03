@@ -72,10 +72,13 @@ end
 
 def milliseconds(value) = format('%.1f', value)
 
-def markdown_table(headers, rows, numeric_from: 1)
+# Number columns are right aligned so the digits line up, text columns left.
+# A column is text when its header says so.
+def markdown_table(headers, rows, text_columns: [headers.first])
   widths = headers.each_index.map { |column| ([headers[column]] + rows.map { it[column].to_s }).map(&:size).max }
-  line = ->(cells) { "| #{cells.each_with_index.map { |cell, column| column >= numeric_from ? cell.to_s.rjust(widths[column]) : cell.to_s.ljust(widths[column]) }.join(' | ')} |" }
-  separator = "|#{headers.each_index.map { |column| column >= numeric_from ? "#{'-' * (widths[column] + 1)}:" : "-#{'-' * (widths[column] + 1)}" }.join('|')}|"
+  numeric = headers.map { !text_columns.include?(it) }
+  line = ->(cells) { "| #{cells.each_with_index.map { |cell, column| numeric[column] ? cell.to_s.rjust(widths[column]) : cell.to_s.ljust(widths[column]) }.join(' | ')} |" }
+  separator = "|#{headers.each_index.map { |column| numeric[column] ? "#{'-' * (widths[column] + 1)}:" : "-#{'-' * (widths[column] + 1)}" }.join('|')}|"
   [line.call(headers), separator, *rows.map { line.call(it) }].join("\n")
 end
 
@@ -131,7 +134,7 @@ format_order = %w[capnp plist_binary plist_xml json jsonl csv yaml]
 rows = format_order.select { samples.key?(it) }.map do |name|
   [name, sizes[name], milliseconds(median(samples[name]['save'])), milliseconds(median(samples[name]['load'])), milliseconds(samples[name]['load'].min), milliseconds(median(samples[name]['index'])), roundtrips[name]]
 end
-report << markdown_table(['Format', 'Bytes', 'Save median ms', 'Load median ms', 'Load min ms', 'Index median ms', 'Round trip'], rows)
+report << markdown_table(['Format', 'Bytes', 'Save median ms', 'Load median ms', 'Load min ms', 'Index median ms', 'Round trip'], rows, text_columns: ['Format', 'Round trip'])
 
 # ============
 # = Launches =
