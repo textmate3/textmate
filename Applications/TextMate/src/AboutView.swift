@@ -44,7 +44,8 @@ struct AboutView: View {
 
 			Text(
 				"""
-				TextMate is a trademark of Allan Odgaard. Copyright © Allan Odgaard and the TextMate 3 contributors. \
+				TextMate is a trademark of Allan Odgaard. Copyright © Allan Odgaard, TextMate contributors, \
+				and TextMate 3 contributors. \
 				This program comes with absolutely no warranty. It is free software, and you are welcome to redistribute it \
 				under the terms of the \
 				[GNU General Public License, version 3](https://github.com/textmate3/textmate/blob/main/LICENSE.md).
