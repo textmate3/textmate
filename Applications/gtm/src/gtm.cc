@@ -16,11 +16,9 @@ void usage (FILE* io)
 {
 	fprintf(io,
 		"%1$s %2$.1f (" __DATE__ ")\n"
-		"Usage: %1$s [-g<selector>td<string>lhv] grammar ...\n"
+		"Usage: %1$s [-g<selector>lihv] grammar ...\n"
 		"Options:\n"
 		" -g, --grammar <selector>  Which grammar to use.\n"
-		" -t, --trim                Show only first letter of each scope fragment.\n"
-		" -d, --delimiters <string> Surround scopes using argument. See example.\n"
 		" -l, --verbose             Be verbose (output timings).\n"
 		" -i, --load-index          Load bundle index (standard grammars available).\n"
 		" -h, --help                Show this information.\n"
@@ -124,8 +122,6 @@ int main (int argc, char* const* argv)
 
 	static struct option const longopts[] = {
 		{ "grammar",          required_argument,   0,      'g'   },
-		{ "trim",             no_argument,         0,      't'   },
-		{ "delimiters",       required_argument,   0,      'd'   },
 		{ "verbose",          no_argument,         0,      'l'   },
 		{ "load-index",       no_argument,         0,      'i'   },
 		{ "help",             no_argument,         0,      'h'   },
@@ -133,17 +129,15 @@ int main (int argc, char* const* argv)
 		{ 0,                  0,                   0,      0     }
 	};
 
-	bool verbose = false, trim = false, loadIndex = false;
-	std::string grammar = NULL_STR, delimiters = NULL_STR;
+	bool verbose = false, loadIndex = false;
+	std::string grammar = NULL_STR;
 
 	int ch;
-	while((ch = getopt_long(argc, argv, "g:td:lihv", longopts, nullptr)) != -1)
+	while((ch = getopt_long(argc, argv, "g:lihv", longopts, nullptr)) != -1)
 	{
 		switch(ch)
 		{
 			case 'g': grammar = optarg;    break;
-			case 't': trim = true;         break; // TODO
-			case 'd': delimiters = optarg; break; // TODO
 			case 'l': verbose = true;      break;
 			case 'i': loadIndex = true;    break;
 			case 'h': usage(stdout);       return EX_OK;
