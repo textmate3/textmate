@@ -379,7 +379,7 @@ static NSString* SafeBasename (NSString* name)
 	cache.cleanup(bundlesPaths);
 	if(cache.dirty())
 	{
-		cache.save_capnp(bundlesIndexPath);
+		cache.save(bundlesIndexPath);
 		cache.set_dirty(false);
 	}
 	_needsSaveBundlesIndex = NO;
@@ -526,7 +526,9 @@ static NSString* SafeBasename (NSString* name)
 
 	for(auto path : bundles::locations())
 		bundlesPaths.push_back(path::join(path, "Bundles"));
-	bundlesIndexPath = path::join(path::home(), "Library/Caches/com.macromates.TextMate/BundlesIndex.binary");
+	// A binary property list. The official TextMate 2 shares this caches folder
+	// and keeps its own index in BundlesIndex.binary, which is left alone.
+	bundlesIndexPath = path::join(path::home(), "Library/Caches/com.macromates.TextMate/BundlesIndex.plist");
 	cache.set_content_filter(&prune_bundle_item_plist);
 
 	// script/benchmark_bundle_index launches the application against a scratch
@@ -538,19 +540,7 @@ static NSString* SafeBasename (NSString* name)
 	bool const reportTiming = getenv("TEXTMATE_BUNDLES_INDEX_TIMING") != nullptr;
 
 	auto loadStart = std::chrono::steady_clock::now();
-
-	// LEGACY bundle index used prior to 2.0-alpha.9467
-	std::string const oldPath = path::join(path::home(), "Library/Caches/com.macromates.TextMate/BundlesIndex.plist");
-	if(access(oldPath.c_str(), R_OK) == 0)
-	{
-		cache.load(oldPath);
-		cache.save_capnp(bundlesIndexPath);
-		unlink(oldPath.c_str());
-	}
-	else
-	{
-		cache.load_capnp(bundlesIndexPath);
-	}
+	cache.load(bundlesIndexPath);
 
 	auto indexStart = std::chrono::steady_clock::now();
 	_needsCreateBundlesIndex = YES;
