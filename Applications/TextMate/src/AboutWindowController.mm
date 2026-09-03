@@ -72,6 +72,7 @@ static NSData* Digest (NSString* someString)
 		[self.toolbar setDelegate:self];
 		[win setToolbar:self.toolbar];
 
+		[win setContentMinSize:NSMakeSize(560, 200)];
 		[win setFrameAutosaveName:@"BundlesReleaseNotes"];
 		[win setDelegate:self];
 		[win setAutorecalculatesKeyViewLoop:YES];
