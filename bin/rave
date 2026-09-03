@@ -1179,7 +1179,7 @@ module Target
 
           fws  = required.flat_map { |t| t[:frameworks] }.reject(&:nil?).sort.uniq
           libs = required.flat_map { |t| t[:libraries]  }.reject(&:nil?).sort.uniq
-          static, libs = libs.partition { |l| l =~ /\.a$/ }
+          static, libs = libs.partition { |l| l =~ /\.(a|tbd)$/ }
 
           ln_flags, deps = [], []
           required.each do |t|
