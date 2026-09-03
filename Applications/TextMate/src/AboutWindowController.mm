@@ -1,4 +1,5 @@
 #import "AboutWindowController.h"
+#import "TextMate-Swift.h"
 #import <OakAppKit/OakUIConstructionFunctions.h>
 #import <OakFoundation/OakFoundation.h>
 #import <OakFoundation/OakFoundation-Swift.h>
@@ -21,6 +22,7 @@ static NSData* Digest (NSString* someString)
 @property (nonatomic) NSToolbar* toolbar;
 @property (nonatomic) NSSegmentedControl* segmentedControl;
 @property (nonatomic) WKWebView* webView;
+@property (nonatomic) TMAboutViewController* aboutViewController;
 @property (nonatomic) NSString* selectedPage;
 @end
 
@@ -155,8 +157,18 @@ static NSData* Digest (NSString* someString)
 		return;
 	_selectedPage = pageName;
 
+	// The About page is SwiftUI, hosted in place of the web view. The other
+	// pages are HTML in the web view, as before.
+	if([pageName isEqualToString:@"About"])
+	{
+		if(!self.aboutViewController)
+			self.aboutViewController = [[TMAboutViewController alloc] init];
+		self.window.contentView = self.aboutViewController.view;
+		_segmentedControl.selectedSegment = [_segmentLabels indexOfObject:pageName];
+		return;
+	}
+
 	NSDictionary* pages = @{
-		@"About":         @"About/About",
 		@"Changes":       @"About/Changes",
 		@"Bundles":       @"About/Bundles",
 		@"Legal":         @"About/Legal",
@@ -165,6 +177,9 @@ static NSData* Digest (NSString* someString)
 
 	if(NSString* file = pages[pageName])
 	{
+		if(self.window.contentView != self.webView)
+			self.window.contentView = self.webView;
+
 		if(NSURL* url = [NSBundle.mainBundle URLForResource:file withExtension:@"html"])
 			[self.webView loadRequest:[NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60]];
 

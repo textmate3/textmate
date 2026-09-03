@@ -36,7 +36,7 @@ target "${dirname}" {
 	copy  support/*          "SharedSupport"
 	copy  @Dialog2           "PlugIns"
 
-	sources src/*.{cc,mm}
+	sources src/*.{cc,mm,swift}
 	executable "MacOS/${target}"
 	frameworks Cocoa
 }
