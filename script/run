@@ -9,9 +9,15 @@ require 'socket'
 
 Dir.chdir(File.expand_path('..', __dir__))
 
+configuration = ARGV.first == 'debug' ? 'TextMate/debug' : 'TextMate'
+
+system('ninja', configuration) or exit($?.exitstatus || 1)
+
 # Local builds point REST_API at the catalog server (see local.rave and
 # ../api.textmate3.com/). The app runs fine without it, but bundle installs
 # and update checks will fail quietly, which has cost debugging time before.
+# The check comes after the build so it is the last thing on screen before
+# the launch rather than the first thing scrolled away by the build output.
 begin
   Socket.tcp('127.0.0.1', 3000, connect_timeout: 0.25) { }
 rescue StandardError
@@ -19,5 +25,4 @@ rescue StandardError
   warn '~~> Bundle installs and update checks will fail until you run: ../api.textmate3.com/script/server'
 end
 
-target = ARGV.first == 'debug' ? 'TextMate/debug/run' : 'TextMate/run'
-exec 'ninja', target
+exec 'ninja', "#{configuration}/run"
