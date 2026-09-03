@@ -8,6 +8,10 @@ require 'set'
 VARIABLE_MATCH = /\$(?:\{(.+?)\}|(\w+))/
 SDK_PATH = `xcrun --sdk macosx --show-sdk-path`.strip
 
+# Swift Testing lives in the platform, not the SDK, and its macros in the toolchain.
+SWIFT_TESTING_FRAMEWORKS = File.join(`xcrun --sdk macosx --show-sdk-platform-path`.strip, 'Developer/Library/Frameworks')
+SWIFT_TESTING_PLUGINS    = File.expand_path('../../lib/swift/host/plugins/testing', `xcrun --find swift`.strip)
+
 class Parser
   attr_reader :globs, :targets, :environment
 
@@ -1235,76 +1239,163 @@ module Target
       rules, test_executable = [], nil
 
       if (test_files = target[:tests]) && !test_files.empty?
-        ext       = test_files.any? { |f| f.end_with?('.mm') } ? 'mm' : 'cc'
-        runner_cc = File.join(target[:builddir], '_GenTest', target[:name], "test_runner.#{ext}")
-        rules << {
-          name:         'GenTest',
-          in:           test_files.sort,
-          out:          runner_cc,
-          command:      "#{__dir__}/gen_test $in > $out~ && mv $out~ $out",
-          description:  'Generate test runner ‘${out}’…',
-          dependencies: [ "#{__dir__}/gen_test" ],
-        }
+        # C and Objective-C++ tests run under the generated C++ runner. Swift
+        # tests are Swift Testing, run by their own executable. Both hang off
+        # the same <target>/test and <target>/test/run.
+        swift_tests, test_files = test_files.partition { |f| f.end_with?('.swift') }
+        test_executables, run_markers = [], []
 
-        include_dirs = required_targets(target, targets, include_self: true, include_weak: true)
-          .map { |a| include_dir(a) }.reject(&:nil?).sort.uniq
-        config = target[:variables].merge(
-          prelude:   target[:prelude],
-          inference: target[:inference],
-          include:   include_dirs,
-        )
+        required = required_targets(target, targets, include_self: true).map { |a| a[target[:arch]] }.reject(&:nil?)
+        required_objects = required.flat_map { |t| objects(t, targets) }
 
-        if links = Compiler.transform(runner_cc, config, target[:builddir])
-          runner_obj = links.last[:out]
-          link       = links.shift
-          rules += [ link.merge(order_only: [ runner_cc, *Array(link[:order_only]) ]), *links ]
+        fws  = required.flat_map { |t| t[:frameworks] }.reject(&:nil?).sort.uniq
+        libs = required.flat_map { |t| t[:libraries]  }.reject(&:nil?).sort.uniq
+        static, libs = libs.partition { |l| l =~ /\.(a|tbd)$/ }
 
-          required = required_targets(target, targets, include_self: true).map { |a| a[target[:arch]] }.reject(&:nil?)
-          objs     = required.flat_map { |t| objects(t, targets) } + [ runner_obj ]
+        ln_flags, deps = [], []
+        required.each do |t|
+          ln_flags += t[:variables]['LN_FLAGS'].split(' ') if t[:variables].include?('LN_FLAGS')
+          deps += t.dig(:inference, 'LN_FLAGS') || []
+        end
+        ln_flags = [ ln_flags.uniq.join(' ') ]
+        ln_flags += fws.map  { |f| "-framework #{f.shellescape}" }
+        ln_flags += libs.map { |l| "-l#{l.shellescape}" }
+        ln_flags += static
 
-          fws  = required.flat_map { |t| t[:frameworks] }.reject(&:nil?).sort.uniq
-          libs = required.flat_map { |t| t[:libraries]  }.reject(&:nil?).sort.uniq
-          static, libs = libs.partition { |l| l =~ /\.(a|tbd)$/ }
+        unless test_files.empty?
+          ext       = test_files.any? { |f| f.end_with?('.mm') } ? 'mm' : 'cc'
+          runner_cc = File.join(target[:builddir], '_GenTest', target[:name], "test_runner.#{ext}")
+          rules << {
+            name:         'GenTest',
+            in:           test_files.sort,
+            out:          runner_cc,
+            command:      "#{__dir__}/gen_test $in > $out~ && mv $out~ $out",
+            description:  'Generate test runner ‘${out}’…',
+            dependencies: [ "#{__dir__}/gen_test" ],
+          }
 
-          ln_flags, deps = [], []
-          required.each do |t|
-            ln_flags += t[:variables]['LN_FLAGS'].split(' ') if t[:variables].include?('LN_FLAGS')
-            deps += t.dig(:inference, 'LN_FLAGS') || []
+          include_dirs = required_targets(target, targets, include_self: true, include_weak: true)
+            .map { |a| include_dir(a) }.reject(&:nil?).sort.uniq
+          config = target[:variables].merge(
+            prelude:   target[:prelude],
+            inference: target[:inference],
+            include:   include_dirs,
+          )
+
+          if links = Compiler.transform(runner_cc, config, target[:builddir])
+            runner_obj = links.last[:out]
+            link       = links.shift
+            rules += [ link.merge(order_only: [ runner_cc, *Array(link[:order_only]) ]), *links ]
+
+            test_executable = File.join(target[:builddir], '_Tests', "#{target[:name]}_test")
+            rules << {
+              name:         'Link',
+              in:           (required_objects + [ runner_obj ]).sort.uniq,
+              out:          test_executable,
+              flags:        ln_flags.join(' '),
+              command:      'xcrun --sdk macosx clang -o $out $flags $in',
+              description:  'Link test ‘${out}’…',
+              dependencies: deps.uniq.sort,
+            }
+            test_executables << test_executable
+
+            run_marker = File.join(target[:builddir], '.always-run-' + target[:name] + '_test')
+            rules << {
+              name:        'RunTest',
+              in:          test_executable,
+              out:         run_marker,
+              command:     '$in --no-parallel',
+              description: 'Run test ‘$in’…',
+              pool:        'console',
+            }
+            run_markers << run_marker
           end
-          ln_flags = [ ln_flags.uniq.join(' ') ]
-          ln_flags += fws.map  { |f| "-framework #{f.shellescape}" }
-          ln_flags += libs.map { |l| "-l#{l.shellescape}" }
-          ln_flags += static
+        end
 
-          test_executable = File.join(target[:builddir], '_Tests', "#{target[:name]}_test")
+        unless swift_tests.empty?
+          # The entry point SwiftPM uses: the Testing library discovers the
+          # @Test functions and exits nonzero when any of them fails.
+          main_swift = File.join(target[:builddir], '_GenTest', target[:name], 'swift_test_main.swift')
+          rules << {
+            name:        'GenSwiftTestMain',
+            in:          swift_tests.sort,
+            out:         main_swift,
+            command:     "printf 'import Testing\\n\\n@main struct Runner {\\n  static func main() async {\\n    await Testing.__swiftPMEntryPoint() as Never\\n  }\\n}\\n' > $out",
+            description: 'Generate Swift test runner ‘${out}’…',
+          }
+
+          module_name = "#{target[:name]}Tests"
+          outdir      = File.join(target[:builddir], '_CompileSwift', '_Tests', target[:name])
+          test_object = File.join(outdir, "#{module_name}.o")
+
+          flags = []
+          flags << target[:variables]['SWIFT_FLAGS'] if target[:variables].include?('SWIFT_FLAGS')
+          flags << "-module-name #{module_name}"
+          flags << "-emit-module-path #{File.join(outdir, "#{module_name}.swiftmodule").shellescape}"
+          flags << "-o #{test_object.shellescape}"
+          flags << "-F #{SWIFT_TESTING_FRAMEWORKS.shellescape} -framework Testing"
+          flags << "-plugin-path #{SWIFT_TESTING_PLUGINS.shellescape}"
+
+          module_dependencies = []
+          required.each do |t|
+            if required_swift = swift_module(t)
+              flags << "-I #{File.dirname(required_swift[:module]).shellescape}"
+              module_dependencies << required_swift[:module]
+            end
+          end
+
+          rules << {
+            name:         'CompileSwift',
+            in:           swift_tests.sort + [ main_swift ],
+            out:          test_object,
+            flags:        flags.join(' '),
+            command:      'xcrun --sdk macosx swiftc -c -wmo -parse-as-library -emit-dependencies $flags $in',
+            depfile:      test_object.chomp('.o') + '.d',
+            deps:         'gcc',
+            description:  "Compile Swift tests ‘#{module_name}’…",
+            dependencies: module_dependencies,
+          }
+
+          swift_executable = File.join(target[:builddir], '_Tests', "#{target[:name]}_swift_test")
+          swift_ln_flags = ln_flags + [
+            "-L#{SDK_PATH.shellescape}/usr/lib/swift",
+            "-F #{SWIFT_TESTING_FRAMEWORKS.shellescape} -framework Testing",
+            "-Xlinker -rpath -Xlinker #{SWIFT_TESTING_FRAMEWORKS.shellescape}",
+          ]
           rules << {
             name:         'Link',
-            in:           objs.sort.uniq,
-            out:          test_executable,
-            flags:        ln_flags.join(' '),
+            in:           (required_objects + [ test_object ]).sort.uniq,
+            out:          swift_executable,
+            flags:        swift_ln_flags.join(' '),
             command:      'xcrun --sdk macosx clang -o $out $flags $in',
-            description:  'Link test ‘${out}’…',
+            description:  'Link Swift test ‘${out}’…',
             dependencies: deps.uniq.sort,
           }
+          test_executables << swift_executable
 
-          rules << {
-            name: 'phony',
-            in:   test_executable,
-            out:  "#{target[:identifier]}/test",
-          }
-
-          run_marker = File.join(target[:builddir], '.always-run-' + target[:name] + '_test')
+          run_marker = File.join(target[:builddir], '.always-run-' + target[:name] + '_swift_test')
           rules << {
             name:        'RunTest',
-            in:          test_executable,
+            in:          swift_executable,
             out:         run_marker,
-            command:     '$in --no-parallel',
-            description: 'Run test ‘$in’…',
+            command:     '$in',
+            description: 'Run Swift test ‘$in’…',
             pool:        'console',
+          }
+          run_markers << run_marker
+        end
+
+        unless test_executables.empty?
+          test_executable = test_executables.first
+
+          rules << {
+            name: 'phony',
+            in:   test_executables,
+            out:  "#{target[:identifier]}/test",
           }
           rules << {
             name: 'phony',
-            in:   run_marker,
+            in:   run_markers,
             out:  "#{target[:identifier]}/test/run",
           }
         end
