@@ -12,6 +12,18 @@ SDK_PATH = `xcrun --sdk macosx --show-sdk-path`.strip
 SWIFT_TESTING_FRAMEWORKS = File.join(`xcrun --sdk macosx --show-sdk-platform-path`.strip, 'Developer/Library/Frameworks')
 SWIFT_TESTING_PLUGINS    = File.expand_path('../../lib/swift/host/plugins/testing', `xcrun --find swift`.strip)
 
+# The entry point SwiftPM uses: the Testing library discovers the @Test functions
+# and exits nonzero when any of them fails. Generated next to each Swift test module.
+SWIFT_TEST_MAIN = <<~SWIFT
+  import Testing
+
+  @main struct Runner {
+    static func main() async {
+      await Testing.__swiftPMEntryPoint() as Never
+    }
+  }
+SWIFT
+
 class Parser
   attr_reader :globs, :targets, :environment
 
@@ -1313,14 +1325,14 @@ module Target
         end
 
         unless swift_tests.empty?
-          # The entry point SwiftPM uses: the Testing library discovers the
-          # @Test functions and exits nonzero when any of them fails.
+          # A ninja command is one line, so the source travels with its newlines
+          # spelled out for printf. It holds no quote, percent or dollar sign.
           main_swift = File.join(target[:builddir], '_GenTest', target[:name], 'swift_test_main.swift')
           rules << {
             name:        'GenSwiftTestMain',
             in:          swift_tests.sort,
             out:         main_swift,
-            command:     "printf 'import Testing\\n\\n@main struct Runner {\\n  static func main() async {\\n    await Testing.__swiftPMEntryPoint() as Never\\n  }\\n}\\n' > $out",
+            command:     "printf '#{SWIFT_TEST_MAIN.gsub("\n", '\n')}' > $out",
             description: 'Generate Swift test runner ‘${out}’…',
           }
 
