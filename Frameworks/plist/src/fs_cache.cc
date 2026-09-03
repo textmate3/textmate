@@ -1,7 +1,4 @@
 #include "fs_cache.h"
-#include "cache.capnp.h"
-#include <capnp/message.h>
-#include <capnp/serialize-packed.h>
 #include <io/entries.h>
 #include <text/format.h>
 #include <oak/debug.h>
@@ -25,7 +22,6 @@ static std::string read_link (std::string const& path)
 namespace plist
 {
 	int32_t const cache_t::kPropertyCacheFormatVersion = 2;
-	uint32_t const kCapnpCacheFormatVersion = 2;
 
 	void cache_t::load (std::string const& path)
 	{
@@ -88,89 +84,6 @@ namespace plist
 		}
 	}
 
-	void cache_t::load_capnp (std::string const& path)
-	{
-		try {
-			real_load(path);
-		}
-		catch(std::exception const& e) {
-			os_log_error(OS_LOG_DEFAULT, "Exception thrown while loading ‘%{public}s’: %{public}s", path.c_str(), e.what());
-		}
-	}
-
-	void cache_t::real_load (std::string const& path)
-	{
-		int fd = open(path.c_str(), O_RDONLY|O_CLOEXEC);
-		if(fd != -1)
-		{
-			capnp::PackedFdMessageReader message(kj::AutoCloseFd{fd});
-			auto cache = message.getRoot<Cache>();
-			if(cache.getVersion() != kCapnpCacheFormatVersion)
-			{
-				os_log_error(OS_LOG_DEFAULT, "Skip ‘%{public}s’ version %u (expected %u)", path.c_str(), cache.getVersion(), kCapnpCacheFormatVersion);
-				return;
-			}
-
-			for(auto src : cache.getEntries())
-			{
-				entry_t entry(src.getPath());
-				switch(src.getType().which())
-				{
-					case Entry::Type::Which::FILE:
-					{
-						entry.set_type(entry_type_t::file);
-						entry.set_modified(src.getType().getFile().getModified());
-
-						plist::dictionary_t plist;
-						for(auto pair : src.getType().getFile().getContent())
-						{
-							if(pair.hasValue())
-							{
-								plist.emplace(pair.getKey(), std::string(pair.getValue()));
-							}
-							else
-							{
-								auto array = pair.getPlist();
-								plist.emplace(pair.getKey(), plist::parse(std::string(array.begin(), array.end())));
-							}
-						}
-						entry.set_content(plist);
-					}
-					break;
-
-					case Entry::Type::Which::DIRECTORY:
-					{
-						entry.set_type(entry_type_t::directory);
-						entry.set_event_id(src.getType().getDirectory().getEventId());
-						entry.set_glob_string(src.getType().getDirectory().getGlob());
-
-						std::vector<std::string> v;
-						for(auto path : src.getType().getDirectory().getItems())
-							v.push_back(path);
-						entry.set_entries(v);
-					}
-					break;
-
-					case Entry::Type::Which::LINK:
-					{
-						entry.set_type(entry_type_t::link);
-						entry.set_link(src.getType().getLink());
-					}
-					break;
-
-					case Entry::Type::Which::MISSING:
-					{
-						entry.set_type(entry_type_t::missing);
-					}
-					break;
-				}
-
-				if(entry.type() != entry_type_t::unknown)
-					_cache.emplace(src.getPath(), entry);
-			}
-		}
-	}
-
 	void cache_t::save (std::string const& path) const
 	{
 		plist::save(path, to_plist());
@@ -208,78 +121,6 @@ namespace plist
 		}
 		plist["version"] = kPropertyCacheFormatVersion;
 		return plist;
-	}
-
-	void cache_t::save_capnp (std::string const& path) const
-	{
-		capnp::MallocMessageBuilder message;
-		auto cache = message.initRoot<Cache>();
-		cache.setVersion(kCapnpCacheFormatVersion);
-		auto entries = cache.initEntries(_cache.size());
-
-		size_t i = 0;
-		for(auto pair : _cache)
-		{
-			auto entry = entries[i++];
-			entry.setPath(pair.first);
-
-			if(pair.second.is_file())
-			{
-				auto file = entry.getType().initFile();
-				file.setModified(pair.second.modified());
-
-				auto const& plist = pair.second.content();
-				auto content = file.initContent(plist.size());
-				size_t j = 0;
-				for(auto src : plist)
-				{
-					auto dst = content[j++];
-					dst.setKey(src.first);
-					if(std::string const* str = plist::get_if<std::string>(&src.second))
-					{
-						dst.setValue(str->c_str());
-					}
-					else
-					{
-						if(CFPropertyListRef cfPlist = plist::create_cf_property_list(src.second))
-						{
-							if(CFDataRef data = CFPropertyListCreateData(kCFAllocatorDefault, cfPlist, kCFPropertyListBinaryFormat_v1_0, 0, nullptr))
-							{
-								dst.setPlist(capnp::Data::Reader(CFDataGetBytePtr(data), CFDataGetLength(data)));
-								CFRelease(data);
-							}
-							CFRelease(cfPlist);
-						}
-					}
-				}
-			}
-			else if(pair.second.is_directory())
-			{
-				auto dir = entry.getType().initDirectory();
-				dir.setGlob(pair.second.glob_string());
-				dir.setEventId(pair.second.event_id());
-
-				auto const& v = pair.second.entries();
-				auto items = dir.initItems(v.size());
-				for(size_t j = 0; j < v.size(); ++j)
-					items.set(j, v[j]);
-			}
-			else if(pair.second.is_link())
-			{
-				entry.getType().setLink(pair.second.link());
-			}
-			else if(pair.second.is_missing())
-			{
-				entry.getType().setMissing();
-			}
-		}
-
-		int fd = open(path.c_str(), O_CREAT|O_TRUNC|O_WRONLY|O_CLOEXEC, S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH);
-		if(fd != -1)
-		{
-			writePackedMessageToFd(fd, message);
-			close(fd);
-		}
 	}
 
 	uint64_t cache_t::event_id_for_path (std::string const& path) const

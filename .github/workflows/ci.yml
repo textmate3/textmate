@@ -31,7 +31,6 @@ jobs:
       - name: Point the build at Homebrew
         run: |
           printf 'add FLAGS    "-I/opt/homebrew/include"\n' >  local.rave
-          printf 'add LN_FLAGS "-L/opt/homebrew/lib"\n'     >> local.rave
 
       - name: Configure
         run: ./configure

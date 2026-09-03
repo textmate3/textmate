@@ -25,7 +25,6 @@ To build TextMate, you need the following:
 | Dependency           | Usage                                                      |
 | -------------------- | ---------------------------------------------------------- |
 | [boost][]            | portable C++ source libraries                              |
-| [Cap’n Proto][capnp] | serialization library                                      |
 | [multimarkdown][]    | marked-up plain text compiler                              |
 | [ninja][]            | build system similar to `make`                             |
 | [ragel][]            | state machine compiler                                     |
@@ -83,7 +82,6 @@ The source for TextMate is released under the GNU General Public License as publ
 TextMate is a trademark of Allan Odgaard.
 
 [boost]: http://www.boost.org
-[capnp]: https://github.com/capnproto/capnproto
 [multimarkdown]: http://fletcherpenney.net/multimarkdown
 [ninja]: https://ninja-build.org
 [ragel]: https://colm.net/open-source/ragel

@@ -8,14 +8,12 @@ namespace plist
 {
 	struct cache_t
 	{
+		// On disk the cache is a binary property list: one node per path plus
+		// a version key. load and save go through to_plist and from_plist,
+		// and so can anything else that wants the cache as plain data.
 		void load (std::string const& path);
-		void load_capnp (std::string const& path);
 		void save (std::string const& path) const;
-		void save_capnp (std::string const& path) const;
 
-		// The property list form of the whole cache, one node per path plus
-		// a version key. load and save go through these, and so can anything
-		// else that wants the cache as plain data.
 		plist::dictionary_t to_plist () const;
 		void from_plist (plist::dictionary_t const& plist);
 
@@ -45,8 +43,6 @@ namespace plist
 		plist::dictionary_t (*content_filter () const)(plist::dictionary_t const&)     { return _prune_dictionary; }
 
 	private:
-		void real_load (std::string const& path);
-
 		static int32_t const kPropertyCacheFormatVersion;
 		enum class entry_type_t { file, directory, link, missing, unknown };
 
