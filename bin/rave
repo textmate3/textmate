@@ -861,7 +861,9 @@ module Target
           # Swift in a required target is importable by module name, the way
           # Objective-C in one is importable by header.
           required_targets(target, targets, include_weak: true).each do |archs|
-            if required = archs[target[:arch]] and required_swift = swift_module(required)
+            required = archs[target[:arch]]
+            next if required.nil? || required[:identifier] == target[:identifier]
+            if required_swift = swift_module(required)
               flags << "-I #{File.dirname(required_swift[:module]).shellescape}"
               dependencies << required_swift[:module]
             end
@@ -877,7 +879,9 @@ module Target
             deps:         'gcc',
             description:  "Compile Swift module ‘#{swift[:name]}’…",
             dependencies: dependencies,
-            order_only:   config[:include],
+            # The target's own exported headers include the header this step
+            # writes, so waiting for them would wait for itself.
+            order_only:   (config[:include] || []) - [ File.join(target[:builddir], '_Include', target[:name]) ],
           }
 
           objects << swift[:object]
