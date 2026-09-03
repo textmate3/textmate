@@ -6,6 +6,46 @@
 
 static std::string const kSeparatorString = "------------------------------------";
 
+namespace
+{
+	static std::string const kFieldChangedItems = "changed";
+	static std::string const kFieldDeletedItems = "deleted";
+	static std::string const kFieldMainMenu     = "mainMenu";
+}
+
+plist::dictionary_t prune_bundle_item_plist (plist::dictionary_t const& plist)
+{
+	static auto const DesiredKeys = new std::set<std::string>{ bundles::kFieldName, bundles::kFieldKeyEquivalent, bundles::kFieldTabTrigger, bundles::kFieldScopeSelector, bundles::kFieldSemanticClass, bundles::kFieldContentMatch, bundles::kFieldGrammarFirstLineMatch, bundles::kFieldGrammarScope, bundles::kFieldGrammarInjectionSelector, bundles::kFieldDropExtension, bundles::kFieldGrammarExtension, bundles::kFieldSettingName, bundles::kFieldHideFromUser, bundles::kFieldIsDeleted, bundles::kFieldIsDisabled, bundles::kFieldRequiredItems, bundles::kFieldUUID, bundles::kFieldIsDelta, kFieldMainMenu, kFieldDeletedItems, kFieldChangedItems };
+
+	plist::dictionary_t res;
+	for(auto pair : plist)
+	{
+		if(DesiredKeys->find(pair.first) == DesiredKeys->end() && pair.first.find(bundles::kFieldSettingName) != 0)
+			continue;
+
+		if(pair.first == bundles::kFieldSettingName)
+		{
+			if(plist::dictionary_t const* dictionary = plist::get_if<plist::dictionary_t>(&pair.second))
+			{
+				plist::array_t settings;
+				for(auto const& settingsPair : *dictionary)
+					settings.push_back(settingsPair.first);
+				res.emplace(pair.first, settings);
+			}
+		}
+		else if(pair.first == kFieldChangedItems)
+		{
+			if(plist::dictionary_t const* dictionary = plist::get_if<plist::dictionary_t>(&pair.second))
+				res.emplace(pair.first, prune_bundle_item_plist(*dictionary));
+		}
+		else
+		{
+			res.insert(pair);
+		}
+	}
+	return res;
+}
+
 static std::vector<oak::uuid_t> to_menu (plist::array_t const& uuids, std::string const& path)
 {
 	std::vector<oak::uuid_t> res;

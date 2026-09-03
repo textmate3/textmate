@@ -461,46 +461,6 @@ static NSString* SafeBasename (NSString* name)
 	}
 }
 
-namespace
-{
-	static std::string const kFieldChangedItems = "changed";
-	static std::string const kFieldDeletedItems = "deleted";
-	static std::string const kFieldMainMenu     = "mainMenu";
-
-	static plist::dictionary_t prune_dictionary (plist::dictionary_t const& plist)
-	{
-		static auto const DesiredKeys = new std::set<std::string>{ bundles::kFieldName, bundles::kFieldKeyEquivalent, bundles::kFieldTabTrigger, bundles::kFieldScopeSelector, bundles::kFieldSemanticClass, bundles::kFieldContentMatch, bundles::kFieldGrammarFirstLineMatch, bundles::kFieldGrammarScope, bundles::kFieldGrammarInjectionSelector, bundles::kFieldDropExtension, bundles::kFieldGrammarExtension, bundles::kFieldSettingName, bundles::kFieldHideFromUser, bundles::kFieldIsDeleted, bundles::kFieldIsDisabled, bundles::kFieldRequiredItems, bundles::kFieldUUID, bundles::kFieldIsDelta, kFieldMainMenu, kFieldDeletedItems, kFieldChangedItems };
-
-		plist::dictionary_t res;
-		for(auto pair : plist)
-		{
-			if(DesiredKeys->find(pair.first) == DesiredKeys->end() && pair.first.find(bundles::kFieldSettingName) != 0)
-				continue;
-
-			if(pair.first == bundles::kFieldSettingName)
-			{
-				if(plist::dictionary_t const* dictionary = plist::get_if<plist::dictionary_t>(&pair.second))
-				{
-					plist::array_t settings;
-					for(auto const& settingsPair : *dictionary)
-						settings.push_back(settingsPair.first);
-					res.emplace(pair.first, settings);
-				}
-			}
-			else if(pair.first == kFieldChangedItems)
-			{
-				if(plist::dictionary_t const* dictionary = plist::get_if<plist::dictionary_t>(&pair.second))
-					res.emplace(pair.first, prune_dictionary(*dictionary));
-			}
-			else
-			{
-				res.insert(pair);
-			}
-		}
-		return res;
-	}
-}
-
 - (void)moveAvianBundles
 {
 	NSFileManager* fm = NSFileManager.defaultManager;
@@ -567,7 +527,7 @@ namespace
 	for(auto path : bundles::locations())
 		bundlesPaths.push_back(path::join(path, "Bundles"));
 	bundlesIndexPath = path::join(path::home(), "Library/Caches/com.macromates.TextMate/BundlesIndex.binary");
-	cache.set_content_filter(&prune_dictionary);
+	cache.set_content_filter(&prune_bundle_item_plist);
 
 	// LEGACY bundle index used prior to 2.0-alpha.9467
 	std::string const oldPath = path::join(path::home(), "Library/Caches/com.macromates.TextMate/BundlesIndex.plist");
