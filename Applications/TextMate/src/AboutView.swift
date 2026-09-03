@@ -42,10 +42,16 @@ struct AboutView: View {
 				"""
 			)
 
-			Text("TextMate is a trademark of Allan Odgaard and the program is \(info.copyright).")
-				.font(.footnote)
-				.foregroundStyle(.secondary)
-				.italic()
+			Text(
+				"""
+				TextMate is a trademark of Allan Odgaard. Copyright © Allan Odgaard and the TextMate 3 contributors. \
+				This program comes with absolutely no warranty. It is free software, and you are welcome to redistribute it \
+				under the terms of the \
+				[GNU General Public License, version 3](https://github.com/textmate3/textmate/blob/main/LICENSE.md).
+				"""
+			)
+			.font(.footnote)
+			.foregroundStyle(.secondary)
 
 			Spacer()
 		}
