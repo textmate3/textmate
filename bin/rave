@@ -858,6 +858,15 @@ module Target
             dependencies << swift[:bridging_header]
           end
 
+          # Swift in a required target is importable by module name, the way
+          # Objective-C in one is importable by header.
+          required_targets(target, targets, include_weak: true).each do |archs|
+            if required = archs[target[:arch]] and required_swift = swift_module(required)
+              flags << "-I #{File.dirname(required_swift[:module]).shellescape}"
+              dependencies << required_swift[:module]
+            end
+          end
+
           rules << {
             name:         'CompileSwift',
             in:           swift[:sources],
