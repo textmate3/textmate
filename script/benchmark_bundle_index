@@ -32,11 +32,11 @@ require 'tmpdir'
 
 Dir.chdir(File.expand_path('..', __dir__))
 
-options = { rounds: 10, baseline_rounds: 3, launches: 5, out: nil }
+options = { rounds: 10, baseline_rounds: 4, launches: 5, out: nil }
 OptionParser.new do |parser|
   parser.banner = 'usage: script/benchmark_bundle_index [options]'
   parser.on('--rounds N', Integer, 'rounds per format, default 10') { options[:rounds] = it }
-  parser.on('--baseline-rounds N', Integer, 'index builds from nothing, default 3') { options[:baseline_rounds] = it }
+  parser.on('--baseline-rounds N', Integer, 'index builds from nothing, default 4, the first is reported apart') { options[:baseline_rounds] = it }
   parser.on('--launches N', Integer, 'launch pairs, one without and one with a cache, default 5, 0 skips') { options[:launches] = it }
   parser.on('--out PATH', 'write the report here as well as to the terminal') { options[:out] = it }
 end.parse!
@@ -118,10 +118,11 @@ report << "#{info['bundles']} bundles, #{info['items']} bundle items, #{info['en
 report << "Load average during the format rounds: #{load_averages.min} to #{load_averages.max}. Anything above the core count means the machine was busy and the numbers are noisy."
 
 report.section('Index build from nothing')
-report << 'What a launch costs without a cache: every bundle file read and parsed.'
+report << 'What a launch costs without a cache: every bundle file read and parsed. The first build in a process pays for paging in the parsing code and warming the regular expression and property list machinery, which the application pays before it reaches the index, so the later builds are the number to compare with a launch.'
 report << ''
-no_cache = samples['nocache']['index']
-report << markdown_table(%w[Runs Median\ ms Min\ ms Max\ ms], [[no_cache.size, milliseconds(median(no_cache)), milliseconds(no_cache.min), milliseconds(no_cache.max)]])
+first, *later = samples['nocache']['index']
+later = [first] if later.empty?
+report << markdown_table(['First build ms', 'Later builds', 'Later median ms', 'Later min ms'], [[milliseconds(first), later.size, milliseconds(median(later)), milliseconds(later.min)]])
 
 report.section('Cache formats')
 report << 'Load is the file on disk to a populated cache. Index is the bundle index built from that loaded cache, which touches no files and is the same work for every format, so it doubles as a check that the loaded cache is complete. Round trip compares the loaded cache with the original.'
