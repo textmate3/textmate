@@ -10,6 +10,10 @@ jobs:
     # which only the macOS 26 image carries. That image is Apple Silicon.
     runs-on: macos-26
 
+    # Uploading gtm to the release needs write access to repository contents.
+    permissions:
+      contents: write
+
     steps:
       - uses: actions/checkout@v7
         with:
@@ -39,3 +43,14 @@ jobs:
         env:
           TM_TEST_READ_ONLY_VOLUME: "1"
         run: script/test
+
+      # The grammar test tool, published on the rolling gtm prerelease from every
+      # push to main, for bundle workflows that run on runners without TextMate.
+      - name: Publish gtm
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gtm=$(find "$HOME/build" -path '*/TextMate.app/Contents/MacOS/gtm' -type f | head -1)
+          test -n "$gtm" || { echo "gtm not found under $HOME/build"; exit 1; }
+          gh release upload gtm "$gtm" --clobber

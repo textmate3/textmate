@@ -30,7 +30,7 @@ target "${dirname}" {
 
 	copy  ../../vendor/Sparkle/Sparkle.framework "Frameworks"
 	files resources/* icons/*.icns @PrivilegedTool "Resources"
-	files @mate @tm_query    "MacOS"
+	files @mate @tm_query @gtm "MacOS"
 	files about/*            "Resources/About"
 	files Info.plist         "."
 	copy  support/*          "SharedSupport"
