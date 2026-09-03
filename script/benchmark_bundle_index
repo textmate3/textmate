@@ -1,29 +1,19 @@
 #!/usr/bin/env ruby
-# script/benchmark_bundle_index — measure the bundle index cache
+# script/benchmark_bundle_index — measure what the bundle index cache saves at launch
 #
 # The bundle index cache is what lets a warm launch skip re-reading every bundle
-# item. The application stores it through Cap'n Proto, the only reason the shipped
-# binaries load Homebrew's libcapnp and libkj at run time. This script answers,
-# in milliseconds on this machine, whether a plain format could replace it.
+# item. This script launches the application hidden and in the background against
+# a scratch cache, so the real one is never touched, alternating between no cache
+# and a warm cache. The application reports the cache load, the index build and
+# the whole launch on stderr, and the report shows medians of each.
 #
-# It builds two things, then runs two measurements:
-#
-#   1. The bundle_index_benchmark tool builds the cache the way the application
-#      does, writes it in every candidate format, and times the write, the read
-#      back into a cache, and the index build from the loaded cache. It also
-#      times an index build from nothing, which is a launch without a cache.
-#   2. The application itself is launched hidden and in the background, against
-#      a scratch cache so the real one is never touched, alternating between no
-#      cache and a warm cache. It reports the cache load, the index build and the
-#      whole launch on stderr.
-#
-# The launch measurement needs no TextMate running, since two instances share
-# Application Support and the mate server port. It never activates the window.
+# It needs no TextMate running, this build or the official one, since two
+# instances share Application Support and the mate server port. It never
+# activates a window.
 #
 # Usage:
-#   script/benchmark_bundle_index                    # build, measure formats and launches
-#   script/benchmark_bundle_index --rounds 20        # more rounds per format
-#   script/benchmark_bundle_index --launches 0       # formats only
+#   script/benchmark_bundle_index                    # build, then five launches of each kind
+#   script/benchmark_bundle_index --launches 10      # more launches
 #   script/benchmark_bundle_index --out results.md   # also write the report to a file
 
 require 'fileutils'
@@ -32,33 +22,20 @@ require 'tmpdir'
 
 Dir.chdir(File.expand_path('..', __dir__))
 
-options = { rounds: 10, baseline_rounds: 4, launches: 5, out: nil }
+options = { launches: 5, out: nil }
 OptionParser.new do |parser|
   parser.banner = 'usage: script/benchmark_bundle_index [options]'
-  parser.on('--rounds N', Integer, 'rounds per format, default 10') { options[:rounds] = it }
-  parser.on('--baseline-rounds N', Integer, 'index builds from nothing, default 4, the first is reported apart') { options[:baseline_rounds] = it }
-  parser.on('--launches N', Integer, 'launch pairs, one without and one with a cache, default 5, 0 skips') { options[:launches] = it }
+  parser.on('--launches N', Integer, 'launch pairs, one without and one with a cache, default 5') { options[:launches] = it }
   parser.on('--out PATH', 'write the report here as well as to the terminal') { options[:out] = it }
 end.parse!
 
-# =========
-# = Build =
-# =========
+running = `pgrep -x TextMate`.split
+abort("TextMate is running (process #{running.join(', ')}). Quit every TextMate, this build and the official one, and run again.") if running.any?
 
-system('ninja', 'bundle_index_benchmark', 'TextMate') or abort('build failed')
+system('ninja', 'TextMate') or abort('build failed')
 
 build_directory = File.read('build.ninja')[/^builddir = (.+)$/, 1] or abort('no builddir in build.ninja, run ./configure')
-harness = File.join(build_directory, 'release/Applications/bundle_index_benchmark/bundle_index_benchmark')
 application = File.join(build_directory, 'release/Applications/TextMate/TextMate.app')
-
-locations = [
-  File.expand_path('~/Library/Application Support/TextMate'),
-  File.expand_path('~/Library/Application Support/TextMate/Pristine Copy'),
-  File.expand_path('~/Library/Application Support/TextMate/Managed'),
-  '/Library/Application Support/TextMate',
-  '/Library/Application Support/TextMate/Pristine Copy',
-  File.join(application, 'Contents/SharedSupport')
-]
 
 # ===========
 # = Helpers =
@@ -81,64 +58,6 @@ def markdown_table(headers, rows, text_columns: [headers.first])
   separator = "|#{headers.each_index.map { |column| numeric[column] ? "#{'-' * (widths[column] + 1)}:" : "-#{'-' * (widths[column] + 1)}" }.join('|')}|"
   [line.call(headers), separator, *rows.map { line.call(it) }].join("\n")
 end
-
-report = []
-def report.section(title) = push('', "## #{title}", '')
-
-# ===========
-# = Formats =
-# ===========
-
-info = {}
-sizes = {}
-roundtrips = {}
-samples = Hash.new { |hash, key| hash[key] = Hash.new { |inner, op| inner[op] = [] } }
-load_averages = []
-
-arguments = [harness, '--rounds', options[:rounds].to_s, '--baseline-rounds', options[:baseline_rounds].to_s]
-locations.each { arguments.push('--location', it) }
-
-puts "Running #{options[:rounds]} rounds per format, #{options[:baseline_rounds]} index builds from nothing…"
-IO.popen(arguments) do |io|
-  io.each_line do |line|
-    kind, *fields = line.chomp.split("\t")
-    case kind
-    when 'info'      then fields[0] == 'loadavg' ? load_averages << fields[1].to_f : info[fields[0]] = fields[1]
-    when 'size'      then sizes[fields[0]] = fields[1].to_i
-    when 'roundtrip' then roundtrips[fields[0]] = fields[1]
-    when 'sample'    then samples[fields[1]][fields[2]] << fields[3].to_f
-    end
-  end
-end
-abort('the benchmark tool failed') unless $?.success?
-
-machine = `sysctl -n machdep.cpu.brand_string`.strip
-macos = `sw_vers -productVersion`.strip
-report << '# Bundle index cache benchmark'
-report << ''
-report << "#{Time.now.strftime('%Y-%m-%d %H:%M')}, #{machine}, macOS #{macos}."
-report << "#{info['bundles']} bundles, #{info['items']} bundle items, #{info['entries']} cache entries."
-report << "Load average during the format rounds: #{load_averages.min} to #{load_averages.max}. Anything above the core count means the machine was busy and the numbers are noisy."
-
-report.section('Index build from nothing')
-report << 'What a launch costs without a cache: every bundle file read and parsed. The first build in a process pays for paging in the parsing code and warming the regular expression and property list machinery, which the application pays before it reaches the index, so the later builds are the number to compare with a launch.'
-report << ''
-first, *later = samples['nocache']['index']
-later = [first] if later.empty?
-report << markdown_table(['First build ms', 'Later builds', 'Later median ms', 'Later min ms'], [[milliseconds(first), later.size, milliseconds(median(later)), milliseconds(later.min)]])
-
-report.section('Cache formats')
-report << 'Load is the file on disk to a populated cache. Index is the bundle index built from that loaded cache, which touches no files and is the same work for every format, so it doubles as a check that the loaded cache is complete. Round trip compares the loaded cache with the original.'
-report << ''
-format_order = %w[capnp plist_binary plist_xml json jsonl csv yaml]
-rows = format_order.select { samples.key?(it) }.map do |name|
-  [name, sizes[name], milliseconds(median(samples[name]['save'])), milliseconds(median(samples[name]['load'])), milliseconds(samples[name]['load'].min), milliseconds(median(samples[name]['index'])), roundtrips[name]]
-end
-report << markdown_table(['Format', 'Bytes', 'Save median ms', 'Load median ms', 'Load min ms', 'Index median ms', 'Round trip'], rows, text_columns: ['Format', 'Round trip'])
-
-# ============
-# = Launches =
-# ============
 
 def wait_for(seconds)
   deadline = Time.now + seconds
@@ -184,56 +103,62 @@ def launch_once(application:, cache_path:, log_path:, warm:)
   }
 end
 
-if options[:launches].positive?
-  running = `pgrep -x TextMate`.split
-  if running.any?
-    report.section('Launches')
-    report << "Skipped: TextMate is running (process #{running.join(', ')}). Quit every TextMate, this build and the official one, and run again."
-    warn 'TextMate is running, skipping the launch measurement.'
-  else
-    puts "Launching the application #{options[:launches]} times without a cache and #{options[:launches]} times with one…"
-    launch_samples = { cold: [], warm: [] }
-    launch_load_averages = []
-    Dir.mktmpdir('bundle_index_benchmark') do |scratch|
-      # The launched application writes its window session half a second after
-      # any window event, into the same file the real one reads at its next
-      # launch. Keep a copy and put it back afterwards, whatever happens.
-      session_path = File.expand_path('~/Library/Application Support/TextMate/Session/Info.plist')
-      session_backup = File.join(scratch, 'Session.plist')
-      FileUtils.cp(session_path, session_backup) if File.exist?(session_path)
+# ============
+# = Launches =
+# ============
 
-      begin
-        cache_path = File.join(scratch, 'BundlesIndex.binary')
-        options[:launches].times do |i|
-          launch_load_averages << `sysctl -n vm.loadavg`[/\{ ([\d.]+)/, 1].to_f
-          %i[cold warm].each do |mode|
-            sample = launch_once(application:, cache_path:, log_path: File.join(scratch, "launch_#{i}_#{mode}.log"), warm: mode == :warm)
-            if sample
-              launch_samples[mode] << sample
-              puts "  #{mode}: launch #{milliseconds(sample[:launch])} ms, cache load #{milliseconds(sample[:load])} ms, index #{milliseconds(sample[:index])} ms"
-            else
-              warn "  #{mode}: launch did not report, see #{scratch}"
-            end
-          end
+puts "Launching the application #{options[:launches]} times without a cache and #{options[:launches]} times with one…"
+samples = { cold: [], warm: [] }
+load_averages = []
+Dir.mktmpdir('bundle_index_benchmark') do |scratch|
+  # The launched application writes its window session half a second after
+  # any window event, into the same file the real one reads at its next
+  # launch. Keep a copy and put it back afterwards, whatever happens.
+  session_path = File.expand_path('~/Library/Application Support/TextMate/Session/Info.plist')
+  session_backup = File.join(scratch, 'Session.plist')
+  FileUtils.cp(session_path, session_backup) if File.exist?(session_path)
+
+  begin
+    cache_path = File.join(scratch, 'BundlesIndex.plist')
+    options[:launches].times do |i|
+      load_averages << `sysctl -n vm.loadavg`[/\{ ([\d.]+)/, 1].to_f
+      %i[cold warm].each do |mode|
+        sample = launch_once(application:, cache_path:, log_path: File.join(scratch, "launch_#{i}_#{mode}.log"), warm: mode == :warm)
+        if sample
+          samples[mode] << sample
+          puts "  #{mode}: launch #{milliseconds(sample[:launch])} ms, cache load #{milliseconds(sample[:load])} ms, index #{milliseconds(sample[:index])} ms"
+        else
+          warn "  #{mode}: launch did not report, see #{scratch}"
         end
-      ensure
-        FileUtils.cp(session_backup, session_path) if File.exist?(session_backup)
       end
     end
-
-    report.section('Launches')
-    report << 'The application launched hidden and in the background, alternating no cache and a warm cache in the packed format it uses today. Launch is from process start to the end of application launch, dyld and framework loading included. Cache load and index are the two steps inside it that the cache format affects.'
-    report << "Load average during the launches: #{launch_load_averages.min} to #{launch_load_averages.max}."
-    report << ''
-    rows = %i[cold warm].map do |mode|
-      values = launch_samples[mode]
-      next [mode == :cold ? 'No cache' : 'Warm cache', 0, '', '', '', ''] if values.empty?
-
-      [mode == :cold ? 'No cache' : 'Warm cache', values.size, milliseconds(median(values.map { it[:launch] })), milliseconds(values.map { it[:launch] }.min), milliseconds(median(values.map { it[:load] })), milliseconds(median(values.map { it[:index] }))]
-    end
-    report << markdown_table(['Launch', 'Runs', 'Launch median ms', 'Launch min ms', 'Cache load median ms', 'Index median ms'], rows)
+  ensure
+    FileUtils.cp(session_backup, session_path) if File.exist?(session_backup)
   end
 end
+
+# ==========
+# = Report =
+# ==========
+
+machine = `sysctl -n machdep.cpu.brand_string`.strip
+macos = `sw_vers -productVersion`.strip
+
+report = []
+report << '# Bundle index cache benchmark'
+report << ''
+report << "#{Time.now.strftime('%Y-%m-%d %H:%M')}, #{machine}, macOS #{macos}."
+report << "Load average during the launches: #{load_averages.min} to #{load_averages.max}. Anything above the core count means the machine was busy and the numbers are noisy."
+report << ''
+report << 'The application launched hidden and in the background, alternating no cache and a warm cache. Launch is from process start to the end of application launch, dyld and framework loading included. Cache load and index are the two steps inside it that the cache affects.'
+report << ''
+rows = %i[cold warm].map do |mode|
+  values = samples[mode]
+  next [mode == :cold ? 'No cache' : 'Warm cache', 0, '', '', '', ''] if values.empty?
+
+  [mode == :cold ? 'No cache' : 'Warm cache', values.size, milliseconds(median(values.map { it[:launch] })), milliseconds(values.map { it[:launch] }.min), milliseconds(median(values.map { it[:load] })), milliseconds(median(values.map { it[:index] }))]
+end
+report << markdown_table(['Launch', 'Runs', 'Launch median ms', 'Launch min ms', 'Cache load median ms', 'Index median ms'], rows)
 
 text = "#{report.join("\n")}\n"
 puts
