@@ -1,9 +1,7 @@
 #include "encoding.h"
-#include "frequencies.capnp.h"
-#include <capnp/message.h>
-#include <capnp/serialize-packed.h>
+#include <plist/plist.h>
 
-static uint32_t const kCapnpClassifierFormatVersion = 1;
+static int32_t const kClassifierFormatVersion = 1;
 
 namespace encoding
 {
@@ -107,7 +105,6 @@ namespace encoding
 		}
 
 	private:
-		void real_load (std::string const& path);
 
 		template <typename _F>
 		static void each_word (char const* first, char const* last, _F op)
@@ -151,96 +148,95 @@ namespace encoding
 		return res;
 	}
 
-	void classifier_t::load (std::string const& path)
+	// The counts live on disk as a binary property list:
+	//
+	//   version  1
+	//   charsets { "<charset>" : { words { "<word>" : count }, bytes { "<byte value>" : count } } }
+	//
+	// A count comes back as int32 when it fits and uint64 otherwise, which is
+	// how the property list loader types every integer.
+	static size_t count_from (plist::any_t const& value)
 	{
-		try {
-			real_load(path);
-		}
-		catch(std::exception const& e) {
-			os_log_error(OS_LOG_DEFAULT, "Exception thrown while loading ‘%{public}s’: %{public}s", path.c_str(), e.what());
-		}
+		if(int32_t const* small = plist::get_if<int32_t>(&value))
+			return *small;
+		if(uint64_t const* large = plist::get_if<uint64_t>(&value))
+			return *large;
+		return 0;
 	}
 
-	void classifier_t::real_load (std::string const& path)
+	void classifier_t::load (std::string const& path)
 	{
-		int fd = open(path.c_str(), O_RDONLY|O_CLOEXEC);
-		if(fd != -1)
+		int32_t version;
+		plist::dictionary_t const plist = plist::load(path);
+		if(!plist::get_key_path(plist, "version", version) || version != kClassifierFormatVersion)
+			return;
+
+		plist::dictionary_t charsets;
+		if(!plist::get_key_path(plist, "charsets", charsets))
+			return;
+
+		for(auto const& pair : charsets)
 		{
-			capnp::PackedFdMessageReader message(kj::AutoCloseFd{fd});
-			auto freq = message.getRoot<Frequencies>();
-			if(freq.getVersion() != kCapnpClassifierFormatVersion)
+			record_t r;
+
+			plist::dictionary_t words;
+			if(plist::get_key_path(pair.second, "words", words))
 			{
-				os_log_info(OS_LOG_DEFAULT, "Skip ‘%{public}s’ version %u (expected %u)", path.c_str(), freq.getVersion(), kCapnpClassifierFormatVersion);
-				return;
+				for(auto const& word : words)
+					r.words.emplace(word.first, count_from(word.second));
 			}
 
-			for(auto src : freq.getCharsets())
+			plist::dictionary_t bytes;
+			if(plist::get_key_path(pair.second, "bytes", bytes))
 			{
-				record_t r;
-				for(auto word : src.getWords())
-					r.words.emplace(word.getType().getWord(), word.getCount());
-				for(auto byte : src.getBytes())
-					r.bytes.emplace(byte.getType().getByte(), byte.getCount());
-				_charsets.emplace(src.getCharset(), r);
+				for(auto const& byte : bytes)
+					r.bytes.emplace((char)std::stoi(byte.first), count_from(byte.second));
 			}
 
-			for(auto& pair : _charsets)
-			{
-				for(auto const& word : pair.second.words)
-				{
-					_combined.words[word.first] += word.second;
-					_combined.total_words += word.second;
-					pair.second.total_words += word.second;
-				}
+			_charsets.emplace(pair.first, r);
+		}
 
-				for(auto const& byte : pair.second.bytes)
-				{
-					_combined.bytes[byte.first] += byte.second;
-					_combined.total_bytes += byte.second;
-					pair.second.total_bytes += byte.second;
-				}
+		for(auto& pair : _charsets)
+		{
+			for(auto const& word : pair.second.words)
+			{
+				_combined.words[word.first] += word.second;
+				_combined.total_words += word.second;
+				pair.second.total_words += word.second;
+			}
+
+			for(auto const& byte : pair.second.bytes)
+			{
+				_combined.bytes[byte.first] += byte.second;
+				_combined.total_bytes += byte.second;
+				pair.second.total_bytes += byte.second;
 			}
 		}
 	}
 
 	void classifier_t::save (std::string const& path) const
 	{
-		capnp::MallocMessageBuilder message;
-		auto freq = message.initRoot<Frequencies>();
-		freq.setVersion(kCapnpClassifierFormatVersion);
-		auto charsets = freq.initCharsets(_charsets.size());
-		size_t i = 0;
-
+		plist::dictionary_t charsets;
 		for(auto const& pair : _charsets)
 		{
-			auto entry = charsets[i++];
-			entry.setCharset(pair.first);
-
-			auto words = entry.initWords(pair.second.words.size());
-			size_t j = 0;
+			plist::dictionary_t words;
 			for(auto const& word : pair.second.words)
-			{
-				auto tmp = words[j++];
-				tmp.getType().setWord(word.first);
-				tmp.setCount(word.second);
-			}
+				words.emplace(word.first, uint64_t(word.second));
 
-			auto bytes = entry.initBytes(pair.second.bytes.size());
-			j = 0;
+			plist::dictionary_t bytes;
 			for(auto const& byte : pair.second.bytes)
-			{
-				auto tmp = bytes[j++];
-				tmp.getType().setByte(byte.first);
-				tmp.setCount(byte.second);
-			}
+				bytes.emplace(std::to_string((unsigned char)byte.first), uint64_t(byte.second));
+
+			plist::dictionary_t record;
+			record.emplace("words", words);
+			record.emplace("bytes", bytes);
+			charsets.emplace(pair.first, record);
 		}
 
-		int fd = open(path.c_str(), O_CREAT|O_TRUNC|O_WRONLY|O_CLOEXEC, S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH);
-		if(fd != -1)
-		{
-			writePackedMessageToFd(fd, message);
-			close(fd);
-		}
+		plist::dictionary_t plist;
+		plist.emplace("version", kClassifierFormatVersion);
+		plist.emplace("charsets", charsets);
+		plist::save(path, plist);
 	}
 
 } /* encoding */
@@ -267,7 +263,7 @@ namespace encoding
 {
 	if(self = [super init])
 	{
-		_path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"com.macromates.TextMate/EncodingFrequencies.binary"];
+		_path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"com.macromates.TextMate/EncodingFrequencies.plist"];
 		_database.load(_path.fileSystemRepresentation);
 
 		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:NSApp];
