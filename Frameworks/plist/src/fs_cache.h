@@ -13,6 +13,14 @@ namespace plist
 		void save (std::string const& path) const;
 		void save_capnp (std::string const& path) const;
 
+		// The property list form of the whole cache, one node per path plus
+		// a version key. load and save go through these, and so can anything
+		// else that wants the cache as plain data.
+		plist::dictionary_t to_plist () const;
+		void from_plist (plist::dictionary_t const& plist);
+
+		size_t size () const       { return _cache.size(); }
+
 		bool dirty () const        { return _dirty; }
 		void set_dirty (bool flag) { _dirty = flag; }
 

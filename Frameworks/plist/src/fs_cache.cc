@@ -29,8 +29,12 @@ namespace plist
 
 	void cache_t::load (std::string const& path)
 	{
+		from_plist(plist::load(path));
+	}
+
+	void cache_t::from_plist (plist::dictionary_t const& plist)
+	{
 		int32_t version;
-		auto plist = plist::load(path);
 		if(plist::get_key_path(plist, "version", version) && version == kPropertyCacheFormatVersion)
 		{
 			for(auto const& pair : plist)
@@ -169,6 +173,11 @@ namespace plist
 
 	void cache_t::save (std::string const& path) const
 	{
+		plist::save(path, to_plist());
+	}
+
+	plist::dictionary_t cache_t::to_plist () const
+	{
 		plist::dictionary_t plist;
 		for(auto pair : _cache)
 		{
@@ -198,7 +207,7 @@ namespace plist
 			plist.emplace(pair.first, node);
 		}
 		plist["version"] = kPropertyCacheFormatVersion;
-		plist::save(path, plist);
+		return plist;
 	}
 
 	void cache_t::save_capnp (std::string const& path) const
