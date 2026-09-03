@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+# script/lint — check the Swift sources: swift format for structure, SwiftLint for style
+#
+# Usage:
+#   script/lint                   # every Swift file git knows about
+#   script/lint path/to/File.swift
+
+Dir.chdir(File.expand_path('..', __dir__))
+
+files = ARGV.empty? ? `git ls-files '*.swift'`.split("\n") : ARGV
+abort 'no Swift files' if files.empty?
+
+format_ok = system('xcrun', 'swift', 'format', 'lint', '--strict', *files)
+lint_ok = system('swiftlint', 'lint', '--quiet', *files)
+
+exit(format_ok && lint_ok ? 0 : 1)

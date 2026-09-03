@@ -6,6 +6,7 @@ require 'json'
 require 'set'
 
 VARIABLE_MATCH = /\$(?:\{(.+?)\}|(\w+))/
+SDK_PATH = `xcrun --sdk macosx --show-sdk-path`.strip
 
 class Parser
   attr_reader :globs, :targets, :environment
@@ -732,9 +733,37 @@ module Target
         target[:identifier] += '/' + config
         target[:builddir]   += '/' + config
       end
+
+      # The header a Swift module generates for Objective-C is exported like the
+      # target's own headers, so dependents import <Target/Target-Swift.h>.
+      if swift = swift_module(target)
+        target[:headers] = (target[:headers] || []) + [ swift[:header] ]
+      end
     end
 
     target
+  end
+
+  # A target's Swift sources compile as one module named after the target, in one
+  # step, since swiftc builds a module from all of its files together. The step
+  # writes the object, the module, and the header Objective-C sees the module
+  # through. A file named Target-Bridging-Header.h next to the sources, when there
+  # is one, is what the Swift side sees of the target's Objective-C.
+  def swift_module(target)
+    sources = (target[:sources] || []).select { |file| file.end_with?('.swift') }
+    return nil if sources.empty?
+
+    name   = target[:name]
+    outdir = File.join(target[:builddir], '_CompileSwift', File.dirname(sources.first))
+
+    {
+      name:            name,
+      sources:         sources,
+      object:          File.join(outdir, "#{name}.o"),
+      header:          File.join(outdir, "#{name}-Swift.h"),
+      module:          File.join(outdir, "#{name}.swiftmodule"),
+      bridging_header: File.join(File.dirname(sources.first), "#{name}-Bridging-Header.h"),
+    }
   end
 
   def required_targets(target, targets, include_self: false, include_weak: false)
@@ -807,29 +836,85 @@ module Target
         include_dirs = required_targets(target, targets, include_weak: true).map { |archs| include_dir(archs) }.reject { |e| e.nil? }.sort
         config = target[:variables].merge(prelude: target[:prelude], inference: target[:inference], include: include_dirs.sort.uniq)
 
-        # ===============
-        # = Cap’n Proto =
-        # ===============
+        # =========
+        # = Swift =
+        # =========
 
         generated_headers = []
-        sources, non_sources = sources.partition { |file| file.end_with?('.c', '.m', '.cc', '.mm') }
+        sources = sources.reject { |file| file.end_with?('.swift') }
 
-        unless non_sources.empty?
-          non_sources.each do |file|
-            if links = Compiler.transform(file, config, target[:builddir])
-              generated_headers += links.map { |link| link[:out] }.flatten.select { |file| file.end_with?('.h', '.hpp') }
-              objects << links.last[:out]
-              link = links.shift
-              rules += [ link.merge(order_only: [ *Array(link[:order_only]) ]), *links ]
+        if swift = swift_module(target)
+          flags = []
+          flags << config['SWIFT_FLAGS'] if config.include?('SWIFT_FLAGS')
+          flags << "-module-name #{swift[:name]}"
+          flags << "-emit-objc-header-path #{swift[:header].shellescape}"
+          flags << "-emit-module-path #{swift[:module].shellescape}"
+          flags << "-o #{swift[:object].shellescape}"
+          flags += config[:include].map { |dir| "-Xcc -I#{dir.shellescape}" } if config.include?(:include)
+
+          dependencies = []
+          if File.exist?(swift[:bridging_header])
+            flags << "-import-objc-header #{swift[:bridging_header].shellescape}"
+            dependencies << swift[:bridging_header]
+          end
+
+          # Swift in a required target is importable by module name, the way
+          # Objective-C in one is importable by header.
+          required_targets(target, targets, include_weak: true).each do |archs|
+            required = archs[target[:arch]]
+            next if required.nil? || required[:identifier] == target[:identifier]
+            if required_swift = swift_module(required)
+              flags << "-I #{File.dirname(required_swift[:module]).shellescape}"
+              dependencies << required_swift[:module]
             end
           end
 
+          rules << {
+            name:         'CompileSwift',
+            in:           swift[:sources],
+            out:          [ swift[:object], swift[:header], swift[:module] ],
+            flags:        flags.join(' '),
+            command:      'xcrun --sdk macosx swiftc -c -wmo -parse-as-library -emit-dependencies $flags $in',
+            depfile:      swift[:object].chomp('.o') + '.d',
+            deps:         'gcc',
+            description:  "Compile Swift module ‘#{swift[:name]}’…",
+            dependencies: dependencies,
+            # The target's own exported headers include the header this step
+            # writes, so waiting for them would wait for itself.
+            order_only:   (config[:include] || []) - [ File.join(target[:builddir], '_Include', target[:name]) ],
+          }
+
+          objects << swift[:object]
+          generated_headers << swift[:header]
+
+          # The Swift runtime ships with the operating system. The linker still
+          # needs the SDK's stubs for it, and the objects carry the rest as
+          # autolink entries.
+          target[:variables]['LN_FLAGS'] = [ target[:variables]['LN_FLAGS'], "-L#{SDK_PATH}/usr/lib/swift" ].compact.join(' ')
+        end
+
+        # =====================
+        # = Generated sources =
+        # =====================
+
+        sources, non_sources = sources.partition { |file| file.end_with?('.c', '.m', '.cc', '.mm') }
+
+        non_sources.each do |file|
+          if links = Compiler.transform(file, config, target[:builddir])
+            generated_headers += links.map { |link| link[:out] }.flatten.select { |file| file.end_with?('.h', '.hpp') }
+            objects << links.last[:out]
+            link = links.shift
+            rules += [ link.merge(order_only: [ *Array(link[:order_only]) ]), *links ]
+          end
+        end
+
+        unless generated_headers.empty?
           flags = generated_headers.map { |path| File.dirname(path) }.sort.uniq.map { |dir| "-iquote #{dir.shellescape}" }
           flags << config['FLAGS'] if config.include?('FLAGS')
           config['FLAGS'] = flags.join(' ')
         end
 
-        # ===============
+        # =====================
 
         sources.each do |file|
           if links = Compiler.transform(file, config, target[:builddir])

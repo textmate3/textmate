@@ -127,6 +127,30 @@ namespace // PopulateMenu{Flat,Hierarchical}
 	}
 }
 
++ (NSArray<NSString*>*)availableEncodingCodes
+{
+	NSArray<NSString*>* available = [NSUserDefaults.standardUserDefaults stringArrayForKey:kUserDefaultsAvailableEncodingsKey];
+	NSMutableArray<NSString*>* res = [NSMutableArray array];
+	for(auto const& charset : encoding_list())
+	{
+		if([available containsObject:to_ns(charset.code())])
+			[res addObject:to_ns(charset.code())];
+	}
+	return res;
+}
+
++ (NSArray<NSString*>*)availableEncodingNames
+{
+	NSArray<NSString*>* available = [NSUserDefaults.standardUserDefaults stringArrayForKey:kUserDefaultsAvailableEncodingsKey];
+	NSMutableArray<NSString*>* res = [NSMutableArray array];
+	for(auto const& charset : encoding_list())
+	{
+		if([available containsObject:to_ns(charset.code())])
+			[res addObject:to_ns(charset.name())];
+	}
+	return res;
+}
+
 - (void)updateAvailableEncodings
 {
 	NSMutableArray* encodings = [NSMutableArray array];

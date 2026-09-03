@@ -1,7 +1,7 @@
 #import "EncodingView.h"
+#import "document-Swift.h"
 #import <OakFoundation/NSString Additions.h>
 #import <OakAppKit/OakEncodingPopUpButton.h>
-#import <OakAppKit/OakUIConstructionFunctions.h>
 #import <text/hexdump.h>
 #import <text/utf8.h>
 #import <text/transcode.h>
@@ -22,7 +22,7 @@ size_t newline_size (_InputIter first, _InputIter const& last)
 
 static void append (NSMutableAttributedString* dst, char const* first, char const* last, NSDictionary* styles)
 {
-	NSString* str = [NSString stringWithUTF8String:first length:last - first] ?: @"\uFFFD";
+	NSString* str = [NSString stringWithUTF8String:first length:last - first] ?: @"�";
 	[dst appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:styles]];
 }
 
@@ -123,50 +123,15 @@ static NSAttributedString* convert_and_highlight (char const* first, char const*
 	return output;
 }
 
-static NSTextView* MyCreateTextView ()
-{
-	NSTextView* res = [[NSTextView alloc] initWithFrame:NSZeroRect];
-	[res setVerticallyResizable:YES];
-	[res setHorizontallyResizable:YES];
-	[res setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-	[[res textContainer] setWidthTracksTextView:NO];
-	[[res textContainer] setContainerSize:NSMakeSize(CGFLOAT_MAX, CGFLOAT_MAX)];
-	return res;
-}
-
-@interface EncodingContentView : NSView
-@property (nonatomic) id delegate;
-@end
-
-@implementation EncodingContentView
-- (NSSize)intrinsicContentSize
-{
-	return NSMakeSize(NSViewNoIntrinsicMetric, NSViewNoIntrinsicMetric);
-}
-
-- (void)updateConstraints
-{
-	[super updateConstraints];
-	[self.delegate updateConstraints];
-}
-@end
-
-@interface EncodingWindowController () <NSWindowDelegate, NSTextViewDelegate>
+// The sheet's content is SwiftUI, behind OakEncodingChooserController. This
+// controller owns the bytes and the transcoding: it hands the chooser the
+// encodings to offer and a preview for the chosen one, and reads the answer
+// back when the person opens or cancels.
+@interface EncodingWindowController () <NSWindowDelegate>
 {
 	NSData* _data;
 }
-@property (nonatomic) NSObjectController* objectController;
-@property (nonatomic) NSTextField* title;
-@property (nonatomic) NSTextField* explanation;
-@property (nonatomic) NSTextField* label;
-@property (nonatomic) OakEncodingPopUpButton* popUpButton;
-@property (nonatomic) NSScrollView* scrollView;
-@property (nonatomic) NSTextView* textView;
-@property (nonatomic) NSButton* learnCheckBox;
-@property (nonatomic) NSButton* openButton;
-@property (nonatomic) NSButton* cancelButton;
-@property (nonatomic) EncodingContentView* contentView;
-@property (nonatomic) NSMutableArray* myConstraints;
+@property (nonatomic) OakEncodingChooserController* chooser;
 @end
 
 @implementation EncodingWindowController
@@ -174,52 +139,23 @@ static NSTextView* MyCreateTextView ()
 {
 	if(self = [super initWithWindow:[[NSWindow alloc] initWithContentRect:NSZeroRect styleMask:(NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskResizable|NSWindowStyleMaskMiniaturizable) backing:NSBackingStoreBuffered defer:NO]])
 	{
-		_data            = data;
-		_encoding        = @"ISO-8859-1";
-		_displayName     = @"untitled";
-		_trainClassifier = YES;
+		_data        = data;
+		_encoding    = @"ISO-8859-1";
+		_displayName = @"untitled";
 
-		self.objectController = [[NSObjectController alloc] initWithContent:self];
+		self.chooser = [[OakEncodingChooserController alloc] init];
+		self.chooser.displayName      = _displayName;
+		self.chooser.selectedEncoding = _encoding;
+		self.chooser.trainClassifier  = YES;
+		[self updateAvailableEncodings];
 
-		self.title         = OakCreateLabel(@"Unknown Encoding", [NSFont boldSystemFontOfSize:0]);
-		self.explanation   = OakCreateLabel();
-		self.label         = OakCreateLabel(@"Encoding:");
-		self.popUpButton   = [[OakEncodingPopUpButton alloc] initWithFrame:NSZeroRect pullsDown:NO];
-		self.scrollView    = [[NSScrollView alloc] initWithFrame:NSZeroRect];
-		self.textView      = MyCreateTextView();
-		self.learnCheckBox = OakCreateCheckBox(@"Use document for training encoding classifier");
-		self.openButton    = OakCreateButton(@"Open");
-		self.cancelButton  = OakCreateButton(@"Cancel");
+		__weak EncodingWindowController* weakSelf = self;
+		self.chooser.selectionHandler = ^(NSString* encoding){ weakSelf.encoding = encoding; };
+		self.chooser.openHandler      = ^{ [weakSelf performOpenDocument:nil]; };
+		self.chooser.cancelHandler    = ^{ [weakSelf performCancelOperation:nil]; };
 
-		[self.label setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
-		[self.popUpButton setContentHuggingPriority:NSLayoutPriorityDefaultLow forOrientation:NSLayoutConstraintOrientationHorizontal];
-
-		self.scrollView.hasVerticalScroller   = YES;
-		self.scrollView.hasHorizontalScroller = YES;
-		self.scrollView.autohidesScrollers    = YES;
-		self.scrollView.borderType            = NSBezelBorder;
-		self.scrollView.documentView          = self.textView;
-
-		self.textView.editable          = NO;
-		self.textView.delegate          = self;
-		self.openButton.action          = @selector(performOpenDocument:);
-		self.cancelButton.action        = @selector(performCancelOperation:);
-		self.cancelButton.keyEquivalent = @"\e";
-
-		EncodingContentView* contentView = [[EncodingContentView alloc] initWithFrame:NSZeroRect];
-		[contentView setDelegate:self];
-		[contentView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-		self.contentView = contentView;
-
-		OakAddAutoLayoutViewsToSuperview([[self allViews] allValues], contentView);
-
-		[self.window.contentView addSubview:contentView];
-		self.window.defaultButtonCell = self.openButton.cell;
+		self.window.contentViewController = self.chooser;
 		self.window.delegate = self;
-
-		[self.popUpButton   bind:@"encoding"      toObject:_objectController withKeyPath:@"content.encoding"           options:nil];
-		[self.learnCheckBox bind:NSValueBinding   toObject:_objectController withKeyPath:@"content.trainClassifier"    options:nil];
-		[self.openButton    bind:NSEnabledBinding toObject:_objectController withKeyPath:@"content.acceptableEncoding" options:nil];
 
 		[self updateTextView];
 	}
@@ -232,62 +168,31 @@ static NSTextView* MyCreateTextView ()
 	[aWindow beginSheet:self.window completionHandler:callback];
 }
 
-- (BOOL)textView:(NSTextView*)aTextView doCommandBySelector:(SEL)aSelector
+// The user's list, plus the current encoding when it is not on that list, so
+// a guessed encoding can always be shown as selected.
+- (void)updateAvailableEncodings
 {
-	BOOL res = aSelector == @selector(insertNewline:) && !aTextView.editable && self.window.defaultButtonCell;
-	if(res)
-		[self.window.defaultButtonCell performClick:self];
-	return res;
-}
-
-- (NSDictionary*)allViews
-{
-	return @{
-		@"title":       self.title,
-		@"explanation": self.explanation,
-		@"label":       self.label,
-		@"popUp":       self.popUpButton,
-		@"textView":    self.scrollView,
-		@"learn":       self.learnCheckBox,
-		@"open":        self.openButton,
-		@"cancel":      self.cancelButton
-	};
-}
-
-#ifndef CONSTRAINT
-#define CONSTRAINT(str, align) [_myConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:str options:align metrics:nil views:views]]
-#endif
-
-- (void)updateConstraints
-{
-	if(_myConstraints)
-		[self.contentView removeConstraints:_myConstraints];
-	_myConstraints = [NSMutableArray array];
-
-	NSDictionary* views = [self allViews];
-
-	CONSTRAINT(@"H:|-[title]-|",                          NSLayoutFormatAlignAllBaseline);
-	CONSTRAINT(@"H:|-[explanation]-|",                    NSLayoutFormatAlignAllBaseline);
-	CONSTRAINT(@"H:|-[label]-[popUp]-|",                  NSLayoutFormatAlignAllBaseline);
-	CONSTRAINT(@"H:|-[textView(>=100)]-|",                0);
-	CONSTRAINT(@"H:|-[learn]-|",                          0);
-	CONSTRAINT(@"H:[cancel]-[open]-|",                    NSLayoutFormatAlignAllBaseline);
-	CONSTRAINT(@"V:|-[title]-[explanation]-[popUp]-[textView(>=100)]-[learn]-[open]-|", NSLayoutFormatAlignAllRight);
-
-	[self.contentView addConstraints:_myConstraints];
+	NSMutableArray<NSString*>* codes = [OakEncodingPopUpButton.availableEncodingCodes mutableCopy];
+	NSMutableArray<NSString*>* names = [OakEncodingPopUpButton.availableEncodingNames mutableCopy];
+	if(_encoding && ![codes containsObject:_encoding])
+	{
+		[codes addObject:_encoding];
+		[names addObject:_encoding];
+	}
+	[self.chooser setEncodingsWithCodes:codes names:names];
 }
 
 - (void)setDisplayName:(NSString*)aString
 {
 	_displayName = aString;
-	self.explanation.stringValue = [NSString stringWithFormat:@"The file “%@” contains characters with unknown encoding.\nPlease select the encoding which should be used to open the file.\nThe contents of the file is shown below with the relevant lines highlighted.\nBefore proceeding, check that the chosen encoding makes the preview look correct.", _displayName];
+	self.chooser.displayName = aString;
 }
 
 - (void)updateTextView
 {
 	bool couldConvert = true;
 	char const* bytes = (char const*)_data.bytes;
-	[[self.textView textStorage] setAttributedString:convert_and_highlight(bytes, bytes + MIN(_data.length, 256*1024), to_s(self.encodingNoBOM), "UTF-8", &couldConvert)];
+	self.chooser.preview = convert_and_highlight(bytes, bytes + MIN(_data.length, 256*1024), to_s(self.encodingNoBOM), "UTF-8", &couldConvert) ?: [[NSAttributedString alloc] init];
 	self.acceptableEncoding = couldConvert;
 }
 
@@ -296,6 +201,8 @@ static NSTextView* MyCreateTextView ()
 	if([_encoding isEqualToString:anEncoding])
 		return;
 	_encoding = anEncoding;
+	[self updateAvailableEncodings];
+	self.chooser.selectedEncoding = anEncoding;
 	[self updateTextView];
 }
 
@@ -304,10 +211,27 @@ static NSTextView* MyCreateTextView ()
 	return [_encoding stringByReplacingOccurrencesOfString:@"//BOM" withString:@""];
 }
 
+- (void)setAcceptableEncoding:(BOOL)flag
+{
+	_acceptableEncoding = flag;
+	self.chooser.acceptableEncoding = flag;
+}
+
+- (BOOL)trainClassifier
+{
+	return self.chooser.trainClassifier;
+}
+
+- (void)setTrainClassifier:(BOOL)flag
+{
+	self.chooser.trainClassifier = flag;
+}
+
 - (void)cleanup
 {
-	self.contentView.delegate     = nil;
-	self.objectController.content = nil;
+	self.chooser.selectionHandler = nil;
+	self.chooser.openHandler      = nil;
+	self.chooser.cancelHandler    = nil;
 }
 
 - (IBAction)performOpenDocument:(id)sender

@@ -5,6 +5,7 @@ set C_FLAGS       "-std=c99"
 set CXX_FLAGS     "-std=c++23"
 set OBJC_FLAGS    "${C_FLAGS} -fobjc-arc"
 set OBJCXX_FLAGS  "${OBJC_FLAGS} ${CXX_FLAGS}"
+set SWIFT_FLAGS   "-swift-version 6 -target arm64-apple-macosx${APP_MIN_OS}"
 
 add FLAGS         "-funsigned-char"
 add FLAGS         "-Wall -Wwrite-strings -Wformat -Winit-self -Wmissing-include-dirs"
@@ -45,12 +46,14 @@ config debug {
 
 	add FLAGS    "-Os"
 	add FLAGS    "-fsanitize=address -fno-omit-frame-pointer"
+	add SWIFT_FLAGS "-Onone -g"
 	add LN_FLAGS "-fsanitize=address"
 	add CS_FLAGS "--timestamp=none"
 }
 
 config release {
 	add FLAGS    "-Os -DNDEBUG -flto=thin"
+	add SWIFT_FLAGS "-O"
 	add LN_FLAGS "-flto=thin -Wl,-cache_path_lto,'\\${builddir}/.cache'"
 	add LN_FLAGS "-Wl,-dead_strip -Wl,-dead_strip_dylibs"
 	add CS_FLAGS "--timestamp"

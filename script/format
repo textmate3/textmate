@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+# script/format — format the Swift sources in place with swift format
+#
+# Usage:
+#   script/format                 # every Swift file git knows about
+#   script/format path/to/File.swift
+
+Dir.chdir(File.expand_path('..', __dir__))
+
+files = ARGV.empty? ? `git ls-files '*.swift'`.split("\n") : ARGV
+abort 'no Swift files' if files.empty?
+
+exec 'xcrun', 'swift', 'format', '--in-place', *files

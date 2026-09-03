@@ -151,10 +151,12 @@ namespace encoding
 	// The counts live on disk as a binary property list:
 	//
 	//   version  1
-	//   charsets { "<charset>" : { words { "<word>" : count }, bytes { "<byte value>" : count } } }
+	//   charsets { "<charset>" : { words { "<base64 of word>" : count }, bytes { "<byte value>" : count } } }
 	//
-	// A count comes back as int32 when it fits and uint64 otherwise, which is
-	// how the property list loader types every integer.
+	// A word is the bytes of the file in the charset being learned, not UTF-8,
+	// and a property list key has to be a string, so the bytes travel base64
+	// encoded. A count comes back as int32 when it fits and uint64 otherwise,
+	// which is how the property list loader types every integer.
 	static size_t count_from (plist::any_t const& value)
 	{
 		if(int32_t const* small = plist::get_if<int32_t>(&value))
@@ -162,6 +164,18 @@ namespace encoding
 		if(uint64_t const* large = plist::get_if<uint64_t>(&value))
 			return *large;
 		return 0;
+	}
+
+	static std::string base64_of (std::string const& bytes)
+	{
+		NSData* data = [NSData dataWithBytes:bytes.data() length:bytes.size()];
+		return [data base64EncodedStringWithOptions:0].UTF8String;
+	}
+
+	static std::string bytes_of (std::string const& base64)
+	{
+		NSData* data = [[NSData alloc] initWithBase64EncodedString:[NSString stringWithUTF8String:base64.c_str()] options:0];
+		return data ? std::string((char const*)data.bytes, data.length) : std::string();
 	}
 
 	void classifier_t::load (std::string const& path)
@@ -183,7 +197,7 @@ namespace encoding
 			if(plist::get_key_path(pair.second, "words", words))
 			{
 				for(auto const& word : words)
-					r.words.emplace(word.first, count_from(word.second));
+					r.words.emplace(bytes_of(word.first), count_from(word.second));
 			}
 
 			plist::dictionary_t bytes;
@@ -221,7 +235,7 @@ namespace encoding
 		{
 			plist::dictionary_t words;
 			for(auto const& word : pair.second.words)
-				words.emplace(word.first, uint64_t(word.second));
+				words.emplace(base64_of(word.first), uint64_t(word.second));
 
 			plist::dictionary_t bytes;
 			for(auto const& byte : pair.second.bytes)
