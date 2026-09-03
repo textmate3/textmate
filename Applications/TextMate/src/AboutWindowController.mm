@@ -1,6 +1,7 @@
 #import "AboutWindowController.h"
 #import <OakAppKit/OakUIConstructionFunctions.h>
 #import <OakFoundation/OakFoundation.h>
+#import <OakFoundation/OakFoundation-Swift.h>
 #import <OakFoundation/NSString Additions.h>
 #import <BundlesManager/BundlesManager.h>
 #import <ns/ns.h>
@@ -88,8 +89,8 @@ static NSData* Digest (NSString* someString)
 			if(NSMutableString* jsBridge = [NSMutableString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error])
 			{
 				NSDictionary* variables = @{
-					@"version":   [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
-					@"copyright": [NSBundle.mainBundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"],
+					@"version":   OakApplicationInfo.main.shortVersion,
+					@"copyright": OakApplicationInfo.main.copyright,
 				};
 
 				[variables enumerateKeysAndObjectsUsingBlock:^(NSString* key, NSString* value, BOOL* stop){
