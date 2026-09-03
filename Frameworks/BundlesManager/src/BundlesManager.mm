@@ -529,6 +529,16 @@ static NSString* SafeBasename (NSString* name)
 	bundlesIndexPath = path::join(path::home(), "Library/Caches/com.macromates.TextMate/BundlesIndex.binary");
 	cache.set_content_filter(&prune_bundle_item_plist);
 
+	// script/benchmark_bundle_index launches the application against a scratch
+	// cache and reads the two timings below from stderr, so it can measure a
+	// launch with and without a cache while leaving the real cache alone. The
+	// names avoid the TM_ prefix because main unsets every TM_ variable.
+	if(char const* scratchPath = getenv("TEXTMATE_BUNDLES_INDEX_PATH"))
+		bundlesIndexPath = scratchPath;
+	bool const reportTiming = getenv("TEXTMATE_BUNDLES_INDEX_TIMING") != nullptr;
+
+	auto loadStart = std::chrono::steady_clock::now();
+
 	// LEGACY bundle index used prior to 2.0-alpha.9467
 	std::string const oldPath = path::join(path::home(), "Library/Caches/com.macromates.TextMate/BundlesIndex.plist");
 	if(access(oldPath.c_str(), R_OK) == 0)
@@ -542,8 +552,16 @@ static NSString* SafeBasename (NSString* name)
 		cache.load_capnp(bundlesIndexPath);
 	}
 
+	auto indexStart = std::chrono::steady_clock::now();
 	_needsCreateBundlesIndex = YES;
 	[self createBundlesIndex:self];
+
+	if(reportTiming)
+	{
+		auto indexEnd = std::chrono::steady_clock::now();
+		fprintf(stderr, "bundles_index\tload\t%.2f\n", std::chrono::duration<double, std::milli>(indexStart - loadStart).count());
+		fprintf(stderr, "bundles_index\tindex\t%.2f\n", std::chrono::duration<double, std::milli>(indexEnd - indexStart).count());
+	}
 }
 
 namespace

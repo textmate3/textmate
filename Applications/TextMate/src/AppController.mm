@@ -28,6 +28,7 @@
 #import <document/OakDocumentController.h>
 #import <bundles/query.h>
 #import <io/path.h>
+#import <libproc.h>
 #import <regexp/glob.h>
 #import <ns/ns.h>
 #import <settings/settings.h>
@@ -604,6 +605,22 @@ BOOL HasDocumentWindow (NSArray* windows)
 	[OakCommitWindowServer sharedInstance]; // Setup server
 
 	self.didFinishLaunching = YES;
+
+	// script/benchmark_bundle_index reads this from stderr: the process id it
+	// will quit, and how long the whole launch took, counted from the moment
+	// the kernel started the process so dyld and framework loading are in it.
+	if(getenv("TEXTMATE_BUNDLES_INDEX_TIMING"))
+	{
+		struct proc_bsdinfo info;
+		if(proc_pidinfo(getpid(), PROC_PIDTBSDINFO, 0, &info, sizeof(info)) == sizeof(info))
+		{
+			struct timeval now;
+			gettimeofday(&now, nullptr);
+			double const started = info.pbi_start_tvsec * 1000.0 + info.pbi_start_tvusec / 1000.0;
+			double const finished = now.tv_sec * 1000.0 + now.tv_usec / 1000.0;
+			fprintf(stderr, "launch\t%d\t%.2f\n", getpid(), finished - started);
+		}
+	}
 }
 
 - (void)applicationWillResignActive:(NSNotification*)aNotification
