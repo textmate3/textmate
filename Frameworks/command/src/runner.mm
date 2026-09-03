@@ -156,6 +156,19 @@ namespace command
 			command->insert(0, "#!/bin/bash\n[[ -f \"${TM_SUPPORT_PATH}/lib/bash_init.sh\" ]] && . \"${TM_SUPPORT_PATH}/lib/bash_init.sh\"\n\n");
 	}
 
+	void fix_shebang (std::string* command, std::map<std::string, std::string> const& environment)
+	{
+		fix_shebang(command);
+
+		auto ruby = environment.find("TM_RUBY");
+		if(ruby == environment.end() || !path::is_absolute(ruby->second))
+			return;
+
+		static regexp::pattern_t const rubyShebang("\\A#!(/usr/bin/env ruby|/usr/bin/ruby)(?=[ \\t]|$)");
+		if(regexp::match_t const m = regexp::search(rubyShebang, *command))
+			command->replace(m.begin(), m.end() - m.begin(), "#!" + ruby->second);
+	}
+
 	static NSString* hash (NSData* data)
 	{
 		uint8_t digest[CC_SHA1_DIGEST_LENGTH];
@@ -191,7 +204,7 @@ namespace command
 	runner_t::runner_t (bundle_command_t const& command, ng::buffer_api_t const& buffer, ng::ranges_t const& selection, std::map<std::string, std::string> const& environment, std::string const& pwd, delegate_ptr delegate) : _command(command), _environment(environment), _directory(pwd), _delegate(delegate), _input_was_selection(false), _did_detach(false)
 	{
 		_dispatch_group = dispatch_group_create();
-		fix_shebang(&_command.command);
+		fix_shebang(&_command.command, _environment);
 	}
 
 	runner_ptr runner (bundle_command_t const& command, ng::buffer_api_t const& buffer, ng::ranges_t const& selection, std::map<std::string, std::string> const& environment, delegate_ptr delegate, std::string const& pwd)

@@ -390,7 +390,9 @@ static pid_t run_command (dispatch_group_t rootGroup, std::string const& cmd, in
 	auto htmlOutHandler = ^(char const* bytes, size_t len) { [self writeHTMLOutput:bytes length:len]; };
 
 	std::string const directory = format_string::expand("${TM_DIRECTORY:-${TM_PROJECT_DIRECTORY:-$TMPDIR}}", _environment);
-	std::string const scriptPath = command::create_script_path(_bundleCommand.command);
+	std::string script = _bundleCommand.command;
+	command::fix_shebang(&script, _environment);
+	std::string const scriptPath = command::create_script_path(script);
 	ASSERT(scriptPath != NULL_STR);
 
 	__block BOOL didTerminate = NO;
