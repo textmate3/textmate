@@ -48,41 +48,27 @@ public struct GrammarValidator: Sendable {
       }
     }
 
-    for captures in ["captures", "beginCaptures", "endCaptures", "whileCaptures"] {
-      if let captured = container[captures] as? [String: Any] {
-        for (number, capture) in captured.sorted(by: { $0.key < $1.key }) {
-          let capturePath = "\(path)\(captures).\(number)"
-          if let rule = capture as? [String: Any] {
-            issues += ruleIssues(in: rule, path: capturePath, repositories: repositories)
-          } else {
-            issues.append(GrammarIssue(path: capturePath, message: "not a rule"))
-          }
-        }
-      }
+    for key in ["captures", "beginCaptures", "endCaptures", "whileCaptures", "repository", "injections"] {
+      issues += namedRulesIssues(in: container, under: key, path: path, repositories: repositories)
     }
 
-    if let repository = container["repository"] as? [String: Any] {
-      for (name, entry) in repository.sorted(by: { $0.key < $1.key }) {
-        let entryPath = "\(path)repository.\(name)"
-        if let rule = entry as? [String: Any] {
-          issues += ruleIssues(in: rule, path: entryPath, repositories: repositories)
-        } else {
-          issues.append(GrammarIssue(path: entryPath, message: "not a rule"))
-        }
+    return issues
+  }
+
+  /// The issues in a dictionary of rules keyed by name: captures by number,
+  /// a repository by rule name, injections by scope selector.
+  private func namedRulesIssues(in container: [String: Any], under key: String, path: String, repositories: [Set<String>]) -> [GrammarIssue] {
+    guard let entries = container[key] as? [String: Any] else { return [] }
+
+    var issues: [GrammarIssue] = []
+    for (name, entry) in entries.sorted(by: { $0.key < $1.key }) {
+      let entryPath = "\(path)\(key).\(name)"
+      if let rule = entry as? [String: Any] {
+        issues += ruleIssues(in: rule, path: entryPath, repositories: repositories)
+      } else {
+        issues.append(GrammarIssue(path: entryPath, message: "not a rule"))
       }
     }
-
-    if let injections = container["injections"] as? [String: Any] {
-      for (selector, injection) in injections.sorted(by: { $0.key < $1.key }) {
-        let injectionPath = "\(path)injections.\(selector)"
-        if let rule = injection as? [String: Any] {
-          issues += ruleIssues(in: rule, path: injectionPath, repositories: repositories)
-        } else {
-          issues.append(GrammarIssue(path: injectionPath, message: "not a rule"))
-        }
-      }
-    }
-
     return issues
   }
 
