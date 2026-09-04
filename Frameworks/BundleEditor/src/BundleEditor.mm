@@ -98,11 +98,20 @@ namespace
 	}
 }
 
+// The file types and drop extensions lists, between the property list's array
+// of strings and the panel's table of one key dictionaries. An empty row in
+// the table, which the plus button adds, is not a value: it is left out on
+// the way to the property list, and a list that already holds the no string
+// marker is tolerated on the way to the table, since a saved item may carry
+// one.
 static NSMutableArray* wrap_array (std::vector<std::string> const& array, NSString* key)
 {
 	NSMutableArray* res = [NSMutableArray array];
 	for(auto const& str : array)
-		[res addObject:[NSMutableDictionary dictionaryWithObject:[NSString stringWithCxxString:str] forKey:key]];
+	{
+		if(str != NULL_STR)
+			[res addObject:[NSMutableDictionary dictionaryWithObject:[NSString stringWithCxxString:str] forKey:key]];
+	}
 	return res;
 }
 
@@ -110,7 +119,11 @@ static plist::array_t unwrap_array (NSArray* array, NSString* key)
 {
 	plist::array_t res;
 	for(NSDictionary* dict in array)
-		res.push_back(to_s([dict objectForKey:key]));
+	{
+		std::string const value = to_s([dict objectForKey:key]);
+		if(value != NULL_STR && !value.empty())
+			res.push_back(value);
+	}
 	return res;
 }
 
