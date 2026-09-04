@@ -13,20 +13,50 @@ NSAttributedStringKey const TMGrammarPreviewScopeAttributeName = @"TMGrammarPrev
 
 @implementation TMGrammarPreviewRenderer
 {
+	BOOL _darkAppearance;
 	theme_ptr _theme;
 }
 
-// The theme the editor would use for a document, by the same setting.
+- (instancetype)initWithDarkAppearance:(BOOL)darkAppearance
+{
+	if(self = [super init])
+		_darkAppearance = darkAppearance;
+	return self;
+}
+
+// The theme a document would get, resolved the way the text view resolves
+// it: a theme named by a scoped setting wins, otherwise the one chosen for
+// the appearance, dark or light, with the appearance preference deciding
+// which of the two applies.
 - (theme_ptr)theme
 {
 	if(!_theme)
 	{
-		std::string const themeUUID = settings_for_path().get(kSettingsThemeKey, kTwilightThemeUUID);
+		std::string themeUUID = settings_for_path().get(kSettingsThemeKey);
+		if(themeUUID == NULL_STR)
+		{
+			NSString* appearance = [NSUserDefaults.standardUserDefaults stringForKey:@"themeAppearance"];
+			BOOL darkMode = [appearance isEqualToString:@"dark"] || (![appearance isEqualToString:@"light"] && _darkAppearance);
+			themeUUID = to_s([NSUserDefaults.standardUserDefaults stringForKey:darkMode ? @"darkModeThemeUUID" : @"universalThemeUUID"]);
+		}
+
 		bundles::item_ptr themeItem = bundles::lookup(themeUUID) ?: bundles::lookup(kTwilightThemeUUID);
 		if(themeItem)
 			_theme = parse_theme(themeItem);
 	}
 	return _theme;
+}
+
+- (NSColor*)backgroundColor
+{
+	theme_ptr theme = [self theme];
+	return theme && theme->background() ? [NSColor colorWithCGColor:theme->background()] : NSColor.textBackgroundColor;
+}
+
+- (NSColor*)foregroundColor
+{
+	theme_ptr theme = [self theme];
+	return theme && theme->foreground() ? [NSColor colorWithCGColor:theme->foreground()] : NSColor.textColor;
 }
 
 - (NSAttributedString*)render:(NSString*)text grammar:(NSDictionary*)grammar
@@ -71,6 +101,7 @@ NSAttributedStringKey const TMGrammarPreviewScopeAttributeName = @"TMGrammarPrev
 			NSString* run = [NSString stringWithUTF8String:first + lastPos length:upTo - lastPos] ?: @"";
 			NSMutableDictionary* attributes = [NSMutableDictionary dictionary];
 			attributes[NSFontAttributeName] = baseFont;
+			attributes[NSForegroundColorAttributeName] = self.foregroundColor;
 			attributes[TMGrammarPreviewScopeAttributeName] = to_ns(to_s(scope));
 			if(theme)
 			{
