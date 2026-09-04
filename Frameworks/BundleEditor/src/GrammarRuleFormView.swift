@@ -4,12 +4,17 @@ import SwiftUI
 /// The fields of one rule, chosen by its shape: a match rule shows match and
 /// captures, a region shows begin and end with their captures, an include
 /// shows the reference. Labels and help come from the schema's key table.
+/// A repository entry or injection also shows its name.
 struct GrammarRuleFormView: View {
   @Bindable var rule: GrammarRule
+  var entry: GrammarNamedRule?
 
   var body: some View {
     Form {
       Section {
+        if let entry {
+          GrammarNamedRuleField(entry: entry)
+        }
         field("name", text: $rule.scopeName)
         switch rule.shape {
         case .match:
@@ -34,14 +39,14 @@ struct GrammarRuleFormView: View {
 
       switch rule.shape {
       case .match:
-        captures("captures", rule.captures)
+        captures("captures", \.captures)
       case .beginEnd:
-        captures("beginCaptures", rule.beginCaptures)
-        captures("endCaptures", rule.endCaptures)
-        captures("captures", rule.captures)
+        captures("beginCaptures", \.beginCaptures)
+        captures("endCaptures", \.endCaptures)
+        captures("captures", \.captures)
       case .beginWhile:
-        captures("beginCaptures", rule.beginCaptures)
-        captures("whileCaptures", rule.whileCaptures)
+        captures("beginCaptures", \.beginCaptures)
+        captures("whileCaptures", \.whileCaptures)
       case .include, .patterns, nil:
         EmptyView()
       }
@@ -74,13 +79,29 @@ struct GrammarRuleFormView: View {
       .help(GrammarSchema.ruleKey(named: key)?.summary ?? "")
   }
 
-  @ViewBuilder
-  private func captures(_ key: String, _ captures: [GrammarCapture]) -> some View {
-    if !captures.isEmpty {
-      Section(key) {
-        ForEach(captures) { capture in
-          GrammarCaptureRow(capture: capture)
+  /// A captures table with a row per capture and a button that adds the
+  /// next number. Shown even when empty for the shapes that take one, so a
+  /// capture can be added.
+  private func captures(_ key: String, _ table: ReferenceWritableKeyPath<GrammarRule, [GrammarCapture]>) -> some View {
+    Section {
+      ForEach(rule[keyPath: table]) { capture in
+        GrammarCaptureRow(capture: capture) {
+          rule[keyPath: table].removeAll { $0.id == capture.id }
         }
+      }
+    } header: {
+      HStack {
+        Text(key)
+        Spacer()
+        Button {
+          let numbers = rule[keyPath: table].compactMap { Int($0.key) }
+          let next = (numbers.max() ?? 0) + 1
+          rule[keyPath: table].append(GrammarCapture(key: String(next), rule: GrammarRule()))
+        } label: {
+          Image(systemName: "plus")
+        }
+        .buttonStyle(.borderless)
+        .help("Add capture \((rule[keyPath: table].compactMap { Int($0.key) }.max() ?? 0) + 1)")
       }
     }
   }
