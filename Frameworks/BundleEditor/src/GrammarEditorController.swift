@@ -26,6 +26,12 @@ public final class GrammarEditorController: NSViewController {
     observeEdits()
   }
 
+  /// The grammar's other keys as the properties panel has them now, so the
+  /// preview parses with the scope name being typed there.
+  @objc public func updateContext(_ context: [String: Any]) {
+    document.context = context
+  }
+
   /// The grammar's editable keys as edited so far.
   @objc public var grammar: [String: Any] { document.dictionary }
 

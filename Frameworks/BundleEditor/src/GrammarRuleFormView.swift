@@ -15,6 +15,14 @@ struct GrammarRuleFormView: View {
         if let entry {
           GrammarNamedRuleField(entry: entry)
         }
+        Picker("shape", selection: Binding(get: { rule.shape ?? .patterns }, set: { rule.convert(to: $0) })) {
+          Text("match").tag(GrammarRuleShape.match)
+          Text("begin and end").tag(GrammarRuleShape.beginEnd)
+          Text("begin and while").tag(GrammarRuleShape.beginWhile)
+          Text("include").tag(GrammarRuleShape.include)
+          Text("patterns only").tag(GrammarRuleShape.patterns)
+        }
+        .help("What kind of rule this is. The pattern carries across between match and begin.")
         field("name", text: $rule.scopeName)
         switch rule.shape {
         case .match:
