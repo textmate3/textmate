@@ -12,7 +12,9 @@ struct GrammarCaptureRow: View {
         .frame(width: 40, alignment: .trailing)
         .foregroundStyle(.secondary)
       TextField("scope", text: Binding(get: { capture.rule.scopeName ?? "" }, set: { capture.rule.scopeName = $0.isEmpty ? nil : $0 }))
+        .labelsHidden()
         .font(.body.monospaced())
+        .multilineTextAlignment(.leading)
       if !capture.rule.patterns.isEmpty {
         Text("\(capture.rule.patterns.count) patterns")
           .font(.caption)

@@ -56,10 +56,17 @@ struct GrammarRuleFormView: View {
     .formStyle(.grouped)
   }
 
+  /// A labeled text field that wraps, since patterns run long, with the
+  /// schema's help on hover. An emptied field removes the key.
   private func field(_ key: String, text: Binding<String?>) -> some View {
-    TextField(key, text: Binding(get: { text.wrappedValue ?? "" }, set: { text.wrappedValue = $0.isEmpty ? nil : $0 }))
-      .font(.body.monospaced())
-      .help(GrammarSchema.ruleKey(named: key)?.summary ?? "")
+    LabeledContent(key) {
+      TextField(key, text: Binding(get: { text.wrappedValue ?? "" }, set: { text.wrappedValue = $0.isEmpty ? nil : $0 }), axis: .vertical)
+        .labelsHidden()
+        .lineLimit(1...6)
+        .font(.body.monospaced())
+        .multilineTextAlignment(.leading)
+    }
+    .help(GrammarSchema.ruleKey(named: key)?.summary ?? "")
   }
 
   private func flag(_ key: String, isOn: Binding<Bool?>) -> some View {

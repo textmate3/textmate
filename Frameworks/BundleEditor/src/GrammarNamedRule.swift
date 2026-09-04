@@ -15,7 +15,7 @@ final class GrammarNamedRule: Identifiable {
     self.rule = rule
   }
 
-  static func namedRules(_ value: Any) -> [GrammarNamedRule] {
+  static func namedRules(_ value: Any?) -> [GrammarNamedRule] {
     (value as? [String: Any] ?? [:])
       .compactMap { name, entry in (entry as? [String: Any]).map { GrammarNamedRule(name: name, rule: GrammarRule(dictionary: $0)) } }
       .sorted { $0.name < $1.name }

@@ -35,27 +35,24 @@ final class GrammarRule: Identifiable {
   init() {}
 
   init(dictionary: [String: Any]) {
-    for (key, value) in dictionary {
-      switch key {
-      case "name": scopeName = value as? String
-      case "contentName": contentName = value as? String
-      case "match": match = value as? String
-      case "begin": begin = value as? String
-      case "end": end = value as? String
-      case "while": whilePattern = value as? String
-      case "include": include = value as? String
-      case "comment": comment = value as? String
-      case "applyEndPatternLast": applyEndPatternLast = GrammarRule.flag(value)
-      case "disabled": disabled = GrammarRule.flag(value)
-      case "patterns": patterns = GrammarRule.rules(value)
-      case "captures": captures = GrammarCapture.captures(value)
-      case "beginCaptures": beginCaptures = GrammarCapture.captures(value)
-      case "endCaptures": endCaptures = GrammarCapture.captures(value)
-      case "whileCaptures": whileCaptures = GrammarCapture.captures(value)
-      case "repository": repository = GrammarNamedRule.namedRules(value)
-      default: extra[key] = value
-      }
-    }
+    var remaining = dictionary
+    scopeName = remaining.removeValue(forKey: "name") as? String
+    contentName = remaining.removeValue(forKey: "contentName") as? String
+    match = remaining.removeValue(forKey: "match") as? String
+    begin = remaining.removeValue(forKey: "begin") as? String
+    end = remaining.removeValue(forKey: "end") as? String
+    whilePattern = remaining.removeValue(forKey: "while") as? String
+    include = remaining.removeValue(forKey: "include") as? String
+    comment = remaining.removeValue(forKey: "comment") as? String
+    applyEndPatternLast = GrammarRule.flag(remaining.removeValue(forKey: "applyEndPatternLast"))
+    disabled = GrammarRule.flag(remaining.removeValue(forKey: "disabled"))
+    patterns = GrammarRule.rules(remaining.removeValue(forKey: "patterns"))
+    captures = GrammarCapture.captures(remaining.removeValue(forKey: "captures"))
+    beginCaptures = GrammarCapture.captures(remaining.removeValue(forKey: "beginCaptures"))
+    endCaptures = GrammarCapture.captures(remaining.removeValue(forKey: "endCaptures"))
+    whileCaptures = GrammarCapture.captures(remaining.removeValue(forKey: "whileCaptures"))
+    repository = GrammarNamedRule.namedRules(remaining.removeValue(forKey: "repository"))
+    extra = remaining
   }
 
   var dictionary: [String: Any] {
@@ -98,11 +95,11 @@ final class GrammarRule: Identifiable {
     return below.flatMap { [$0] + $0.descendants }
   }
 
-  static func rules(_ value: Any) -> [GrammarRule] {
+  static func rules(_ value: Any?) -> [GrammarRule] {
     (value as? [Any] ?? []).compactMap { ($0 as? [String: Any]).map(GrammarRule.init(dictionary:)) }
   }
 
-  private static func flag(_ value: Any) -> Bool? {
+  private static func flag(_ value: Any?) -> Bool? {
     if let flag = value as? Bool { return flag }
     if let number = value as? NSNumber { return number.boolValue }
     return nil

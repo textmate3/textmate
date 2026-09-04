@@ -11,6 +11,7 @@ import SwiftUI
 public final class GrammarEditorController: NSViewController {
   private var document = GrammarDocument()
   private var saved: NSDictionary = [:]
+  private var hostingView: NSHostingView<GrammarEditorView>?
 
   /// Called after any edit, so the window can show its modified state.
   @objc public var editedHandler: (() -> Void)?
@@ -18,9 +19,7 @@ public final class GrammarEditorController: NSViewController {
   @objc public func load(_ grammar: [String: Any]) {
     document = GrammarDocument(dictionary: grammar)
     saved = document.dictionary as NSDictionary
-    if isViewLoaded {
-      hostingView.rootView = GrammarEditorView(document: document)
-    }
+    hostingView?.rootView = GrammarEditorView(document: document)
     observeEdits()
   }
 
@@ -34,11 +33,9 @@ public final class GrammarEditorController: NSViewController {
   }
 
   public override func loadView() {
-    view = NSHostingView(rootView: GrammarEditorView(document: document))
-  }
-
-  private var hostingView: NSHostingView<GrammarEditorView> {
-    view as! NSHostingView<GrammarEditorView>
+    let hostingView = NSHostingView(rootView: GrammarEditorView(document: document))
+    self.hostingView = hostingView
+    view = hostingView
   }
 
   /// Re-arms after every change, since observation tracking fires once.

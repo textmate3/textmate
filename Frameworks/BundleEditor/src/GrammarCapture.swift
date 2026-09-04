@@ -16,13 +16,13 @@ final class GrammarCapture: Identifiable {
   }
 
   /// Captures in a stable order: numbers by value, then names.
-  static func captures(_ value: Any) -> [GrammarCapture] {
+  static func captures(_ value: Any?) -> [GrammarCapture] {
     let entries = (value as? [String: Any] ?? [:]).compactMap { key, entry in
       (entry as? [String: Any]).map { GrammarCapture(key: key, rule: GrammarRule(dictionary: $0)) }
     }
     return entries.sorted { lhs, rhs in
       switch (Int(lhs.key), Int(rhs.key)) {
-      case let (left?, right?): return left < right
+      case (let left?, let right?): return left < right
       case (nil, nil): return lhs.key < rhs.key
       case (nil, _): return false
       case (_, nil): return true
