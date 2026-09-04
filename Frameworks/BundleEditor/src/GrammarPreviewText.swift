@@ -5,6 +5,7 @@ import SwiftUI
 /// the renderer built, reporting the scope under the selection as it moves.
 struct GrammarPreviewText: NSViewRepresentable {
   let text: NSAttributedString
+  let pageColor: NSColor
   let onSelect: (String) -> Void
 
   func makeCoordinator() -> Coordinator {
@@ -34,6 +35,8 @@ struct GrammarPreviewText: NSViewRepresentable {
   func updateNSView(_ scrollView: NSScrollView, context: Context) {
     guard let textView = scrollView.documentView as? NSTextView else { return }
     context.coordinator.onSelect = onSelect
+    textView.backgroundColor = pageColor
+    scrollView.backgroundColor = pageColor
     if textView.textStorage?.isEqual(to: text) == false {
       textView.textStorage?.setAttributedString(text)
     }

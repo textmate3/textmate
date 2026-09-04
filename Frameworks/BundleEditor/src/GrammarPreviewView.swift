@@ -2,11 +2,14 @@ import SwiftUI
 
 /// Sample text on top, the same text colored by the grammar being edited
 /// underneath, and the scope under the selection in a line at the bottom.
-/// Re-renders shortly after the sample or the grammar changes.
+/// Re-renders shortly after the sample, the grammar or the appearance
+/// changes.
 struct GrammarPreviewView: View {
   let document: GrammarDocument
+  @Environment(\.colorScheme) private var colorScheme
   @State private var sample = ""
   @State private var rendered = NSAttributedString()
+  @State private var pageColor = NSColor.textBackgroundColor
   @State private var scopeAtSelection = ""
 
   var body: some View {
@@ -24,7 +27,7 @@ struct GrammarPreviewView: View {
           }
         }
       Divider()
-      GrammarPreviewText(text: rendered) { scope in
+      GrammarPreviewText(text: rendered, pageColor: pageColor) { scope in
         scopeAtSelection = scope
       }
       Divider()
@@ -39,13 +42,16 @@ struct GrammarPreviewView: View {
     .task(id: renderKey) {
       try? await Task.sleep(for: .milliseconds(250))
       guard !Task.isCancelled else { return }
-      rendered = TMGrammarPreviewRenderer().render(sample, grammar: document.fullDictionary)
+      let renderer = TMGrammarPreviewRenderer(darkAppearance: colorScheme == .dark)
+      rendered = renderer.render(sample, grammar: document.fullDictionary)
+      pageColor = renderer.backgroundColor
     }
   }
 
-  /// Changes whenever the sample or the grammar does, so the task re-runs.
+  /// Changes whenever the sample, the grammar or the appearance does, so the
+  /// task re-runs.
   private var renderKey: Data {
     let grammar = (try? PropertyListSerialization.data(fromPropertyList: document.fullDictionary, format: .binary, options: 0)) ?? Data()
-    return Data(sample.utf8) + grammar
+    return Data(sample.utf8) + grammar + Data([colorScheme == .dark ? 1 : 0])
   }
 }
