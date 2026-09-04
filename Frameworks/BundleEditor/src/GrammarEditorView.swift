@@ -8,19 +8,24 @@ struct GrammarEditorView: View {
 
   var body: some View {
     VStack(spacing: 0) {
-      HSplitView {
-        GrammarOutlineView(document: document, selection: $selection)
-          .frame(minWidth: 180, idealWidth: 260)
-        Group {
-          if let rule = selection.flatMap(document.rule(with:)) {
-            GrammarRuleFormView(rule: rule, entry: document.namedRule(for: rule.id))
-          } else {
-            Text("Select a rule")
-              .foregroundStyle(.secondary)
-              .frame(maxWidth: .infinity, maxHeight: .infinity)
+      VSplitView {
+        HSplitView {
+          GrammarOutlineView(document: document, selection: $selection)
+            .frame(minWidth: 180, idealWidth: 260)
+          Group {
+            if let rule = selection.flatMap(document.rule(with:)) {
+              GrammarRuleFormView(rule: rule, entry: document.namedRule(for: rule.id))
+            } else {
+              Text("Select a rule")
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
           }
+          .frame(minWidth: 320)
         }
-        .frame(minWidth: 320)
+        .frame(minHeight: 200)
+        GrammarPreviewView(document: document)
+          .frame(minHeight: 120, idealHeight: 220)
       }
       GrammarIssuesView(issues: document.issues)
     }

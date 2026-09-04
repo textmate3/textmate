@@ -16,8 +16,11 @@ public final class GrammarEditorController: NSViewController {
   /// Called after any edit, so the window can show its modified state.
   @objc public var editedHandler: (() -> Void)?
 
-  @objc public func load(_ grammar: [String: Any]) {
+  /// The editable keys, and the grammar's other keys as context for the
+  /// parser, which come back unchanged.
+  @objc public func load(_ grammar: [String: Any], context: [String: Any]) {
     document = GrammarDocument(dictionary: grammar)
+    document.context = context
     saved = document.dictionary as NSDictionary
     hostingView?.rootView = GrammarEditorView(document: document)
     observeEdits()
