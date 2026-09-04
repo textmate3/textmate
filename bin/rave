@@ -874,10 +874,12 @@ module Target
             dependencies << swift[:bridging_header]
           end
 
-          # Swift in a required target is importable by module name, the way
-          # Objective-C in one is importable by header.
-          required_targets(target, targets, include_weak: true).each do |archs|
-            required = archs[target[:arch]]
+          # Swift in a directly required target is importable by module name,
+          # the way Objective-C in one is importable by header. Only direct
+          # requires: the tree's transitive requires form loops, which objects
+          # tolerate and modules cannot.
+          (target[:require] || []).each do |name|
+            required = targets[name] && targets[name][target[:arch]]
             next if required.nil? || required[:identifier] == target[:identifier]
             if required_swift = swift_module(required)
               flags << "-I #{File.dirname(required_swift[:module]).shellescape}"
@@ -895,9 +897,11 @@ module Target
             deps:         'gcc',
             description:  "Compile Swift module ‘#{swift[:name]}’…",
             dependencies: dependencies,
-            # The target's own exported headers include the header this step
-            # writes, so waiting for them would wait for itself.
-            order_only:   (config[:include] || []) - [ File.join(target[:builddir], '_Include', target[:name]) ],
+            # Waits for the exported headers of the targets required outright,
+            # which a bridging header may import. Not the transitive ones: the
+            # tree's requires form loops, and a target's own exported headers
+            # include the header this very step writes.
+            order_only:   (target[:require] || []).map { |name| targets[name] && include_dir(targets[name]) }.compact.uniq,
           }
 
           objects << swift[:object]
