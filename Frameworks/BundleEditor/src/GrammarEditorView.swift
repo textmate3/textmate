@@ -27,7 +27,7 @@ struct GrammarEditorView: View {
         GrammarPreviewView(document: document)
           .frame(minHeight: 120, idealHeight: 220)
       }
-      GrammarIssuesView(issues: document.issues)
+      SchemaIssuesView(issues: document.issues)
     }
   }
 }

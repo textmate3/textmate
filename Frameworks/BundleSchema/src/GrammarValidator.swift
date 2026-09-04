@@ -12,16 +12,16 @@ import Foundation
 public struct GrammarValidator: Sendable {
   public init() {}
 
-  public func issues(in grammar: [String: Any]) -> [GrammarIssue] {
-    var issues: [GrammarIssue] = []
+  public func issues(in grammar: [String: Any]) -> [SchemaIssue] {
+    var issues: [SchemaIssue] = []
 
     for key in grammar.keys.sorted() where GrammarSchema.grammarKey(named: key) == nil {
-      issues.append(GrammarIssue(path: key, message: "not a grammar key"))
+      issues.append(SchemaIssue(path: key, message: "not a grammar key"))
     }
 
     for key in GrammarSchema.grammarKeys {
       if let value = grammar[key.name], let message = mismatch(value, key.kind) {
-        issues.append(GrammarIssue(path: key.name, message: message))
+        issues.append(SchemaIssue(path: key.name, message: message))
       }
     }
 
@@ -34,8 +34,8 @@ public struct GrammarValidator: Sendable {
 
   /// The issues in every rule reachable from a grammar or a rule:
   /// its patterns, its captures, its repository and its injections.
-  private func rulesIssues(in container: [String: Any], path: String, repositories: [Set<String>]) -> [GrammarIssue] {
-    var issues: [GrammarIssue] = []
+  private func rulesIssues(in container: [String: Any], path: String, repositories: [Set<String>]) -> [SchemaIssue] {
+    var issues: [SchemaIssue] = []
 
     if let patterns = container["patterns"] as? [Any] {
       for (index, pattern) in patterns.enumerated() {
@@ -43,7 +43,7 @@ public struct GrammarValidator: Sendable {
         if let rule = pattern as? [String: Any] {
           issues += ruleIssues(in: rule, path: patternPath, repositories: repositories)
         } else {
-          issues.append(GrammarIssue(path: patternPath, message: "not a rule"))
+          issues.append(SchemaIssue(path: patternPath, message: "not a rule"))
         }
       }
     }
@@ -57,48 +57,48 @@ public struct GrammarValidator: Sendable {
 
   /// The issues in a dictionary of rules keyed by name: captures by number,
   /// a repository by rule name, injections by scope selector.
-  private func namedRulesIssues(in container: [String: Any], under key: String, path: String, repositories: [Set<String>]) -> [GrammarIssue] {
+  private func namedRulesIssues(in container: [String: Any], under key: String, path: String, repositories: [Set<String>]) -> [SchemaIssue] {
     guard let entries = container[key] as? [String: Any] else { return [] }
 
-    var issues: [GrammarIssue] = []
+    var issues: [SchemaIssue] = []
     for (name, entry) in entries.sorted(by: { $0.key < $1.key }) {
       let entryPath = "\(path)\(key).\(name)"
       if let rule = entry as? [String: Any] {
         issues += ruleIssues(in: rule, path: entryPath, repositories: repositories)
       } else {
-        issues.append(GrammarIssue(path: entryPath, message: "not a rule"))
+        issues.append(SchemaIssue(path: entryPath, message: "not a rule"))
       }
     }
     return issues
   }
 
-  private func ruleIssues(in rule: [String: Any], path: String, repositories: [Set<String>]) -> [GrammarIssue] {
-    var issues: [GrammarIssue] = []
+  private func ruleIssues(in rule: [String: Any], path: String, repositories: [Set<String>]) -> [SchemaIssue] {
+    var issues: [SchemaIssue] = []
 
     for key in rule.keys.sorted() where GrammarSchema.ruleKey(named: key) == nil {
-      issues.append(GrammarIssue(path: path, message: "\(key) is not a rule key"))
+      issues.append(SchemaIssue(path: path, message: "\(key) is not a rule key"))
     }
 
     for key in GrammarSchema.ruleKeys {
       if let value = rule[key.name], let message = mismatch(value, key.kind) {
-        issues.append(GrammarIssue(path: "\(path).\(key.name)", message: message))
+        issues.append(SchemaIssue(path: "\(path).\(key.name)", message: message))
       }
     }
 
     for (first, second) in GrammarSchema.exclusiveRuleKeys where rule[first] != nil && rule[second] != nil {
-      issues.append(GrammarIssue(path: path, message: "\(first) and \(second) cannot both be present"))
+      issues.append(SchemaIssue(path: path, message: "\(first) and \(second) cannot both be present"))
     }
 
     for (key, required) in GrammarSchema.requiredRuleKeys.sorted(by: { $0.key < $1.key }) where rule[key] != nil && rule[required] == nil {
-      issues.append(GrammarIssue(path: path, message: "\(key) needs \(required)"))
+      issues.append(SchemaIssue(path: path, message: "\(key) needs \(required)"))
     }
 
     if rule["begin"] != nil && rule["end"] == nil && rule["while"] == nil {
-      issues.append(GrammarIssue(path: path, message: "begin needs end or while"))
+      issues.append(SchemaIssue(path: path, message: "begin needs end or while"))
     }
 
     if let include = rule["include"] as? String, let message = includeIssue(include, repositories: repositories) {
-      issues.append(GrammarIssue(path: "\(path).include", message: message))
+      issues.append(SchemaIssue(path: "\(path).include", message: message))
     }
 
     // A rule's own repository is visible to the rules inside it,
@@ -129,7 +129,7 @@ public struct GrammarValidator: Sendable {
   }
 
   /// A message when the value is not what the kind holds, or nil when it is.
-  private func mismatch(_ value: Any, _ kind: GrammarValueKind) -> String? {
+  private func mismatch(_ value: Any, _ kind: SchemaValueKind) -> String? {
     switch kind {
     case .text, .regularExpression, .scopeName, .scopeSelector, .include:
       return value is String ? nil : "should be text"
@@ -142,8 +142,12 @@ public struct GrammarValidator: Sendable {
     case .captures:
       guard let captures = value as? [String: Any] else { return "should be capture numbers to rules" }
       return captures.keys.allSatisfy { !$0.isEmpty } ? nil : "has an empty capture key"
-    case .repository, .injections:
+    case .repository, .injections, .dictionary:
       return value is [String: Any] ? nil : "should be names to rules"
+    case .list:
+      return value is [Any] ? nil : "should be a list"
+    case .color, .fontStyle:
+      return value is String ? nil : "should be text"
     }
   }
 

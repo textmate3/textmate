@@ -1,5 +1,5 @@
+import BundleSchema
 import Foundation
-import GrammarSchema
 import Testing
 
 /// A grammar fixture next to this file, loaded the way the bundle loader loads it:

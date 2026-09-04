@@ -1,5 +1,5 @@
+import BundleSchema
 import Foundation
-import GrammarSchema
 
 /// Checks grammar files against the grammar schema and prints what it finds,
 /// one line per issue with the path to the rule. Exits nonzero when any file

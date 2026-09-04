@@ -1,4 +1,4 @@
-import GrammarSchema
+import BundleSchema
 import SwiftUI
 
 /// The fields of one rule, chosen by its shape: a match rule shows match and

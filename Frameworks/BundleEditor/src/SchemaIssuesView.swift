@@ -1,10 +1,10 @@
-import GrammarSchema
+import BundleSchema
 import SwiftUI
 
 /// What the validator finds in the grammar as it is being edited, one line
 /// per issue with the path to the rule, or nothing when there is nothing.
-struct GrammarIssuesView: View {
-  let issues: [GrammarIssue]
+struct SchemaIssuesView: View {
+  let issues: [SchemaIssue]
 
   var body: some View {
     if !issues.isEmpty {

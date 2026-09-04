@@ -1,5 +1,5 @@
+import BundleSchema
 import Foundation
-import GrammarSchema
 import Observation
 
 /// The part of a grammar the editor edits: the comment, the patterns, the
@@ -64,7 +64,7 @@ final class GrammarDocument {
     (repository + injections).first { $0.rule.id == id }
   }
 
-  var issues: [GrammarIssue] {
+  var issues: [SchemaIssue] {
     GrammarValidator().issues(in: dictionary)
   }
 

@@ -1,4 +1,4 @@
-import GrammarSchema
+import BundleSchema
 import SwiftUI
 
 /// The strip under the outline: add a rule of a chosen shape after the
