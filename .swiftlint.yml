@@ -1,0 +1,6 @@
+# SwiftLint follows swift format where the two overlap: swift format writes a
+# trailing comma on every multi line collection and wraps at the width in
+# .swift-format, so SwiftLint expects the same.
+line_length: 200
+trailing_comma:
+  mandatory_comma: true

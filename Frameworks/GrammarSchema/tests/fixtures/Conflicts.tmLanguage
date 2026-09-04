@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Conflicts</string>
+	<key>scopeName</key>
+	<string>source.conflicts</string>
+	<key>colour</key>
+	<string>not a grammar key</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>match</key>
+			<string>a</string>
+			<key>begin</key>
+			<string>b</string>
+		</dict>
+		<dict>
+			<key>end</key>
+			<string>c</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>d</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#missing</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#present</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>e</string>
+			<key>end</key>
+			<string>f</string>
+			<key>repository</key>
+			<dict>
+				<key>inner</key>
+				<dict>
+					<key>match</key>
+					<string>g</string>
+				</dict>
+			</dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#inner</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#inner</string>
+		</dict>
+	</array>
+	<key>repository</key>
+	<dict>
+		<key>present</key>
+		<dict>
+			<key>match</key>
+			<string>h</string>
+			<key>flavour</key>
+			<string>not a rule key</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

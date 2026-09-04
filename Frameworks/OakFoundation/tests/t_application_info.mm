@@ -1,8 +1,7 @@
 #import <OakFoundation/OakFoundation-Swift.h>
 
-// The first Swift in the tree, reached from Objective-C++ through the header the
-// Swift compiler generates. The test proves the round trip: a Swift class with an
-// Objective-C name, constructed and read from this side.
+// ApplicationInfo reached from Objective-C++ through the header the Swift compiler generates:
+// a Swift class with an Objective-C name, constructed and read from this side.
 
 void test_application_info_reads_the_dictionary ()
 {

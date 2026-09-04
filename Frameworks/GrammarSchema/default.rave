@@ -1,0 +1,4 @@
+target "${dirname}" {
+	sources src/*.swift
+	tests tests/*.swift
+}

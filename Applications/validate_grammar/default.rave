@@ -1,0 +1,5 @@
+target "${dirname}" {
+	require GrammarSchema
+	sources src/*.swift
+	executable "${target}"
+}
