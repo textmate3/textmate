@@ -979,7 +979,12 @@ static NSMutableDictionary* DictionaryForPropertyList (plist::dictionary_t const
 
 		if(info.kind == bundles::kItemTypeGrammar)
 		{
-			[self.grammarEditor load:ns::to_mutable_dictionary(plistSubset)];
+			// The rest of the grammar goes along as context, so the preview can
+			// parse with the scope name and the parser sees a whole grammar.
+			plist::dictionary_t context = plist;
+			for(auto const& key : keys)
+				context.erase(key);
+			[self.grammarEditor load:ns::to_mutable_dictionary(plistSubset) context:ns::to_mutable_dictionary(context)];
 			[self showInDocumentPane:self.grammarEditor.view];
 		}
 		else
