@@ -2,37 +2,31 @@ import AppKit
 import Observation
 import SwiftUI
 
-/// The Objective-C face of the grammar editor. The bundle editor hands it the
-/// grammar's editable keys as a dictionary, puts its view where the text pane
-/// goes, hears about edits through the handler, and reads the dictionary back
-/// when it saves.
-@objc(TMGrammarEditorController)
+/// The Objective-C face of the theme editor, the same shape as the grammar
+/// editor's: the bundle editor hands it the theme's editable keys, puts its
+/// view where the text pane goes, hears about edits, and reads the keys
+/// back when it saves.
+@objc(TMThemeEditorController)
 @MainActor
-public final class GrammarEditorController: NSViewController, BundleItemEditor {
-  private var document = GrammarDocument()
+public final class ThemeEditorController: NSViewController, BundleItemEditor {
+  private var document = ThemeDocument()
   private var saved: NSDictionary = [:]
-  private var hostingView: NSHostingView<GrammarEditorView>?
+  private var hostingView: NSHostingView<ThemeEditorView>?
 
-  /// Called after any edit, so the window can show its modified state.
   @objc public var editedHandler: (() -> Void)?
 
-  /// The editable keys, and the grammar's other keys as context for the
-  /// parser, which come back unchanged.
   @objc public func load(_ item: [String: Any], context: [String: Any]) {
-    document = GrammarDocument(dictionary: item)
+    document = ThemeDocument(dictionary: item)
     document.context = context
     saved = document.dictionary as NSDictionary
-    hostingView?.rootView = GrammarEditorView(document: document)
+    hostingView?.rootView = ThemeEditorView(document: document)
     observeEdits()
   }
 
-  /// The grammar's other keys as the properties panel has them now, so the
-  /// preview parses with the scope name being typed there.
   @objc public func updateContext(_ context: [String: Any]) {
     document.context = context
   }
 
-  /// The grammar's editable keys as edited so far.
   @objc public var itemDictionary: [String: Any] { document.dictionary }
 
   @objc public var isEdited: Bool { !saved.isEqual(to: document.dictionary) }
@@ -42,7 +36,7 @@ public final class GrammarEditorController: NSViewController, BundleItemEditor {
   }
 
   public override func loadView() {
-    let hostingView = NSHostingView(rootView: GrammarEditorView(document: document))
+    let hostingView = NSHostingView(rootView: ThemeEditorView(document: document))
     self.hostingView = hostingView
     view = hostingView
   }

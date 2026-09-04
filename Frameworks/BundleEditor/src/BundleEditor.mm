@@ -57,6 +57,7 @@
 @property (nonatomic) PropertiesViewController* extraPropertiesViewController;
 @property (nonatomic) NSMutableDictionary* bundleItemProperties;
 @property (nonatomic) TMGrammarEditorController* grammarEditor;
+@property (nonatomic) TMThemeEditorController* themeEditor;
 - (bundles::item_ptr const&)bundleItem;
 - (void)setBundleItem:(bundles::item_ptr const&)aBundleItem;
 - (BOOL)commitEditing;
@@ -246,9 +247,9 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 	return _browserViewController;
 }
 
-// Grammars are edited as a form over their rules rather than as property list
-// text. The editor's view takes the text view's place while a grammar is the
-// selected item, and hands the edited dictionary back when the item is saved.
+// Grammars and themes are edited as forms rather than as property list text.
+// The editor's view takes the text view's place while such an item is
+// selected, and hands the edited dictionary back when the item is saved.
 - (TMGrammarEditorController*)grammarEditor
 {
 	if(!_grammarEditor)
@@ -260,9 +261,45 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 	return _grammarEditor;
 }
 
-- (BOOL)editsGrammar
+- (TMThemeEditorController*)themeEditor
 {
-	return bundleItem && bundleItem->kind() == bundles::kItemTypeGrammar;
+	if(!_themeEditor)
+	{
+		_themeEditor = [[TMThemeEditorController alloc] init];
+		__weak BundleEditor* weakSelf = self;
+		_themeEditor.editedHandler = ^{ [weakSelf didChangeModifiedState]; };
+	}
+	return _themeEditor;
+}
+
+// The form editor for the selected item's kind, or nil for the kinds the
+// text pane still serves.
+- (id <TMBundleItemEditor>)itemEditor
+{
+	if(!bundleItem)
+		return nil;
+
+	switch(bundleItem->kind())
+	{
+		case bundles::kItemTypeGrammar: return self.grammarEditor;
+		case bundles::kItemTypeTheme:   return self.themeEditor;
+		default:                        return nil;
+	}
+}
+
+// The keys the form editor holds for the selected item's kind. The rest of
+// the item is the properties panel's, and goes to the editor as context.
+- (std::vector<std::string>)editedKeys
+{
+	if(!bundleItem)
+		return { };
+
+	switch(bundleItem->kind())
+	{
+		case bundles::kItemTypeGrammar: return { "comment", "patterns", "repository", "injections" };
+		case bundles::kItemTypeTheme:   return { "gutterSettings", "settings", "colorSpaceName" };
+		default:                        return { };
+	}
 }
 
 - (NSViewController*)documentViewController
@@ -397,7 +434,7 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 
 - (void)didChangeModifiedState
 {
-	[self setDocumentEdited:bundleItem && (changes.find(bundleItem) != changes.end() || propertiesChanged || bundleItemContent.isDocumentEdited || (self.editsGrammar && self.grammarEditor.isEdited))];
+	[self setDocumentEdited:bundleItem && (changes.find(bundleItem) != changes.end() || propertiesChanged || bundleItemContent.isDocumentEdited || self.itemEditor.isEdited)];
 }
 
 // ==================
@@ -544,7 +581,7 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 	[_sharedPropertiesViewController commitEditing];
 	[_extraPropertiesViewController commitEditing];
 
-	if(!propertiesChanged && bundleItemContent.isDocumentEdited == NO && !(self.editsGrammar && self.grammarEditor.isEdited))
+	if(!propertiesChanged && bundleItemContent.isDocumentEdited == NO && !self.itemEditor.isEdited)
 		return YES;
 
 	plist::dictionary_t plist = plist::convert((__bridge CFPropertyListRef)_bundleItemProperties);
@@ -553,9 +590,9 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 	item_info_t const& info = info_for(bundleItem->kind());
 
 	plist::any_t parsedContent;
-	if(self.editsGrammar)
+	if(id <TMBundleItemEditor> editor = self.itemEditor)
 	{
-		parsedContent = plist::convert((__bridge CFPropertyListRef)self.grammarEditor.grammar);
+		parsedContent = plist::convert((__bridge CFPropertyListRef)editor.itemDictionary);
 	}
 	else if(info.plist_key == NULL_STR || oak::contains(std::begin(PlistItemKinds), std::end(PlistItemKinds), info.kind))
 	{
@@ -611,8 +648,7 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 
 	propertiesChanged = NO;
 	[bundleItemContent markDocumentSaved];
-	if(self.editsGrammar)
-		[self.grammarEditor markSaved];
+	[self.itemEditor markSaved];
 
 	[self didChangeModifiedState];
 	return YES;
@@ -834,15 +870,17 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 	{
 		propertiesChanged = YES;
 
-		// The grammar editor's preview parses with the scope name and the
-		// other keys the properties panel edits, so it gets them as typed.
-		if(self.editsGrammar)
+		// A form editor's preview uses the keys the properties panel edits, the
+		// grammar's scope name above all, so it gets them as typed.
+		if(id <TMBundleItemEditor> editor = self.itemEditor)
 		{
-			plist::dictionary_t grammarContext = plist::convert((__bridge CFPropertyListRef)_bundleItemProperties);
-			grammarContext[bundles::kFieldGrammarExtension] = unwrap_array([_bundleItemProperties objectForKey:[NSString stringWithCxxString:bundles::kFieldGrammarExtension]], @"extension");
-			for(auto const& key : { "comment", "patterns", "repository", "injections" })
-				grammarContext.erase(key);
-			[self.grammarEditor updateContext:ns::to_mutable_dictionary(grammarContext)];
+			plist::dictionary_t context = plist::convert((__bridge CFPropertyListRef)_bundleItemProperties);
+			NSString* extensionsKey = [NSString stringWithCxxString:bundles::kFieldGrammarExtension];
+			if(NSArray* extensions = [_bundleItemProperties objectForKey:extensionsKey])
+				context[bundles::kFieldGrammarExtension] = unwrap_array(extensions, @"extension");
+			for(auto const& key : [self editedKeys])
+				context.erase(key);
+			[editor updateContext:ns::to_mutable_dictionary(context)];
 		}
 	}
 	[self didChangeModifiedState];
@@ -1003,15 +1041,16 @@ static NSMutableDictionary* DictionaryForPropertyList (plist::dictionary_t const
 				plistSubset[key] = plist.find(key)->second;
 		}
 
-		if(info.kind == bundles::kItemTypeGrammar)
+		if(id <TMBundleItemEditor> editor = self.itemEditor)
 		{
-			// The rest of the grammar goes along as context, so the preview can
-			// parse with the scope name and the parser sees a whole grammar.
+			// The rest of the item goes along as context, so a preview can
+			// parse with the grammar's scope name or color with the theme's
+			// name, and the parser or theme code sees a whole item.
 			plist::dictionary_t context = plist;
 			for(auto const& key : keys)
 				context.erase(key);
-			[self.grammarEditor load:ns::to_mutable_dictionary(plistSubset) context:ns::to_mutable_dictionary(context)];
-			[self showInDocumentPane:self.grammarEditor.view];
+			[editor load:ns::to_mutable_dictionary(plistSubset) context:ns::to_mutable_dictionary(context)];
+			[self showInDocumentPane:editor.view];
 		}
 		else
 		{

@@ -12,7 +12,7 @@ struct SchemaFontStyleField: View {
     LabeledContent(key.name) {
       HStack(spacing: 12) {
         ForEach(ThemeSchema.fontStyleWords, id: \.self) { word in
-          Toggle(word, isOn: Binding(get: { words.contains(word) }, set: { on in set(word, on) }))
+          Toggle(word, isOn: Binding(get: { words.contains(word) }, set: { isOn in set(word, isOn) }))
             .toggleStyle(.checkbox)
         }
       }
@@ -23,9 +23,9 @@ struct SchemaFontStyleField: View {
     (values.string(key.name) ?? "").split(separator: " ").map(String.init)
   }
 
-  private func set(_ word: String, _ on: Bool) {
+  private func set(_ word: String, _ isOn: Bool) {
     var current = words.filter { $0 != word }
-    if on {
+    if isOn {
       current.append(word)
     }
     let ordered = ThemeSchema.fontStyleWords.filter { current.contains($0) }
