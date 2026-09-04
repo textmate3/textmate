@@ -148,6 +148,8 @@ public struct GrammarValidator: Sendable {
       return value is [Any] ? nil : "should be a list"
     case .color, .fontStyle:
       return value is String ? nil : "should be text"
+    case .choice, .pairs, .shellVariables, .any:
+      return nil
     }
   }
 

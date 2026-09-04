@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Broken</string>
+	<key>flavour</key>
+	<string>vanilla</string>
+	<key>settings</key>
+	<dict>
+		<key>indentOnPaste</key>
+		<string>sometimes</string>
+		<key>smartTypingPairs</key>
+		<array>
+			<array>
+				<string>(</string>
+			</array>
+		</array>
+		<key>softWrap</key>
+		<string>maybe</string>
+		<key>completions</key>
+		<string>attr_accessor</string>
+		<key>indentedSoftWrap</key>
+		<dict>
+			<key>format</key>
+			<string>$0</string>
+		</dict>
+		<key>shellVariables</key>
+		<array>
+			<dict>
+				<key>value</key>
+				<string>lonely</string>
+			</dict>
+			<string>not a variable</string>
+		</array>
+		<key>ptrn</key>
+		<string>typo</string>
+	</dict>
+	<key>uuid</key>
+	<string>00000000-0000-0000-0000-000000000000</string>
+</dict>
+</plist>

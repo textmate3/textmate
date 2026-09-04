@@ -15,11 +15,23 @@ public enum SchemaValueKind: Sendable, Equatable {
   /// and a theme setting's `scope` hold.
   case scopeSelector
 
-  /// True or false. Property lists write these as booleans or as the integers 0 and 1.
+  /// True or false. Property lists write these as booleans, as the integers
+  /// 0 and 1, or as the strings "0" and "1".
   case boolean
 
-  /// A list of strings, as `fileTypes` holds.
+  /// One of a few words, as `indentOnPaste` holds.
+  case choice([String])
+
+  /// A list of strings, as `fileTypes` and `completions` hold.
   case textList
+
+  /// A list of two string lists, an opener and its closer, as
+  /// `smartTypingPairs` and `highlightPairs` hold.
+  case pairs
+
+  /// A list of dictionaries with `name` and `value`, and `disabled` to
+  /// leave one out, as `shellVariables` holds.
+  case shellVariables
 
   /// A color as `#RRGGBB` or `#RRGGBBAA`, as a theme's settings hold.
   case color
@@ -45,9 +57,14 @@ public enum SchemaValueKind: Sendable, Equatable {
   case include
 
   /// A list of dictionaries with a schema of their own, as a theme's
-  /// `settings` holds.
+  /// `settings` and a macro's `commands` hold.
   case list
 
-  /// A dictionary with a schema of its own, as a theme's `gutterSettings` holds.
+  /// A dictionary with a schema of its own, as a theme's `gutterSettings`
+  /// and a preference's `indentedSoftWrap` hold.
   case dictionary
+
+  /// Whatever the property list held, as a macro step's `argument` holds:
+  /// text for a typed string, a dictionary for a command's options.
+  case any
 }

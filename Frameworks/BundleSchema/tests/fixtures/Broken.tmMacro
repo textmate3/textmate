@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>commands</key>
+	<array>
+		<dict>
+			<key>argument</key>
+			<string>;</string>
+		</dict>
+		<dict>
+			<key>command</key>
+			<string>insert text</string>
+		</dict>
+		<dict>
+			<key>command</key>
+			<string>moveRight:</string>
+			<key>repeat</key>
+			<integer>3</integer>
+		</dict>
+		<string>not a step</string>
+	</array>
+	<key>flavour</key>
+	<string>vanilla</string>
+	<key>name</key>
+	<string>Broken</string>
+	<key>uuid</key>
+	<string>00000000-0000-0000-0000-000000000000</string>
+</dict>
+</plist>
