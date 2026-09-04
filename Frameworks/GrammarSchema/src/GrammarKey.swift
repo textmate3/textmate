@@ -1,5 +1,5 @@
-/// One key a grammar or a rule may carry: its name in the property list, the
-/// kind of value behind it, and a line for the form to show as help.
+/// One key a grammar or a rule may carry: its name in the property list,
+/// the kind of value behind it, and a line for the form to show as help.
 public struct GrammarKey: Sendable, Equatable, Identifiable {
   public let name: String
   public let kind: GrammarValueKind

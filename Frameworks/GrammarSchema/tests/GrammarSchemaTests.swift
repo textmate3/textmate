@@ -2,8 +2,8 @@ import Foundation
 import GrammarSchema
 import Testing
 
-/// A grammar fixture next to this file, loaded the way the bundle loader loads
-/// it: an XML property list into a dictionary.
+/// A grammar fixture next to this file, loaded the way the bundle loader loads it:
+/// an XML property list into a dictionary.
 private func fixture(_ name: String) throws -> [String: Any] {
   let url = URL(fileURLWithPath: #filePath).deletingLastPathComponent().appending(path: "fixtures/\(name)")
   let data = try Data(contentsOf: url)
@@ -69,8 +69,8 @@ private func fixture(_ name: String) throws -> [String: Any] {
     #expect(messages.contains("patterns[3].include: no repository rule named missing"))
     #expect(messages.contains("repository.present: flavour is not a rule key"))
 
-    // #present resolves through the grammar's repository, and #inner through
-    // the enclosing rule's, but not from outside that rule.
+    // #present resolves through the grammar's repository,
+    // and #inner through the enclosing rule's, but not from outside that rule.
     #expect(!messages.contains { $0.hasPrefix("patterns[4]") })
     #expect(!messages.contains { $0.hasPrefix("patterns[5]") })
     #expect(messages.contains("patterns[6].include: no repository rule named inner"))

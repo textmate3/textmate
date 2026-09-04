@@ -1,10 +1,14 @@
 import Foundation
 
-/// Checks a grammar, as the dictionary its property list loads into, against
-/// the schema: keys the parser does not read, keys that cannot go together,
-/// keys that need another, includes that point nowhere, and values of the
-/// wrong kind. It does not compile regular expressions. That needs the same
-/// Oniguruma the parser uses, and belongs to whatever hosts the form.
+/// Checks a grammar, as the dictionary its property list loads into, against the schema:
+/// keys the parser does not read,
+/// keys that cannot go together,
+/// keys that need another,
+/// includes that point nowhere,
+/// and values of the wrong kind.
+///
+/// It does not compile regular expressions.
+/// That needs the same Oniguruma the parser uses and belongs to whatever hosts the form.
 public struct GrammarValidator: Sendable {
   public init() {}
 
@@ -28,8 +32,8 @@ public struct GrammarValidator: Sendable {
 
   // MARK: - Rules
 
-  /// The issues in every rule reachable from a grammar or a rule: its patterns,
-  /// its captures, its repository and its injections.
+  /// The issues in every rule reachable from a grammar or a rule:
+  /// its patterns, its captures, its repository and its injections.
   private func rulesIssues(in container: [String: Any], path: String, repositories: [Set<String>]) -> [GrammarIssue] {
     var issues: [GrammarIssue] = []
 
@@ -111,8 +115,8 @@ public struct GrammarValidator: Sendable {
       issues.append(GrammarIssue(path: "\(path).include", message: message))
     }
 
-    // A rule's own repository is visible to the rules inside it, and the
-    // parser resolves #name outward through every enclosing repository.
+    // A rule's own repository is visible to the rules inside it,
+    // and the parser resolves #name outward through every enclosing repository.
     let nested = repositories + [repositoryNames(of: rule)]
     issues += rulesIssues(in: rule, path: "\(path).", repositories: nested)
 

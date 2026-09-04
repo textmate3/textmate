@@ -1,4 +1,5 @@
-/// What kind of value a grammar key holds. The form builds one field per kind,
+/// What kind of value a grammar key holds.
+/// The form builds one field per kind,
 /// and the validator checks each kind its own way.
 public enum GrammarValueKind: Sendable, Equatable {
   /// Free text, such as a comment or an item name.
@@ -7,8 +8,8 @@ public enum GrammarValueKind: Sendable, Equatable {
   /// An Oniguruma regular expression, as `match`, `begin`, `end` and `while` hold.
   case regularExpression
 
-  /// A scope name such as `source.ruby` or `string.quoted.double`, which may
-  /// interpolate captures, as `name` and `contentName` hold.
+  /// A scope name such as `source.ruby` or `string.quoted.double`,
+  /// which may interpolate captures, as `name` and `contentName` hold.
   case scopeName
 
   /// A scope selector, as `injectionSelector` and the keys of `injections` hold.
@@ -32,7 +33,7 @@ public enum GrammarValueKind: Sendable, Equatable {
   /// Scope selector to rule, as `injections` holds.
   case injections
 
-  /// A reference to another rule: `$self`, `$base`, `#name` in a repository,
-  /// another grammar's scope name, or `scope#name`.
+  /// A reference to another rule: `$self`, `$base`, `#name`
+  /// in a repository, another grammar's scope name, or `scope#name`.
   case include
 }

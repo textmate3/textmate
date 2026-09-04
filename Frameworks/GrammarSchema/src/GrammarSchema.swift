@@ -1,7 +1,7 @@
-/// The grammar format as data: which keys a grammar and a rule may carry, what
-/// each holds, and which keys go together. The parser in Frameworks/parse reads
-/// exactly the rule keys listed here. Everything that edits or checks a grammar
-/// builds on these tables rather than on its own list.
+/// The grammar format as data: which keys a grammar and a rule may carry,
+/// what each holds, and which keys go together.
+/// The parser in Frameworks/parse reads exactly the rule keys listed here.
+/// Everything that edits or checks a grammar builds on these tables rather than on its own list.
 public enum GrammarSchema {
   /// The keys of a grammar's top level, the `.tmLanguage` dictionary.
   public static let grammarKeys: [GrammarKey] = [
@@ -23,8 +23,8 @@ public enum GrammarSchema {
     GrammarKey("hideFromUser", .boolean, "Leaves the grammar out of the language menu."),
   ]
 
-  /// The keys a rule may carry, anywhere rules appear: patterns, captures,
-  /// repository entries and injections.
+  /// The keys a rule may carry, anywhere rules appear:
+  /// patterns, captures, repository entries and injections.
   public static let ruleKeys: [GrammarKey] = [
     GrammarKey("name", .scopeName, "The scope given to what the rule matches."),
     GrammarKey("contentName", .scopeName, "The scope given to what lies between begin and end, not including them."),
