@@ -13,7 +13,7 @@ struct GrammarEditorView: View {
           .frame(minWidth: 180, idealWidth: 260)
         Group {
           if let rule = selection.flatMap(document.rule(with:)) {
-            GrammarRuleFormView(rule: rule)
+            GrammarRuleFormView(rule: rule, entry: document.namedRule(for: rule.id))
           } else {
             Text("Select a rule")
               .foregroundStyle(.secondary)

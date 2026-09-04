@@ -1,10 +1,12 @@
 import SwiftUI
 
 /// One rule in the outline, disclosing its nested patterns. A repository entry
-/// or an injection shows its name rather than the rule's own title.
+/// or an injection shows its name rather than the rule's own title. The
+/// context menu offers what the bar under the outline offers, for this rule.
 struct GrammarOutlineRow: View {
   let rule: GrammarRule
   var label: String?
+  let actions: GrammarOutlineActions
 
   var body: some View {
     if rule.patterns.isEmpty {
@@ -12,7 +14,7 @@ struct GrammarOutlineRow: View {
     } else {
       DisclosureGroup {
         ForEach(rule.patterns) { child in
-          GrammarOutlineRow(rule: child)
+          GrammarOutlineRow(rule: child, actions: actions)
         }
       } label: {
         row
@@ -31,6 +33,20 @@ struct GrammarOutlineRow: View {
         .foregroundStyle(.secondary)
     }
     .tag(rule.id)
+    .contextMenu {
+      Button("Add Match Rule After") { actions.add(.match, .after(rule.id)) }
+      Button("Add Begin and End Rule After") { actions.add(.beginEnd, .after(rule.id)) }
+      Button("Add Include After") { actions.add(.include, .after(rule.id)) }
+      Divider()
+      Button("Add Nested Match Rule") { actions.add(.match, .inside(rule.id)) }
+      Button("Add Nested Begin and End Rule") { actions.add(.beginEnd, .inside(rule.id)) }
+      Button("Add Nested Include") { actions.add(.include, .inside(rule.id)) }
+      Divider()
+      Button("Move Up") { actions.move(rule.id, -1) }
+      Button("Move Down") { actions.move(rule.id, 1) }
+      Divider()
+      Button("Remove", role: .destructive) { actions.remove(rule.id) }
+    }
   }
 
   private var shapeLabel: String {
