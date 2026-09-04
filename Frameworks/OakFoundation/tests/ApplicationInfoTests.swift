@@ -1,8 +1,8 @@
 import OakFoundation
 import Testing
 
-/// The same round trip as t_application_info.mm, from Swift Testing:
-/// the first Swift test in the tree, run by its own executable under <target>/test/run.
+/// ApplicationInfo read from Swift:
+/// the same round trip t_application_info.mm checks from Objective-C++.
 @Suite struct ApplicationInfoTests {
   @Test func readsTheDictionary() {
     let info = ApplicationInfo(infoDictionary: [
