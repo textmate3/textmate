@@ -1,7 +1,7 @@
 /// The four shapes a rule takes, decided by which of its keys are present.
 /// The form shows the fields for one shape at a time,
 /// and the validator reports a rule that mixes them.
-public enum GrammarRuleShape: Sendable, Equatable {
+public enum GrammarRuleShape: Sendable, Hashable {
   /// A `match` rule: one regular expression, applied within a line.
   case match
 

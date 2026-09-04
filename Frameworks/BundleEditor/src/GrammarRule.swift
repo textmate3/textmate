@@ -78,6 +78,47 @@ final class GrammarRule: Identifiable {
 
   var shape: GrammarRuleShape? { GrammarRuleShape.of(dictionary) }
 
+  /// Gives the rule another shape, carrying the pattern across where the
+  /// shapes share one: a match becomes a begin, a begin becomes a match. The
+  /// captures tables stay, since the form shows the ones the shape uses.
+  func convert(to newShape: GrammarRuleShape) {
+    guard newShape != shape else { return }
+    let pattern = match ?? begin ?? ""
+    match = nil
+    begin = nil
+    end = nil
+    whilePattern = nil
+    include = nil
+    switch newShape {
+    case .match:
+      match = pattern
+    case .beginEnd:
+      begin = pattern
+      end = ""
+    case .beginWhile:
+      begin = pattern
+      whilePattern = ""
+    case .include:
+      include = ""
+      contentName = nil
+    case .patterns:
+      contentName = nil
+    }
+  }
+
+  /// The rows shown under this rule in the outline: its patterns, then the
+  /// rules of captures that have patterns of their own, labeled by table
+  /// and number.
+  var outlineChildren: [(label: String?, rule: GrammarRule)] {
+    var children: [(label: String?, rule: GrammarRule)] = patterns.map { (nil, $0) }
+    for (table, entries) in [("captures", captures), ("beginCaptures", beginCaptures), ("endCaptures", endCaptures), ("whileCaptures", whileCaptures)] {
+      for capture in entries where !capture.rule.patterns.isEmpty {
+        children.append(("\(table) \(capture.key)", capture.rule))
+      }
+    }
+    return children
+  }
+
   /// What the outline shows for the rule: its scope, or what it matches or includes.
   var title: String {
     if let scopeName, !scopeName.isEmpty { return scopeName }
