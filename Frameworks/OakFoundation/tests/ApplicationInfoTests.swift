@@ -7,7 +7,7 @@ import Testing
   @Test func readsTheDictionary() {
     let info = ApplicationInfo(infoDictionary: [
       "CFBundleShortVersionString": "2.1.0",
-      "NSHumanReadableCopyright": "© 2026",
+      "NSHumanReadableCopyright": "© 2026"
     ])
     #expect(info.shortVersion == "2.1.0")
     #expect(info.copyright == "© 2026")
