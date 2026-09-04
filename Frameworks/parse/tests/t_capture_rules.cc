@@ -5,41 +5,8 @@ static bundles::item_ptr CaptureTestGrammarItem;
 
 void setup_fixtures ()
 {
-	static std::string CaptureTestLanguageGrammar =
-		"{ name           = 'Test';"
-		"  patterns       = ("
-		"    { match = '^leak';"
-		"      name = 'main';"
-		"      captures = {"
-		"        0 = {"
-		"          patterns = ("
-		"            { begin = 'leak';"
-		"              end = '(?=not)possible';"
-		"              name = 'capture';"
-		"            },"
-		"          );"
-		"        };"
-		"      };"
-		"    },"
-		"    { match = '^((?:.{0,20}\\s*)|(.{21,}\\s*))$';"
-		"      captures = {"
-		"        1 = {"
-		"          patterns = ("
-		"            { match = '\\G(fixup|squash)!';"
-		"              name = '$1';"
-		"            },"
-		"          );"
-		"        };"
-		"        2 = { name = 'warn'; };"
-		"      };"
-		"    },"
-		"  );"
-		"  scopeName      = 'test';"
-		"  uuid           = 'FB562A16-A2AA-49E0-AAF6-6D030ECC8DAC';"
-		"}";
-
 	test::bundle_index_t bundleIndex;
-	CaptureTestGrammarItem = bundleIndex.add(bundles::kItemTypeGrammar, CaptureTestLanguageGrammar);
+	CaptureTestGrammarItem = bundleIndex.add(bundles::kItemTypeGrammar, test::fixture(__FILE__, "CaptureTestLanguageGrammar.tmLanguage"));
 }
 
 void test_captures ()

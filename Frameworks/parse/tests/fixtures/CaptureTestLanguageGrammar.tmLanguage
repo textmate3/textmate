@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Test</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>match</key>
+			<string>^leak</string>
+			<key>name</key>
+			<string>main</string>
+			<key>captures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>begin</key>
+							<string>leak</string>
+							<key>end</key>
+							<string>(?=not)possible</string>
+							<key>name</key>
+							<string>capture</string>
+						</dict>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>^((?:.{0,20}\s*)|(.{21,}\s*))$</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>\G(fixup|squash)!</string>
+							<key>name</key>
+							<string>$1</string>
+						</dict>
+					</array>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>warn</string>
+				</dict>
+			</dict>
+		</dict>
+	</array>
+	<key>scopeName</key>
+	<string>test</string>
+	<key>uuid</key>
+	<string>FB562A16-A2AA-49E0-AAF6-6D030ECC8DAC</string>
+</dict>
+</plist>

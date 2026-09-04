@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>command</key>
+	<string>#!/bin/sh
+/usr/bin/openssl dgst -sha1 -binary
+</string>
+	<key>semanticClass</key>
+	<string>callback.document.binary-export</string>
+	<key>input</key>
+	<string>document</string>
+	<key>name</key>
+	<string>Hash Document</string>
+	<key>output</key>
+	<string>replaceDocument</string>
+	<key>scope</key>
+	<string>attr.rev-path.sha1</string>
+	<key>uuid</key>
+	<string>E2C42B70-5823-49A7-A259-A1622EBD191C</string>
+</dict>
+</plist>

@@ -1,7 +1,6 @@
 #include "folds.h"
 #include <bundles/wrappers.h>
 #include <regexp/indent.h>
-#include <plist/ascii.h>
 #include <text/ctype.h>
 #include <text/format.h>
 #include <oak/algorithm.h>
@@ -11,6 +10,63 @@ namespace ng
 {
 	folds_t::folds_t (buffer_t& buffer) : _buffer(buffer) { _buffer.add_callback(this);    }
 	folds_t::~folds_t ()                                  { _buffer.remove_callback(this); }
+
+	// The folded ranges as text, the way they are kept with the document:
+	// each range as two offsets in parentheses, the list of them in
+	// parentheses, such as ((1,5),(12,20)). Spaces between the parts are
+	// allowed. Anything else is not a list of ranges, and reads as none.
+	static bool parse_folded_ranges (std::string const& str, std::vector< std::pair<size_t, size_t> >& ranges)
+	{
+		char const* it   = str.data();
+		char const* last = str.data() + str.size();
+
+		auto skip_space = [&]{
+			while(it != last && (*it == ' ' || *it == '\t' || *it == '\n'))
+				++it;
+		};
+
+		auto expect = [&](char ch) -> bool {
+			skip_space();
+			if(it == last || *it != ch)
+				return false;
+			++it;
+			return true;
+		};
+
+		auto number = [&](size_t& value) -> bool {
+			skip_space();
+			char const* first = it;
+			while(it != last && '0' <= *it && *it <= '9')
+				++it;
+			if(first == it)
+				return false;
+			value = strtoull(std::string(first, it).c_str(), nullptr, 10);
+			return true;
+		};
+
+		if(!expect('('))
+			return false;
+
+		while(true)
+		{
+			skip_space();
+			if(it != last && *it == ')')
+				break;
+
+			size_t from, to;
+			if(!(expect('(') && number(from) && expect(',') && number(to) && expect(')')))
+				return false;
+			ranges.emplace_back(from, to);
+
+			skip_space();
+			if(it != last && *it == ',')
+				++it;
+		}
+
+		++it;
+		skip_space();
+		return it == last;
+	}
 
 	// =======
 	// = API =
@@ -26,27 +82,17 @@ namespace ng
 
 	void folds_t::set_folded_as_string (std::string const& str)
 	{
-		plist::any_t value = plist::parse_ascii(str);
-		if(plist::array_t const* array = plist::get_if<plist::array_t>(&value))
+		std::vector< std::pair<size_t, size_t> > newFoldings;
+		if(!parse_folded_ranges(str, newFoldings))
+			return;
+
+		for(auto const& pair : newFoldings)
 		{
-			bool validRanges = true;
-
-			std::vector< std::pair<size_t, size_t> > newFoldings;
-			for(auto const& pair : *array)
-			{
-				if(plist::array_t const* value = plist::get_if<plist::array_t>(&pair))
-				{
-					int32_t const* from = value->size() == 2 ? plist::get_if<int32_t>(&(*value)[0]) : nullptr;
-					int32_t const* to   = value->size() == 2 ? plist::get_if<int32_t>(&(*value)[1]) : nullptr;
-					if(from && *from < _buffer.size() && to && *to <= _buffer.size())
-							newFoldings.emplace_back(*from, *to);
-					else	validRanges = false;
-				}
-			}
-
-			if(validRanges)
-				set_folded(newFoldings);
+			if(!(pair.first < _buffer.size() && pair.second <= _buffer.size()))
+				return;
 		}
+
+		set_folded(newFoldings);
 	}
 
 	// =============

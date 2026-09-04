@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>TeX Environment</string>
+	<key>scope</key>
+	<string>text.tex</string>
+	<key>settings</key>
+	<dict>
+		<key>shellVariables</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>PATH</string>
+				<key>value</key>
+				<string>$PATH:/usr/texbin</string>
+			</dict>
+		</array>
+	</dict>
+</dict>
+</plist>

@@ -4,21 +4,8 @@
 
 void setup_fixtures ()
 {
-	static std::string HighlightPairs =
-		"{	name     = 'Highlight Pairs';"
-		"	settings = {"
-		"		highlightPairs = ("
-		"			( '(', ')' ),"
-		"			( '{', '}' ),"
-		"			( '[', ']' ),"
-		"			( '“', '”' ),"
-		"			( '/<\\w+[^>]*>/', '/</\\w+>/' ),"
-		"		);"
-		"	};"
-		"}";
-
 	test::bundle_index_t bundleIndex;
-	bundleIndex.add(bundles::kItemTypeSettings, HighlightPairs);
+	bundleIndex.add(bundles::kItemTypeSettings, test::fixture(__FILE__, "HighlightPairs.tmPreferences"));
 	bundleIndex.commit();
 }
 

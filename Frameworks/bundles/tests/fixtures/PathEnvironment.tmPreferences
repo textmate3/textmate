@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Path Environment</string>
+	<key>settings</key>
+	<dict>
+		<key>shellVariables</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>PATH</string>
+				<key>value</key>
+				<string>/usr/bin</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>PATH</string>
+				<key>value</key>
+				<string>$PATH:/bin</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>PATH</string>
+				<key>value</key>
+				<string>$PATH:/tmp</string>
+				<key>disabled</key>
+				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>PATH</string>
+				<key>value</key>
+				<string>$PATH:/sbin</string>
+			</dict>
+		</array>
+	</dict>
+</dict>
+</plist>

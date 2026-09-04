@@ -8,19 +8,8 @@ static bundles::item_ptr TestGrammarItem;
 
 void setup_fixtures ()
 {
-	static std::string TestLanguageGrammar =
-		"{	fileTypes      = ( txt );\n"
-		"	name           = 'Test';\n"
-		"	patterns       = (\n"
-		"    { name = 'foo'; match = 'foo'; },\n"
-		"    { name = 'bar'; match = 'bar'; },\n"
-		"  );\n"
-		"	scopeName      = 'test';\n"
-		"	uuid           = '978BF73C-B36D-490F-AEBF-74EF2C6EA7D1';\n"
-		"}\n";
-
 	test::bundle_index_t bundleIndex;
-	TestGrammarItem = bundleIndex.add(bundles::kItemTypeGrammar, TestLanguageGrammar);
+	TestGrammarItem = bundleIndex.add(bundles::kItemTypeGrammar, test::fixture(__FILE__, "TestLanguageGrammar.tmLanguage"));
 	bundleIndex.commit();
 
 	NSApplicationLoad();
