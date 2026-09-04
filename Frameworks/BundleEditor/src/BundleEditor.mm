@@ -260,9 +260,30 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 		documentView.textView.delegate = self;
 
 		_documentViewController = [[NSViewController alloc] initWithNibName:nil bundle:nil];
-		_documentViewController.view = documentView;
+		_documentViewController.view = [[NSView alloc] initWithFrame:NSZeroRect];
+		[self showInDocumentPane:documentView];
 	}
 	return _documentViewController;
+}
+
+// The document pane holds either the text view or the grammar editor. The
+// split view keeps the controller's view for good, so what changes is that
+// view's one subview.
+- (void)showInDocumentPane:(NSView*)aView
+{
+	NSView* pane = self.documentViewController.view;
+	if(aView.superview == pane)
+		return;
+
+	[pane.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+	aView.translatesAutoresizingMaskIntoConstraints = NO;
+	[pane addSubview:aView];
+	[NSLayoutConstraint activateConstraints:@[
+		[aView.leadingAnchor constraintEqualToAnchor:pane.leadingAnchor],
+		[aView.trailingAnchor constraintEqualToAnchor:pane.trailingAnchor],
+		[aView.topAnchor constraintEqualToAnchor:pane.topAnchor],
+		[aView.bottomAnchor constraintEqualToAnchor:pane.bottomAnchor],
+	]];
 }
 
 - (NSSplitViewController*)splitViewController
@@ -919,8 +940,7 @@ static NSMutableDictionary* DictionaryForPropertyList (plist::dictionary_t const
 	bundleItem        = aBundleItem;
 	bundleItemContent = nil;
 
-	NSViewController* documentViewController = self.documentViewController;
-	documentViewController.view = documentView;
+	[self showInDocumentPane:documentView];
 
 	std::map<bundles::item_ptr, plist::dictionary_t>::const_iterator it = changes.find(bundleItem);
 	self.bundleItemProperties = it != changes.end() ? DictionaryForPropertyList(it->second, bundleItem) : DictionaryForBundleItem(bundleItem);
@@ -960,7 +980,7 @@ static NSMutableDictionary* DictionaryForPropertyList (plist::dictionary_t const
 		if(info.kind == bundles::kItemTypeGrammar)
 		{
 			[self.grammarEditor load:ns::to_mutable_dictionary(plistSubset)];
-			self.documentViewController.view = self.grammarEditor.view;
+			[self showInDocumentPane:self.grammarEditor.view];
 		}
 		else
 		{
