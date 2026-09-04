@@ -1,6 +1,6 @@
-/// Something the validator found, with the path to the rule it found it in,
-/// written the way a person would point at it: `repository.string.patterns[2]`.
-public struct GrammarIssue: Sendable, Equatable, CustomStringConvertible {
+/// Something a validator found, with the path to where it found it, written
+/// the way a person would point at it: `repository.string.patterns[2]`.
+public struct SchemaIssue: Sendable, Equatable, CustomStringConvertible {
   public let path: String
   public let message: String
 

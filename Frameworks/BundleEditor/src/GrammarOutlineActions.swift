@@ -1,4 +1,4 @@
-import GrammarSchema
+import BundleSchema
 
 /// What the outline's bar and context menus can do to the document, handed
 /// down so the rows do not reach into the document themselves.

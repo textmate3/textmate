@@ -11,6 +11,15 @@
 
 NSAttributedStringKey const TMGrammarPreviewScopeAttributeName = @"TMGrammarPreviewScope";
 
+// A bundle item that exists only to carry a dictionary to the parser or the
+// theme code, which read items rather than dictionaries. Never in the index.
+static bundles::item_ptr TransientItem (NSDictionary* dictionary, bundles::kind_t kind)
+{
+	auto item = std::make_shared<bundles::item_t>(oak::uuid_t().generate(), bundles::item_ptr(), kind, true);
+	item->set_plist(plist::convert((__bridge CFPropertyListRef)dictionary));
+	return item;
+}
+
 @implementation TMGrammarPreviewRenderer
 {
 	BOOL _darkAppearance;
@@ -21,6 +30,13 @@ NSAttributedStringKey const TMGrammarPreviewScopeAttributeName = @"TMGrammarPrev
 {
 	if(self = [super init])
 		_darkAppearance = darkAppearance;
+	return self;
+}
+
+- (instancetype)initWithThemeDictionary:(NSDictionary*)theme
+{
+	if(self = [super init])
+		_theme = parse_theme(TransientItem(theme, bundles::kItemTypeTheme));
 	return self;
 }
 
@@ -61,13 +77,32 @@ NSAttributedStringKey const TMGrammarPreviewScopeAttributeName = @"TMGrammarPrev
 
 - (NSAttributedString*)render:(NSString*)text grammar:(NSDictionary*)grammar
 {
-	plist::dictionary_t const plist = plist::convert((__bridge CFPropertyListRef)grammar);
+	std::string scopeName;
+	plist::get_key_path(plist::convert((__bridge CFPropertyListRef)grammar), "scopeName", scopeName);
+	return [self render:text item:TransientItem(grammar, bundles::kItemTypeGrammar) scopeName:scopeName];
+}
 
-	// A transient item carrying the dictionary, so the parser sees the grammar
-	// as it sees any other, scope name and all. It is never in the index.
-	auto item = std::make_shared<bundles::item_t>(oak::uuid_t().generate(), bundles::item_ptr(), bundles::kItemTypeGrammar, true);
-	item->set_plist(plist);
+- (NSAttributedString*)render:(NSString*)text grammarScope:(NSString*)scope
+{
+	for(auto item : bundles::query(bundles::kFieldGrammarScope, to_s(scope), scope::wildcard, bundles::kItemTypeGrammar))
+		return [self render:text item:item scopeName:to_s(scope)];
+	return [[NSAttributedString alloc] initWithString:text attributes:@{ NSFontAttributeName: [NSFont userFixedPitchFontOfSize:0], NSForegroundColorAttributeName: self.foregroundColor }];
+}
 
++ (NSArray<NSString*>*)installedGrammarScopes
+{
+	NSMutableArray<NSString*>* scopes = [NSMutableArray array];
+	for(auto item : bundles::query(bundles::kFieldAny, NULL_STR, scope::wildcard, bundles::kItemTypeGrammar))
+	{
+		std::string const scope = item->value_for_field(bundles::kFieldGrammarScope);
+		if(scope != NULL_STR && !scope.empty())
+			[scopes addObject:to_ns(scope)];
+	}
+	return [scopes sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+}
+
+- (NSAttributedString*)render:(NSString*)text item:(bundles::item_ptr const&)item scopeName:(std::string const&)scopeName
+{
 	parse::grammar_t parser(item);
 	theme_ptr theme = [self theme];
 
@@ -76,9 +111,6 @@ NSAttributedStringKey const TMGrammarPreviewScopeAttributeName = @"TMGrammarPrev
 
 	std::string const source = to_s(text);
 	parse::stack_ptr stack = parser.seed();
-
-	std::string scopeName;
-	plist::get_key_path(plist, "scopeName", scopeName);
 	scope::scope_t scope(scopeName);
 
 	bool firstLine = true;

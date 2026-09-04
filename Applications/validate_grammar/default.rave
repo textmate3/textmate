@@ -1,5 +1,5 @@
 target "${dirname}" {
-	require GrammarSchema
+	require BundleSchema
 	sources src/*.swift
 	executable "${target}"
 }

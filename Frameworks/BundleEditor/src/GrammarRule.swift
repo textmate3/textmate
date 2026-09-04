@@ -1,5 +1,5 @@
+import BundleSchema
 import Foundation
-import GrammarSchema
 import Observation
 
 /// One rule of a grammar as the form edits it, with its nested patterns,
