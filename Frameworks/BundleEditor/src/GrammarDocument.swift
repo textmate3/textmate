@@ -19,6 +19,10 @@ final class GrammarDocument {
   /// Keys the editor does not know, written back as they came.
   private var extra: [String: Any] = [:]
 
+  /// The grammar's other keys, its scope name above all, which the parser
+  /// needs and the properties panel edits. Not written back from here.
+  var context: [String: Any] = [:]
+
   init() {}
 
   init(dictionary: [String: Any]) {
@@ -37,6 +41,12 @@ final class GrammarDocument {
     if !repository.isEmpty { result["repository"] = GrammarNamedRule.dictionary(repository) }
     if !injections.isEmpty { result["injections"] = GrammarNamedRule.dictionary(injections) }
     return result
+  }
+
+  /// The whole grammar as the parser wants it: the context's keys under the
+  /// edited ones.
+  var fullDictionary: [String: Any] {
+    context.merging(dictionary) { _, edited in edited }
   }
 
   /// Every rule in the document, in outline order.

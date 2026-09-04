@@ -1,5 +1,5 @@
 target "${dirname}" {
-	require BundlesManager GrammarSchema OakAppKit OakFoundation OakTextView TMFileReference bundles cf command document io ns plist regexp settings text
+	require BundlesManager GrammarSchema OakAppKit OakFoundation OakTextView TMFileReference bundles cf command document io ns parse plist regexp scope settings text theme
 	headers src/BundleEditor.h
 
 	files resources/* templates/*.plist gfx/**/*.png "Resources"

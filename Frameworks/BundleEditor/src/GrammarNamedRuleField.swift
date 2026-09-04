@@ -10,7 +10,7 @@ struct GrammarNamedRuleField: View {
       TextField("name", text: $entry.name)
         .labelsHidden()
         .font(.body.monospaced())
-        .multilineTextAlignment(.leading)
+        .multilineTextAlignment(.trailing)
     }
     .help("What patterns include this rule by, as #name.")
   }
