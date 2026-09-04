@@ -11,6 +11,8 @@ extern NSAttributedStringKey const TMGrammarPreviewScopeAttributeName;
 // the grammar goes in as the dictionary the editor holds, and includes of
 // other grammars resolve through the bundle index as they would for a real
 // document.
+NS_ASSUME_NONNULL_BEGIN
+
 @interface TMGrammarPreviewRenderer : NSObject
 - (instancetype)initWithDarkAppearance:(BOOL)darkAppearance;
 
@@ -20,3 +22,5 @@ extern NSAttributedStringKey const TMGrammarPreviewScopeAttributeName;
 
 - (NSAttributedString*)render:(NSString*)text grammar:(NSDictionary*)grammar;
 @end
+
+NS_ASSUME_NONNULL_END
