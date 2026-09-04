@@ -1,73 +1,66 @@
-#include <plist/ascii.h>
 #include <plist/delta.h>
+
+// A string value. Bare character literals would become booleans in a
+// property list value, so every text goes through this.
+static plist::any_t text (char const* value)
+{
+	return std::string(value);
+}
 
 void test_delta ()
 {
-	std::string oldPlistString =
-		"{	foo = bar;\n"
-		"	bar = bar;\n"
-		"	duff = me;\n"
-		"	array_1 = ( 1, 2, 3 );\n"
-		"	array_2 = ( 1, 3 );\n"
-		"	array_3 = ( power, ( me, { bad = good; } ), 3 );\n"
-		"	dict_1 = {\n"
-		"		key = value;\n"
-		"		foo = ( bar );\n"
-		"		nested = {\n"
-		"			funny = shit;\n"
-		"			more = clean;\n"
-		"		};\n"
-		"	};\n"
-		"	dict_2 = {\n"
-		"		key = value;\n"
-		"		foo = ( bar );\n"
-		"		nested = {\n"
-		"			funny = shit;\n"
-		"			more = clean;\n"
-		"		};\n"
-		"	};\n"
-		"}";
+	plist::dictionary_t const oldPlist =
+	{
+		{ "foo",     text("bar") },
+		{ "bar",     text("bar") },
+		{ "duff",    text("me") },
+		{ "array_1", plist::array_t{ 1, 2, 3 } },
+		{ "array_2", plist::array_t{ 1, 3 } },
+		{ "array_3", plist::array_t{ text("power"), plist::array_t{ text("me"), plist::dictionary_t{ { "bad", text("good") } } }, 3 } },
+		{ "dict_1",  plist::dictionary_t{
+			{ "key",    text("value") },
+			{ "foo",    plist::array_t{ text("bar") } },
+			{ "nested", plist::dictionary_t{ { "funny", text("shit") }, { "more", text("clean") } } },
+		} },
+		{ "dict_2",  plist::dictionary_t{
+			{ "key",    text("value") },
+			{ "foo",    plist::array_t{ text("bar") } },
+			{ "nested", plist::dictionary_t{ { "funny", text("shit") }, { "more", text("clean") } } },
+		} },
+	};
 
-	std::string newPlistString =
-		"{	foo = bar;\n"
-		"	duff = other;\n"
-		"	charlie = sheen;\n"
-		"	array_1 = ( 1, 2, 3 );\n"
-		"	array_2 = ( 1, 5, 3 );\n"
-		"	array_3 = ( power, ( me, { bad = good; } ), 3 );\n"
-		"	dict_1 = {\n"
-		"		key = value;\n"
-		"		foo = ( bar );\n"
-		"		nested = {\n"
-		"			funny = shit;\n"
-		"			more = explicit;\n"
-		"		};\n"
-		"	};\n"
-		"	dict_2 = {\n"
-		"		key = value;\n"
-		"		foo = ( bar );\n"
-		"		nested = {\n"
-		"			funny = shit;\n"
-		"			less = clean;\n"
-		"		};\n"
-		"	};\n"
-		"}";
+	plist::dictionary_t const newPlist =
+	{
+		{ "foo",     text("bar") },
+		{ "duff",    text("other") },
+		{ "charlie", text("sheen") },
+		{ "array_1", plist::array_t{ 1, 2, 3 } },
+		{ "array_2", plist::array_t{ 1, 5, 3 } },
+		{ "array_3", plist::array_t{ text("power"), plist::array_t{ text("me"), plist::dictionary_t{ { "bad", text("good") } } }, 3 } },
+		{ "dict_1",  plist::dictionary_t{
+			{ "key",    text("value") },
+			{ "foo",    plist::array_t{ text("bar") } },
+			{ "nested", plist::dictionary_t{ { "funny", text("shit") }, { "more", text("explicit") } } },
+		} },
+		{ "dict_2",  plist::dictionary_t{
+			{ "key",    text("value") },
+			{ "foo",    plist::array_t{ text("bar") } },
+			{ "nested", plist::dictionary_t{ { "funny", text("shit") }, { "less", text("clean") } } },
+		} },
+	};
 
-	std::string deltaPlistString =
-		"{	deleted = ( bar, 'dict_2.nested.more' );\n"
-		"	changed = {\n"
-		"		duff = other;\n"
-		"		charlie = sheen;\n"
-		"		array_2 = ( 1, 5, 3 );\n"
-		"		'dict_1.nested.more' = explicit;\n"
-		"		'dict_2.nested.less' = clean;\n"
-		"	};\n"
-		"	isDelta = :true;\n"
-		"}";
-
-	plist::dictionary_t const oldPlist   = plist::get_ref<plist::dictionary_t>(plist::parse_ascii(oldPlistString));
-	plist::dictionary_t const newPlist   = plist::get_ref<plist::dictionary_t>(plist::parse_ascii(newPlistString));
-	plist::dictionary_t const deltaPlist = plist::get_ref<plist::dictionary_t>(plist::parse_ascii(deltaPlistString));
+	plist::dictionary_t const deltaPlist =
+	{
+		{ "deleted", plist::array_t{ text("bar"), text("dict_2.nested.more") } },
+		{ "changed", plist::dictionary_t{
+			{ "duff",               text("other") },
+			{ "charlie",            text("sheen") },
+			{ "array_2",            plist::array_t{ 1, 5, 3 } },
+			{ "dict_1.nested.more", text("explicit") },
+			{ "dict_2.nested.less", text("clean") },
+		} },
+		{ "isDelta", true },
+	};
 
 	OAK_ASSERT_EQ(to_s(plist::create_delta(oldPlist, newPlist)), to_s(deltaPlist));
 
@@ -85,35 +78,30 @@ void test_delta ()
 
 void test_delta_settings_changed ()
 {
-	std::string oldPlistString =
-		"{	name = 'Tag Preferences';\n"
-		"	scope = 'meta.tag';\n"
-		"	settings = ( 'smartTypingPairs', 'spellChecking' );\n"
-		"	uuid = '73251DBE-EBD2-470F-8148-E6F2EC1A9641';\n"
-		"}\n";
+	plist::dictionary_t const oldPlist =
+	{
+		{ "name",     text("Tag Preferences") },
+		{ "scope",    text("meta.tag") },
+		{ "settings", plist::array_t{ text("smartTypingPairs"), text("spellChecking") } },
+		{ "uuid",     text("73251DBE-EBD2-470F-8148-E6F2EC1A9641") },
+	};
 
-	std::string deltaPlistString =
-		"{	changed = {\n"
-		"		settings.shellVariables = (\n"
-		"			{	name = 'TM_FOO';\n"
-		"				value = 'bar';\n"
-		"			},\n"
-		"		);\n"
-		"	};\n"
-		"	isDelta = :true;\n"
-		"	uuid = '73251DBE-EBD2-470F-8148-E6F2EC1A9641';\n"
-		"}\n";
+	plist::dictionary_t const deltaPlist =
+	{
+		{ "changed", plist::dictionary_t{
+			{ "settings.shellVariables", plist::array_t{ plist::dictionary_t{ { "name", text("TM_FOO") }, { "value", text("bar") } } } },
+		} },
+		{ "isDelta", true },
+		{ "uuid",    text("73251DBE-EBD2-470F-8148-E6F2EC1A9641") },
+	};
 
-	std::string newPlistString =
-		"{	name = 'Tag Preferences';\n"
-		"	scope = 'meta.tag';\n"
-		"	settings = ( 'smartTypingPairs', 'spellChecking', 'shellVariables' );\n"
-		"	uuid = '73251DBE-EBD2-470F-8148-E6F2EC1A9641';\n"
-		"}\n";
-
-	plist::dictionary_t const oldPlist   = plist::get_ref<plist::dictionary_t>(plist::parse_ascii(oldPlistString));
-	plist::dictionary_t const newPlist   = plist::get_ref<plist::dictionary_t>(plist::parse_ascii(newPlistString));
-	plist::dictionary_t const deltaPlist = plist::get_ref<plist::dictionary_t>(plist::parse_ascii(deltaPlistString));
+	plist::dictionary_t const newPlist =
+	{
+		{ "name",     text("Tag Preferences") },
+		{ "scope",    text("meta.tag") },
+		{ "settings", plist::array_t{ text("smartTypingPairs"), text("spellChecking"), text("shellVariables") } },
+		{ "uuid",     text("73251DBE-EBD2-470F-8148-E6F2EC1A9641") },
+	};
 
 	std::vector<plist::dictionary_t> plists{ deltaPlist, oldPlist };
 	OAK_ASSERT_EQ(to_s(plist::merge_delta(plists)), to_s(newPlist));
@@ -121,29 +109,28 @@ void test_delta_settings_changed ()
 
 void test_delta_settings_deleted ()
 {
-	std::string oldPlistString =
-		"{	name = 'Unprintable';\n"
-		"	scope = 'deco.unprintable';\n"
-		"	settings = ( 'background', 'fontName', 'fontSize', 'foreground' );\n"
-		"	uuid = '20881CB9-5D12-4D74-8EE6-9ABAA7B408D3';\n"
-		"}\n";
+	plist::dictionary_t const oldPlist =
+	{
+		{ "name",     text("Unprintable") },
+		{ "scope",    text("deco.unprintable") },
+		{ "settings", plist::array_t{ text("background"), text("fontName"), text("fontSize"), text("foreground") } },
+		{ "uuid",     text("20881CB9-5D12-4D74-8EE6-9ABAA7B408D3") },
+	};
 
-	std::string deltaPlistString =
-		"{	deleted = ( 'settings.fontName', 'settings.fontSize' );\n"
-		"	isDelta = :true;\n"
-		"	uuid = '20881CB9-5D12-4D74-8EE6-9ABAA7B408D3';\n"
-		"}\n";
+	plist::dictionary_t const deltaPlist =
+	{
+		{ "deleted", plist::array_t{ text("settings.fontName"), text("settings.fontSize") } },
+		{ "isDelta", true },
+		{ "uuid",    text("20881CB9-5D12-4D74-8EE6-9ABAA7B408D3") },
+	};
 
-	std::string newPlistString =
-		"{	name = 'Unprintable';\n"
-		"	scope = 'deco.unprintable';\n"
-		"	settings = ( 'background', 'foreground' );\n"
-		"	uuid = '20881CB9-5D12-4D74-8EE6-9ABAA7B408D3';\n"
-		"}\n";
-
-	plist::dictionary_t const oldPlist   = plist::get_ref<plist::dictionary_t>(plist::parse_ascii(oldPlistString));
-	plist::dictionary_t const newPlist   = plist::get_ref<plist::dictionary_t>(plist::parse_ascii(newPlistString));
-	plist::dictionary_t const deltaPlist = plist::get_ref<plist::dictionary_t>(plist::parse_ascii(deltaPlistString));
+	plist::dictionary_t const newPlist =
+	{
+		{ "name",     text("Unprintable") },
+		{ "scope",    text("deco.unprintable") },
+		{ "settings", plist::array_t{ text("background"), text("foreground") } },
+		{ "uuid",     text("20881CB9-5D12-4D74-8EE6-9ABAA7B408D3") },
+	};
 
 	std::vector<plist::dictionary_t> plists{ deltaPlist, oldPlist };
 	OAK_ASSERT_EQ(to_s(plist::merge_delta(plists)), to_s(newPlist));
@@ -151,36 +138,33 @@ void test_delta_settings_deleted ()
 
 void test_delta_keys_with_dots ()
 {
-	std::string oldPlistString =
-		"{	name = 'HTML Grammar';\n"
-		"	injections = {\n"
-		"		'text.html.basic' = foo;\n"
-		"		'text.html.php' = bar;\n"
-		"	};\n"
-		"}\n";
+	plist::dictionary_t const oldPlist =
+	{
+		{ "name",       text("HTML Grammar") },
+		{ "injections", plist::dictionary_t{
+			{ "text.html.basic", text("foo") },
+			{ "text.html.php",   text("bar") },
+		} },
+	};
 
-	std::string deltaPlistString =
-		"{	changed = {\n"
-		"		'injections.text\\.html\\.basic' = bar;\n"
-		"		'injections.text\\.html\\.markdown' = { name = something; };\n"
-		"	};\n"
-		"	deleted = (\n"
-		"		'injections.text\\.html\\.php'\n"
-		"	);\n"
-		"	isDelta = :true;\n"
-		"}\n";
+	plist::dictionary_t const deltaPlist =
+	{
+		{ "changed", plist::dictionary_t{
+			{ "injections.text\\.html\\.basic",    text("bar") },
+			{ "injections.text\\.html\\.markdown", plist::dictionary_t{ { "name", text("something") } } },
+		} },
+		{ "deleted", plist::array_t{ text("injections.text\\.html\\.php") } },
+		{ "isDelta", true },
+	};
 
-	std::string newPlistString =
-		"{	name = 'HTML Grammar';\n"
-		"	injections = {\n"
-		"		'text.html.basic' = bar;\n"
-		"		'text.html.markdown' = { name = something; };\n"
-		"	};\n"
-		"}\n";
-
-	plist::dictionary_t const oldPlist   = plist::get_ref<plist::dictionary_t>(plist::parse_ascii(oldPlistString));
-	plist::dictionary_t const newPlist   = plist::get_ref<plist::dictionary_t>(plist::parse_ascii(newPlistString));
-	plist::dictionary_t const deltaPlist = plist::get_ref<plist::dictionary_t>(plist::parse_ascii(deltaPlistString));
+	plist::dictionary_t const newPlist =
+	{
+		{ "name",       text("HTML Grammar") },
+		{ "injections", plist::dictionary_t{
+			{ "text.html.basic",    text("bar") },
+			{ "text.html.markdown", plist::dictionary_t{ { "name", text("something") } } },
+		} },
+	};
 
 	OAK_ASSERT_EQ(to_s(plist::create_delta(oldPlist, newPlist)), to_s(deltaPlist));
 

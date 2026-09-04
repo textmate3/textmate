@@ -3,7 +3,6 @@
 #include <settings/settings.h>
 #include <io/entries.h>
 #include <regexp/glob.h>
-#include <plist/ascii.h>
 #include <text/tokenize.h>
 #include <oak/oak.h>
 #include <oak/compat.h>

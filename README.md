@@ -27,7 +27,6 @@ To build TextMate, you need the following:
 | [boost][]            | portable C++ source libraries                              |
 | [multimarkdown][]    | marked-up plain text compiler                              |
 | [ninja][]            | build system similar to `make`                             |
-| [ragel][]            | state machine compiler                                     |
 | [Ruby 4.0+][ruby]    | `bin/rave` (build system) and the other `bin/*.rb` scripts |
 
 The `Brewfile` at the repository root lists every [Homebrew][] dependency, including the two the test suite needs.
@@ -84,7 +83,6 @@ TextMate is a trademark of Allan Odgaard.
 [boost]: http://www.boost.org
 [multimarkdown]: http://fletcherpenney.net/multimarkdown
 [ninja]: https://ninja-build.org
-[ragel]: https://colm.net/open-source/ragel
 [ruby]: https://ruby-lang.org
 [Homebrew]: http://brew.sh
 [NinjaBundle]: https://github.com/textmate/ninja.tmbundle

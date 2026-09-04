@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Test</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>bof</string>
+			<key>match</key>
+			<string>\Axy</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>bom</string>
+			<key>match</key>
+			<string>\Gxy</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>eof</string>
+			<key>match</key>
+			<string>xy\z</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>\[</string>
+			<key>end</key>
+			<string>\]</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>bom</string>
+					<key>match</key>
+					<string>\Axy</string>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>bom</string>
+					<key>match</key>
+					<string>\Gxy</string>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>bom</string>
+					<key>match</key>
+					<string>xy\z</string>
+				</dict>
+			</array>
+		</dict>
+	</array>
+	<key>scopeName</key>
+	<string>test</string>
+	<key>uuid</key>
+	<string>F159C30D-9EE7-4A30-AE30-E26EF3BCCC17</string>
+</dict>
+</plist>

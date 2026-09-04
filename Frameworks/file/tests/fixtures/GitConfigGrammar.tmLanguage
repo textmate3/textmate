@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fileTypes</key>
+	<array>
+		<string>.git/config</string>
+	</array>
+	<key>name</key>
+	<string>Git Config</string>
+	<key>patterns</key>
+	<array/>
+	<key>scopeName</key>
+	<string>source.config.git</string>
+	<key>uuid</key>
+	<string>E9A05281-C1BB-4469-93A5-F0DE031CBF91</string>
+</dict>
+</plist>

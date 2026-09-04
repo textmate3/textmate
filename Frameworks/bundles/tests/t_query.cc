@@ -4,174 +4,25 @@
 
 void setup_fixtures ()
 {
-	static std::string BaseEnvironment =
-		"{	name     = 'Base Environment';"
-		"	settings = {"
-		"		shellVariables = ("
-		"			{	name = 'TEST'; value = 'foo'; },"
-		"		);"
-		"	};"
-		"}";
-
-	static std::string PathEnvironment =
-		"{	name     = 'Path Environment';"
-		"	settings = {"
-		"		shellVariables = ("
-		"			{	name = 'PATH'; value = '/usr/bin';                 },"
-		"			{	name = 'PATH'; value = '$PATH:/bin';               },"
-		"			{	name = 'PATH'; value = '$PATH:/tmp'; disabled = 1; },"
-		"			{	name = 'PATH'; value = '$PATH:/sbin';              },"
-		"		);"
-		"	};"
-		"}";
-
-	static std::string TeXEnvironment =
-		"{	name     = 'TeX Environment';"
-		"	scope    = 'text.tex';"
-		"	settings = {"
-		"		shellVariables = ("
-		"			{	name = 'PATH'; value = '$PATH:/usr/texbin'; },"
-		"		);"
-		"	};"
-		"}";
-
-	static std::string CxxEnvironment =
-		"{	name     = 'C++ Environment';"
-		"	scope    = 'source.c++';"
-		"	settings = {"
-		"		shellVariables = ("
-		"			{	name = 'TEST'; value = '${TEST:+$TEST:}bar'; },"
-		"		);"
-		"	};"
-		"}";
-
-	static std::string DialogEnvironment =
-		"{	name     = 'Dialog Environment';"
-		"	settings = {"
-		"		shellVariables = ("
-		"			{	name = 'DialogPath'; value = '${TM_DIALOG_BUNDLE_SUPPORT:?$TM_DIALOG_BUNDLE_SUPPORT/bin:*** Dialog bundle missing ***}'; },"
-		"		);"
-		"	};"
-		"	require = ("
-		"		{ name = 'Dialog'; uuid = 'B0B94C92-1870-491C-A928-9528387EEACA'; },"
-		"	);"
-		"}";
-
-	static std::string BaseCommentEnvironment =
-		"{	name     = 'Base Environment';"
-		"	settings = {"
-		"		shellVariables = ("
-		"			{	name = 'TM_COMMENT_START';    value = '/*';                   },"
-		"			{	name = 'TM_COMMENT_STOP';     value = '*/';                   },"
-		"			{	name = 'TM_COMMENT_START_2';  value = '//';                   },"
-		"			{	name = 'TM_COMMENT_STYLE';    value = '$TM_BUNDLE_ITEM_NAME'; },"
-		"		);"
-		"	};"
-		"}";
-
-	static std::string RubyCommentEnvironment =
-		"{	name     = 'Ruby Environment';"
-		"	scope    = 'source.ruby';"
-		"	settings = {"
-		"		shellVariables = ("
-		"			{	name = 'TM_COMMENT_START';    value = '# ';                   },"
-		"			{	name = 'TM_COMMENT_START_2';  value = '==begin';              },"
-		"			{	name = 'TM_COMMENT_STOP_2';   value = '==end';                },"
-		"			{	name = 'TM_COMMENT_STYLE';    value = '$TM_BUNDLE_ITEM_NAME'; },"
-		"		);"
-		"	};"
-		"}";
-
-	static std::string BaseSnippet =
-		"{	name          = 'Base Snippet';"
-		"	keyEquivalent = '^p';"
-		"	tabTrigger    = 'bla';"
-		"	content       = 'foo';"
-		"}";
-
-	static std::string CxxSnippet =
-		"{	name          = 'C++ Snippet';"
-		"	keyEquivalent = '^p';"
-		"	tabTrigger    = 'bla';"
-		"	scope         = 'source.c++';"
-		"	content       = 'bar';"
-		"}";
-
-	static std::string DisabledCxxSnippet =
-		"{	name          = 'Disabled C++ Snippet';"
-		"	keyEquivalent = '^p';"
-		"	tabTrigger    = 'bla';"
-		"	scope         = 'source.c++';"
-		"	content       = 'bar';"
-		"	isDisabled    = 1;"
-		"}";
-
-	static std::string TrueWithLocation =
-		"{	name = 'TrueWithLocation';"
-		"	requiredCommands = ("
-		"		{	command = 'true';"
-		"			locations = ( '/usr/bin/true' );"
-		"		},"
-		"	);"
-		"}";
-
-	static std::string TrueWithVariable =
-		"{	name = 'TrueWithVariable';"
-		"	requiredCommands = ("
-		"		{	command = 'true';"
-		"			variable = 'TM_TRUE';"
-		"		},"
-		"	);"
-		"}";
-
-	static std::string TrueWithLocationAndVariable =
-		"{	name = 'TrueWithLocationAndVariable';"
-		"	requiredCommands = ("
-		"		{	command = 'true';"
-		"			locations = ( '/usr/bin/true' );"
-		"			variable = 'TM_TRUE';"
-		"		},"
-		"	);"
-		"}";
-
-	static std::string TrueWithBadLocation =
-		"{	name = 'TrueWithBadLocation';"
-		"	requiredCommands = ("
-		"		{	command = 'true';"
-		"			locations = ( '/foo/bar/true' );"
-		"		},"
-		"	);"
-		"}";
-
-	static std::string TrueWithBadLocationAndVariable =
-		"{	name = 'TrueWithBadLocationAndVariable';"
-		"	requiredCommands = ("
-		"		{	command = 'true';"
-		"			locations = ( '/foo/bar/true' );"
-		"			variable = 'TM_TRUE';"
-		"		},"
-		"	);"
-		"}";
-
 	test::bundle_index_t bundleIndex;
-	bundleIndex.add(bundles::kItemTypeSettings, BaseEnvironment);
-	bundleIndex.add(bundles::kItemTypeSettings, BaseCommentEnvironment);
-	bundleIndex.add(bundles::kItemTypeSettings, PathEnvironment);
-	bundleIndex.add(bundles::kItemTypeSettings, DialogEnvironment);
-	bundleIndex.add(bundles::kItemTypeSettings, TeXEnvironment);
-	bundleIndex.add(bundles::kItemTypeSettings, CxxEnvironment);
-	bundleIndex.add(bundles::kItemTypeSettings, RubyCommentEnvironment);
-	bundleIndex.add(bundles::kItemTypeSnippet,  BaseSnippet);
-	bundleIndex.add(bundles::kItemTypeSnippet,  CxxSnippet);
-	bundleIndex.add(bundles::kItemTypeSnippet,  DisabledCxxSnippet);
+	bundleIndex.add(bundles::kItemTypeSettings, test::fixture(__FILE__, "BaseEnvironment.tmPreferences"));
+	bundleIndex.add(bundles::kItemTypeSettings, test::fixture(__FILE__, "BaseCommentEnvironment.tmPreferences"));
+	bundleIndex.add(bundles::kItemTypeSettings, test::fixture(__FILE__, "PathEnvironment.tmPreferences"));
+	bundleIndex.add(bundles::kItemTypeSettings, test::fixture(__FILE__, "DialogEnvironment.tmPreferences"));
+	bundleIndex.add(bundles::kItemTypeSettings, test::fixture(__FILE__, "TeXEnvironment.tmPreferences"));
+	bundleIndex.add(bundles::kItemTypeSettings, test::fixture(__FILE__, "CxxEnvironment.tmPreferences"));
+	bundleIndex.add(bundles::kItemTypeSettings, test::fixture(__FILE__, "RubyCommentEnvironment.tmPreferences"));
+	bundleIndex.add(bundles::kItemTypeSnippet,  test::fixture(__FILE__, "BaseSnippet.tmSnippet"));
+	bundleIndex.add(bundles::kItemTypeSnippet,  test::fixture(__FILE__, "CxxSnippet.tmSnippet"));
+	bundleIndex.add(bundles::kItemTypeSnippet,  test::fixture(__FILE__, "DisabledCxxSnippet.tmSnippet"));
 
-	bundleIndex.add(bundles::kItemTypeCommand,  TrueWithLocation);
-	bundleIndex.add(bundles::kItemTypeCommand,  TrueWithVariable);
-	bundleIndex.add(bundles::kItemTypeCommand,  TrueWithLocationAndVariable);
-	bundleIndex.add(bundles::kItemTypeCommand,  TrueWithBadLocation);
-	bundleIndex.add(bundles::kItemTypeCommand,  TrueWithBadLocationAndVariable);
+	bundleIndex.add(bundles::kItemTypeCommand,  test::fixture(__FILE__, "TrueWithLocation.tmCommand"));
+	bundleIndex.add(bundles::kItemTypeCommand,  test::fixture(__FILE__, "TrueWithVariable.tmCommand"));
+	bundleIndex.add(bundles::kItemTypeCommand,  test::fixture(__FILE__, "TrueWithLocationAndVariable.tmCommand"));
+	bundleIndex.add(bundles::kItemTypeCommand,  test::fixture(__FILE__, "TrueWithBadLocation.tmCommand"));
+	bundleIndex.add(bundles::kItemTypeCommand,  test::fixture(__FILE__, "TrueWithBadLocationAndVariable.tmCommand"));
 
-	bundles::item_ptr dialogBundle = bundleIndex.add(bundles::kItemTypeBundle, "{ name = 'Dialog'; uuid = 'B0B94C92-1870-491C-A928-9528387EEACA'; }");
+	bundles::item_ptr dialogBundle = bundleIndex.add(bundles::kItemTypeBundle, plist::dictionary_t{ { "name", std::string("Dialog") }, { "uuid", std::string("B0B94C92-1870-491C-A928-9528387EEACA") } });
 
 	static test::jail_t jail;
 	bundles::set_locations(std::vector<std::string>(1, jail.path()));

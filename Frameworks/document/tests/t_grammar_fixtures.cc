@@ -3,28 +3,9 @@
 
 void setup_fixtures ()
 {
-	static std::string TextLanguageGrammar =
-		"{	fileTypes      = ( txt );\n"
-		"	keyEquivalent  = '^~P';\n"
-		"	name           = 'Plain Text';\n"
-		"	patterns       = ( );\n"
-		"	scopeName      = 'text.plain';\n"
-		"	uuid           = '3130E4FA-B10E-11D9-9F75-000D93589AF6';\n"
-		"}\n";
-
-	static std::string CLanguageGrammar =
-		"{	fileTypes      = ( c, h );\n"
-		"	keyEquivalent  = '^~C';\n"
-		"	name           = 'C';\n"
-		"	firstLineMatch = '-[*]-( Mode:)? C -[*]-';\n"
-		"	patterns       = ( );\n"
-		"	scopeName      = 'source.c';\n"
-		"	uuid           = '25066DC2-6B1D-11D9-9D5B-000D93589AF6';\n"
-		"}\n";
-
 	test::bundle_index_t bundleIndex;
-	bundleIndex.add(bundles::kItemTypeGrammar, TextLanguageGrammar);
-	bundleIndex.add(bundles::kItemTypeGrammar, CLanguageGrammar);
+	bundleIndex.add(bundles::kItemTypeGrammar, test::fixture(__FILE__, "TextLanguageGrammar.tmLanguage"));
+	bundleIndex.add(bundles::kItemTypeGrammar, test::fixture(__FILE__, "CLanguageGrammar.tmLanguage"));
 	bundleIndex.commit();
 }
 

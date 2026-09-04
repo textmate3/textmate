@@ -6,79 +6,9 @@ static bundles::item_ptr AnchorInCapturesTestGrammarItem;
 
 void setup_fixtures ()
 {
-	static std::string AnchorTestLanguageGrammar =
-		"{ name           = 'Test';"
-		"  patterns       = ("
-		"    { name = 'bof'; match = '\\Axy'; },"
-		"    { name = 'bom'; match = '\\Gxy'; },"
-		"    { name = 'eof'; match = 'xy\\z'; },"
-		"    { begin = '\\['; end = '\\]';"
-		"      patterns = ("
-		"        { name = 'bom'; match = '\\Axy'; },"
-		"        { name = 'bom'; match = '\\Gxy'; },"
-		"        { name = 'bom'; match = 'xy\\z'; },"
-		"      );"
-		"    },"
-		"  );"
-		"  scopeName      = 'test';"
-		"  uuid           = 'F159C30D-9EE7-4A30-AE30-E26EF3BCCC17';"
-		"}";
-
-	static std::string AnchorInCapturesTestLanguageGrammar =
-		"{ name     = 'Test';"
-		"  patterns = ("
-		"    { match = '> (.+)';"
-		"      name = 'gt';"
-		"      captures = { 1 = { patterns = ( { include = '#captures'; } ); }; };"
-		"    },"
-		"    { match = '(.+) <';"
-		"      name = 'lt';"
-		"      captures = { 1 = { patterns = ( { include = '#captures'; } ); }; };"
-		"    },"
-		"    { match = '.+\\z';"
-		"      name = 'tail';"
-		"      captures = { 0 = { patterns = ( { include = '#captures'; } ); }; };"
-		"    },"
-		"    { match = '\\A.+';"
-		"      name = 'head';"
-		"      captures = { 0 = { patterns = ( { include = '#captures'; } ); }; };"
-		"    },"
-		"    { match = '.+';"
-		"      name = 'line';"
-		"      captures = { 0 = { patterns = ( { include = '#captures'; } ); }; };"
-		"    },"
-		"  );"
-		"  repository = {"
-		"    captures = {"
-		"      patterns = ("
-		"        { match = '\\A\\w+';"
-		"          name = 'b-buf';"
-		"        },"
-		"        { match = '^\\w+';"
-		"          name = 'b-line';"
-		"        },"
-		"        { match = '\\G\\w+';"
-		"          name = 'b-cap';"
-		"        },"
-		"        { match = '\\w+\\z';"
-		"          name = 'e-buf';"
-		"        },"
-		"        { match = '\\w+$';"
-		"          name = 'e-line';"
-		"        },"
-		"        { match = '\\w+\\Z';"
-		"          name = 'e-cap';"
-		"        },"
-		"      );"
-		"    };"
-		"  };"
-		"  scopeName      = 'test';"
-		"  uuid           = '5C80DB53-F519-494F-BA8D-C8D80540E9E4';"
-		"}";
-
 	test::bundle_index_t bundleIndex;
-	AnchorTestGrammarItem           = bundleIndex.add(bundles::kItemTypeGrammar, AnchorTestLanguageGrammar);
-	AnchorInCapturesTestGrammarItem = bundleIndex.add(bundles::kItemTypeGrammar, AnchorInCapturesTestLanguageGrammar);
+	AnchorTestGrammarItem           = bundleIndex.add(bundles::kItemTypeGrammar, test::fixture(__FILE__, "AnchorTestLanguageGrammar.tmLanguage"));
+	AnchorInCapturesTestGrammarItem = bundleIndex.add(bundles::kItemTypeGrammar, test::fixture(__FILE__, "AnchorInCapturesTestLanguageGrammar.tmLanguage"));
 }
 
 void test_anchors ()

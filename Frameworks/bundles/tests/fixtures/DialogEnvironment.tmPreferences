@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Dialog Environment</string>
+	<key>settings</key>
+	<dict>
+		<key>shellVariables</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>DialogPath</string>
+				<key>value</key>
+				<string>${TM_DIALOG_BUNDLE_SUPPORT:?$TM_DIALOG_BUNDLE_SUPPORT/bin:*** Dialog bundle missing ***}</string>
+			</dict>
+		</array>
+	</dict>
+	<key>require</key>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>Dialog</string>
+			<key>uuid</key>
+			<string>B0B94C92-1870-491C-A928-9528387EEACA</string>
+		</dict>
+	</array>
+</dict>
+</plist>

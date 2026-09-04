@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>XML Plist</string>
+	<key>firstLineMatch</key>
+	<string>\A&lt;\?xml version="1.0" encoding="UTF-8"\?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple( Computer)?//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</string>
+	<key>patterns</key>
+	<array/>
+	<key>scopeName</key>
+	<string>source.xml.plist</string>
+</dict>
+</plist>
