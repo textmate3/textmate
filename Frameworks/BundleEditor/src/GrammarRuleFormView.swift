@@ -70,6 +70,9 @@ struct GrammarRuleFormView: View {
         .lineLimit(1...6)
         .font(.body.monospaced())
         .multilineTextAlignment(.trailing)
+        // The same box whether the text fits on one line or wraps, so the
+        // field does not shift when it grows.
+        .frame(maxWidth: .infinity, alignment: .trailing)
     }
     .help(GrammarSchema.ruleKey(named: key)?.summary ?? "")
   }
