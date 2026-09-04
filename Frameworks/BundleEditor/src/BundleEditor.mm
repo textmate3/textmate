@@ -1,4 +1,5 @@
 #import "BundleEditor.h"
+#import "BundleEditor-Swift.h"
 #import "PropertiesViewController.h"
 #import "OakRot13Transformer.h"
 #import "be_entry.h"
@@ -55,6 +56,7 @@
 @property (nonatomic) PropertiesViewController* sharedPropertiesViewController;
 @property (nonatomic) PropertiesViewController* extraPropertiesViewController;
 @property (nonatomic) NSMutableDictionary* bundleItemProperties;
+@property (nonatomic) TMGrammarEditorController* grammarEditor;
 - (bundles::item_ptr const&)bundleItem;
 - (void)setBundleItem:(bundles::item_ptr const&)aBundleItem;
 - (BOOL)commitEditing;
@@ -231,6 +233,25 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 	return _browserViewController;
 }
 
+// Grammars are edited as a form over their rules rather than as property list
+// text. The editor's view takes the text view's place while a grammar is the
+// selected item, and hands the edited dictionary back when the item is saved.
+- (TMGrammarEditorController*)grammarEditor
+{
+	if(!_grammarEditor)
+	{
+		_grammarEditor = [[TMGrammarEditorController alloc] init];
+		__weak BundleEditor* weakSelf = self;
+		_grammarEditor.editedHandler = ^{ [weakSelf didChangeModifiedState]; };
+	}
+	return _grammarEditor;
+}
+
+- (BOOL)editsGrammar
+{
+	return bundleItem && bundleItem->kind() == bundles::kItemTypeGrammar;
+}
+
 - (NSViewController*)documentViewController
 {
 	if(!_documentViewController)
@@ -342,7 +363,7 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 
 - (void)didChangeModifiedState
 {
-	[self setDocumentEdited:bundleItem && (changes.find(bundleItem) != changes.end() || propertiesChanged || bundleItemContent.isDocumentEdited)];
+	[self setDocumentEdited:bundleItem && (changes.find(bundleItem) != changes.end() || propertiesChanged || bundleItemContent.isDocumentEdited || (self.editsGrammar && self.grammarEditor.isEdited))];
 }
 
 // ==================
@@ -489,7 +510,7 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 	[_sharedPropertiesViewController commitEditing];
 	[_extraPropertiesViewController commitEditing];
 
-	if(!propertiesChanged && bundleItemContent.isDocumentEdited == NO)
+	if(!propertiesChanged && bundleItemContent.isDocumentEdited == NO && !(self.editsGrammar && self.grammarEditor.isEdited))
 		return YES;
 
 	plist::dictionary_t plist = plist::convert((__bridge CFPropertyListRef)_bundleItemProperties);
@@ -498,7 +519,11 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 	item_info_t const& info = info_for(bundleItem->kind());
 
 	plist::any_t parsedContent;
-	if(info.plist_key == NULL_STR || oak::contains(std::begin(PlistItemKinds), std::end(PlistItemKinds), info.kind))
+	if(self.editsGrammar)
+	{
+		parsedContent = plist::convert((__bridge CFPropertyListRef)self.grammarEditor.grammar);
+	}
+	else if(info.plist_key == NULL_STR || oak::contains(std::begin(PlistItemKinds), std::end(PlistItemKinds), info.kind))
 	{
 		bool success = false;
 		parsedContent = plist::parse_ascii(content, &success);
@@ -552,6 +577,8 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 
 	propertiesChanged = NO;
 	[bundleItemContent markDocumentSaved];
+	if(self.editsGrammar)
+		[self.grammarEditor markSaved];
 
 	[self didChangeModifiedState];
 	return YES;
@@ -892,6 +919,9 @@ static NSMutableDictionary* DictionaryForPropertyList (plist::dictionary_t const
 	bundleItem        = aBundleItem;
 	bundleItemContent = nil;
 
+	NSViewController* documentViewController = self.documentViewController;
+	documentViewController.view = documentView;
+
 	std::map<bundles::item_ptr, plist::dictionary_t>::const_iterator it = changes.find(bundleItem);
 	self.bundleItemProperties = it != changes.end() ? DictionaryForPropertyList(it->second, bundleItem) : DictionaryForBundleItem(bundleItem);
 
@@ -926,7 +956,16 @@ static NSMutableDictionary* DictionaryForPropertyList (plist::dictionary_t const
 			if(plist.find(key) != plist.end())
 				plistSubset[key] = plist.find(key)->second;
 		}
-		bundleItemContent = [OakDocument documentWithString:to_ns(to_s(plistSubset, plist::kPreferSingleQuotedStrings, PlistKeySortOrder())) fileType:to_ns(info.grammar) customName:bundleItemTitle];
+
+		if(info.kind == bundles::kItemTypeGrammar)
+		{
+			[self.grammarEditor load:ns::to_mutable_dictionary(plistSubset)];
+			self.documentViewController.view = self.grammarEditor.view;
+		}
+		else
+		{
+			bundleItemContent = [OakDocument documentWithString:to_ns(to_s(plistSubset, plist::kPreferSingleQuotedStrings, PlistKeySortOrder())) fileType:to_ns(info.grammar) customName:bundleItemTitle];
+		}
 	}
 	else if(oak::contains(std::begin(PlistItemKinds), std::end(PlistItemKinds), info.kind))
 	{
