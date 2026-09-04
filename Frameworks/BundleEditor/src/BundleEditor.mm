@@ -15,7 +15,6 @@
 #import <document/OakDocumentController.h>
 #import <BundlesManager/BundlesManager.h>
 #import <command/runner.h> // fix_shebang
-#import <plist/ascii.h>
 #import <plist/delta.h>
 #import <regexp/format_string.h>
 #import <text/decode.h>
@@ -58,6 +57,8 @@
 @property (nonatomic) NSMutableDictionary* bundleItemProperties;
 @property (nonatomic) TMGrammarEditorController* grammarEditor;
 @property (nonatomic) TMThemeEditorController* themeEditor;
+@property (nonatomic) TMPreferencesEditorController* preferencesEditor;
+@property (nonatomic) TMMacroEditorController* macroEditor;
 - (bundles::item_ptr const&)bundleItem;
 - (void)setBundleItem:(bundles::item_ptr const&)aBundleItem;
 - (BOOL)commitEditing;
@@ -65,14 +66,6 @@
 
 namespace
 {
-	static bundles::kind_t const PlistItemKinds[] = { bundles::kItemTypeSettings, bundles::kItemTypeMacro, bundles::kItemTypeTheme };
-
-	static std::vector<std::string> const& PlistKeySortOrder ()
-	{
-		static auto const res = new std::vector<std::string>{ "shellVariables", "disabled", "name", "value", "comment", "match", "begin", "while", "end", "applyEndPatternLast", "captures", "beginCaptures", "whileCaptures", "endCaptures", "contentName", "injections", "patterns", "repository", "include", "increaseIndentPattern", "decreaseIndentPattern", "indentNextLinePattern", "unIndentedLinePattern", "disableIndentCorrections", "indentOnPaste", "indentedSoftWrap", "format", "foldingStartMarker", "foldingStopMarker", "foldingIndentedBlockStart", "foldingIndentedBlockIgnore", "characterClass", "smartTypingPairs", "highlightPairs", "showInSymbolList", "symbolTransformation", "disableDefaultCompletion", "completions", "completionCommand", "spellChecking", "softWrap", "fontName", "fontStyle", "fontSize", "foreground", "background", "bold", "caret", "invisibles", "italic", "misspelled", "selection", "underline" };
-		return *res;
-	}
-
 	static struct item_info_t { bundles::kind_t kind; std::string plist_key; std::string grammar; std::string file_type; std::string kind_string; NSString* scope; NSString* view_controller; NSString* file; } item_infos[] =
 	{
 		{ bundles::kItemTypeBundle,       "description", "text.html.basic",                "tmBundle",       "bundle",         @"attr.bundle-editor.bundle",         @"BundleProperties",     @"Bundle"       },
@@ -247,9 +240,10 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 	return _browserViewController;
 }
 
-// Grammars and themes are edited as forms rather than as property list text.
-// The editor's view takes the text view's place while such an item is
-// selected, and hands the edited dictionary back when the item is saved.
+// Grammars, themes, preferences and macros are edited as forms rather than
+// as property list text. The editor's view takes the text view's place while
+// such an item is selected, and hands the edited dictionary back when the
+// item is saved.
 - (TMGrammarEditorController*)grammarEditor
 {
 	if(!_grammarEditor)
@@ -272,8 +266,31 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 	return _themeEditor;
 }
 
+- (TMPreferencesEditorController*)preferencesEditor
+{
+	if(!_preferencesEditor)
+	{
+		_preferencesEditor = [[TMPreferencesEditorController alloc] init];
+		__weak BundleEditor* weakSelf = self;
+		_preferencesEditor.editedHandler = ^{ [weakSelf didChangeModifiedState]; };
+	}
+	return _preferencesEditor;
+}
+
+- (TMMacroEditorController*)macroEditor
+{
+	if(!_macroEditor)
+	{
+		_macroEditor = [[TMMacroEditorController alloc] init];
+		__weak BundleEditor* weakSelf = self;
+		_macroEditor.editedHandler = ^{ [weakSelf didChangeModifiedState]; };
+	}
+	return _macroEditor;
+}
+
 // The form editor for the selected item's kind, or nil for the kinds the
-// text pane still serves.
+// text pane serves: commands, snippets, templates and the like, whose text
+// is a script or a body rather than a property list.
 - (id <TMBundleItemEditor>)itemEditor
 {
 	if(!bundleItem)
@@ -281,9 +298,11 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 
 	switch(bundleItem->kind())
 	{
-		case bundles::kItemTypeGrammar: return self.grammarEditor;
-		case bundles::kItemTypeTheme:   return self.themeEditor;
-		default:                        return nil;
+		case bundles::kItemTypeGrammar:  return self.grammarEditor;
+		case bundles::kItemTypeMacro:    return self.macroEditor;
+		case bundles::kItemTypeSettings: return self.preferencesEditor;
+		case bundles::kItemTypeTheme:    return self.themeEditor;
+		default:                         return nil;
 	}
 }
 
@@ -296,9 +315,11 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 
 	switch(bundleItem->kind())
 	{
-		case bundles::kItemTypeGrammar: return { "comment", "patterns", "repository", "injections" };
-		case bundles::kItemTypeTheme:   return { "gutterSettings", "settings", "colorSpaceName" };
-		default:                        return { };
+		case bundles::kItemTypeGrammar:  return { "comment", "patterns", "repository", "injections" };
+		case bundles::kItemTypeMacro:    return { "commands" };
+		case bundles::kItemTypeSettings: return { "settings" };
+		case bundles::kItemTypeTheme:    return { "gutterSettings", "settings", "colorSpaceName" };
+		default:                         return { };
 	}
 }
 
@@ -589,46 +610,22 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 	std::string const content = to_s(bundleItemContent.content);
 	item_info_t const& info = info_for(bundleItem->kind());
 
-	plist::any_t parsedContent;
 	if(id <TMBundleItemEditor> editor = self.itemEditor)
 	{
-		parsedContent = plist::convert((__bridge CFPropertyListRef)editor.itemDictionary);
-	}
-	else if(info.plist_key == NULL_STR || oak::contains(std::begin(PlistItemKinds), std::end(PlistItemKinds), info.kind))
-	{
-		bool success = false;
-		parsedContent = plist::parse_ascii(content, &success);
-		if(!success)
+		// The form editor holds the item's editable keys as a dictionary. A
+		// key it no longer holds was removed from the item.
+		plist::dictionary_t const edited = plist::convert((__bridge CFPropertyListRef)editor.itemDictionary);
+		for(auto const& key : [self editedKeys])
 		{
-			NSAlert* alert = [NSAlert tmAlertWithMessageText:@"Error Parsing Property List" informativeText:@"The property list is not valid.\n\nUnfortunately I am presently unable to point to where the parser failed." buttons:@"OK", nil];
-			[alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode){ }];
-			return NO;
+			auto pair = edited.find(key);
+			if(pair != edited.end())
+					plist[key] = pair->second;
+			else	plist.erase(key);
 		}
 	}
-
-	if(info.plist_key == NULL_STR)
+	else if(info.plist_key != NULL_STR)
 	{
-		if(plist::dictionary_t const* plistSubset = plist::get_if<plist::dictionary_t>(&parsedContent))
-		{
-			std::vector<std::string> keys;
-			if(info.kind == bundles::kItemTypeGrammar)
-				keys = { "comment", "patterns", "repository", "injections" };
-			else if(info.kind == bundles::kItemTypeTheme)
-				keys = { "gutterSettings", "settings", "colorSpaceName" };
-
-			for(auto const& key : keys)
-			{
-				if(plistSubset->find(key) != plistSubset->end())
-						plist[key] = plistSubset->find(key)->second;
-				else	plist.erase(key);
-			}
-		}
-	}
-	else
-	{
-		if(oak::contains(std::begin(PlistItemKinds), std::end(PlistItemKinds), info.kind))
-				plist[info.plist_key] = parsedContent;
-		else	plist[info.plist_key] = content;
+		plist[info.plist_key] = content;
 	}
 
 	switch(info.kind)
@@ -1026,43 +1023,24 @@ static NSMutableDictionary* DictionaryForPropertyList (plist::dictionary_t const
 	}
 
 	plist::dictionary_t const& plist = it != changes.end() ? it->second : bundleItem->plist();
-	if(info.plist_key == NULL_STR)
+	if(id <TMBundleItemEditor> editor = self.itemEditor)
 	{
-		std::vector<std::string> keys;
-		if(info.kind == bundles::kItemTypeGrammar)
-			keys = { "comment", "patterns", "repository", "injections" };
-		else if(info.kind == bundles::kItemTypeTheme)
-			keys = { "gutterSettings", "settings", "colorSpaceName" };
-
-		plist::dictionary_t plistSubset;
-		for(auto const& key : keys)
+		// The form editor gets the item's editable keys. The rest of the item
+		// goes along as context, so a preview can parse with the grammar's
+		// scope name or color with the theme's name, and a validator sees a
+		// whole item.
+		plist::dictionary_t plistSubset, context = plist;
+		for(auto const& key : [self editedKeys])
 		{
-			if(plist.find(key) != plist.end())
-				plistSubset[key] = plist.find(key)->second;
+			auto pair = plist.find(key);
+			if(pair != plist.end())
+				plistSubset[key] = pair->second;
+			context.erase(key);
 		}
-
-		if(id <TMBundleItemEditor> editor = self.itemEditor)
-		{
-			// The rest of the item goes along as context, so a preview can
-			// parse with the grammar's scope name or color with the theme's
-			// name, and the parser or theme code sees a whole item.
-			plist::dictionary_t context = plist;
-			for(auto const& key : keys)
-				context.erase(key);
-			[editor load:ns::to_mutable_dictionary(plistSubset) context:ns::to_mutable_dictionary(context)];
-			[self showInDocumentPane:editor.view];
-		}
-		else
-		{
-			bundleItemContent = [OakDocument documentWithString:to_ns(to_s(plistSubset, plist::kPreferSingleQuotedStrings, PlistKeySortOrder())) fileType:to_ns(info.grammar) customName:bundleItemTitle];
-		}
+		[editor load:ns::to_mutable_dictionary(plistSubset) context:ns::to_mutable_dictionary(context)];
+		[self showInDocumentPane:editor.view];
 	}
-	else if(oak::contains(std::begin(PlistItemKinds), std::end(PlistItemKinds), info.kind))
-	{
-		if(plist.find(info.plist_key) != plist.end())
-			bundleItemContent = [OakDocument documentWithString:to_ns(to_s(plist.find(info.plist_key)->second, plist::kPreferSingleQuotedStrings, PlistKeySortOrder())) fileType:to_ns(info.grammar) customName:bundleItemTitle];
-	}
-	else
+	else if(info.plist_key != NULL_STR)
 	{
 		std::string str;
 		if(plist::get_key_path(plist, info.plist_key, str))
