@@ -69,7 +69,7 @@ struct GrammarRuleFormView: View {
         .labelsHidden()
         .lineLimit(1...6)
         .font(.body.monospaced())
-        .multilineTextAlignment(.leading)
+        .multilineTextAlignment(.trailing)
     }
     .help(GrammarSchema.ruleKey(named: key)?.summary ?? "")
   }
