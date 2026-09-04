@@ -831,7 +831,20 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 - (void)observeValueForKeyPath:(NSString*)aKeyPath ofObject:(id)anObject change:(NSDictionary*)someChange context:(void*)context
 {
 	if(![aKeyPath isEqualToString:@"documentEdited"])
+	{
 		propertiesChanged = YES;
+
+		// The grammar editor's preview parses with the scope name and the
+		// other keys the properties panel edits, so it gets them as typed.
+		if(self.editsGrammar)
+		{
+			plist::dictionary_t grammarContext = plist::convert((__bridge CFPropertyListRef)_bundleItemProperties);
+			grammarContext[bundles::kFieldGrammarExtension] = unwrap_array([_bundleItemProperties objectForKey:[NSString stringWithCxxString:bundles::kFieldGrammarExtension]], @"extension");
+			for(auto const& key : { "comment", "patterns", "repository", "injections" })
+				grammarContext.erase(key);
+			[self.grammarEditor updateContext:ns::to_mutable_dictionary(grammarContext)];
+		}
+	}
 	[self didChangeModifiedState];
 }
 
