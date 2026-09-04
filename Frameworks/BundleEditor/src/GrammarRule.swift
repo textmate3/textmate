@@ -95,6 +95,24 @@ final class GrammarRule: Identifiable {
     return below.flatMap { [$0] + $0.descendants }
   }
 
+  /// An empty rule of a shape, with the shape's defining keys present and
+  /// blank so the form shows their fields.
+  static func blank(_ shape: GrammarRuleShape) -> GrammarRule {
+    let rule = GrammarRule()
+    switch shape {
+    case .match: rule.match = ""
+    case .beginEnd:
+      rule.begin = ""
+      rule.end = ""
+    case .beginWhile:
+      rule.begin = ""
+      rule.whilePattern = ""
+    case .include: rule.include = ""
+    case .patterns: break
+    }
+    return rule
+  }
+
   static func rules(_ value: Any?) -> [GrammarRule] {
     (value as? [Any] ?? []).compactMap { ($0 as? [String: Any]).map(GrammarRule.init(dictionary:)) }
   }
