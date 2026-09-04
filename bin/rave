@@ -1377,7 +1377,7 @@ module Target
 
           run_marker = File.join(target[:builddir], '.always-run-' + target[:name] + '_swift_test')
           rules << {
-            name:        'RunTest',
+            name:        'RunSwiftTest',
             in:          swift_executable,
             out:         run_marker,
             command:     '$in',
