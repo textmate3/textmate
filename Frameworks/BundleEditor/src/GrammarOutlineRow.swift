@@ -10,12 +10,13 @@ struct GrammarOutlineRow: View {
   let actions: GrammarOutlineActions
 
   var body: some View {
-    if rule.patterns.isEmpty {
+    let children = rule.outlineChildren
+    if children.isEmpty {
       row
     } else {
       DisclosureGroup(isExpanded: isExpanded) {
-        ForEach(rule.patterns) { child in
-          GrammarOutlineRow(rule: child, expanded: $expanded, actions: actions)
+        ForEach(children, id: \.rule.id) { child in
+          GrammarOutlineRow(rule: child.rule, label: child.label, expanded: $expanded, actions: actions)
         }
       } label: {
         row
