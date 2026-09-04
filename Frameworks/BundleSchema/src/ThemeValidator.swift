@@ -79,7 +79,7 @@ public struct ThemeValidator: Sendable {
     switch kind {
     case .color:
       guard let text = value as? String else { return "should be a color" }
-      return ThemeValidator.isColor(text) ? nil : "should be a color as #RRGGBB or #RRGGBBAA"
+      return ThemeValidator.isColor(text) ? nil : "should be a color as #RRGGBB or #RRGGBBAA, or a system color name"
     case .fontStyle:
       guard let text = value as? String else { return "should be font style words" }
       let unknown = text.split(separator: " ").map(String.init).filter { !ThemeSchema.fontStyleWords.contains($0) }
@@ -95,11 +95,14 @@ public struct ThemeValidator: Sendable {
     }
   }
 
-  /// `#RGB`, `#RRGGBB` or `#RRGGBBAA`, hex digits, which is what the theme
-  /// code accepts.
+  /// `#RGB`, `#RRGGBB` or `#RRGGBBAA` in hex digits, or the name of a
+  /// system color such as `textBackgroundColor`, which the system theme
+  /// uses so it follows the appearance. Both are what the theme code reads.
   public static func isColor(_ text: String) -> Bool {
-    guard text.hasPrefix("#") else { return false }
-    let digits = text.dropFirst()
-    return [3, 6, 8].contains(digits.count) && digits.allSatisfy(\.isHexDigit)
+    if text.hasPrefix("#") {
+      let digits = text.dropFirst()
+      return [3, 6, 8].contains(digits.count) && digits.allSatisfy(\.isHexDigit)
+    }
+    return text.hasSuffix("Color") && text.count > 5 && text.allSatisfy(\.isLetter)
   }
 }

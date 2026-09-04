@@ -28,6 +28,7 @@ private func themeFixture(_ name: String) throws -> [String: Any] {
     #expect(ThemeValidator.isColor("#181818"))
     #expect(ThemeValidator.isColor("#FFFFFF40"))
     #expect(ThemeValidator.isColor("#abc"))
+    #expect(ThemeValidator.isColor("textBackgroundColor"))
     #expect(!ThemeValidator.isColor("181818"))
     #expect(!ThemeValidator.isColor("#18181"))
     #expect(!ThemeValidator.isColor("white"))
@@ -45,7 +46,7 @@ private func themeFixture(_ name: String) throws -> [String: Any] {
     let messages = Set(issues.map(\.description))
 
     #expect(messages.contains("flavour: not a theme key"))
-    #expect(messages.contains("settings[0].settings.foreground: should be a color as #RRGGBB or #RRGGBBAA"))
+    #expect(messages.contains("settings[0].settings.foreground: should be a color as #RRGGBB or #RRGGBBAA, or a system color name"))
     #expect(messages.contains("settings[1].settings.fontStyle: wobbly is not a font style"))
     #expect(messages.contains("settings[2]: an entry needs settings"))
     #expect(messages.contains("settings[3]: not an entry"))
