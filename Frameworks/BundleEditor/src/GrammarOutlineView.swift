@@ -35,7 +35,9 @@ struct GrammarOutlineView: View {
           }
         }
       }
-      .listStyle(.sidebar)
+      // Not the sidebar style: its translucency lets whatever is behind the
+      // window show through a pane that is not at the window's edge.
+      .listStyle(.inset)
       Divider()
       GrammarOutlineBar(document: document, selection: selection, actions: actions)
     }
