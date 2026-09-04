@@ -6,20 +6,30 @@ import SwiftUI
 struct GrammarOutlineRow: View {
   let rule: GrammarRule
   var label: String?
+  @Binding var expanded: Set<GrammarRule.ID>
   let actions: GrammarOutlineActions
 
   var body: some View {
     if rule.patterns.isEmpty {
       row
     } else {
-      DisclosureGroup {
+      DisclosureGroup(isExpanded: isExpanded) {
         ForEach(rule.patterns) { child in
-          GrammarOutlineRow(rule: child, actions: actions)
+          GrammarOutlineRow(rule: child, expanded: $expanded, actions: actions)
         }
       } label: {
         row
       }
     }
+  }
+
+  private var isExpanded: Binding<Bool> {
+    Binding(
+      get: { expanded.contains(rule.id) },
+      set: { open in
+        if open { expanded.insert(rule.id) } else { expanded.remove(rule.id) }
+      }
+    )
   }
 
   private var row: some View {
