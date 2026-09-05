@@ -1,7 +1,10 @@
 name: CI
 
+# A branch with a pull request runs once, for the pull request. Main runs on
+# every push, which is each merge. Running on both events doubled every push.
 on:
   push:
+    branches: [main]
   pull_request:
 
 jobs:
