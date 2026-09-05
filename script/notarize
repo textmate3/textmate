@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+# script/notarize — build, sign, notarize and staple the release application
+#
+# Usage:
+#   script/notarize
+#
+# Needs the Developer ID identity in local.rave and the notarytool keychain
+# profile the application's build file names. Apple's answer takes minutes.
+# The stapled application is the one under the build directory afterward.
+
+Dir.chdir(File.expand_path('..', __dir__))
+
+identity = File.exist?('local.rave') ? File.read('local.rave')[/^set CS_IDENTITY\s+"([^"]+)"/, 1] : nil
+if identity.nil? || identity == '-'
+  warn 'script/notarize: local.rave sets no Developer ID identity, so the build is ad hoc signed and Apple would refuse it.'
+  exit 1
+end
+
+exec 'ninja', 'TextMate/notarize'
