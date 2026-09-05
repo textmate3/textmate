@@ -22,9 +22,12 @@ target "${dirname}" {
 	add CS_FLAGS    "--entitlements '${CS_ENTITLEMENTS}'"
 
 	# Sparkle is a vendored prebuilt framework: compiled against, embedded into the application, and
-	# found at run time through the rpath.
+	# found at run time through the rpath. It arrives ad hoc signed and is re-signed with the
+	# application's identity once copied, its XPC services, updater and helper first, in the order
+	# Sparkle's own instructions give, so that library validation admits it.
 	add FLAGS    "-Fvendor/Sparkle"
 	add LN_FLAGS "-Fvendor/Sparkle -framework Sparkle -Wl,-rpath,@executable_path/../Frameworks"
+	set CS_NESTED "Frameworks/Sparkle.framework/Versions/B/XPCServices/Installer.xpc/Contents/MacOS/Installer Frameworks/Sparkle.framework/Versions/B/XPCServices/Downloader.xpc/Contents/MacOS/Downloader Frameworks/Sparkle.framework/Versions/B/Autoupdate Frameworks/Sparkle.framework/Versions/B/Updater.app/Contents/MacOS/Updater Frameworks/Sparkle.framework/Versions/B/Sparkle"
 
 	prefix "${target}.app/Contents"
 
