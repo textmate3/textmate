@@ -1,4 +1,12 @@
 set APP_MIN_OS    "26.0"
+
+# The signing identity. Ad hoc here, so anyone can build. The Developer ID identity, which is what a
+# release and a notarized build need, is set in local.rave on the machine that holds the certificate:
+#
+#     set CS_IDENTITY "Developer ID Application: Name (TEAMID)"
+#
+# Everything embedded in the application, the command line tools, the privileged tool, the dialog
+# plug-in and the vendored Sparkle framework with what it embeds, is signed with the same identity.
 set CS_IDENTITY   "-"
 
 set C_FLAGS       "-std=c99"
@@ -29,6 +37,10 @@ add AC_FLAGS      "--minimum-deployment-target=${APP_MIN_OS} --platform=macosx"
 
 set CS_FLAGS      "--force --options runtime"
 
+# For code copied into the application from outside the build, re-signed innermost first before the
+# application is. Entitlements are preserved, since Sparkle's XPC services carry their own.
+set CS_NESTED_FLAGS "--force --options runtime --preserve-metadata=entitlements"
+
 # Sparkle: where the application looks for its update feed, and the Ed25519 public key updates must
 # be signed with. Local development overrides both in local.rave, pointing the feed at the stand-in
 # server on localhost and the key at a development keypair. The production private half lives in the
@@ -49,6 +61,7 @@ config debug {
 	add SWIFT_FLAGS "-Onone -g"
 	add LN_FLAGS "-fsanitize=address"
 	add CS_FLAGS "--timestamp=none"
+	add CS_NESTED_FLAGS "--timestamp=none"
 }
 
 config release {
@@ -57,6 +70,7 @@ config release {
 	add LN_FLAGS "-flto=thin -Wl,-cache_path_lto,'\\${builddir}/.cache'"
 	add LN_FLAGS "-Wl,-dead_strip -Wl,-dead_strip_dylibs"
 	add CS_FLAGS "--timestamp"
+	add CS_NESTED_FLAGS "--timestamp"
 }
 
 load local.rave {Applications,Frameworks,PlugIns,vendor}/*/*.rave
