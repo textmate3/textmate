@@ -277,7 +277,11 @@ namespace encoding
 {
 	if(self = [super init])
 	{
-		_path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"com.macromates.TextMate/EncodingFrequencies.plist"];
+		// The application's caches folder, named by its bundle identifier. This
+		// framework sits below OakSystem, which knows the identifier, so it asks
+		// the bundle instead. A test binary has no bundle and gets the same name.
+		NSString* identifier = NSBundle.mainBundle.bundleIdentifier ?: @"com.textmate3.TextMate";
+		_path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:[identifier stringByAppendingPathComponent:@"EncodingFrequencies.plist"]];
 		_database.load(_path.fileSystemRepresentation);
 
 		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:NSApp];

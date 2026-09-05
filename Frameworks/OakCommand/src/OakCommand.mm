@@ -22,7 +22,7 @@
 #import <BundleEditor/BundleEditor.h>
 
 NSNotificationName const OakCommandDidTerminateNotification = @"OakCommandDidTerminateNotification";
-NSString* const OakCommandErrorDomain                       = @"com.macromates.TextMate.ErrorDomain";
+NSString* const OakCommandErrorDomain                       = @"com.textmate3.TextMate.ErrorDomain";
 
 
 @protocol OakCommandDelegate

@@ -1,4 +1,6 @@
 #import "OakProjectStateStore.h"
+#import <OakFoundation/NSString Additions.h>
+#import <OakSystem/application.h>
 #import <sqlite3.h>
 
 // The store lives at RecentProjects.plist. RecentProjects.db beside it is a SQLite database written
@@ -8,7 +10,7 @@
 // earlier version of the application loses nothing either.
 static NSString* ApplicationSupportPath ()
 {
-	return [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"TextMate"];
+	return [NSString stringWithCxxString:oak::application_t::support()];
 }
 
 static NSDictionary* MigratedEntriesFromDatabase (NSString* databasePath)

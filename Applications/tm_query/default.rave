@@ -1,5 +1,5 @@
 target "${dirname}" {
-	require settings
+	require OakSystem settings
 	sources src/*.cc
 	executable "${target}"
 }

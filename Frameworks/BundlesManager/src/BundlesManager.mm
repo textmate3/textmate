@@ -4,6 +4,7 @@
 #import <OakAppKit/NSAlert Additions.h>
 #import <OakFoundation/OakFoundation.h>
 #import <OakFoundation/NSString Additions.h>
+#import <OakSystem/application.h>
 #import <SoftwareUpdate/OakDownloadManager.h>
 #import <bundles/locations.h>
 #import <bundles/query.h> // set_index
@@ -63,7 +64,7 @@ static NSString* SafeBasename (NSString* name)
 {
 	if(self = [super init])
 	{
-		_installDirectory = [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"TextMate/Managed"];
+		_installDirectory = [NSString stringWithCxxString:oak::application_t::support("Managed")];
 		_localIndexPath   = [_installDirectory stringByAppendingPathComponent:@"LocalIndex.plist"];
 		_remoteIndexPath  = [_installDirectory stringByAppendingPathComponent:@"Cache/org.textmate.updates.default"];
 		_remoteIndexURL   = [NSURL URLWithString:@REST_API "/bundles"];
@@ -472,7 +473,7 @@ static NSString* SafeBasename (NSString* name)
 	{
 		for(NSString* dir in @[ @"", @"Pristine Copy" ])
 		{
-			NSString* textMateFolder = [NSString pathWithComponents:@[ path, @"TextMate", dir ]];
+			NSString* textMateFolder = [NSString pathWithComponents:@[ path, @(oak::kSupportDirectoryName), dir ]];
 			NSString* avianFolder    = [NSString pathWithComponents:@[ path, @"Avian", dir ]];
 			NSString* src = [avianFolder stringByAppendingPathComponent:@"Bundles"];
 			NSString* dst = [textMateFolder stringByAppendingPathComponent:@"Bundles"];
@@ -526,9 +527,8 @@ static NSString* SafeBasename (NSString* name)
 
 	for(auto path : bundles::locations())
 		bundlesPaths.push_back(path::join(path, "Bundles"));
-	// A binary property list. The official TextMate 2 shares this caches folder
-	// and keeps its own index in BundlesIndex.binary, which is left alone.
-	bundlesIndexPath = path::join(path::home(), "Library/Caches/com.macromates.TextMate/BundlesIndex.plist");
+	// A binary property list, in this application's own caches folder.
+	bundlesIndexPath = oak::application_t::cache("BundlesIndex.plist");
 	cache.set_content_filter(&prune_bundle_item_plist);
 
 	// script/benchmark_bundle_index launches the application against a scratch

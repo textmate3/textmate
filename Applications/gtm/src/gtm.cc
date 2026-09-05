@@ -1,5 +1,6 @@
 #include <parse/grammar.h>
 #include <parse/parse.h>
+#include <OakSystem/application.h>
 #include <test/bundle_index.h>
 #include <oak/duration.h>
 #include <oak/oak.h>
@@ -99,7 +100,7 @@ static void load_bundle_index (bool verbose)
 {
 	oak::duration_t timer;
 
-	std::string const path = path::join(path::home(), "Library/Caches/com.macromates.TextMate/BundlesIndex.plist");
+	std::string const path = oak::application_t::cache("BundlesIndex.plist");
 
 	plist::cache_t cache;
 	cache.load(path);

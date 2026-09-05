@@ -26,7 +26,7 @@ void test_page_directories_are_honored_through_the_main_document_url ()
 void test_bundle_locations_are_always_allowed ()
 {
 	HOFileHandleSchemeHandler* handler = [HOFileHandleSchemeHandler new];
-	NSString* managed = [@"~/Library/Application Support/TextMate/Managed/Bundles/Any.tmbundle/Support/style.css" stringByExpandingTildeInPath];
+	NSString* managed = [@"~/Library/Application Support/TextMate 3/Managed/Bundles/Any.tmbundle/Support/style.css" stringByExpandingTildeInPath];
 	OAK_ASSERT([handler isAssetPathAllowed:managed forMainDocumentURL:nil]);
 	OAK_ASSERT(![handler isAssetPathAllowed:@"/etc/hosts" forMainDocumentURL:nil]);
 }

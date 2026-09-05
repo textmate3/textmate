@@ -1,5 +1,5 @@
 target "${dirname}" {
-	require OakFoundation bundles crash file io ns parse regexp settings text theme
+	require OakFoundation OakSystem bundles crash file io ns parse regexp settings text theme
 	headers src/*.h
 
 	files resources/* gfx/CloseButton/*.png "Resources"

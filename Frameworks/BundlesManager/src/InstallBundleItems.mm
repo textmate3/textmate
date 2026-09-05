@@ -2,6 +2,7 @@
 #import "BundlesManager.h"
 #import <OakAppKit/NSAlert Additions.h>
 #import <OakFoundation/NSString Additions.h>
+#import <OakSystem/application.h>
 #import <bundles/bundles.h>
 #import <text/ctype.h>
 #import <regexp/format_string.h>
@@ -117,7 +118,7 @@ void InstallBundleItems (NSArray* itemPaths)
 			[alert addButtons:@"Install", @"Cancel", nil];
 			if([alert runModal] == NSAlertFirstButtonReturn) // "Install"
 			{
-				std::string const installDir = path::join(path::home(), "Library/Application Support/TextMate/Pristine Copy/Bundles");
+				std::string const installDir = oak::application_t::support("Pristine Copy/Bundles");
 				if(path::make_dir(installDir))
 				{
 					std::string const installPath = path::unique(path::join(installDir, path::name(info.path)));

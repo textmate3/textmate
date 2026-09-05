@@ -18,6 +18,7 @@
 #import <OakFoundation/OakFoundation.h>
 #import <OakFoundation/NSString Additions.h>
 #import <OakTextView/OakDocumentView.h>
+#import <OakSystem/application.h>
 #import <MenuBuilder/MenuBuilder.h>
 #import <MenuBuilder/MBMenuDelegate.h>
 #import <Preferences/Keys.h>
@@ -503,7 +504,7 @@ BOOL HasDocumentWindow (NSArray* windows)
 		NSApp.mainMenu = menu;
 
 	settings_t::set_default_settings_path([[[NSBundle mainBundle] pathForResource:@"Default" ofType:@"tmProperties"] fileSystemRepresentation]);
-	settings_t::set_global_settings_path(path::join(path::home(), "Library/Application Support/TextMate/Global.tmProperties"));
+	settings_t::set_global_settings_path(oak::application_t::support("Global.tmProperties"));
 
 	[NSUserDefaults.standardUserDefaults registerDefaults:@{
 		@"NSRecentDocumentsLimit": @25,
@@ -517,7 +518,7 @@ BOOL HasDocumentWindow (NSArray* windows)
 	// minimal set so the application works before the catalog is reachable:
 	// themes, the core grammars, and the bundle support code. The catalog
 	// installs everything else and keeps these updated once it is reachable.
-	std::string const managedDirectory = path::join(path::home(), "Library/Application Support/TextMate/Managed");
+	std::string const managedDirectory = oak::application_t::support("Managed");
 	if(!path::exists(managedDirectory))
 	{
 		std::string const bundlesDirectory = path::join(managedDirectory, "Bundles");
