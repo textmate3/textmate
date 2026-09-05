@@ -92,35 +92,6 @@ static void launch_app (bool disableUntitled)
 	}
 }
 
-static void install_auth_tool ()
-{
-	if(geteuid() == 0 && (!path::exists(kAuthToolPath) || !path::exists(kAuthPlistPath) || AuthorizationRightGet(kAuthRightName, nullptr) == errAuthorizationDenied))
-	{
-		NSURL* toolURL = [find_app() URLByAppendingPathComponent:@"Contents/Resources/PrivilegedTool"];
-
-		char const* arg0 = toolURL.fileSystemRepresentation;
-		if(access(arg0, X_OK) != 0)
-		{
-			fprintf(stderr, "No such executable file: ‘%s’\n", arg0);
-			exit(EX_UNAVAILABLE);
-		}
-
-		char* const argv[] = { (char*)arg0, (char*)"--install", nullptr };
-
-		pid_t pid;
-		if(int rc = posix_spawn(&pid, arg0, nullptr, nullptr, argv, *_NSGetEnviron()))
-		{
-			fprintf(stderr, "%s: %s\n", arg0, strerror(rc));
-		}
-		else
-		{
-			int status = 0;
-			if(waitpid(pid, &status, 0) == pid && WIFEXITED(status) && WEXITSTATUS(status) != 0)
-				fprintf(stderr, "%s: %s\n", arg0, strerror(WEXITSTATUS(status)));
-		}
-	}
-}
-
 static void usage (FILE* io)
 {
 	std::string pad(8 - std::min(strlen(getprogname()), size_t(8)), ' ');
@@ -312,7 +283,6 @@ int main (int argc, char const* argv[])
 	if(strlen(getprogname()) > 5 && strcmp(getprogname() + strlen(getprogname()) - 5, "_wait") == 0)
 		shouldWait = boolean::kEnable;
 
-	install_auth_tool();
 
 	std::vector<std::string> options = text::split(getenv("MATEFLAGS") ?: "", " ");
 	char const** flags = new char const*[options.size()+1];

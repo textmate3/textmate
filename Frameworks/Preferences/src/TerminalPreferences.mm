@@ -10,7 +10,7 @@
 #import <ns/ns.h>
 #import <regexp/format_string.h>
 #import <bundles/bundles.h>
-#import <oak/compat.h>
+#import <authorization/server.h>
 
 static void CreateHyperLink (NSTextField* textField, NSString* text, NSString* url)
 {
@@ -30,39 +30,27 @@ static void CreateHyperLink (NSTextField* textField, NSString* text, NSString* u
 	[textField setAttributedStringValue:attrString];
 }
 
-static bool run_auth_command (AuthorizationRef& auth, std::string const cmd, ...)
+// Asks the privileged helper to do what this process cannot: one action
+// with its arguments, answered by what went wrong or nothing.
+static bool run_privileged (osx::authorization_t& auth, std::string const& action, std::vector<std::string> const& arguments)
 {
-	if(!auth && AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth) != errAuthorizationSuccess)
-		return false;
-
-	std::vector<char*> args;
-
-	va_list ap;
-	va_start(ap, cmd);
-	char* arg = NULL;
-	while((arg = va_arg(ap, char*)) && *arg)
-		args.push_back(arg);
-	va_end(ap);
-
-	args.push_back(NULL);
-
-	bool res = false;
-	if(oak::execute_with_privileges(auth, cmd, kAuthorizationFlagDefaults, &args[0], NULL) == errAuthorizationSuccess)
+	if(connection_t conn = connect_to_auth_server(auth))
 	{
-		int status;
-		int pid = wait(&status);
-		if(pid != -1 && WIFEXITED(status) && WEXITSTATUS(status) == 0)
-				res = true;
-		else	errno = WEXITSTATUS(status);
+		conn << action;
+		for(auto const& argument : arguments)
+			conn << argument;
+
+		std::string error;
+		conn >> error;
+		if(error == NULL_STR)
+			return true;
+		fprintf(stderr, "TerminalPreferences: privileged helper: %s\n", error.c_str());
 	}
-	else
-	{
-		errno = EPERM;
-	}
-	return res;
+	errno = EPERM;
+	return false;
 }
 
-static bool mk_dir (std::string const& path, AuthorizationRef& auth)
+static bool mk_dir (std::string const& path, osx::authorization_t& auth)
 {
 	struct stat buf;
 	if(stat(path.c_str(), &buf) == 0)
@@ -80,15 +68,15 @@ static bool mk_dir (std::string const& path, AuthorizationRef& auth)
 		}
 		else
 		{
-			if(run_auth_command(auth, "/bin/mkdir", path.c_str(), NULL))
+			if(run_privileged(auth, "mkdir", { path }))
 				return true;
-			perrorf("TerminalPreferences: /bin/mkdir \"%s\"", path.c_str());
+			perrorf("TerminalPreferences: privileged mkdir \"%s\"", path.c_str());
 		}
 	}
 	return false;
 }
 
-static bool rm_path (std::string const& path, AuthorizationRef& auth)
+static bool rm_path (std::string const& path, osx::authorization_t& auth)
 {
 	struct stat buf;
 	if(lstat(path.c_str(), &buf) != 0)
@@ -102,9 +90,9 @@ static bool rm_path (std::string const& path, AuthorizationRef& auth)
 	}
 	else
 	{
-		if(run_auth_command(auth, "/bin/rm", path.c_str(), NULL))
+		if(run_privileged(auth, "remove", { path }))
 			return true;
-		perrorf("TerminalPreferences: /bin/rm \"%s\"", path.c_str());
+		perrorf("TerminalPreferences: privileged remove \"%s\"", path.c_str());
 	}
 	return false;
 }
@@ -114,7 +102,7 @@ static bool cp_requires_admin (std::string const& dst)
 	return access(dst.c_str(), W_OK) != 0 && (access(dst.c_str(), X_OK) == 0 || access(path::parent(dst).c_str(), W_OK) != 0);
 }
 
-static bool cp_path (std::string const& src, std::string const& dst, AuthorizationRef& auth)
+static bool cp_path (std::string const& src, std::string const& dst, osx::authorization_t& auth)
 {
 	if(!cp_requires_admin(dst))
 	{
@@ -124,16 +112,16 @@ static bool cp_path (std::string const& src, std::string const& dst, Authorizati
 	}
 	else
 	{
-		if(run_auth_command(auth, "/bin/cp", "-p", src.c_str(), dst.c_str(), NULL))
+		if(run_privileged(auth, "copy", { src, dst }))
 			return true;
-		perrorf("TerminalPreferences: /bin/cp -p \"%s\" \"%s\"", src.c_str(), dst.c_str());
+		perrorf("TerminalPreferences: privileged copy \"%s\" \"%s\"", src.c_str(), dst.c_str());
 	}
 	return false;
 }
 
 static bool install_mate (std::string const& src, std::string const& dst)
 {
-	AuthorizationRef auth = NULL;
+	osx::authorization_t auth;
 	if(mk_dir(path::parent(dst), auth))
 	{
 		struct stat buf;
@@ -146,7 +134,7 @@ static bool install_mate (std::string const& src, std::string const& dst)
 
 static bool uninstall_mate (std::string const& path)
 {
-	AuthorizationRef auth = NULL;
+	osx::authorization_t auth;
 	return access(path.c_str(), F_OK) != 0 || rm_path(path, auth);
 }
 

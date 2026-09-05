@@ -149,7 +149,7 @@ namespace
 			}
 			else
 			{
-				error = "Could not connect to privileged helper demon.";
+				error = "The privileged helper is not available. If System Settings opened on Login Items, allow TextMate there and save again.";
 			}
 		}
 		return error;

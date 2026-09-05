@@ -32,8 +32,12 @@ target "${dirname}" {
 	prefix "${target}.app/Contents"
 
 	copy  ../../vendor/Sparkle/Sparkle.framework "Frameworks"
-	files resources/* icons/*.icns @PrivilegedTool "Resources"
-	files @mate @tm_query @gtm "MacOS"
+	files resources/* icons/*.icns "Resources"
+	files @mate @tm_query @gtm @PrivilegedTool "MacOS"
+	# The privileged helper's launchd job, registered with the system through
+	# SMAppService the first time the helper is needed. It names the helper by
+	# its path inside this bundle.
+	files LaunchDaemons/*.plist "Library/LaunchDaemons"
 	files about/*            "Resources/About"
 	files Info.plist         "."
 	copy  support/*          "SharedSupport"
