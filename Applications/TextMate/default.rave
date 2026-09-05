@@ -7,6 +7,12 @@ target "${dirname}" {
 	set     TEXTMATE_CHANGES "${dir}/about/Changes.md"
 	capture TEXTMATE_VERSION "grep -om1 '^## .* (v.*)$' '${TEXTMATE_CHANGES}'|sed 's/.*(v\\(.*\))/\\1/'"
 
+	# The build number is what Sparkle compares to decide whether an update is
+	# newer, so it climbs with every commit: the commit count on the branch
+	# being built. Older builds, from before this, carry 9800, so the count
+	# is offset past that.
+	capture TEXTMATE_BUILD "echo $(( 9800 + $(git rev-list --count HEAD) ))"
+
 	config "debug" {
 		add PLIST_FLAGS "-d'CS_GET_TASK_ALLOW=true'"
 	}
@@ -17,7 +23,11 @@ target "${dirname}" {
 
 	expand CS_ENTITLEMENTS "${dir}/Entitlements.plist"
 
-	add PLIST_FLAGS "-dAPP_VERSION='${TEXTMATE_VERSION}'"
+	# The version people read is the notes' newest heading, with a prerelease
+	# suffix such as -alpha.3 when script/release is building one. The suffix
+	# arrives through prerelease.rave, which the release script writes for the
+	# build and removes after, so a plain build carries none.
+	add PLIST_FLAGS "-dAPP_VERSION='${TEXTMATE_VERSION}${APP_PRERELEASE}' -dAPP_BUILD='${TEXTMATE_BUILD}'"
 	add MD_FLAGS    "-h'${HTML_HEADER}' -f'${HTML_FOOTER}'"
 	add CS_FLAGS    "--entitlements '${CS_ENTITLEMENTS}'"
 

@@ -87,7 +87,7 @@ BOOL HasDocumentWindow (NSArray* windows)
 	return NO;
 }
 
-@interface AppController () <OakUserDefaultsObserver>
+@interface AppController () <OakUserDefaultsObserver, SPUUpdaterDelegate>
 @property (nonatomic) BOOL didFinishLaunching;
 @property (nonatomic) BOOL keyWindowHasBackAndForwardActions;
 @property (nonatomic) SPUStandardUpdaterController* updaterController;
@@ -100,8 +100,24 @@ BOOL HasDocumentWindow (NSArray* windows)
 - (SPUStandardUpdaterController*)updaterController
 {
 	if(!_updaterController)
-		_updaterController = [[SPUStandardUpdaterController alloc] initWithStartingUpdater:YES updaterDelegate:nil userDriverDelegate:nil];
+		_updaterController = [[SPUStandardUpdaterController alloc] initWithStartingUpdater:YES updaterDelegate:self userDriverDelegate:nil];
 	return _updaterController;
+}
+
+// The feed carries three channels. Release items carry no channel name and
+// reach everyone. Beta items are the nightlies, for anyone living on the
+// edge. Alpha items are for the development team. Which ones this copy sees
+// is the updateChannel default: alpha sees alphas and betas, beta sees
+// betas, anything else sees releases only. It is set by hand, with
+// ‘defaults write com.textmate3.TextMate updateChannel alpha’.
+- (NSSet<NSString*>*)allowedChannelsForUpdater:(SPUUpdater*)updater
+{
+	NSString* channel = [NSUserDefaults.standardUserDefaults stringForKey:@"updateChannel"];
+	if([channel isEqualToString:@"alpha"])
+		return [NSSet setWithObjects:@"alpha", @"beta", nil];
+	if([channel isEqualToString:@"beta"])
+		return [NSSet setWithObject:@"beta"];
+	return [NSSet set];
 }
 
 // The Check Now button in the Software Update preferences sends this as a nil-target action, and the

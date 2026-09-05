@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+# script/prune_releases — remove every prerelease of one channel, from GitHub and from the feed
+#
+# Usage:
+#   script/prune_releases alpha     # deletes every v*-alpha.N release, its tag, and its feed entry
+#   script/prune_releases beta
+#
+# For when a channel's prereleases have served their purpose: the alphas once the first beta is out,
+# the betas once the release is. An installed prerelease keeps working, since the updater looks only
+# for something newer, and the next channel's builds are newer by build number.
+
+require "rexml/document"
+require "shellwords"
+
+ROOT       = File.expand_path("..", __dir__)
+CATALOG    = File.expand_path("../api.textmate3.com", ROOT)
+APPCAST    = File.join(CATALOG, "docs/appcast.xml")
+REPOSITORY = "textmate3/textmate"
+
+Dir.chdir(ROOT)
+
+channel = ARGV.first
+abort "usage: script/prune_releases alpha|beta" unless %w[alpha beta].include?(channel)
+
+def run(*command)
+  puts "→ #{command.map(&:to_s).shelljoin}"
+  system(*command) or abort "script/prune_releases: #{command.first} failed"
+end
+
+tags = IO.popen(["git", "tag", "--list", "v*-#{channel}.*"], &:read).lines.map(&:strip)
+abort "script/prune_releases: no #{channel} tags" if tags.empty?
+
+puts "Pruning #{tags.size} #{channel} releases: #{tags.join(", ")}"
+
+tags.each do |tag|
+  run "gh", "release", "delete", tag, "--repo", REPOSITORY, "--yes", "--cleanup-tag"
+  system("git", "tag", "-d", tag, out: File::NULL)
+end
+
+document = REXML::Document.new(File.read(APPCAST))
+removed = document.elements.to_a("rss/channel/item").select { |item| item.elements["sparkle:channel"]&.text == channel }
+removed.each(&:remove)
+
+formatter = REXML::Formatters::Pretty.new(1)
+formatter.compact = true
+output = +""
+formatter.write(document, output)
+File.write(APPCAST, output.gsub(/^ +/) { |spaces| "\t" * spaces.length } + "\n")
+
+Dir.chdir(CATALOG) do
+  run "git", "add", "docs/appcast.xml"
+  run "git", "commit", "-m", "Remove the #{channel} releases from the feed"
+  run "git", "push"
+end
+
+puts "Removed #{removed.size} feed entries and #{tags.size} releases"
