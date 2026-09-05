@@ -1,5 +1,7 @@
 #import "OakPasteboard.h"
 #import "OakPasteboardSelector.h"
+#import <OakFoundation/NSString Additions.h>
+#import <OakSystem/application.h>
 #import <crash/info.h>
 #import <ns/ns.h>
 #import <oak/oak.h>
@@ -309,11 +311,9 @@ namespace
 + (NSURL*)databaseURL
 {
 	NSError* error;
-	if(NSURL* appSupport = [[NSFileManager.defaultManager URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:&error] URLByAppendingPathComponent:@"TextMate"])
-	{
-		if([NSFileManager.defaultManager createDirectoryAtURL:appSupport withIntermediateDirectories:YES attributes:nil error:&error])
-			return [appSupport URLByAppendingPathComponent:@"PasteboardHistory.db"];
-	}
+	NSURL* appSupport = [NSURL fileURLWithPath:[NSString stringWithCxxString:oak::application_t::support()] isDirectory:YES];
+	if([NSFileManager.defaultManager createDirectoryAtURL:appSupport withIntermediateDirectories:YES attributes:nil error:&error])
+		return [appSupport URLByAppendingPathComponent:@"PasteboardHistory.db"];
 	[NSApp presentError:error];
 	return nil;
 }
@@ -327,11 +327,11 @@ namespace
 		// = Delete CoreData files =
 		// =========================
 
-		for(NSURL* appSupport in [NSFileManager.defaultManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask])
+		NSURL* appSupport = [NSURL fileURLWithPath:[NSString stringWithCxxString:oak::application_t::support()] isDirectory:YES];
 		{
 			for(NSString* file in @[ @"ClipboardHistory.db", @"ClipboardHistory.db-shm", @"ClipboardHistory.db-wal" ])
 			{
-				NSURL* url = [[appSupport URLByAppendingPathComponent:@"TextMate"] URLByAppendingPathComponent:file];
+				NSURL* url = [appSupport URLByAppendingPathComponent:file];
 				if([NSFileManager.defaultManager fileExistsAtPath:url.path])
 				{
 					NSURL* res;

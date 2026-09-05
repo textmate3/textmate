@@ -7,6 +7,9 @@
 
 namespace oak
 {
+	char const* const kBundleIdentifier     = "com.textmate3.TextMate";
+	char const* const kSupportDirectoryName = "TextMate 3";
+
 	static std::string _app_name     = NULL_STR;
 	static std::string _app_path     = NULL_STR;
 	static std::string _support_path = NULL_STR;
@@ -75,8 +78,13 @@ namespace oak
 	std::string application_t::support (std::string const& relativePath)
 	{
 		if(_support_path == NULL_STR)
-			_support_path = path::join({ path::home(), "Library/Application Support", name() });
+			_support_path = path::join({ path::home(), "Library/Application Support", kSupportDirectoryName });
 		return path::join(_support_path, relativePath);
+	}
+
+	std::string application_t::cache (std::string const& relativePath)
+	{
+		return path::join({ path::home(), "Library/Caches", kBundleIdentifier, relativePath });
 	}
 
 	std::string application_t::version ()

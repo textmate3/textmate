@@ -13,6 +13,7 @@
 #import <OakAppKit/NSAlert Additions.h>
 #import <TMFileReference/TMFileReference.h>
 #import <BundlesManager/BundlesManager.h>
+#import <OakSystem/application.h>
 #import <authorization/constants.h>
 #import <cf/run_loop.h>
 #import <ns/ns.h>
@@ -403,7 +404,7 @@ static void* kDocumentEditedObserverContext = &kDocumentEditedObserverContext;
 	if(OakDocument* res = [OakDocumentController.sharedInstance findDocumentWithIdentifier:anIdentifier])
 		return res;
 
-	std::string const dir = to_s([[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"TextMate/Session"]);
+	std::string const dir = oak::application_t::support("Session");
 	for(auto dirEntry : path::entries(dir))
 	{
 		std::string const path = path::join(dir, dirEntry->d_name);
@@ -604,7 +605,7 @@ static void* kDocumentEditedObserverContext = &kDocumentEditedObserverContext;
 
 - (NSString*)createAndReturnBackupPath
 {
-	NSString* path = [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"TextMate/Session"];
+	NSString* path = [NSString stringWithCxxString:oak::application_t::support("Session")];
 	if(![NSFileManager.defaultManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nullptr])
 		return nil;
 

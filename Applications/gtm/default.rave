@@ -1,5 +1,5 @@
 target "${dirname}" {
-	require parse
+	require OakSystem parse
 	sources src/*.cc
 	executable "${target}"
 }

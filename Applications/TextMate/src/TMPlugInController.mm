@@ -124,7 +124,7 @@ static id CreateInstanceOfPlugInClass (Class cl, TMPlugInController* controller)
 {
 	NSMutableArray* paths = [NSMutableArray array];
 	for(NSString* path in NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSAllDomainsMask, YES))
-		[paths addObject:[NSString pathWithComponents:@[ path, @"TextMate", @"PlugIns" ]]];
+		[paths addObject:[NSString pathWithComponents:@[ path, @(oak::kSupportDirectoryName), @"PlugIns" ]]];
 	[paths addObject:[[NSBundle mainBundle] builtInPlugInsPath]];
 
 	for(NSString* path in paths)
@@ -142,7 +142,7 @@ static id CreateInstanceOfPlugInClass (Class cl, TMPlugInController* controller)
 	NSFileManager* fm = NSFileManager.defaultManager;
 
 	NSArray* libraryPaths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSAllDomainsMask, YES);
-	NSString* dst = [NSString pathWithComponents:@[ libraryPaths[0], @"TextMate", @"PlugIns", [src lastPathComponent] ]];
+	NSString* dst = [NSString pathWithComponents:@[ libraryPaths[0], @(oak::kSupportDirectoryName), @"PlugIns", [src lastPathComponent] ]];
 	if([src isEqualToString:dst])
 		return;
 

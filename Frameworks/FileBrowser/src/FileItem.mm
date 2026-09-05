@@ -2,10 +2,12 @@
 #import <OakAppKit/OakFinderTag.h>
 #import <OakFoundation/OakFoundation.h>
 #import <Preferences/Keys.h>
+#import <OakFoundation/NSString Additions.h>
+#import <OakSystem/application.h>
 #import <ns/ns.h>
 
 NSURL* const kURLLocationComputer  = [[NSURL alloc] initWithString:@"computer:///"];
-NSURL* const kURLLocationFavorites = [[NSURL alloc] initFileURLWithPath:[NSHomeDirectory() stringByAppendingPathComponent:@"Library/Application Support/TextMate/Favorites"] isDirectory:YES];
+NSURL* const kURLLocationFavorites = [[NSURL alloc] initFileURLWithPath:[NSString stringWithCxxString:oak::application_t::support("Favorites")] isDirectory:YES];
 
 @interface FileItem ()
 @property (nonatomic, readonly) BOOL alwaysShowFileExtension;
