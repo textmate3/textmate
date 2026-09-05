@@ -46,4 +46,11 @@ target "${dirname}" {
 	sources src/*.{cc,mm,swift}
 	executable "MacOS/${target}"
 	frameworks Cocoa
+
+	# Notarization is a separate step, ‘ninja TextMate/notarize’ or script/notarize, never part of
+	# a plain build. It zips the signed application, submits it under the keychain profile named
+	# here, waits for Apple's answer, fails unless that answer is Accepted, and staples the ticket.
+	# The profile is created once on the machine that releases, with
+	# ‘xcrun notarytool store-credentials textmate3’.
+	notarize textmate3
 }
