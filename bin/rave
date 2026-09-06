@@ -1107,11 +1107,12 @@ module Target
   end
 
   # The bundle an executable inside a bundle is signed as: the .app or .xpc
-  # around a Contents/MacOS binary, the .framework around the binary that
-  # carries its name under Versions, or the file itself when it stands
-  # alone, as a helper next to a framework's binary does.
+  # around the Contents/MacOS binary that carries its name, the .framework
+  # around the binary that carries its name under Versions, or the file
+  # itself when it stands alone, as a helper next to a framework's binary or
+  # beside the application's own executable does.
   def self.nested_code_path(binary)
-    if match = binary.match(%r{\A(.*\.(?:app|xpc))/Contents/MacOS/[^/]+\z})
+    if match = binary.match(%r{\A(.*/([^/]+)\.(?:app|xpc))/Contents/MacOS/\2\z})
       match[1]
     elsif match = binary.match(%r{\A(.*/([^/]+)\.framework)/Versions/[^/]+/\2\z})
       match[1]
@@ -1166,7 +1167,9 @@ module Target
           binary = File.join(target[:builddir], target[:dir], target[:prefix], path)
           signed = Target.nested_code_path(binary)
           marker = File.join(target[:builddir], '_Sign', "#{target[:name]}.nested.#{index}.ok")
-          inside = dependencies.select { |file| file.start_with?(signed + '/') }
+          # What the signing waits for: everything copied into a bundle, or
+          # the file itself when the nested code is a standalone binary.
+          inside = dependencies.select { |file| file == signed || file.start_with?(signed + '/') }
           rules << {
             name:         'CodesignNested',
             in:           binary,
