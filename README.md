@@ -49,6 +49,11 @@ It’s meant as a transitional release, to get the infrastructure in place for a
 
 Stay tuned…
 
+## Screenshot
+
+![TextMate  with dark mode theme](https://textmate3.com/images/screenshot-dark.webp)
+![TextMate with light mode theme](https://textmate3.com/images/screenshot-light.webp)
+
 ## The Original, TextMate 2
 
 [TextMate 2](https://github.com/textmate/textmate) was originally created by [Allan Odgaard](https://github.com/sorbits) / [MacroMates](https://macromates.com).
@@ -63,11 +68,6 @@ The historical contact information for questions, comments, and bug reports was:
 - [MacroMates support page](https://macromates.com/support)
 - [bug reports writing guidance wiki](https://github.com/textmate/textmate/wiki/writing-bug-reports)
 - ~~[#textmate](irc://irc.freenode.net/#textmate) IRC channel on [freenode.net](https://freenode.net)~~
-
-### Screenshot
-
-![TextMate  with dark mode theme](https://textmate3.com/images/screenshot-dark.webp)
-![TextMate with light mode theme](https://textmate3.com/images/screenshot-light.webp)
 
 ## Building
 
