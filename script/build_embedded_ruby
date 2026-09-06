@@ -70,7 +70,8 @@ run! "make", "install", chdir: SOURCE_DIR
 # What an editor's bundle commands never read: the headers, the static
 # archive, the gem caches and the bundled gems' documentation.
 FileUtils.rm_rf(File.join(PREFIX, "include"))
-FileUtils.rm_rf(Dir.glob(File.join(PREFIX, "lib/libruby-static.a")))
+FileUtils.rm_rf(Dir.glob(File.join(PREFIX, "lib/libruby*.a")))
+FileUtils.rm_rf(File.join(PREFIX, "lib/pkgconfig"))
 FileUtils.rm_rf(Dir.glob(File.join(PREFIX, "lib/ruby/gems/*/cache/*")))
 FileUtils.rm_rf(Dir.glob(File.join(PREFIX, "lib/ruby/gems/*/doc/*")))
 FileUtils.rm_rf(File.join(PREFIX, "share"))

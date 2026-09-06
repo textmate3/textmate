@@ -15,7 +15,8 @@ ROOT         = File.expand_path("..", __dir__)
 RUBY_TREE    = File.expand_path("~/build/textmate/embedded-ruby/ruby")
 APP          = File.expand_path("~/build/textmate/release/Applications/TextMate/TextMate.app")
 DESTINATION  = File.join(APP, "Contents/Frameworks/Ruby")
-ENTITLEMENTS = File.join(ROOT, "Applications/TextMate/Entitlements.plist")
+# The build's copy, with its variables expanded, since the one in the tree is a template.
+ENTITLEMENTS = File.expand_path("~/build/textmate/release/_ExpandVariables/Applications/TextMate/Entitlements.plist")
 ZIP          = File.expand_path("~/build/textmate/embedded-ruby/TextMate-embedded-ruby.zip")
 PROFILE      = "textmate3"
 
@@ -27,7 +28,8 @@ def run!(*command)
 end
 
 def capture(*command)
-  output = IO.popen(command, &:read)
+  # Bytes, since `file` describes what it finds in whatever encoding it finds it.
+  output = IO.popen(command, &:read).b
   abort "embed_ruby: #{command.first} failed" unless $?.success?
   output.strip
 end
