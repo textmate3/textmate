@@ -66,7 +66,8 @@ The historical contact information for questions, comments, and bug reports was:
 
 ### Screenshot
 
-![textmate](https://raw.github.com/textmate/textmate/gh-pages/images/screenshot.png)
+![TextMate  with dark mode theme](https://textmate3.com/images/screenshot-dark.webp)
+![TextMate with light mode theme](https://textmate3.com/images/screenshot-light.webp)
 
 ## Building
 
