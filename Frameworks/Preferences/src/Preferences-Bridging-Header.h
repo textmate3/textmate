@@ -4,5 +4,6 @@
 #import <Cocoa/Cocoa.h>
 #import <OakAppKit/OakEncodingPopUpButton.h>
 #import "BundleCatalog.h"
+#import "MateInstaller.h"
 #import "Preferences.h"
 #import "PreferencesSettings.h"

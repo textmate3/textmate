@@ -1,9 +1,6 @@
 target "${dirname}" {
-	require BundlesManager OakAppKit OakFoundation MenuBuilder SoftwareUpdate authorization bundles io ns regexp settings text
-	require_headers OakTabBarView
-	headers src/{Preferences,Keys,TerminalPreferences,PreferencesPane}.h
-
-	files resources/* icons/* "Resources"
+	require BundlesManager OakAppKit OakFoundation SoftwareUpdate authorization bundles io ns regexp settings text
+	headers src/{Preferences,Keys,MateInstaller}.h
 
 	sources src/*.{mm,swift}
 	frameworks Cocoa UniformTypeIdentifiers

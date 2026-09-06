@@ -1,5 +1,4 @@
 #import "Preferences.h"
-#import "TerminalPreferences.h"
 #import "Keys.h"
 #import "Preferences-Swift.h"
 #import <OakAppKit/OakTransitionViewController.h>
@@ -97,7 +96,7 @@ static NSString* const kUserDefaultsPreferencesSelectedPaneKey       = @"prefere
 			[[TMBundlesPaneController alloc] init],
 			[[TMVariablesPaneController alloc] init],
 			[[TMUpdatesPaneController alloc] init],
-			[[TerminalPreferences alloc] init]
+			[[TMTerminalPaneController alloc] init]
 		];
 
 		for(NSViewController* viewController in viewControllers)

@@ -23,7 +23,7 @@
 #import <MenuBuilder/MBMenuDelegate.h>
 #import <Preferences/Keys.h>
 #import <Preferences/Preferences.h>
-#import <Preferences/TerminalPreferences.h>
+#import <Preferences/MateInstaller.h>
 #import <Sparkle/Sparkle.h>
 #import <document/OakDocument.h>
 #import <document/OakDocumentController.h>
@@ -614,7 +614,7 @@ BOOL HasDocumentWindow (NSArray* windows)
 	NSMenu* selectMenu = [[[[[NSApp mainMenu] itemWithTitle:@"Edit"] submenu] itemWithTitle:@"Select"] submenu];
 	[[selectMenu itemWithTitle:@"Toggle Column Selection"] setActivationString:@"⌥" withFont:nil];
 
-	[TerminalPreferences updateMateIfRequired];
+	[MateInstaller updateIfRequired];
 	[AboutWindowController showChangesIfUpdated];
 
 	[CrashReporter.sharedInstance logNewCrashReports];
