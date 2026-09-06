@@ -4,7 +4,7 @@ JS: js/contributions.js
 
 # Contributions
 
-See [commits at GitHub][1].
+See [commits at GitHub](https://github.com/textmate3/textmate/commits/main).
 
 <div>
 <%# this wrapping div prevents Markdown from trying to parse the ERB blocks %>
@@ -52,5 +52,3 @@ if last_group_heading != ''
 end
 %>
 </div>
-
-[1]: https://github.com/textmate/textmate/commits/master
