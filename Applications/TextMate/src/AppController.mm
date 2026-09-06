@@ -108,8 +108,8 @@ BOOL HasDocumentWindow (NSArray* windows)
 // reach everyone. Beta items are the nightlies, for anyone living on the
 // edge. Alpha items are for the development team. Which ones this copy sees
 // is the updateChannel default: alpha sees alphas and betas, beta sees
-// betas, anything else sees releases only. It is set by hand, with
-// ‘defaults write com.textmate3.TextMate updateChannel alpha’.
+// betas, anything else sees releases only. The Updates preferences pane
+// sets it.
 - (NSSet<NSString*>*)allowedChannelsForUpdater:(SPUUpdater*)updater
 {
 	NSString* channel = [NSUserDefaults.standardUserDefaults stringForKey:@"updateChannel"];
@@ -120,7 +120,7 @@ BOOL HasDocumentWindow (NSArray* windows)
 	return [NSSet set];
 }
 
-// The Check Now button in the Software Update preferences sends this as a nil-target action, and the
+// The Check Now button in the Updates preferences sends this as a nil-target action, and the
 // application delegate is the place in the responder chain that knows the updater.
 - (IBAction)checkForUpdates:(id)sender
 {
