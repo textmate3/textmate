@@ -36,12 +36,17 @@ struct UpdatesView: View {
         }
       }
 
-      Picker("Update channel:", selection: $channel) {
-        Text("Release").tag("release")
-        Text("Beta, the nightlies").tag("beta")
-        Text("Alpha, the development team").tag("alpha")
+      LabeledContent("Update channel:") {
+        PopUpPicker(
+          selection: $channel,
+          choices: [
+            PopUpChoice("Release", "release"),
+            PopUpChoice("Beta, the nightlies", "beta"),
+            PopUpChoice("Alpha, the development team", "alpha"),
+          ]
+        )
+        .frame(maxWidth: .infinity, alignment: .leading)
       }
-      .frame(maxWidth: .infinity, alignment: .leading)
 
       Divider()
         .padding(.vertical, 4)

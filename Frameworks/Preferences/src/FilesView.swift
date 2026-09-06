@@ -15,7 +15,7 @@ struct FilesView: View {
   @State private var encoding = PreferencesSettings.string(forKey: PreferencesSettings.encodingKey) ?? "UTF-8"
   @State private var lineEndings = PreferencesSettings.string(forKey: PreferencesSettings.lineEndingsKey) ?? "\n"
 
-  private let grammars = PreferencesSettings.grammars()
+  private let grammarChoices = PreferencesSettings.grammars().map { PopUpChoice($0.name, $0.scope) }
 
   var body: some View {
     Form {
@@ -40,25 +40,13 @@ struct FilesView: View {
         .padding(.vertical, 4)
 
       LabeledContent("New document type:") {
-        Picker("New document type", selection: $newDocumentType) {
-          ForEach(grammars, id: \.scope) { grammar in
-            Text(grammar.name).tag(grammar.scope)
-          }
-        }
-        .labelsHidden()
-        .frame(maxWidth: .infinity, alignment: .leading)
+        PopUpPicker(selection: $newDocumentType, choices: grammarChoices)
+          .frame(maxWidth: .infinity, alignment: .leading)
       }
 
       LabeledContent("Unknown document type:") {
-        Picker("Unknown document type", selection: $unknownDocumentType) {
-          Text("Prompt for type").tag("")
-          Divider()
-          ForEach(grammars, id: \.scope) { grammar in
-            Text(grammar.name).tag(grammar.scope)
-          }
-        }
-        .labelsHidden()
-        .frame(maxWidth: .infinity, alignment: .leading)
+        PopUpPicker(selection: $unknownDocumentType, choices: [PopUpChoice("Prompt for type", ""), .separator] + grammarChoices)
+          .frame(maxWidth: .infinity, alignment: .leading)
       }
 
       LabeledContent("Encoding:") {
@@ -67,12 +55,14 @@ struct FilesView: View {
       }
 
       LabeledContent("Line endings:") {
-        Picker("Line endings", selection: $lineEndings) {
-          Text("LF (recommended)").tag("\n")
-          Text("CR (Mac Classic)").tag("\r")
-          Text("CRLF (Windows)").tag("\r\n")
-        }
-        .labelsHidden()
+        PopUpPicker(
+          selection: $lineEndings,
+          choices: [
+            PopUpChoice("LF (recommended)", "\n"),
+            PopUpChoice("CR (Mac Classic)", "\r"),
+            PopUpChoice("CRLF (Windows)", "\r\n"),
+          ]
+        )
         .frame(maxWidth: .infinity, alignment: .leading)
       }
     }
