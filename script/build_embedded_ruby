@@ -76,6 +76,27 @@ FileUtils.rm_rf(Dir.glob(File.join(PREFIX, "lib/ruby/gems/*/cache/*")))
 FileUtils.rm_rf(Dir.glob(File.join(PREFIX, "lib/ruby/gems/*/doc/*")))
 FileUtils.rm_rf(File.join(PREFIX, "share"))
 
+# RubyGems reads ~/.gem/ruby/<abi> by default, and a person's own Ruby of the
+# same series fills it with gems whose native extensions this Ruby cannot
+# load under the hardened runtime. This Ruby reads the gems it ships and no
+# others. RubyGems loads this file at startup when it exists.
+abi = Dir.children(File.join(PREFIX, "lib/ruby/gems")).first
+defaults = File.join(PREFIX, "lib/ruby/site_ruby/#{abi}/rubygems/defaults")
+FileUtils.mkdir_p(defaults)
+File.write(File.join(defaults, "operating_system.rb"), <<~RUBY)
+  # This Ruby belongs to the application. It reads the gems it ships and no
+  # others, so nothing a person installed for a Ruby of their own is reached.
+  module Gem
+    def self.default_path
+      [default_dir]
+    end
+
+    def self.user_dir
+      default_dir
+    end
+  end
+RUBY
+
 puts
 puts "Mach-O files referencing anything outside the tree, the system aside:"
 stray = 0
