@@ -1,8 +1,9 @@
 import OakFoundation
 import SwiftUI
 
-/// The About page of the About window: icon, name, version, where to read more,
-/// and the copyright line. Everything it shows comes from ApplicationInfo.
+/// The About page of the About window:
+/// icon, name, version, where to read more, and the copyright line.
+/// Everything it shows comes from ApplicationInfo.
 struct AboutView: View {
   let info: ApplicationInfo
 
