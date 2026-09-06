@@ -32,6 +32,10 @@ struct VariablesView: View {
             .onSubmit { row.isEnabled = true }
         }
       }
+      // The bordered style: rows run edge to edge inside the box, the way the
+      // table always drew, rather than the inset style's floating rows.
+      .tableStyle(.bordered)
+      .alternatingRowBackgrounds(.enabled)
       .onDeleteCommand(perform: removeSelected)
 
       ControlGroup {
@@ -48,7 +52,7 @@ struct VariablesView: View {
       .fixedSize()
     }
     .padding(.top, 8)
-    .padding(.horizontal, 12)
+    .padding(.horizontal, 20)
     .padding(.bottom, 20)
     .frame(width: 600, height: 400)
   }
