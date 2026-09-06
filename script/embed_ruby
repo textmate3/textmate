@@ -1,0 +1,80 @@
+#!/usr/bin/env ruby
+# Puts the embedded Ruby into the built release application, signs every
+# Mach-O in it with the application's identity under the hardened runtime,
+# signs the application again over it, and proves the result: the signature
+# verifies, the Ruby inside runs with its extensions loaded, and, with
+# --notarize, Apple accepts it and the ticket is stapled.
+#
+# Needs: ~/build/textmate/embedded-ruby/ruby from script/build_embedded_ruby,
+# a built release application, and the Developer ID identity in local.rave.
+
+require "fileutils"
+require "shellwords"
+
+ROOT         = File.expand_path("..", __dir__)
+RUBY_TREE    = File.expand_path("~/build/textmate/embedded-ruby/ruby")
+APP          = File.expand_path("~/build/textmate/release/Applications/TextMate/TextMate.app")
+DESTINATION  = File.join(APP, "Contents/Frameworks/Ruby")
+ENTITLEMENTS = File.join(ROOT, "Applications/TextMate/Entitlements.plist")
+ZIP          = File.expand_path("~/build/textmate/embedded-ruby/TextMate-embedded-ruby.zip")
+PROFILE      = "textmate3"
+
+Dir.chdir(ROOT)
+
+def run!(*command)
+  puts "→ #{command.shelljoin}"
+  system(*command) or abort "embed_ruby: #{command.first} failed"
+end
+
+def capture(*command)
+  output = IO.popen(command, &:read)
+  abort "embed_ruby: #{command.first} failed" unless $?.success?
+  output.strip
+end
+
+identity = File.exist?("local.rave") ? File.read("local.rave")[/^set CS_IDENTITY\s+"([^"]+)"/, 1] : nil
+abort "embed_ruby: local.rave sets no Developer ID identity" if identity.nil? || identity == "-"
+abort "embed_ruby: no embedded Ruby at #{RUBY_TREE}, run script/build_embedded_ruby" unless File.executable?(File.join(RUBY_TREE, "bin/ruby"))
+abort "embed_ruby: no built application at #{APP}" unless File.directory?(APP)
+
+FileUtils.rm_rf(DESTINATION)
+FileUtils.mkdir_p(File.dirname(DESTINATION))
+run! "/usr/bin/ditto", "--norsrc", "--noextattr", "--noacl", "--noqtn", RUBY_TREE, DESTINATION
+
+# Every Mach-O inside, the executables and the extension bundles alike, signed
+# on its own so the application's seal covers signed code rather than loose
+# binaries, which is what notarization refuses.
+mach_o_files = Dir.glob(File.join(DESTINATION, "**/*")).select do |file|
+  File.file?(file) && !File.symlink?(file) && capture("file", "-b", file).include?("Mach-O")
+end
+puts "Signing #{mach_o_files.count} Mach-O files"
+mach_o_files.each_slice(50) do |files|
+  run! "xcrun", "codesign", "--sign", identity, "--force", "--options", "runtime", "--timestamp", *files
+end
+
+# The application over it, the way the build signs it.
+run! "xcrun", "codesign", "--sign", identity, "--force", "--options", "runtime", "--timestamp", "--entitlements", ENTITLEMENTS, APP
+
+puts
+puts "Verifying the signature"
+run! "xcrun", "codesign", "--verify", "--deep", "--strict", "--verbose=2", APP
+
+puts
+puts "Running the embedded Ruby with its extensions"
+ruby = File.join(DESTINATION, "bin/ruby")
+run! ruby, "-ropenssl", "-ryaml", "-rjson", "-rzlib", "-rdigest", "-rsocket", "-e", 'puts "#{RUBY_DESCRIPTION}\n#{OpenSSL::OPENSSL_LIBRARY_VERSION}\nyaml #{Psych::VERSION}\njson #{JSON::VERSION}"'
+
+puts
+puts "Size of the Ruby inside the application: #{capture("du", "-sh", DESTINATION).split.first}"
+puts "Size of the application: #{capture("du", "-sh", APP).split.first}"
+
+if ARGV.include?("--notarize")
+  puts
+  puts "Notarizing"
+  FileUtils.rm_f(ZIP)
+  run! "/usr/bin/ditto", "-c", "-k", "--keepParent", "--norsrc", "--noextattr", "--noacl", "--noqtn", APP, ZIP
+  puts "Zip: #{capture("du", "-sh", ZIP).split.first}"
+  run! "xcrun", "notarytool", "submit", ZIP, "--keychain-profile", PROFILE, "--wait"
+  run! "xcrun", "stapler", "staple", APP
+  run! "spctl", "-a", "-t", "exec", "-vv", APP
+end

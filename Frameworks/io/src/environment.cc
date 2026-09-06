@@ -9,6 +9,23 @@
 
 namespace oak
 {
+	// Where the application's own Ruby lives, or NULL_STR when this copy carries none.
+	std::string embedded_ruby_directory ()
+	{
+		CFURLRef bundleURL = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+		if(!bundleURL)
+			return NULL_STR;
+
+		char buffer[PATH_MAX];
+		bool hasPath = CFURLGetFileSystemRepresentation(bundleURL, true, (UInt8*)buffer, sizeof(buffer));
+		CFRelease(bundleURL);
+		if(!hasPath)
+			return NULL_STR;
+
+		std::string const directory = path::join(buffer, "Contents/Frameworks/Ruby");
+		return path::is_executable(path::join(directory, "bin/ruby")) ? directory : NULL_STR;
+	}
+
 	std::map<std::string, std::string> setup_basic_environment ()
 	{
 		std::string whitelistStr = "Apple_*:COMMAND_MODE:DIALOG*:SHELL:SHLVL:SSH_AUTH_SOCK:__CF_USER_TEXT_ENCODING";
@@ -50,6 +67,19 @@ namespace oak
 		std::string path(len, '\0');
 		sysctl(mib, 2, &path[0], &len, nullptr, 0);
 		path.pop_back();
+
+		// The Ruby the application ships, when it does, is what bundle commands
+		// run on: it goes first on PATH, so `/usr/bin/env ruby` in a support
+		// script finds it, and it is TM_RUBY, so a command's shebang is
+		// rewritten to it. The system Ruby is never reached for either. A
+		// TM_RUBY the person sets, in the Variables preferences or a
+		// .tm_properties, still wins, since those layers come after this one.
+		std::string const embeddedRuby = embedded_ruby_directory();
+		if(embeddedRuby != NULL_STR)
+		{
+			path = path::join(embeddedRuby, "bin") + ":" + path;
+			res.emplace("TM_RUBY", path::join(embeddedRuby, "bin/ruby"));
+		}
 
 		res.emplace("HOME",    entry->pw_dir);
 		res.emplace("PATH",    path);

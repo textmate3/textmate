@@ -1,0 +1,94 @@
+#!/usr/bin/env ruby
+# Builds the Ruby the application embeds: a relocatable arm64 Ruby with its
+# dependencies linked in, so nothing in it points at Homebrew or the system,
+# trimmed of what an editor's bundle commands never read.
+#
+# The result lands in ~/build/textmate/embedded-ruby/ruby, and a line per
+# Mach-O that still references a path outside the tree is the failure report.
+#
+# Needs: Homebrew's openssl@3 and libyaml, for their static libraries, and
+# Xcode's command line tools.
+
+require "fileutils"
+require "shellwords"
+
+VERSION      = "4.0.6"
+SERIES       = VERSION[/\A\d+\.\d+/]
+BUILD_ROOT   = File.expand_path("~/build/textmate/embedded-ruby")
+SOURCE_DIR   = File.join(BUILD_ROOT, "ruby-#{VERSION}")
+STATIC_LIBS  = File.join(BUILD_ROOT, "static/lib")
+PREFIX       = File.join(BUILD_ROOT, "ruby")
+TARBALL      = File.join(BUILD_ROOT, "ruby-#{VERSION}.tar.xz")
+TARBALL_URL  = "https://cache.ruby-lang.org/pub/ruby/#{SERIES}/ruby-#{VERSION}.tar.xz"
+OPENSSL_DIR  = `brew --prefix openssl@3`.strip
+LIBYAML_DIR  = `brew --prefix libyaml`.strip
+JOBS         = `sysctl -n hw.ncpu`.strip
+
+def run!(*command, chdir: nil)
+  puts "→ #{command.shelljoin}"
+  system(*command, chdir: chdir || Dir.pwd) or abort "build_embedded_ruby: #{command.first} failed"
+end
+
+FileUtils.mkdir_p(BUILD_ROOT)
+
+unless File.exist?(TARBALL)
+  run! "curl", "-fsSL", "-o", TARBALL, TARBALL_URL
+end
+
+unless File.directory?(SOURCE_DIR)
+  run! "tar", "-xJf", TARBALL, "-C", BUILD_ROOT
+end
+
+# Only the static archives are visible to the linker, so it cannot choose the
+# dylibs beside them and leave the result depending on Homebrew.
+FileUtils.mkdir_p(STATIC_LIBS)
+%w[libssl.a libcrypto.a].each { |lib| FileUtils.ln_sf(File.join(OPENSSL_DIR, "lib", lib), File.join(STATIC_LIBS, lib)) }
+FileUtils.ln_sf(File.join(LIBYAML_DIR, "lib/libyaml.a"), File.join(STATIC_LIBS, "libyaml.a"))
+
+FileUtils.rm_rf(PREFIX)
+
+# An extension that asks pkg-config for its library gets Homebrew's dylib
+# back, whatever the directory options say, so pkg-config is not there to ask.
+ENV["PKG_CONFIG"] = "/usr/bin/false"
+
+configure = [
+  "./configure",
+  "--prefix=#{PREFIX}",
+  "--enable-load-relative",
+  "--disable-install-doc",
+  "--with-openssl-include=#{OPENSSL_DIR}/include",
+  "--with-openssl-lib=#{STATIC_LIBS}",
+  "--with-libyaml-include=#{LIBYAML_DIR}/include",
+  "--with-libyaml-lib=#{STATIC_LIBS}",
+  "--without-gmp",
+  "--with-out-ext=readline,gdbm,dbm,win32,win32ole",
+]
+run!(*configure, chdir: SOURCE_DIR)
+run! "make", "-j#{JOBS}", chdir: SOURCE_DIR
+run! "make", "install", chdir: SOURCE_DIR
+
+# What an editor's bundle commands never read: the headers, the static
+# archive, the gem caches and the bundled gems' documentation.
+FileUtils.rm_rf(File.join(PREFIX, "include"))
+FileUtils.rm_rf(Dir.glob(File.join(PREFIX, "lib/libruby-static.a")))
+FileUtils.rm_rf(Dir.glob(File.join(PREFIX, "lib/ruby/gems/*/cache/*")))
+FileUtils.rm_rf(Dir.glob(File.join(PREFIX, "lib/ruby/gems/*/doc/*")))
+FileUtils.rm_rf(File.join(PREFIX, "share"))
+
+puts
+puts "Mach-O files referencing anything outside the tree, the system aside:"
+stray = 0
+Dir.glob(File.join(PREFIX, "**/*")).select { |file| File.file?(file) && !File.symlink?(file) }.each do |file|
+  next unless `file -b #{file.shellescape}`.include?("Mach-O")
+  `otool -L #{file.shellescape}`.lines.drop(1).map(&:strip).each do |line|
+    library = line.split(" ").first
+    next if library.start_with?("/usr/lib/", "/System/", "@")
+    puts "  #{file.sub(PREFIX + "/", "")}: #{library}"
+    stray += 1
+  end
+end
+puts "  none" if stray.zero?
+
+puts
+puts "Size: #{`du -sh #{PREFIX.shellescape}`.split.first}"
+puts "Ruby: #{`#{File.join(PREFIX, "bin/ruby").shellescape} -v`.strip}"
