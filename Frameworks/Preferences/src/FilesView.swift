@@ -21,7 +21,7 @@ struct FilesView: View {
     Form {
       LabeledContent("At startup:") {
         VStack(alignment: .leading, spacing: 2) {
-          Toggle("Open documents from last session", isOn: negated($disablesSessionRestore))
+          Toggle("Open documents from last session", isOn: $disablesSessionRestore.negated)
           Text("Hold shift (⇧) to bypass")
             .font(.caption)
             .foregroundStyle(.secondary)
@@ -31,8 +31,8 @@ struct FilesView: View {
 
       LabeledContent("With no open documents:") {
         VStack(alignment: .leading, spacing: 8) {
-          Toggle("Create one at startup", isOn: negated($disablesDocumentAtStartup))
-          Toggle("Create one when re-activated", isOn: negated($disablesDocumentAtReactivation))
+          Toggle("Create one at startup", isOn: $disablesDocumentAtStartup.negated)
+          Toggle("Create one when re-activated", isOn: $disablesDocumentAtReactivation.negated)
         }
       }
 
@@ -82,13 +82,5 @@ struct FilesView: View {
     .onChange(of: lineEndings) { _, lineEndings in
       PreferencesSettings.setString(lineEndings, forKey: PreferencesSettings.lineEndingsKey)
     }
-  }
-
-  /// The defaults say "disable", the check boxes say "do".
-  private func negated(_ flag: Binding<Bool>) -> Binding<Bool> {
-    Binding(
-      get: { !flag.wrappedValue },
-      set: { flag.wrappedValue = !$0 }
-    )
   }
 }
