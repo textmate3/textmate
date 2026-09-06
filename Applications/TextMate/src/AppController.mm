@@ -28,7 +28,9 @@
 #import <document/OakDocument.h>
 #import <document/OakDocumentController.h>
 #import <bundles/query.h>
+#import <io/environment.h>
 #import <io/path.h>
+#import <io/rv.h>
 #import <libproc.h>
 #import <regexp/glob.h>
 #import <ns/ns.h>
@@ -593,6 +595,27 @@ BOOL HasDocumentWindow (NSArray* windows)
 	return self.didFinishLaunching;
 }
 
+// The Ruby bundle commands run on comes from rv: the newest installed of the
+// series the application asks for, or one rv installs now, prebuilt, in
+// seconds. Off the main thread, since an install downloads. When it is
+// settled the environment every command gets is made again around it.
+- (void)activateApplicationRuby
+{
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		std::string const ruby = rv::application_ruby();
+		dispatch_async(dispatch_get_main_queue(), ^{
+			if(ruby == NULL_STR)
+			{
+				os_log_error(OS_LOG_DEFAULT, "No Ruby %{public}s for bundle commands: rv is missing or could not install one", rv::kApplicationRubySeries.c_str());
+				return;
+			}
+			oak::set_application_ruby_directory(ruby);
+			oak::set_basic_environment(oak::setup_basic_environment());
+			os_log(OS_LOG_DEFAULT, "Bundle commands run on the Ruby at %{public}s", ruby.c_str());
+		});
+	});
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification
 {
 	NSWindow.allowsAutomaticWindowTabbing = NO;
@@ -616,6 +639,7 @@ BOOL HasDocumentWindow (NSArray* windows)
 
 	[MateInstaller updateIfRequired];
 	[AboutWindowController showChangesIfUpdated];
+	[self activateApplicationRuby];
 
 	[CrashReporter.sharedInstance logNewCrashReports];
 
