@@ -20,12 +20,9 @@ struct BundlesView: View {
         .pickerStyle(.segmented)
         .labelsHidden()
         .controlSize(.small)
-        .fixedSize()
-
-        Spacer()
 
         SearchField(text: $list.searchText)
-          .frame(width: 140)
+          .frame(width: 100)
       }
 
       Table(list.shown, sortOrder: $list.sortOrder) {
@@ -85,7 +82,7 @@ struct BundlesView: View {
     .padding(.top, 8)
     .padding(.horizontal, 20)
     .padding(.bottom, 12)
-    .frame(width: 620, height: 450)
+    .frame(width: 600, height: 450)
     .onAppear(perform: list.clearActivity)
   }
 
