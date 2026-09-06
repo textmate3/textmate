@@ -11,15 +11,17 @@ struct BundlesView: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 8) {
       HStack {
-        Picker("Category", selection: $list.category) {
-          Text("All").tag(String?.none)
+        // One category at a time, or none, which shows everything: buttons
+        // that behave as radio buttons a person can switch back off.
+        HStack(spacing: 4) {
           ForEach(list.categories, id: \.self) { category in
-            Text(category).tag(Optional(category))
+            Toggle(category, isOn: selecting(category))
+              .toggleStyle(.button)
           }
         }
-        .pickerStyle(.segmented)
-        .labelsHidden()
         .controlSize(.small)
+
+        Spacer()
 
         SearchField(text: $list.searchText)
           .frame(width: 100)
@@ -84,6 +86,13 @@ struct BundlesView: View {
     .padding(.bottom, 12)
     .frame(width: 600, height: 450)
     .onAppear(perform: list.clearActivity)
+  }
+
+  private func selecting(_ category: String) -> Binding<Bool> {
+    Binding(
+      get: { list.category == category },
+      set: { list.category = $0 ? category : nil }
+    )
   }
 
   /// A check box while the bundle is installed or not, a spinner while it is on its way.
