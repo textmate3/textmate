@@ -16,7 +16,6 @@ struct FilesView: View {
   @State private var lineEndings = PreferencesSettings.string(forKey: PreferencesSettings.lineEndingsKey) ?? "\n"
 
   private let grammars = PreferencesSettings.grammars()
-  private let controlWidth: CGFloat = 280
 
   var body: some View {
     Form {
@@ -47,7 +46,7 @@ struct FilesView: View {
           }
         }
         .labelsHidden()
-        .frame(width: controlWidth)
+        .frame(maxWidth: .infinity, alignment: .leading)
       }
 
       LabeledContent("Unknown document type:") {
@@ -59,12 +58,12 @@ struct FilesView: View {
           }
         }
         .labelsHidden()
-        .frame(width: controlWidth)
+        .frame(maxWidth: .infinity, alignment: .leading)
       }
 
       LabeledContent("Encoding:") {
         EncodingPopUp(encoding: $encoding)
-          .frame(width: controlWidth)
+          .frame(maxWidth: .infinity, alignment: .leading)
       }
 
       LabeledContent("Line endings:") {
@@ -74,7 +73,7 @@ struct FilesView: View {
           Text("CRLF (Windows)").tag("\r\n")
         }
         .labelsHidden()
-        .frame(width: controlWidth)
+        .frame(maxWidth: .infinity, alignment: .leading)
       }
     }
     .formStyle(.columns)

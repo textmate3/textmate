@@ -41,7 +41,7 @@ struct UpdatesView: View {
         Text("Beta, the nightlies").tag("beta")
         Text("Alpha, the development team").tag("alpha")
       }
-      .fixedSize()
+      .frame(maxWidth: .infinity, alignment: .leading)
 
       Divider()
         .padding(.vertical, 4)
