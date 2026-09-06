@@ -26,6 +26,28 @@ namespace oak
 		return path::is_executable(path::join(directory, "bin/ruby")) ? directory : NULL_STR;
 	}
 
+	static std::string& downloaded_ruby ()
+	{
+		static std::string* directory = new std::string(NULL_STR);
+		return *directory;
+	}
+
+	std::string const& downloaded_ruby_directory ()
+	{
+		return downloaded_ruby();
+	}
+
+	void set_downloaded_ruby_directory (std::string const& directory)
+	{
+		downloaded_ruby() = path::is_executable(path::join(directory, "bin/ruby")) ? directory : NULL_STR;
+	}
+
+	std::string application_ruby_directory ()
+	{
+		std::string const embedded = embedded_ruby_directory();
+		return embedded != NULL_STR ? embedded : downloaded_ruby_directory();
+	}
+
 	std::map<std::string, std::string> setup_basic_environment ()
 	{
 		std::string whitelistStr = "Apple_*:COMMAND_MODE:DIALOG*:SHELL:SHLVL:SSH_AUTH_SOCK:__CF_USER_TEXT_ENCODING";
@@ -68,17 +90,18 @@ namespace oak
 		sysctl(mib, 2, &path[0], &len, nullptr, 0);
 		path.pop_back();
 
-		// The Ruby the application ships, when it does, is what bundle commands
-		// run on: it goes first on PATH, so `/usr/bin/env ruby` in a support
-		// script finds it, and it is TM_RUBY, so a command's shebang is
-		// rewritten to it. The system Ruby is never reached for either. A
-		// TM_RUBY the person sets, in the Variables preferences or a
-		// .tm_properties, still wins, since those layers come after this one.
-		std::string const embeddedRuby = embedded_ruby_directory();
-		if(embeddedRuby != NULL_STR)
+		// The application's own Ruby, shipped inside it or fetched for it, is
+		// what bundle commands run on: it goes first on PATH, so
+		// `/usr/bin/env ruby` in a support script finds it, and it is TM_RUBY,
+		// so a command's shebang is rewritten to it. The system Ruby is never
+		// reached for either. A TM_RUBY the person sets, in the Variables
+		// preferences or a .tm_properties, still wins, since those layers
+		// come after this one.
+		std::string const applicationRuby = application_ruby_directory();
+		if(applicationRuby != NULL_STR)
 		{
-			path = path::join(embeddedRuby, "bin") + ":" + path;
-			res.emplace("TM_RUBY", path::join(embeddedRuby, "bin/ruby"));
+			path = path::join(applicationRuby, "bin") + ":" + path;
+			res.emplace("TM_RUBY", path::join(applicationRuby, "bin/ruby"));
 		}
 
 		res.emplace("HOME",    entry->pw_dir);

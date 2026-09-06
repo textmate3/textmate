@@ -6,6 +6,8 @@
 #import "RMateServer.h"
 #import <BundleEditor/BundleEditor.h>
 #import <BundlesManager/BundlesManager.h>
+#import <BundlesManager/RubyRuntimeManager.h>
+#import <io/environment.h>
 #import <CrashReporter/CrashReporter.h>
 #import <DocumentWindow/DocumentWindowController.h>
 #import <Find/Find.h>
@@ -593,6 +595,31 @@ BOOL HasDocumentWindow (NSArray* windows)
 	return self.didFinishLaunching;
 }
 
+// The Ruby bundle commands run on. A copy that ships with one needs nothing.
+// A copy without one uses the newest it has fetched, and fetches one when
+// it has none and the downloadRubyRuntime default says so, which is the
+// spike's gate until the offer has a face.
+- (void)activateApplicationRuby
+{
+	if(oak::embedded_ruby_directory() != NULL_STR)
+		return;
+
+	if(RubyRuntimeManager.sharedInstance.installedRuntimeDirectory)
+	{
+		oak::set_basic_environment(oak::setup_basic_environment());
+		return;
+	}
+
+	if([NSUserDefaults.standardUserDefaults boolForKey:@"downloadRubyRuntime"])
+	{
+		[RubyRuntimeManager.sharedInstance installNewestRuntimeWithCompletionHandler:^(NSString* directory, NSError* error){
+			if(directory)
+					os_log(OS_LOG_DEFAULT, "Bundle commands run on the Ruby at %{public}@", directory);
+			else	os_log_error(OS_LOG_DEFAULT, "No Ruby for bundle commands: %{public}@", error.localizedDescription);
+		}];
+	}
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification
 {
 	NSWindow.allowsAutomaticWindowTabbing = NO;
@@ -616,6 +643,7 @@ BOOL HasDocumentWindow (NSArray* windows)
 
 	[MateInstaller updateIfRequired];
 	[AboutWindowController showChangesIfUpdated];
+	[self activateApplicationRuby];
 
 	[CrashReporter.sharedInstance logNewCrashReports];
 
