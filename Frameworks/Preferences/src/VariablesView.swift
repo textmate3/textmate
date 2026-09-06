@@ -34,19 +34,22 @@ struct VariablesView: View {
       }
       .onDeleteCommand(perform: removeSelected)
 
-      HStack(spacing: -1) {
+      ControlGroup {
         Button(action: add) {
           Image(systemName: "plus")
+            .frame(width: 20, height: 20)
         }
         Button(action: removeSelected) {
           Image(systemName: "minus")
+            .frame(width: 20, height: 20)
         }
         .disabled(selection == nil)
       }
-      .buttonStyle(.bordered)
-      .controlSize(.small)
+      .fixedSize()
     }
-    .padding(20)
+    .padding(.top, 8)
+    .padding(.horizontal, 12)
+    .padding(.bottom, 20)
     .frame(width: 600, height: 400)
   }
 
