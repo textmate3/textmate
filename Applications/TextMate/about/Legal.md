@@ -1,3 +1,5 @@
+Title: Legal
+
 # Legal
 
 ## TextMate
