@@ -1,5 +1,4 @@
 #import "Preferences.h"
-#import "BundlesPreferences.h"
 #import "TerminalPreferences.h"
 #import "Keys.h"
 #import "Preferences-Swift.h"
@@ -95,7 +94,7 @@ static NSString* const kUserDefaultsPreferencesSelectedPaneKey       = @"prefere
 		NSArray<NSViewController <PreferencesPaneProtocol>*>* viewControllers = @[
 			[[TMFilesPaneController alloc] init],
 			[[TMProjectsPaneController alloc] init],
-			[[BundlesPreferences alloc] init],
+			[[TMBundlesPaneController alloc] init],
 			[[TMVariablesPaneController alloc] init],
 			[[TMUpdatesPaneController alloc] init],
 			[[TerminalPreferences alloc] init]

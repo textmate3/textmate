@@ -3,5 +3,6 @@
 // because the headers below count on the prelude, which this file has none of.
 #import <Cocoa/Cocoa.h>
 #import <OakAppKit/OakEncodingPopUpButton.h>
+#import "BundleCatalog.h"
 #import "Preferences.h"
 #import "PreferencesSettings.h"
