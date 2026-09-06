@@ -175,7 +175,7 @@ struct TerminalView: View {
 
   private static let rmateSummary: LocalizedStringKey = """
     If you wish to activate TextMate from an ssh session you can do so by copying the \
-    [rmate](https://github.com/textmate/rmate/) script to the server you are logged into. The script will \
+    [rmate](https://github.com/textmate3/rmate) script to the server you are logged into. The script will \
     connect back to TextMate so you need to either allow access for remote clients (and setup your router to \
     accept the specified port) or create an ssh tunnel.
     """
