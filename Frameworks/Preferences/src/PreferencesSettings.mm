@@ -23,8 +23,11 @@
 @end
 
 @implementation PreferencesSettings
++ (NSString*)binaryKey      { return [NSString stringWithCxxString:kSettingsBinaryKey]; }
 + (NSString*)encodingKey    { return [NSString stringWithCxxString:kSettingsEncodingKey]; }
++ (NSString*)excludeKey     { return [NSString stringWithCxxString:kSettingsExcludeKey]; }
 + (NSString*)fileTypeKey    { return [NSString stringWithCxxString:kSettingsFileTypeKey]; }
++ (NSString*)includeKey     { return [NSString stringWithCxxString:kSettingsIncludeKey]; }
 + (NSString*)lineEndingsKey { return [NSString stringWithCxxString:kSettingsLineEndingsKey]; }
 
 + (NSString*)stringForKey:(NSString*)key

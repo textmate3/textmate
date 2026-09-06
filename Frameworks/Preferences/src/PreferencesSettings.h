@@ -14,8 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 // can read and write them without seeing C++. A key with no value reads as nil, and setting nil
 // stores the settings framework's own null, the way the Objective-C panes did.
 @interface PreferencesSettings : NSObject
+@property (class, readonly) NSString* binaryKey;
 @property (class, readonly) NSString* encodingKey;
+@property (class, readonly) NSString* excludeKey;
 @property (class, readonly) NSString* fileTypeKey;
+@property (class, readonly) NSString* includeKey;
 @property (class, readonly) NSString* lineEndingsKey;
 
 + (nullable NSString*)stringForKey:(NSString*)key;
