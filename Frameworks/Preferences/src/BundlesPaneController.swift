@@ -26,4 +26,25 @@ public final class BundlesPaneController: NSViewController, PreferencesPaneProto
   public override func loadView() {
     view = NSHostingView(rootView: BundlesView())
   }
+
+  /// The window hands focus to the first key view, which is the search
+  /// field. The table is the thing to arrive on, as it always was.
+  public override func viewDidAppear() {
+    super.viewDidAppear()
+    if let table = view.firstDescendant(of: NSTableView.self) {
+      view.window?.makeFirstResponder(table)
+    }
+  }
+}
+
+extension NSView {
+  /// The first view of the kind below this one, depth first.
+  func firstDescendant<View: NSView>(of kind: View.Type) -> View? {
+    for subview in subviews {
+      if let match = subview as? View ?? subview.firstDescendant(of: kind) {
+        return match
+      }
+    }
+    return nil
+  }
 }

@@ -24,7 +24,7 @@ struct BundlesView: View {
         Spacer()
 
         SearchField(text: $list.searchText)
-          .frame(width: 100)
+          .frame(width: 160)
       }
 
       Table(list.shown, sortOrder: $list.sortOrder) {

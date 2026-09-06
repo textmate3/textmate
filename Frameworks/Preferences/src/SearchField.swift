@@ -29,6 +29,8 @@ struct SearchField: NSViewRepresentable {
     field.controlSize = .small
     field.font = NSFont.systemFont(ofSize: NSFont.systemFontSize(for: .small))
     field.delegate = context.coordinator
+    // Text longer than the field scrolls rather than wraps or clips.
+    (field.cell as? NSSearchFieldCell)?.isScrollable = true
     return field
   }
 
