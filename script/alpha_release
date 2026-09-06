@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+# script/alpha_release — publish the next 2.1.0-alpha.N to the alpha channel, the development team
+#
+# Usage:
+#   script/alpha_release
+#
+# No prompt: alphas are meant to churn, and only copies that opt into the alpha channel see them.
+
+require_relative "lib/release"
+
+Release.new("alpha").run

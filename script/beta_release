@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+# script/beta_release — publish the next 2.1.0-beta.N to the beta channel, anyone living on the edge
+#
+# Usage:
+#   script/beta_release
+#
+# No prompt: only copies that opt into the beta channel see betas.
+
+require_relative "lib/release"
+
+Release.new("beta").run

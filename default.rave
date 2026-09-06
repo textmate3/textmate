@@ -1,5 +1,9 @@
 set APP_MIN_OS    "26.0"
 
+# A prerelease suffix for the version people read, empty for a plain build. script/release sets it
+# for one build through prerelease.rave, loaded at the end with local.rave.
+set APP_PRERELEASE ""
+
 # The signing identity. Ad hoc here, so anyone can build. The Developer ID identity, which is what a
 # release and a notarized build need, is set in local.rave on the machine that holds the certificate:
 #
@@ -73,4 +77,4 @@ config release {
 	add CS_NESTED_FLAGS "--timestamp"
 }
 
-load local.rave {Applications,Frameworks,PlugIns,vendor}/*/*.rave
+load local.rave prerelease.rave {Applications,Frameworks,PlugIns,vendor}/*/*.rave

@@ -21,6 +21,9 @@ jobs:
       - uses: actions/checkout@v7
         with:
           submodules: recursive
+          # The build number is the commit count, which a shallow clone
+          # would report as one.
+          fetch-depth: 0
 
       - uses: ruby/setup-ruby@v1
         with:
