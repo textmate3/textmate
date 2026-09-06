@@ -1,6 +1,4 @@
-Title: Release Notes
-
-# Changes
+# Changelog
 
 ## 2026-09-05 (v2.1.0)
 

@@ -1,5 +1,3 @@
-Title: Legal
-
 # Legal
 
 ## TextMate
@@ -30,13 +28,13 @@ The cyclic redundancy check comes from [Boost][], licensed under the [Boost Soft
 
 SQLite and iconv come with macOS and are used as the system provides them.
 
-[gpl]: https://www.gnu.org/licenses/gpl-3.0.html
+[gpl]: https://gnu.org/licenses/gpl-3.0.html
 [source]: https://github.com/textmate3/textmate
-[catalog]: https://api.textmate3.com/
+[catalog]: https://api.textmate3.com
 [Onigmo]: https://github.com/k-takata/Onigmo
 [Oniguruma]: https://github.com/kkos/oniguruma
 [bsd-onig]: https://raw.github.com/k-takata/Onigmo/master/COPYING
-[Sparkle]: https://sparkle-project.org/
+[Sparkle]: https://sparkle-project.org
 [mit-sparkle]: https://github.com/sparkle-project/Sparkle/blob/2.x/LICENSE
-[Boost]: https://www.boost.org/
-[bsl]: https://www.boost.org/LICENSE_1_0.txt
+[Boost]: https://boost.org
+[bsl]: https://boost.org/LICENSE_1_0.txt
