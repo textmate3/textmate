@@ -3,7 +3,7 @@
 
 namespace oak
 {
-	// The Ruby inside the application bundle, under Contents/Frameworks/Ruby, or NULL_STR when
+	// The Ruby inside the application bundle, under Contents/Resources/Ruby, or NULL_STR when
 	// this copy carries none. Bundle commands run on it when it is there.
 	std::string embedded_ruby_directory ();
 

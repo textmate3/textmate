@@ -14,7 +14,12 @@ require "shellwords"
 ROOT         = File.expand_path("..", __dir__)
 RUBY_TREE    = File.expand_path("~/build/textmate/embedded-ruby/ruby")
 APP          = File.expand_path("~/build/textmate/release/Applications/TextMate/TextMate.app")
-DESTINATION  = File.join(APP, "Contents/Frameworks/Ruby")
+# Under Resources rather than Frameworks: the tree has executable scripts in
+# its bin, and the seal treats an executable under Frameworks as nested code
+# that must carry its own signature, which a script cannot. Under Resources
+# the scripts are resources, sealed by hash, and the Mach-O files are still
+# signed on their own below.
+DESTINATION  = File.join(APP, "Contents/Resources/Ruby")
 # The build's copy, with its variables expanded, since the one in the tree is a template.
 ENTITLEMENTS = File.expand_path("~/build/textmate/release/_ExpandVariables/Applications/TextMate/Entitlements.plist")
 ZIP          = File.expand_path("~/build/textmate/embedded-ruby/TextMate-embedded-ruby.zip")
@@ -63,8 +68,12 @@ run! "xcrun", "codesign", "--verify", "--deep", "--strict", "--verbose=2", APP
 
 puts
 puts "Running the embedded Ruby with its extensions"
+# With nothing of this shell's Ruby in the environment: a GEM_HOME from a
+# version manager would point the embedded Ruby at gems whose native
+# extensions the hardened runtime refuses, signed by nobody or by someone
+# else, and that refusal is the point of the hardened runtime.
 ruby = File.join(DESTINATION, "bin/ruby")
-run! ruby, "-ropenssl", "-ryaml", "-rjson", "-rzlib", "-rdigest", "-rsocket", "-e", 'puts "#{RUBY_DESCRIPTION}\n#{OpenSSL::OPENSSL_LIBRARY_VERSION}\nyaml #{Psych::VERSION}\njson #{JSON::VERSION}"'
+run! "/usr/bin/env", "-i", "HOME=#{Dir.home}", "PATH=/usr/bin:/bin", ruby, "-ropenssl", "-ryaml", "-rjson", "-rzlib", "-rdigest", "-rsocket", "-e", 'puts "#{RUBY_DESCRIPTION}\n#{OpenSSL::OPENSSL_LIBRARY_VERSION}\nyaml #{Psych::VERSION}\njson #{JSON::VERSION}"'
 
 puts
 puts "Size of the Ruby inside the application: #{capture("du", "-sh", DESTINATION).split.first}"

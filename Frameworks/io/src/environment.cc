@@ -22,7 +22,7 @@ namespace oak
 		if(!hasPath)
 			return NULL_STR;
 
-		std::string const directory = path::join(buffer, "Contents/Frameworks/Ruby");
+		std::string const directory = path::join(buffer, "Contents/Resources/Ruby");
 		return path::is_executable(path::join(directory, "bin/ruby")) ? directory : NULL_STR;
 	}
 
