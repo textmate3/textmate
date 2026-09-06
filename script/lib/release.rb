@@ -116,11 +116,16 @@ class Release
     capture("plutil", "-extract", "CFBundleVersion", "raw", "-o", "-", File.join(APP, "Contents/Info.plist"))
   end
 
+  # The archive carries no extended attributes, resource forks or quarantine.
+  # ditto would store those as AppleDouble entries, which Archive Utility
+  # unpacks as literal ._ files, and a stray file inside a framework breaks
+  # its seal, so Gatekeeper refuses the application. Nothing the application
+  # needs lives in an attribute: the notarization ticket is a file.
   def archive
     FileUtils.mkdir_p(RELEASES_DIR)
     zip = File.join(RELEASES_DIR, "TextMate-#{version}.zip")
     FileUtils.rm_f(zip)
-    run! "/usr/bin/ditto", "-c", "-k", "--keepParent", APP, zip
+    run! "/usr/bin/ditto", "-c", "-k", "--keepParent", "--norsrc", "--noextattr", "--noacl", "--noqtn", APP, zip
     zip
   end
 
