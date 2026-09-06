@@ -1,15 +1,15 @@
 import AppKit
 import SwiftUI
 
-/// The Software Update pane. Sparkle reads the two check settings straight
-/// from defaults, the application's updater delegate reads the channel, and
-/// Check Now is a nil target action that travels the responder chain to the
+/// The Updates pane. Sparkle reads the two check settings straight from
+/// defaults, the application's updater delegate reads the channel, and Check
+/// Now is a nil target action that travels the responder chain to the
 /// application delegate, which is what knows the updater.
-struct SoftwareUpdateView: View {
+struct UpdatesView: View {
   @AppStorage("SUEnableAutomaticChecks") private var checksAutomatically = false
   @AppStorage("SUAutomaticallyUpdate") private var downloadsAutomatically = false
   @AppStorage("updateChannel") private var channel = "release"
-  @State private var lastCheck = SoftwareUpdateView.storedLastCheck
+  @State private var lastCheck = UpdatesView.storedLastCheck
 
   private static let lastCheckKey = "SULastCheckTime"
 
@@ -61,7 +61,7 @@ struct SoftwareUpdateView: View {
     .padding(20)
     .frame(width: 600)
     .onReceive(NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification)) { _ in
-      lastCheck = SoftwareUpdateView.storedLastCheck
+      lastCheck = UpdatesView.storedLastCheck
     }
   }
 

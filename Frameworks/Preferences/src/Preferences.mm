@@ -22,8 +22,11 @@ static NSString* const kUserDefaultsPreferencesSelectedPaneKey       = @"prefere
 @implementation PreferencesViewController
 - (void)viewWillAppear
 {
+	// A remembered pane that no longer exists, such as one renamed since, falls back to the first.
 	NSString* viewIdentifier = [NSUserDefaults.standardUserDefaults stringForKey:kUserDefaultsPreferencesSelectedPaneKey];
-	self.selectedViewIdentifier = viewIdentifier ?: self.childViewControllers.firstObject.identifier;
+	if(![self viewControllerForIdentifier:viewIdentifier])
+		viewIdentifier = self.childViewControllers.firstObject.identifier;
+	self.selectedViewIdentifier = viewIdentifier;
 }
 
 - (void)setSelectedViewIdentifier:(NSString*)viewIdentifier
@@ -97,7 +100,7 @@ static NSString* const kUserDefaultsPreferencesSelectedPaneKey       = @"prefere
 			[[ProjectsPreferences alloc] init],
 			[[BundlesPreferences alloc] init],
 			[[VariablesPreferences alloc] init],
-			[[TMSoftwareUpdatePaneController alloc] init],
+			[[TMUpdatesPaneController alloc] init],
 			[[TerminalPreferences alloc] init]
 		];
 
