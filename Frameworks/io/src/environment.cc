@@ -9,6 +9,22 @@
 
 namespace oak
 {
+	static std::string& application_ruby ()
+	{
+		static std::string* directory = new std::string(NULL_STR);
+		return *directory;
+	}
+
+	std::string const& application_ruby_directory ()
+	{
+		return application_ruby();
+	}
+
+	void set_application_ruby_directory (std::string const& directory)
+	{
+		application_ruby() = path::is_executable(path::join(directory, "bin/ruby")) ? directory : NULL_STR;
+	}
+
 	std::map<std::string, std::string> setup_basic_environment ()
 	{
 		std::string whitelistStr = "Apple_*:COMMAND_MODE:DIALOG*:SHELL:SHLVL:SSH_AUTH_SOCK:__CF_USER_TEXT_ENCODING";
@@ -50,6 +66,19 @@ namespace oak
 		std::string path(len, '\0');
 		sysctl(mib, 2, &path[0], &len, nullptr, 0);
 		path.pop_back();
+
+		// The Ruby bundle commands run on goes first on PATH, so
+		// `/usr/bin/env ruby` in a support script finds it, and it is TM_RUBY,
+		// so a command's shebang is rewritten to it. The system Ruby is never
+		// reached for either. A TM_RUBY the person sets, in the Variables
+		// preferences or a .tm_properties, still wins, since those layers
+		// come after this one.
+		std::string const applicationRuby = application_ruby_directory();
+		if(applicationRuby != NULL_STR)
+		{
+			path = path::join(applicationRuby, "bin") + ":" + path;
+			res.emplace("TM_RUBY", path::join(applicationRuby, "bin/ruby"));
+		}
 
 		res.emplace("HOME",    entry->pw_dir);
 		res.emplace("PATH",    path);
