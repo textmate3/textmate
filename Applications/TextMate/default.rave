@@ -24,8 +24,8 @@ target "${dirname}" {
 	expand CS_ENTITLEMENTS "${dir}/Entitlements.plist"
 
 	# The version people read is the notes' newest heading, with a prerelease
-	# suffix such as -alpha.3 when script/release is building one. The suffix
-	# arrives through prerelease.rave, which the release script writes for the
+	# suffix such as -alpha.3 when a release script is building one. The suffix
+	# arrives through release.rave, which the release script writes for the
 	# build and removes after, so a plain build carries none.
 	add PLIST_FLAGS "-dAPP_VERSION='${TEXTMATE_VERSION}${APP_PRERELEASE}' -dAPP_BUILD='${TEXTMATE_BUILD}'"
 	add MD_FLAGS    "-h'${HTML_HEADER}' -f'${HTML_FOOTER}'"

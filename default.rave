@@ -1,7 +1,7 @@
 set APP_MIN_OS    "26.0"
 
-# A prerelease suffix for the version people read, empty for a plain build. script/release sets it
-# for one build through prerelease.rave, loaded at the end with local.rave.
+# A prerelease suffix for the version people read, empty for a plain build. The release scripts set
+# it for one build through release.rave, applied after local.rave.
 set APP_PRERELEASE ""
 
 # The signing identity. Ad hoc here, so anyone can build. The Developer ID identity, which is what a
@@ -77,4 +77,8 @@ config release {
 	add CS_NESTED_FLAGS "--timestamp"
 }
 
-load local.rave prerelease.rave {Applications,Frameworks,PlugIns,vendor}/*/*.rave
+# local.rave is this machine's development overrides and its signing identity. release.rave is written
+# by the release scripts for one build. rave applies loaded files last to first, so release.rave is
+# named first here to be applied after local.rave, and the production catalog and feed win over any
+# development override on the machine that holds the identity.
+load release.rave local.rave {Applications,Frameworks,PlugIns,vendor}/*/*.rave

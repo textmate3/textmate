@@ -5,8 +5,9 @@
 # one more than the tags that already carry that channel, so nothing is edited by hand between
 # alphas. The build number is the commit count, which the build derives itself.
 #
-# What happens, in order: a prerelease.rave carrying the suffix is written for this one build,
-# script/notarize builds, signs, submits and staples, the stapled application is zipped, the zip is
+# What happens, in order: a release.rave carrying the suffix and the production catalog and feed is
+# written for this one build, script/notarize builds, signs, submits and staples, the built
+# application is checked to talk to production, the stapled application is zipped, the zip is
 # signed with the production Sparkle key from the login keychain, a GitHub Release is created for
 # the tag with the zip attached, and the entry is added to the appcast in the catalog repository
 # next to this one and pushed, which is what the running application checks.
@@ -22,6 +23,9 @@ require "time"
 
 class Release
   ROOT          = File.expand_path("../..", __dir__)
+  DEFAULT_RAVE  = File.join(ROOT, "default.rave")
+  LOCAL_RAVE    = File.join(ROOT, "local.rave")
+  RELEASE_RAVE  = File.join(ROOT, "release.rave")
   CATALOG       = File.expand_path("../api.textmate3.com", ROOT)
   APPCAST       = File.join(CATALOG, "docs/appcast.xml")
   CHANGES       = File.join(ROOT, "Applications/TextMate/about/Changes.md")
@@ -99,17 +103,81 @@ class Release
     capture("git", "tag", "--list", "v#{base_version}-#{channel}.*").lines.map(&:strip)
   end
 
-  # The build, with the suffix in place for it and gone after.
+  # The build, with the suffix in place for it and gone after, and then a
+  # check that the built application talks to production.
   def build
-    File.write("prerelease.rave", "set APP_PRERELEASE \"#{prerelease? ? version.sub(base_version, "") : ""}\"\n")
+    File.write(RELEASE_RAVE, release_rave)
     begin
       run! "script/notarize"
     ensure
-      FileUtils.rm_f("prerelease.rave")
+      FileUtils.rm_f(RELEASE_RAVE)
     end
 
     built = capture("plutil", "-extract", "CFBundleShortVersionString", "raw", "-o", "-", File.join(APP, "Contents/Info.plist"))
     abort "release: the built application says #{built}, not #{version}" unless built == version
+    check_built_against_production
+  end
+
+  # The one build's settings, applied after local.rave. local.rave holds the
+  # identity a release needs, and on the same machine it points development
+  # builds at a catalog and feed on localhost with development keys, so the
+  # production values are said again here, where they are applied last and win.
+  def release_rave
+    suffix = prerelease? ? version.sub(base_version, "") : ""
+    <<~RAVE
+      set APP_PRERELEASE "#{suffix}"
+      add FLAGS "-UREST_API -D'REST_API=\\"#{production[:rest_api]}\\"'"
+      add FLAGS "-UBUNDLE_PUBLIC_ED_KEY -D'BUNDLE_PUBLIC_ED_KEY=\\"#{production[:bundle_key]}\\"'"
+      add PLIST_FLAGS "-dSU_FEED_URL='#{production[:feed_url]}' -dSU_PUBLIC_ED_KEY='#{production[:feed_key]}'"
+    RAVE
+  end
+
+  # The catalog and feed values default.rave declares, which is where production is defined.
+  def production
+    @production ||= begin
+      text = File.read(DEFAULT_RAVE)
+      values = {
+        bundle_key: text[/BUNDLE_PUBLIC_ED_KEY=\\"([^"\\]+)\\"/, 1],
+        feed_key:   text[/^set SU_PUBLIC_ED_KEY\s+"([^"]+)"/, 1],
+        feed_url:   text[/^set SU_FEED_URL\s+"([^"]+)"/, 1],
+        rest_api:   text[/REST_API=\\"([^"\\]+)\\"/, 1],
+      }
+      missing = values.select { |_, value| value.nil? }.keys
+      abort "release: default.rave no longer declares #{missing.join(", ")}" unless missing.empty?
+      values
+    end
+  end
+
+  # What the built application carries must be production, and must not be
+  # anything local.rave overrides it with. The first two alphas shipped
+  # pointed at localhost with development keys, and every other check passed.
+  def check_built_against_production
+    info_plist = File.join(APP, "Contents/Info.plist")
+    binary     = File.binread(File.join(APP, "Contents/MacOS/TextMate"))
+    feed_url   = capture("plutil", "-extract", "SUFeedURL", "raw", "-o", "-", info_plist)
+    feed_key   = capture("plutil", "-extract", "SUPublicEDKey", "raw", "-o", "-", info_plist)
+
+    abort "release: the built application's feed is #{feed_url}, not #{production[:feed_url]}" unless feed_url == production[:feed_url]
+    abort "release: the built application's feed key is not the production key" unless feed_key == production[:feed_key]
+    abort "release: the built application's catalog is not #{production[:rest_api]}" unless binary.include?("#{production[:rest_api]}/bundles")
+    abort "release: the built application's bundle key is not the production key" unless binary.include?(production[:bundle_key])
+
+    local_overrides.each do |name, value|
+      next if value == production[name]
+      abort "release: the built application carries local.rave's #{name} override" if binary.include?(value) || feed_url == value || feed_key == value
+    end
+  end
+
+  # The same four values as local.rave overrides them, if it does.
+  def local_overrides
+    return {} unless File.exist?(LOCAL_RAVE)
+    text = File.read(LOCAL_RAVE)
+    {
+      bundle_key: text[/BUNDLE_PUBLIC_ED_KEY=\\"([^"\\]+)\\"/, 1],
+      feed_key:   text[/SU_PUBLIC_ED_KEY='([^']+)'/, 1],
+      feed_url:   text[/SU_FEED_URL='([^']+)'/, 1],
+      rest_api:   text[/REST_API=\\"([^"\\]+)\\"/, 1],
+    }.compact
   end
 
   def build_number
