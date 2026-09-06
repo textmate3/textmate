@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+# script/publish_release — publish the release itself, to everyone
+#
+# Usage:
+#   script/publish_release
+#
+# Asks for the version to be typed back before doing anything, since a release reaches every copy
+# of the application and its tag is forever.
+
+require_relative "lib/release"
+
+release = Release.new("release")
+
+print "This publishes TextMate #{release.version} to everyone. Type the version to continue: "
+answer = $stdin.gets.to_s.strip
+abort "script/publish_release: not #{release.version}, stopping" unless answer == release.version
+
+release.run

@@ -11,11 +11,12 @@
 
 require "rexml/document"
 require "shellwords"
+require_relative "lib/release"
 
-ROOT       = File.expand_path("..", __dir__)
-CATALOG    = File.expand_path("../api.textmate3.com", ROOT)
-APPCAST    = File.join(CATALOG, "docs/appcast.xml")
-REPOSITORY = "textmate3/textmate"
+ROOT       = Release::ROOT
+CATALOG    = Release::CATALOG
+APPCAST    = Release::APPCAST
+REPOSITORY = Release::REPOSITORY
 
 Dir.chdir(ROOT)
 
@@ -40,12 +41,7 @@ end
 document = REXML::Document.new(File.read(APPCAST))
 removed = document.elements.to_a("rss/channel/item").select { |item| item.elements["sparkle:channel"]&.text == channel }
 removed.each(&:remove)
-
-formatter = REXML::Formatters::Pretty.new(1)
-formatter.compact = true
-output = +""
-formatter.write(document, output)
-File.write(APPCAST, output.gsub(/^ +/) { |spaces| "\t" * spaces.length } + "\n")
+Release.write_appcast(document)
 
 Dir.chdir(CATALOG) do
   run "git", "add", "docs/appcast.xml"
