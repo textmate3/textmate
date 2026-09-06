@@ -3,9 +3,9 @@
 #import "ProjectsPreferences.h"
 #import "BundlesPreferences.h"
 #import "VariablesPreferences.h"
-#import "SoftwareUpdatePreferences.h"
 #import "TerminalPreferences.h"
 #import "Keys.h"
+#import "Preferences-Swift.h"
 #import <OakAppKit/OakTransitionViewController.h>
 
 static NSString* const kUserDefaultsPreferencesWindowFrameTopLeftKey = @"preferencesWindowFrameTopLeft";
@@ -97,7 +97,7 @@ static NSString* const kUserDefaultsPreferencesSelectedPaneKey       = @"prefere
 			[[ProjectsPreferences alloc] init],
 			[[BundlesPreferences alloc] init],
 			[[VariablesPreferences alloc] init],
-			[[SoftwareUpdatePreferences alloc] init],
+			[[TMSoftwareUpdatePaneController alloc] init],
 			[[TerminalPreferences alloc] init]
 		];
 
