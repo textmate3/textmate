@@ -83,6 +83,12 @@ class Release
   def check_preconditions
     abort "release: releases come from main, not #{capture("git", "branch", "--show-current")}" unless capture("git", "branch", "--show-current") == "main"
     abort "release: the tree has uncommitted changes" unless capture("git", "status", "--porcelain").empty?
+    # The tags decide the next prerelease number, so they must be current.
+    # Force, because the gtm tag moves with every merge and a plain fetch
+    # refuses to move it, and refuses everything else with it.
+    run! "git", "fetch", "--tags", "--force", "--quiet", "origin"
+    @version = prerelease? ? "#{base_version}-#{channel}.#{existing_tags.map { |tag| tag[/\.(\d+)\z/, 1].to_i }.max.to_i + 1}" : base_version
+    @tag = "v#{version}"
     abort "release: no Developer ID identity in local.rave" unless File.exist?("local.rave") && File.read("local.rave") =~ /^set CS_IDENTITY\s+"Developer ID/
     abort "release: the catalog repository is not beside this one at #{CATALOG}" unless File.exist?(APPCAST)
     abort "release: #{tag} already exists" unless capture("git", "tag", "--list", tag).empty?
@@ -110,11 +116,16 @@ class Release
     capture("plutil", "-extract", "CFBundleVersion", "raw", "-o", "-", File.join(APP, "Contents/Info.plist"))
   end
 
+  # The archive carries no extended attributes, resource forks or quarantine.
+  # ditto would store those as AppleDouble entries, which Archive Utility
+  # unpacks as literal ._ files, and a stray file inside a framework breaks
+  # its seal, so Gatekeeper refuses the application. Nothing the application
+  # needs lives in an attribute: the notarization ticket is a file.
   def archive
     FileUtils.mkdir_p(RELEASES_DIR)
     zip = File.join(RELEASES_DIR, "TextMate-#{version}.zip")
     FileUtils.rm_f(zip)
-    run! "/usr/bin/ditto", "-c", "-k", "--keepParent", APP, zip
+    run! "/usr/bin/ditto", "-c", "-k", "--keepParent", "--norsrc", "--noextattr", "--noacl", "--noqtn", APP, zip
     zip
   end
 
