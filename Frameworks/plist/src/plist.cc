@@ -367,7 +367,7 @@ namespace plist
 	template <typename T> T get (plist::any_t const& from)
 	{
 		T to;
-		bool res DB_VAR = std::visit(convert_to_helper_t<T>(to), from);
+		[[maybe_unused]] bool res = std::visit(convert_to_helper_t<T>(to), from);
 		ASSERT(res);
 		return to;
 	}
