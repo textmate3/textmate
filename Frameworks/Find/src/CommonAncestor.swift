@@ -5,9 +5,7 @@ import Foundation
 /// Taken by path component rather than by character,
 /// so a folder selected with something inside it answers the folder,
 /// and a name that merely begins the same way as another is not a shared folder.
-/// Nothing in common is the root.
-/// One path is itself.
-/// No paths is nothing.
+/// Nothing in common is the root. One path is itself. No paths is nothing.
 @objc(CommonAncestor)
 public final class CommonAncestor: NSObject {
   /// The folder, or the file's folder when the shared path is a file on disk.
