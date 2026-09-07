@@ -3,22 +3,6 @@
 
 namespace oak
 {
-	template <typename _InputIter1, typename _InputIter2, typename _InputIter3, typename _OutputIter>
-	_OutputIter replace_copy (_InputIter1 it, _InputIter1 const& srcLast, _InputIter2 const& findFirst, _InputIter2 const& findLast, _InputIter3 const& replaceFirst, _InputIter3 const& replaceLast, _OutputIter out)
-	{
-		while(it != srcLast)
-		{
-			_InputIter1 const& next = std::search(it, srcLast, findFirst, findLast);
-			out = std::copy(it, next, out);
-			if((it = next) != srcLast)
-			{
-				out = std::copy(replaceFirst, replaceLast, out);
-				std::advance(it, std::distance(findFirst, findLast));
-			}
-		}
-		return out;
-	}
-
 	template <typename _Map>
 	void erase_descendent_keys (_Map& map, std::string const& path)
 	{

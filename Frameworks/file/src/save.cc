@@ -9,6 +9,7 @@
 #include <io/path.h>
 #include <text/trim.h>
 #include <text/newlines.h>
+#include <text/replace_all.h>
 #include <settings/settings.h>
 #include <command/parser.h>
 #include <oak/debug.h>
@@ -273,9 +274,8 @@ namespace
 
 					if(_encoding.newlines() != kLF)
 					{
-						std::string tmp;
-						oak::replace_copy(_content->begin(), _content->end(), kLF.begin(), kLF.end(), _encoding.newlines().begin(), _encoding.newlines().end(), back_inserter(tmp));
-						_content->set_string(tmp);
+						std::string_view const content(_content->begin(), _content->size());
+						_content->set_string(text::replace_all(content, kLF, _encoding.newlines()));
 					}
 
 					proceed();

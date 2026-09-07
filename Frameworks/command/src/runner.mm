@@ -6,6 +6,7 @@
 #include <io/pipe.h>
 #include <io/ruby_runtime.h>
 #include <regexp/format_string.h>
+#include <text/replace_all.h>
 #include <oak/datatypes.h>
 
 static std::string trim_right (std::string const& str, std::string const& trimChars = " \t\n")
@@ -367,11 +368,8 @@ namespace command
 
 		_process_id = -1;
 
-		std::string newOut, newErr;
-		oak::replace_copy(_out.begin(), _out.end(), _temp_path.begin(), _temp_path.end(), _command.name.begin(), _command.name.end(), back_inserter(newOut));
-		oak::replace_copy(_err.begin(), _err.end(), _temp_path.begin(), _temp_path.end(), _command.name.begin(), _command.name.end(), back_inserter(newErr));
-		newOut.swap(_out);
-		newErr.swap(_err);
+		_out = text::replace_all(_out, _temp_path, _command.name);
+		_err = text::replace_all(_err, _temp_path, _command.name);
 
 		_temp_path = NULL_STR;
 

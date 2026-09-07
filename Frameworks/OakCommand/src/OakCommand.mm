@@ -8,6 +8,7 @@
 #import <io/pipe.h>
 #import <text/tokenize.h>
 #import <text/trim.h>
+#import <text/replace_all.h>
 #import <text/encode.h>
 #import <text/parse.h>
 #import <command/runner.h> // bundle_command_t, fix_shebang, create_script_path
@@ -399,11 +400,8 @@ static pid_t run_command (dispatch_group_t rootGroup, std::string const& cmd, in
 	_processIdentifier = run_command(_dispatchGroup, scriptPath, inputFH.fileDescriptor, _environment, directory, CFRunLoopGetCurrent(), hasHTMLOutput ? htmlOutHandler : stdoutHandler, stderrHandler, ^(int status) {
 		_processIdentifier = 0;
 
-		std::string newOut, newErr;
-		oak::replace_copy(out.begin(), out.end(), scriptPath.begin(), scriptPath.end(), _bundleCommand.name.begin(), _bundleCommand.name.end(), back_inserter(newOut));
-		oak::replace_copy(err.begin(), err.end(), scriptPath.begin(), scriptPath.end(), _bundleCommand.name.begin(), _bundleCommand.name.end(), back_inserter(newErr));
-		newOut.swap(out);
-		newErr.swap(err);
+		out = text::replace_all(out, scriptPath, _bundleCommand.name);
+		err = text::replace_all(err, scriptPath, _bundleCommand.name);
 
 		if(WIFSIGNALED(status))
 			os_log_error(OS_LOG_DEFAULT, "Process terminated after receiving %{public}s", strsignal(WTERMSIG(status)));
