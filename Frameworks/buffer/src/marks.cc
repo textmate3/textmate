@@ -27,9 +27,20 @@ namespace ng
 
 	void marks_t::remove_all (std::string const& markType)
 	{
+		// A mark type that ends in a slash names a family, and every type under it goes.
+		// The map is sorted, so the family's members sit together right after the family name.
 		if(!markType.empty() && markType.back() == '/')
-				oak::erase_descendent_keys(_marks, markType);
-		else	_marks.erase(markType);
+		{
+			auto from = _marks.upper_bound(markType);
+			auto to = from;
+			while(to != _marks.end() && to->first.starts_with(markType))
+				++to;
+			_marks.erase(from, to);
+		}
+		else
+		{
+			_marks.erase(markType);
+		}
 	}
 
 	std::string marks_t::get (size_t index, std::string const& markType) const
