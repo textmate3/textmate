@@ -5,7 +5,7 @@
 #import <OakAppKit/NSMenuItem Additions.h>
 #import <OakFoundation/OakFoundation.h>
 #import <TMFileReference/TMFileReference.h>
-#import <oak/perrorf.h>
+#import <oak/print_system_error.h>
 #import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 
 static NSString* kUserDefaultsTabItemMinWidthKey = @"tabItemMinWidth";

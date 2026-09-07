@@ -42,7 +42,7 @@ namespace
 			struct statfs sfsb;
 			if(statfs(path.c_str(), &sfsb) == 0)
 				return strcasecmp(sfsb.f_fstypename, "msdos") == 0 && strcasecmp(sfsb.f_fstypename, "exfat") == 0;
-			perrorf("is_inode_valid: statfs(\"%s\")", path.c_str());
+			print_system_error("is_inode_valid: statfs(\"%s\")", path.c_str());
 		}
 		return true;
 	}
@@ -363,7 +363,7 @@ namespace
 		}
 		else
 		{
-			perrorf("OakDocumentController: lstat(\"%s\")", [item fileSystemRepresentation]);
+			print_system_error("OakDocumentController: lstat(\"%s\")", [item fileSystemRepresentation]);
 		}
 	}
 
@@ -386,7 +386,7 @@ namespace
 				struct stat buf;
 				if(lstat([document.path fileSystemRepresentation], &buf) == -1)
 				{
-					perrorf("lstat(\"%s\")", [document.path fileSystemRepresentation]);
+					print_system_error("lstat(\"%s\")", [document.path fileSystemRepresentation]);
 					continue;
 				}
 
@@ -408,7 +408,7 @@ namespace
 		struct stat buf;
 		if(lstat(dir.c_str(), &buf) == -1) // get st_dev so we don’t need to stat each path entry (unless it is a symbolic link)
 		{
-			perrorf("OakDocumentController: lstat(\"%s\")", dir.c_str());
+			print_system_error("OakDocumentController: lstat(\"%s\")", dir.c_str());
 			continue;
 		}
 
@@ -468,7 +468,7 @@ namespace
 				}
 				else
 				{
-					perrorf("OakDocumentController: path::resolve(\"%s\") → lstat(\"%s\")", link.c_str(), path.c_str());
+					print_system_error("OakDocumentController: path::resolve(\"%s\") → lstat(\"%s\")", link.c_str(), path.c_str());
 				}
 			}
 			links.clear();

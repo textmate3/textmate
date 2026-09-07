@@ -42,7 +42,7 @@ static bool swap_and_unlink (std::string const& src, std::string const& dst, std
 	if(errno != ENOTSUP && errno != ENOENT && errno != EXDEV)
 	{
 		// ExpanDrive returns EFAULT
-		perrorf("exchangedata(\"%s\", \"%s\")", src.c_str(), dst.c_str());
+		print_system_error("exchangedata(\"%s\", \"%s\")", src.c_str(), dst.c_str());
 		errno = ENOTSUP;
 	}
 

@@ -42,13 +42,13 @@ static bool mk_dir (std::string const& path, osx::authorization_t& auth)
 		{
 			if(mkdir(path.c_str(), S_IRWXU|S_IRWXG|S_IRWXO) == 0)
 				return true;
-			perrorf("MateInstaller: mkdir(\"%s\")", path.c_str());
+			print_system_error("MateInstaller: mkdir(\"%s\")", path.c_str());
 		}
 		else
 		{
 			if(run_privileged(auth, "mkdir", { path }))
 				return true;
-			perrorf("MateInstaller: privileged mkdir \"%s\"", path.c_str());
+			print_system_error("MateInstaller: privileged mkdir \"%s\"", path.c_str());
 		}
 	}
 	return false;
@@ -64,13 +64,13 @@ static bool rm_path (std::string const& path, osx::authorization_t& auth)
 	{
 		if(unlink(path.c_str()) == 0)
 			return true;
-		perrorf("MateInstaller: unlink \"%s\"", path.c_str());
+		print_system_error("MateInstaller: unlink \"%s\"", path.c_str());
 	}
 	else
 	{
 		if(run_privileged(auth, "remove", { path }))
 			return true;
-		perrorf("MateInstaller: privileged remove \"%s\"", path.c_str());
+		print_system_error("MateInstaller: privileged remove \"%s\"", path.c_str());
 	}
 	return false;
 }
@@ -86,13 +86,13 @@ static bool cp_path (std::string const& src, std::string const& dst, osx::author
 	{
 		if(copyfile(src.c_str(), dst.c_str(), NULL, COPYFILE_ALL | COPYFILE_NOFOLLOW_SRC) == 0)
 			return true;
-		perrorf("MateInstaller: copyfile(\"%s\", \"%s\", NULL, COPYFILE_ALL | COPYFILE_NOFOLLOW_SRC)", src.c_str(), dst.c_str());
+		print_system_error("MateInstaller: copyfile(\"%s\", \"%s\", NULL, COPYFILE_ALL | COPYFILE_NOFOLLOW_SRC)", src.c_str(), dst.c_str());
 	}
 	else
 	{
 		if(run_privileged(auth, "copy", { src, dst }))
 			return true;
-		perrorf("MateInstaller: privileged copy \"%s\" \"%s\"", src.c_str(), dst.c_str());
+		print_system_error("MateInstaller: privileged copy \"%s\" \"%s\"", src.c_str(), dst.c_str());
 	}
 	return false;
 }

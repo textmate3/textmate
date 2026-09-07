@@ -2,7 +2,7 @@
 #define BUNDLES_MENU_H_7ZK5UHKQ
 
 #import "BundleMenu.h"
-#import <oak/perrorf.h>
+#import <oak/print_system_error.h>
 
 void OakAddBundlesToMenu (std::vector<bundles::item_ptr> const& items, bool setKeys, NSMenu* aMenu, SEL menuAction);
 

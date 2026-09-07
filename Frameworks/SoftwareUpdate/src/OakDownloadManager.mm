@@ -1,6 +1,6 @@
 #import "OakDownloadManager.h"
 #import <network/ed25519.h>
-#import <oak/perrorf.h>
+#import <oak/print_system_error.h>
 
 // Returns nil when the data verifies, otherwise the reason it does not.
 static NSString* Ed25519VerificationError (NSData* data, NSString* signatureBase64, NSString* publicKeyBase64)

@@ -627,13 +627,13 @@ static void* kDocumentEditedObserverContext = &kDocumentEditedObserverContext;
 		int fd = open(temp.c_str(), O_CREAT|O_TRUNC|O_WRONLY|O_CLOEXEC, S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH);
 		if(fd == -1)
 		{
-			perrorf("saveBackup: open(\"%s\")", temp.c_str());
+			print_system_error("saveBackup: open(\"%s\")", temp.c_str());
 			return NO;
 		}
 
 		bool error = _buffer->visit_data([fd](char const* bytes, size_t offset, size_t len, bool* stop){
 			if(*stop = write(fd, bytes, len) != len)
-				perrorf("saveBackup: write");
+				print_system_error("saveBackup: write");
 		});
 
 		close(fd);
