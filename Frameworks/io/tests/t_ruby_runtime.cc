@@ -71,3 +71,28 @@ void test_the_pinned_version ()
 {
 	OAK_ASSERT_EQ(ruby_runtime::kPinnedVersion, "4.0.6");
 }
+
+void test_the_minimum_version_and_what_is_below_it ()
+{
+	OAK_ASSERT_EQ(ruby_runtime::kMinimumVersion, "4.0");
+
+	OAK_ASSERT(ruby_runtime::is_below_minimum("3.2.1"));
+	OAK_ASSERT(ruby_runtime::is_below_minimum("3.4"));
+	OAK_ASSERT(ruby_runtime::is_below_minimum("2.6.10"));
+
+	OAK_ASSERT(!ruby_runtime::is_below_minimum("4.0.0"));
+	OAK_ASSERT(!ruby_runtime::is_below_minimum("4.0.6"));
+	OAK_ASSERT(!ruby_runtime::is_below_minimum("4.1"));
+	OAK_ASSERT(!ruby_runtime::is_below_minimum("10.0"));
+
+	OAK_ASSERT(!ruby_runtime::is_below_minimum(NULL_STR));
+	OAK_ASSERT(!ruby_runtime::is_below_minimum(""));
+	OAK_ASSERT(!ruby_runtime::is_below_minimum("ruby"));
+}
+
+void test_a_ruby_is_asked_its_version ()
+{
+	OAK_ASSERT_EQ(ruby_runtime::version_of(fixture("says_version_3_2_1")), "3.2.1");
+	OAK_ASSERT_EQ(ruby_runtime::version_of(fixture("does_not_exist")), NULL_STR);
+	OAK_ASSERT_EQ(ruby_runtime::version_of(NULL_STR), NULL_STR);
+}
