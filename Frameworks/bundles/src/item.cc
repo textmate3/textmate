@@ -231,7 +231,8 @@ namespace bundles
 		std::map<std::string, std::string> base;
 		if(_kind != kItemTypeBundle)
 		{
-			base << bundle()->bundle_variables();
+			std::map<std::string, std::string> const bundleVariables = bundle()->bundle_variables();
+			base.insert(bundleVariables.begin(), bundleVariables.end());
 
 			base["TM_BUNDLE_ITEM_NAME"] = name();
 			base["TM_BUNDLE_ITEM_UUID"] = to_s(uuid());

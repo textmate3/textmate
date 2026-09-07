@@ -157,7 +157,8 @@ namespace bundles
 			for(auto pair : shell_variables(*item))
 			{
 				auto tmp = (*item)->bundle_variables();
-				res[pair.first] = format_string::expand(pair.second, tmp << res);
+				tmp.insert(res.begin(), res.end());
+				res[pair.first] = format_string::expand(pair.second, tmp);
 				stack.back().insert(pair.first);
 			}
 		}

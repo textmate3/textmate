@@ -16,7 +16,6 @@
 #import <text/ctype.h>
 #import <text/ranker.h>
 #import <settings/settings.h>
-#import <oak/algorithm.h>
 #import <oak/duration.h>
 
 @interface NSObject (FileBrowserDelegate)
