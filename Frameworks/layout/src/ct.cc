@@ -223,7 +223,7 @@ namespace ct
 						{ kCTParagraphStyleSpecifierTabStops,           sizeof(CFArrayRef), &tabStops },
 						{ kCTParagraphStyleSpecifierDefaultTabInterval, sizeof(tabWidth),   &tabWidth }
 					};
-					if(CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, sizeofA(settings)))
+					if(CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, std::size(settings)))
 					{
 						CFAttributedStringSetAttribute(toDraw, CFRangeMake(0, CFAttributedStringGetLength(toDraw)), kCTParagraphStyleAttributeName, paragraphStyle);
 						_line.reset(CTLineCreateWithAttributedString(toDraw), CFRelease);

@@ -86,7 +86,7 @@ void test_seeding_proper_1 ()
 	};
 
 	indent::fsm_t fsm(indentSize, tabSize);
-	for(size_t i = sizeofA(seed_lines); i-- && !fsm.is_seeded(seed_lines[i], patterns()); )
+	for(size_t i = std::size(seed_lines); i-- && !fsm.is_seeded(seed_lines[i], patterns()); )
 		continue;
 
 	static line_t const lines[] =
@@ -115,7 +115,7 @@ void test_seeding_proper_2 ()
 	};
 
 	indent::fsm_t fsm(indentSize, tabSize);
-	for(size_t i = sizeofA(seed_lines); i-- && !fsm.is_seeded(seed_lines[i], patterns()); )
+	for(size_t i = std::size(seed_lines); i-- && !fsm.is_seeded(seed_lines[i], patterns()); )
 		continue;
 
 	static line_t const lines[] =
@@ -142,7 +142,7 @@ void test_seeding_improper ()
 	};
 
 	indent::fsm_t fsm(indentSize, tabSize);
-	for(size_t i = sizeofA(seed_lines); i-- && !fsm.is_seeded(seed_lines[i], patterns()); )
+	for(size_t i = std::size(seed_lines); i-- && !fsm.is_seeded(seed_lines[i], patterns()); )
 		continue;
 
 	static line_t const lines[] =
@@ -169,7 +169,7 @@ void test_seeding_extra_indent ()
 	};
 
 	indent::fsm_t fsm(indentSize, tabSize);
-	for(size_t i = sizeofA(seed_lines); i-- && !fsm.is_seeded(seed_lines[i], patterns()); )
+	for(size_t i = std::size(seed_lines); i-- && !fsm.is_seeded(seed_lines[i], patterns()); )
 		continue;
 
 	static line_t const lines[] =

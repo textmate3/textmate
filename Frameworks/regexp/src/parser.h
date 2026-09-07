@@ -3,7 +3,7 @@
 
 #include "parser_fwd.h"
 #include "regexp.h"
-#include <oak/misc.h>
+#include <oak/perrorf.h>
 
 namespace parser
 {

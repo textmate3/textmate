@@ -2,7 +2,7 @@
 #define SCM_DRIVERS_API_H_5RTC8RYO
 
 #include "../status.h"
-#include <oak/misc.h>
+#include <oak/perrorf.h>
 
 namespace scm
 {

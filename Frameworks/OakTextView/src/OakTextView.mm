@@ -3631,10 +3631,10 @@ static char const* kOakMenuItemTitle = "OakMenuItemTitle";
 			{
 				NSAlert* alert        = [[NSAlert alloc] init];
 				alert.messageText     = @"Inserting Large File";
-				alert.informativeText = [NSString stringWithFormat: @"The file “%@” has a size of %.1f MB. Are you sure you want to insert this as a text file?", [path stringByAbbreviatingWithTildeInPath], content.size() / SQ(1024.0)];
+				alert.informativeText = [NSString stringWithFormat: @"The file “%@” has a size of %.1f MB. Are you sure you want to insert this as a text file?", [path stringByAbbreviatingWithTildeInPath], content.size() / (1024.0 * 1024.0)];
 				[alert addButtons:@"Insert File", @"Cancel", nil];
 
-				if(content.size() < SQ(1024) || [alert runModal] == NSAlertFirstButtonReturn) // larger than 1 MB?
+				if(content.size() < 1024 * 1024 || [alert runModal] == NSAlertFirstButtonReturn) // larger than 1 MB?
 					merged += content;
 			}
 		}

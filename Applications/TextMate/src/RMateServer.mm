@@ -41,7 +41,7 @@ static std::string sys_info (int field)
 	size_t bufSize = sizeof(buf);
 	int request[] = { CTL_KERN, field };
 
-	if(sysctl(request, sizeofA(request), buf, &bufSize, NULL, 0) != -1)
+	if(sysctl(request, std::size(request), buf, &bufSize, NULL, 0) != -1)
 		return std::string(buf, buf + bufSize - 1);
 
 	return "?";

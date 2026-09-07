@@ -38,13 +38,13 @@ _OutputIter entity_escape (_InputIter first, _InputIter const& last, _OutputIter
 
 	while(first != last)
 	{
-		_InputIter it = std::find_first_of(first, last, special, special + sizeofA(special));
+		_InputIter it = std::find_first_of(first, last, special, special + std::size(special));
 		out = std::copy(first, it, out);
 		first = it;
 
 		if(first != last)
 		{
-			size_t idx = std::find(special, special + sizeofA(special), *first) - special;
+			size_t idx = std::find(special, special + std::size(special), *first) - special;
 			out = std::copy(escaped[idx].begin(), escaped[idx].end(), out);
 			++first;
 		}

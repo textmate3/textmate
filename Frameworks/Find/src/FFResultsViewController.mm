@@ -249,7 +249,7 @@ static FFResultNode* PreviousNode (FFResultNode* node)
 
 			CGFloat ptrn[] = { 2, 1 };
 			NSBezierPath* path = [NSBezierPath bezierPathWithRoundedRect:NSIntegralRect(NSInsetRect(dstRect, 1, 1)) xRadius:2 yRadius:2];
-			[path setLineDash:ptrn count:sizeofA(ptrn) phase:0];
+			[path setLineDash:ptrn count:std::size(ptrn) phase:0];
 			[path setLineWidth:1];
 
 			[color set];

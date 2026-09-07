@@ -2,7 +2,7 @@
 #import <OakAppKit/OakUIConstructionFunctions.h>
 #import <OakFoundation/OakFoundation.h>
 #import <Preferences/Keys.h>
-#import <oak/misc.h>
+#import <oak/perrorf.h>
 #import <oak/debug.h>
 
 NSString* const kUserDefaultsFileBrowserWidthKey = @"fileBrowserWidth";
