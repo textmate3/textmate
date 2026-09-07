@@ -54,13 +54,6 @@ namespace oak
 		map.erase(from, to);
 	}
 
-	inline double slow_in_out (double t)
-	{
-		if(t < 1.0)
-			t = 1.0 / (1.0 + exp((-t*12.0)+6.0));
-		return std::min(t, 1.0);
-	}
-
 	template <typename _InputIter>
 	void random_shuffle (_InputIter first, _InputIter last)
 	{
