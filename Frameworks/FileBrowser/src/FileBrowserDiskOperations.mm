@@ -1,7 +1,7 @@
 #import "FileBrowserViewController.h"
 #import "FileBrowserNotifications.h"
 #import "FileItem.h"
-#import <OakAppKit/OakSound.h>
+#import <OakAppKit/OakAppKit-Swift.h>
 #import <OakAppKit/NSAlert Additions.h>
 #import <io/path.h>
 #import <ns/ns.h>
@@ -134,9 +134,9 @@
 	}
 
 	if(op & (FBOperationLink|FBOperationMove|FBOperationCopy|FBOperationDuplicate))
-		OakPlayUISound(OakSoundDidMoveItemUISound);
+		[OakSound play:OakSoundIdentifierDidMoveItem];
 	else if(op & (FBOperationTrash))
-		OakPlayUISound(OakSoundDidTrashItemUISound);
+		[OakSound play:OakSoundIdentifierDidTrashItem];
 
 	[[self.undoManager prepareWithInvocationTarget:self] undoOperation:op sourceURLs:(newSrcURLs.count ? newSrcURLs : nil) destinationURLs:newDestURLs select:selectDestinationURLs];
 
@@ -276,9 +276,9 @@
 		[self removeURLs:newDestURLs];
 
 	if(op & (FBOperationTrash|FBOperationMove))
-		OakPlayUISound(OakSoundDidMoveItemUISound);
+		[OakSound play:OakSoundIdentifierDidMoveItem];
 	else if(op & (FBOperationLink|FBOperationCopy|FBOperationDuplicate|FBOperationNewFile|FBOperationNewFolder))
-		OakPlayUISound(OakSoundDidTrashItemUISound);
+		[OakSound play:OakSoundIdentifierDidTrashItem];
 
 	[[self.undoManager prepareWithInvocationTarget:self] performOperation:op sourceURLs:newSrcURLs destinationURLs:newDestURLs unique:NO select:selectDestinationURLs];
 }

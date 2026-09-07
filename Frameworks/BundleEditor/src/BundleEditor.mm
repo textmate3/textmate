@@ -7,7 +7,7 @@
 #import <OakFoundation/OakStringListTransformer.h>
 #import <OakAppKit/NSAlert Additions.h>
 #import <OakAppKit/NSImage Additions.h>
-#import <OakAppKit/OakSound.h>
+#import <OakAppKit/OakAppKit-Swift.h>
 #import <OakAppKit/OakUIConstructionFunctions.h>
 #import <OakTextView/OakDocumentView.h>
 #import <TMFileReference/TMFileReference.h>
@@ -517,7 +517,7 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 {
 	if(bundleItem && bundleItem->move_to_trash())
 	{
-		OakPlayUISound(OakSoundDidTrashItemUISound);
+		[OakSound play:OakSoundIdentifierDidTrashItem];
 		bundles::item_ptr trashedItem = bundleItem;
 
 		bundles::item_ptr newSelectedItem;
