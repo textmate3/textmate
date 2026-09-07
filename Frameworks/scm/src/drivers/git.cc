@@ -58,7 +58,7 @@ static std::string copy_git_index (std::string const& dir)
 	std::string gitDir = path::join(dir, ".git");
 	struct stat buf;
 	if(stat(gitDir.c_str(), &buf) != 0)
-		return perrorf("copy_git_index: stat(\"%s\")", dir.c_str()), NULL_STR;
+		return print_system_error("copy_git_index: stat(\"%s\")", dir.c_str()), NULL_STR;
 
 	if(S_ISREG(buf.st_mode))
 	{
@@ -85,21 +85,21 @@ static std::string copy_git_index (std::string const& dir)
 			}
 			else
 			{
-				perrorf("copy_git_index: fcopyfile(\"%s\", \"%s\")", indexPath.c_str(), tmpIndex.c_str());
+				print_system_error("copy_git_index: fcopyfile(\"%s\", \"%s\")", indexPath.c_str(), tmpIndex.c_str());
 				if(unlink(tmpIndex.c_str()) == -1)
-					perrorf("copy_git_index: unlink(\"%s\")", tmpIndex.c_str());
+					print_system_error("copy_git_index: unlink(\"%s\")", tmpIndex.c_str());
 			}
 			close(dst);
 		}
 		else
 		{
-			perrorf("copy_git_index: open(\"%s\", O_CREAT|O_TRUNC|O_WRONLY|O_CLOEXEC, S_IRUSR|S_IWUSR)", tmpIndex.c_str());
+			print_system_error("copy_git_index: open(\"%s\", O_CREAT|O_TRUNC|O_WRONLY|O_CLOEXEC, S_IRUSR|S_IWUSR)", tmpIndex.c_str());
 		}
 		close(src);
 	}
 	else
 	{
-		perrorf("copy_git_index: open(\"%s\", O_RDONLY|O_CLOEXEC)", indexPath.c_str());
+		print_system_error("copy_git_index: open(\"%s\", O_RDONLY|O_CLOEXEC)", indexPath.c_str());
 	}
 	return res;
 }

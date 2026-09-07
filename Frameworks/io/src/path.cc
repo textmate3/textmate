@@ -631,11 +631,11 @@ namespace path
 							if(fgetxattr(fd, mem.data() + i, &value.front(), value.size(), 0, 0) == size)
 								res.emplace(mem.data() + i, value);
 							else
-								perrorf("path::attributes: fgetxattr(\"%s\", \"%s\")", path.c_str(), mem.data() + i);
+								print_system_error("path::attributes: fgetxattr(\"%s\", \"%s\")", path.c_str(), mem.data() + i);
 						}
 						else if(size == -1)
 						{
-							perrorf("path::attributes: fgetxattr(\"%s\", \"%s\")", path.c_str(), mem.data() + i);
+							print_system_error("path::attributes: fgetxattr(\"%s\", \"%s\")", path.c_str(), mem.data() + i);
 						}
 						i += strlen(mem.data() + i) + 1;
 					}
@@ -643,13 +643,13 @@ namespace path
 			}
 			else if(listSize == -1)
 			{
-				perrorf("path::attributes: flistxattr(\"%s\")", path.c_str());
+				print_system_error("path::attributes: flistxattr(\"%s\")", path.c_str());
 			}
 			close(fd);
 		}
 		else
 		{
-			perrorf("path::attributes: open(\"%s\")", path.c_str());
+			print_system_error("path::attributes: open(\"%s\")", path.c_str());
 		}
 		return res;
 	}
@@ -678,15 +678,15 @@ namespace path
 					// fsetxattr() on Samba saving to ext4 via virtual machine gives us ENOENT
 					// sshfs with ‘-o noappledouble’ will return ENOATTR or EPERM
 					if(pair.second == NULL_STR)
-							perrorf("path::set_attributes: fremovexattr(\"%s\", \"%s\")", path.c_str(), pair.first.c_str());
-					else	perrorf("path::set_attributes: fsetxattr(\"%s\", \"%s\", \"%s\")", path.c_str(), pair.first.c_str(), pair.second.c_str());
+							print_system_error("path::set_attributes: fremovexattr(\"%s\", \"%s\")", path.c_str(), pair.first.c_str());
+					else	print_system_error("path::set_attributes: fsetxattr(\"%s\", \"%s\", \"%s\")", path.c_str(), pair.first.c_str(), pair.second.c_str());
 				}
 			}
 			close(fd);
 		}
 		else
 		{
-			perrorf("path::set_attributes: open(\"%s\")", path.c_str());
+			print_system_error("path::set_attributes: open(\"%s\")", path.c_str());
 		}
 		return res;
 	}
@@ -734,7 +734,7 @@ namespace path
 		{
 			make_dir(parent(path));
 			if(mkdir(path.c_str(), S_IRWXU|S_IRWXG|S_IRWXO) == -1)
-				perrorf("path::make_dir: mkdir(\"%s\")", path.c_str());
+				print_system_error("path::make_dir: mkdir(\"%s\")", path.c_str());
 		}
 		return is_directory(path);
 	}
@@ -754,11 +754,11 @@ namespace path
 		{
 			if(copyfile(src, dst, nullptr, COPYFILE_ALL | COPYFILE_MOVE | COPYFILE_UNLINK) == 0)
 				return true;
-			perrorf("copyfile(\"%s\", \"%s\", nullptr, COPYFILE_ALL | COPYFILE_MOVE | COPYFILE_UNLINK)", src, dst);
+			print_system_error("copyfile(\"%s\", \"%s\", nullptr, COPYFILE_ALL | COPYFILE_MOVE | COPYFILE_UNLINK)", src, dst);
 		}
 		else
 		{
-			perrorf("rename(\"%s\", \"%s\")", src, dst);
+			print_system_error("rename(\"%s\", \"%s\")", src, dst);
 		}
 		return false;
 	}

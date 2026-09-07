@@ -1,5 +1,5 @@
 #include <oak/debug.h>
-#include <oak/misc.h>
+#include <oak/print_system_error.h>
 
 namespace text
 {
@@ -33,7 +33,7 @@ namespace text
 
 			_handle = iconv_open(toCharset.c_str(), fromCharset.c_str());
 			if(_handle == (iconv_t)-1)
-				perrorf("transcode_t: iconv_open(\"%s\", \"%s\")", toCharset.c_str(), fromCharset.c_str());
+				print_system_error("transcode_t: iconv_open(\"%s\", \"%s\")", toCharset.c_str(), fromCharset.c_str());
 		}
 
 		~transcode_t ()

@@ -24,7 +24,7 @@ namespace file
 			else if(errno == EACCES)
 				return kFileTestWritableByRoot; // ???
 			else
-				perrorf("file::status: access(\"%s\", W_OK)", path::parent(path).c_str());
+				print_system_error("file::status: access(\"%s\", W_OK)", path::parent(path).c_str());
 		}
 		else if(errno == EACCES)
 		{
@@ -52,12 +52,12 @@ namespace file
 			}
 			else
 			{
-				perrorf("file::status: stat(\"%s\")", path.c_str());
+				print_system_error("file::status: stat(\"%s\")", path.c_str());
 			}
 		}
 		else
 		{
-			perrorf("file::status: access(\"%s\", W_OK)", path.c_str());
+			print_system_error("file::status: access(\"%s\", W_OK)", path.c_str());
 		}
 		return kFileTestUnhandled;
 	}

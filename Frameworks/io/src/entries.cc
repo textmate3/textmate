@@ -45,7 +45,7 @@ namespace path
 					}
 					else
 					{
-						perrorf("path::entries: lstat(\"%s\")", path::join(path, entries[i]->d_name).c_str());
+						print_system_error("path::entries: lstat(\"%s\")", path::join(path, entries[i]->d_name).c_str());
 					}
 				}
 			}
@@ -53,7 +53,7 @@ namespace path
 		}
 		else
 		{
-			perrorf("path::entries: scandir(\"%s\")", path.c_str());
+			print_system_error("path::entries: scandir(\"%s\")", path.c_str());
 		}
 	}
 

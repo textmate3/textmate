@@ -12,7 +12,7 @@ static CFCharacterSetRef create_character_set ()
 	CFMutableCharacterSetRef res = CFCharacterSetCreateMutable(kCFAllocatorDefault);
 	for(auto const& ch : Fixed)
 		CFCharacterSetAddCharactersInRange(res, CFRangeMake(ch, 1));
-	for(size_t i = 0; i < sizeofA(RangeBegin); ++i)
+	for(size_t i = 0; i < std::size(RangeBegin); ++i)
 		CFCharacterSetAddCharactersInRange(res, CFRangeMake(RangeBegin[i], RangeEnd[i] - RangeBegin[i] + 1));
 	return res;
 }

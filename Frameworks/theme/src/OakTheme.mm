@@ -282,13 +282,13 @@ static CGFloat ParseFontSize (NSString* fontSizeString)
 					if(blendingEnabled && alpha < 255 && res)
 					{
 						CGFloat components[] = { red/255.0, green/255.0, blue/255.0, 1.0 };
-						NSColor* color = [NSColor colorWithColorSpace:style.colorSpace components:components count:sizeofA(components)];
+						NSColor* color = [NSColor colorWithColorSpace:style.colorSpace components:components count:std::size(components)];
 						res = [res blendedColorWithFraction:alpha/255.0 ofColor:color];
 					}
 					else
 					{
 						CGFloat components[] = { red/255.0, green/255.0, blue/255.0, alpha/255.0 };
-						res = [NSColor colorWithColorSpace:style.colorSpace components:components count:sizeofA(components)];
+						res = [NSColor colorWithColorSpace:style.colorSpace components:components count:std::size(components)];
 					}
 				}
 			}

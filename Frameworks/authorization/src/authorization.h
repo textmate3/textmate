@@ -45,7 +45,7 @@ namespace osx
 					return false;
 
 				AuthorizationItem rightsItems[]     = { { right.c_str(), 0, NULL, 0 }, };
-				AuthorizationRights const allRights = { sizeofA(rightsItems), rightsItems };
+				AuthorizationRights const allRights = { std::size(rightsItems), rightsItems };
 
 				bool res = false;
 				AuthorizationRights* myAuthorizedRights = NULL;

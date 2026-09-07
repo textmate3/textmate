@@ -8,7 +8,7 @@
 std::string OakStackDump (int linesToSkip)
 {
 	void* callstack[256];
-	int frames = backtrace(callstack, sizeofA(callstack));
+	int frames = backtrace(callstack, std::size(callstack));
 
 	int n = 0;
 	char trace[1024];

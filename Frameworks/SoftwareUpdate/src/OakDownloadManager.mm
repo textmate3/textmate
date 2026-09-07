@@ -1,6 +1,6 @@
 #import "OakDownloadManager.h"
 #import <network/ed25519.h>
-#import <oak/misc.h>
+#import <oak/print_system_error.h>
 
 // Returns nil when the data verifies, otherwise the reason it does not.
 static NSString* Ed25519VerificationError (NSData* data, NSString* signatureBase64, NSString* publicKeyBase64)
@@ -18,7 +18,7 @@ static NSString* GetHardwareInfo (int field, BOOL isInteger = NO)
 	size_t bufSize = sizeof(buf);
 	int request[] = { CTL_HW, field };
 
-	if(sysctl(request, sizeofA(request), buf, &bufSize, nullptr, 0) != -1)
+	if(sysctl(request, std::size(request), buf, &bufSize, nullptr, 0) != -1)
 	{
 		if(isInteger && bufSize == 4)
 			return [NSString stringWithFormat:@"%d", *(int*)buf];

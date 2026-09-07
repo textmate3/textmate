@@ -35,11 +35,11 @@ namespace io
 
 							rc = posix_spawn(&res.pid, argv[0], &fileActions, &flags, argv.data(), oak::c_array(environment));
 							if(rc != 0)
-								perrorf("io::spawn: posix_spawn(\"%s\")", argv[0]);
+								print_system_error("io::spawn: posix_spawn(\"%s\")", argv[0]);
 						}
 						else
 						{
-							perrorf("posix_spawnattr_setflags");
+							print_system_error("posix_spawnattr_setflags");
 						}
 						posix_spawnattr_destroy(&flags);
 					}
