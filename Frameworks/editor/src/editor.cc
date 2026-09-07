@@ -324,7 +324,7 @@ namespace ng
 
 	static bool suitable_for_reindent (std::string const& str)
 	{
-		return oak::contains(str.begin(), str.end(), '\n');
+		return str.contains('\n');
 	}
 
 	// ============
@@ -451,7 +451,7 @@ namespace ng
 		bool const complete       = options[kClipboardOptionComplete] == "1";
 		bool const columnar       = options[kClipboardOptionColumnar] == "1";
 
-		if((selections.size() != 1 || selections.last().columnar) && (fragments > 1 || oak::contains(str.begin(), str.end(), '\n')))
+		if((selections.size() != 1 || selections.last().columnar) && (fragments > 1 || str.contains('\n')))
 		{
 			std::vector<std::string> words = fragments == 1 ? text::split(str, "\n") : strings;
 			if(fragments == 1 && words.size() > 1 && words.back().empty())

@@ -229,7 +229,7 @@ namespace path
 		if(!path.empty() && path[0] == '/')
 		{
 			std::string p = normalize(path);
-			if(p != "/.." && !oak::has_prefix(p, "/../"))
+			if(p != "/.." && !p.starts_with("/../"))
 				return true;
 		}
 		return false;
@@ -246,7 +246,7 @@ namespace path
 	{
 		std::string const& base = home();
 		std::string const& path = normalize(p) + (p.size() > 1 && p.back() == '/' ? "/" : "");
-		if(oak::has_prefix(path.begin(), path.end(), base.begin(), base.end()) && (path.size() == base.size() || path[base.size()] == '/'))
+		if(path.starts_with(base) && (path.size() == base.size() || path[base.size()] == '/'))
 			return "~" + path.substr(base.size());
 		return path;
 	}
@@ -438,7 +438,7 @@ namespace path
 	static std::string system_display_name (std::string const& path)
 	{
 		std::string res = name(path);
-		if(oak::has_prefix(path, "/Volumes/") || oak::has_prefix(path, "/home/"))
+		if(path.starts_with("/Volumes/") || path.starts_with("/home/"))
 			return res;
 
 		if(CFURLRef url = CFURLCreateFromFileSystemRepresentation(kCFAllocatorDefault, (UInt8 const*)path.data(), path.size(), false))

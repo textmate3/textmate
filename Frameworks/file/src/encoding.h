@@ -30,7 +30,7 @@ namespace encoding
 
 		for(auto const& test : BOMTests)
 		{
-			if(oak::has_prefix(first, last, test.bom.begin(), test.bom.end()))
+			if(std::ranges::starts_with(first, last, test.bom.begin(), test.bom.end()))
 				return test.encoding + "//BOM";
 		}
 		return kCharsetNoEncoding;

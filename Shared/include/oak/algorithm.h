@@ -3,31 +3,6 @@
 
 namespace oak
 {
-	template <typename _InputIter, typename _ValueT>
-	bool contains (_InputIter const& first, _InputIter const& last, _ValueT const& value)
-	{
-		return std::find(first, last, value) != last;
-	}
-
-	template <typename _InputIter1, typename _InputIter2>
-	bool has_prefix (_InputIter1 srcFirst, _InputIter1 const& srcLast, _InputIter2 prefixFirst, _InputIter2 const& prefixLast)
-	{
-		while(srcFirst != srcLast && prefixFirst != prefixLast)
-		{
-			if(*srcFirst != *prefixFirst)
-				return false;
-			++srcFirst, ++prefixFirst;
-		}
-		return prefixFirst == prefixLast;
-	}
-
-	template <int size>
-	bool has_prefix (std::string const& str, char const(&prefix)[size])
-	{
-		// String literals include a trailing zero byte which we skip
-		return size ? str.compare(0, size-1, prefix) == 0 : true;
-	}
-
 	template <typename _InputIter1, typename _InputIter2, typename _InputIter3, typename _OutputIter>
 	_OutputIter replace_copy (_InputIter1 it, _InputIter1 const& srcLast, _InputIter2 const& findFirst, _InputIter2 const& findLast, _InputIter3 const& replaceFirst, _InputIter3 const& replaceLast, _OutputIter out)
 	{
@@ -49,7 +24,7 @@ namespace oak
 	{
 		auto from = map.upper_bound(path);
 		auto to = from;
-		while(to != map.end() && oak::has_prefix(to->first.begin(), to->first.end(), path.begin(), path.end()))
+		while(to != map.end() && to->first.starts_with(path))
 			++to;
 		map.erase(from, to);
 	}
