@@ -22,6 +22,7 @@ Target: **2.1.0**, the first release of the project. Version 3.0.0 is the eventu
 - `script/notarize`, and a `notarize textmate3` line in the application's build file behind it. It builds and signs the release application, zips it, submits it to Apple's notary service under the `textmate3` keychain profile, waits for the answer, fails unless the answer is Accepted, and staples the ticket to the application. A plain build never notarizes. The script refuses to run when `local.rave` sets no Developer ID identity, since Apple would refuse an ad hoc signed submission.
 
 ### Fixed
+- The build's nested signing rule took any binary under an application's `Contents/MacOS` for the application's executable, and so a vendored helper placed beside the executable was left with its vendor's signature while the application was signed in its place, early and without its resources. The rule recognizes a bundle's executable only when it carries the bundle's name, signs a standalone helper as itself, and waits for the copy that puts a helper in place before signing it.
 - Sparkle's `Autoupdate` helper was left with its ad hoc signature, because the rule that names the bundle a nested binary belongs to took anything under a framework's `Versions` directory for the framework's own binary. Apple's first notarization answer named exactly that file. The rule now matches the framework only for the binary that carries its name, and `Autoupdate` is signed as the standalone tool it is.
 
 ### Changed
