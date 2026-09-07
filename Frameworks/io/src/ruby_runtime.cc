@@ -84,10 +84,11 @@ namespace ruby_runtime
 		if(executable == NULL_STR || executable.empty())
 			return false;
 
+		static std::string const systemFramework = "/System/Library/Frameworks/Ruby.framework/";
 		std::string const resolved = path::resolve(executable);
 		for(std::string const& candidate : { executable, resolved })
 		{
-			if(candidate == "/usr/bin/ruby" || candidate.compare(0, 40, "/System/Library/Frameworks/Ruby.framework") == 0)
+			if(candidate == "/usr/bin/ruby" || candidate.compare(0, systemFramework.size(), systemFramework) == 0)
 				return true;
 		}
 		return false;
