@@ -161,20 +161,24 @@ void test_html_error ()
 // = The Ruby a command runs on =
 // ==============================
 
-// A stand in for a Ruby that prints one known line.
-// The command's own text is ignored, so whatever comes back is what the kernel ran, which is what the rewritten shebang named.
+// A stand in for a Ruby: a link to echo, so the kernel runs it as the shebang's interpreter with the script's path as its argument.
+// It has to be a binary, since the kernel refuses a script as another script's interpreter.
+// Whatever comes back is what the kernel ran, which is what the rewritten shebang named, and the command's own text is ignored.
 static std::string fake_ruby (test::jail_t& jail)
 {
-	jail.set_content("bin/ruby", "#!/bin/sh\necho fake-ruby 9.9.9\n");
-	chmod(jail.path("bin/ruby").c_str(), S_IRWXU);
+	jail.mkdir("bin");
+	symlink("/bin/echo", jail.path("bin/ruby").c_str());
 	return jail.path("bin/ruby");
 }
+
+// echo prints the script's path, which the runner puts the command's name in place of.
+static std::string const kFakeRubyOutput = "Test Command\n";
 
 void test_a_ruby_command_runs_on_tm_ruby ()
 {
 	test::jail_t jail;
 	delegate_ptr res = run_command("#!/usr/bin/env ruby\nputs RUBY_VERSION\n", "showAsTooltip", { { "TM_RUBY", fake_ruby(jail) }, { "TM_APPLICATION_RUBY", NULL_STR } });
-	OAK_ASSERT_EQ(res->out, "fake-ruby 9.9.9\n");
+	OAK_ASSERT_EQ(res->out, kFakeRubyOutput);
 	OAK_ASSERT_EQ(res->err, "");
 	OAK_ASSERT_EQ(res->rc, 0);
 }
@@ -183,7 +187,7 @@ void test_a_ruby_command_falls_to_the_applications_ruby ()
 {
 	test::jail_t jail;
 	delegate_ptr res = run_command("#!/usr/bin/ruby\nputs RUBY_VERSION\n", "showAsTooltip", { { "TM_RUBY", NULL_STR }, { "TM_APPLICATION_RUBY", fake_ruby(jail) } });
-	OAK_ASSERT_EQ(res->out, "fake-ruby 9.9.9\n");
+	OAK_ASSERT_EQ(res->out, kFakeRubyOutput);
 	OAK_ASSERT_EQ(res->rc, 0);
 }
 
