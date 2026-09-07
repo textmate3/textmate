@@ -97,3 +97,23 @@ void test_a_command_that_is_not_ruby_is_untouched_even_with_no_ruby ()
 	command::fix_shebang(&command, NoRuby);
 	OAK_ASSERT_EQ(command, "#!/usr/bin/env python3\nprint(1)\n");
 }
+
+void test_a_shebang_spelling_out_the_system_framework_ruby_is_rewritten ()
+{
+	std::string command = "#!/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby\nputs 1\n";
+	command::fix_shebang(&command, AbsoluteRuby);
+	OAK_ASSERT_EQ(command, "#!/opt/rubies/ruby-4.0.6/bin/ruby\nputs 1\n");
+
+	std::string current = "#!/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/ruby -w\nputs 1\n";
+	command::fix_shebang(&current, AbsoluteRuby);
+	OAK_ASSERT_EQ(current, "#!/opt/rubies/ruby-4.0.6/bin/ruby -w\nputs 1\n");
+
+	std::string trailingSpace = "#!/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby \nputs 1\n";
+	command::fix_shebang(&trailingSpace, AbsoluteRuby);
+	OAK_ASSERT_EQ(trailingSpace, "#!/opt/rubies/ruby-4.0.6/bin/ruby \nputs 1\n");
+
+	std::string withNoRuby = "#!/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby\nputs 1\n";
+	command::fix_shebang(&withNoRuby, NoRuby);
+	OAK_ASSERT_EQ(withNoRuby.substr(0, 9), "#!/bin/sh");
+	OAK_ASSERT(withNoRuby.find("Ruby.framework") == std::string::npos);
+}
