@@ -1,6 +1,6 @@
 #import "Bundle.h"
 #import "BundlesManager.h"
-#import <SoftwareUpdate/OakCompareVersionStrings.h>
+#import <SoftwareUpdate/SoftwareUpdate-Swift.h>
 #import <ns/ns.h>
 #import <text/decode.h>
 #import <regexp/format_string.h>
@@ -51,7 +51,7 @@
 - (BOOL)isCompatible
 {
 	NSString* appVersion = [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-	return OakCompareVersionStrings(appVersion, _minimumAppVersion) != NSOrderedAscending;
+	return [OakVersion compare:appVersion to:_minimumAppVersion] != NSOrderedAscending;
 }
 @end
 
