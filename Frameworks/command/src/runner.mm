@@ -4,6 +4,7 @@
 #include <OakFoundation/NSString Additions.h>
 #include <io/path.h>
 #include <io/pipe.h>
+#include <io/ruby_runtime.h>
 #include <regexp/format_string.h>
 #include <oak/datatypes.h>
 
@@ -156,17 +157,50 @@ namespace command
 			command->insert(0, "#!/bin/bash\n[[ -f \"${TM_SUPPORT_PATH}/lib/bash_init.sh\" ]] && . \"${TM_SUPPORT_PATH}/lib/bash_init.sh\"\n\n");
 	}
 
+	// The Ruby a command's shebang is pointed at: TM_RUBY when it is an
+	// absolute path to anything but the system Ruby, else the application's
+	// own, TM_APPLICATION_RUBY. The system Ruby is never used, so a TM_RUBY
+	// naming it is refused, said so on standard error, and the application's
+	// Ruby runs the command instead. NULL_STR when neither is there.
+	static std::string ruby_for_shebang (std::map<std::string, std::string> const& environment)
+	{
+		auto applicationRuby = environment.find("TM_APPLICATION_RUBY");
+		std::string const fallback = applicationRuby == environment.end() ? NULL_STR : applicationRuby->second;
+
+		auto ruby = environment.find("TM_RUBY");
+		if(ruby == environment.end() || !path::is_absolute(ruby->second))
+			return fallback;
+
+		if(ruby_runtime::is_system_ruby(ruby->second))
+		{
+			fprintf(stderr, "TM_RUBY names the system Ruby, %s, which TextMate does not use. %s\n", ruby->second.c_str(), fallback == NULL_STR ? "No other Ruby is available to bundle commands." : ("Bundle commands run on " + fallback + " instead.").c_str());
+			return fallback;
+		}
+
+		return ruby->second;
+	}
+
 	void fix_shebang (std::string* command, std::map<std::string, std::string> const& environment)
 	{
 		fix_shebang(command);
 
-		auto ruby = environment.find("TM_RUBY");
-		if(ruby == environment.end() || !path::is_absolute(ruby->second))
+		static regexp::pattern_t const rubyShebang("\\A#!(/usr/bin/env ruby|/usr/bin/ruby)(?=[ \\t]|$)");
+		regexp::match_t const m = regexp::search(rubyShebang, *command);
+		if(!m)
 			return;
 
-		static regexp::pattern_t const rubyShebang("\\A#!(/usr/bin/env ruby|/usr/bin/ruby)(?=[ \\t]|$)");
-		if(regexp::match_t const m = regexp::search(rubyShebang, *command))
-			command->replace(m.begin(), m.end() - m.begin(), "#!" + ruby->second);
+		std::string const ruby = ruby_for_shebang(environment);
+		if(ruby != NULL_STR)
+		{
+			command->replace(m.begin(), m.end() - m.begin(), "#!" + ruby);
+		}
+		else
+		{
+			// With no Ruby known, the shebang would land on the system Ruby
+			// through /usr/bin, which is the one thing that must not happen.
+			// The command says why it cannot run instead.
+			command->replace(m.begin(), m.end() - m.begin(), "#!/bin/sh\necho 'TextMate has no Ruby for bundle commands. The Runtimes bundle provides one; see the log for why it did not.' >&2\nexit 1\n#");
+		}
 	}
 
 	static NSString* hash (NSData* data)
