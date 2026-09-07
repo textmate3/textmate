@@ -1,5 +1,6 @@
 #include <oak/basic_tree.h>
 #include <oak/oak.h>
+#include <test/shuffle.h>
 
 static int numeric_comp (ssize_t key, ssize_t const& offset, ssize_t const& node) { return key < node ? -1 : (key == node ? 0 : +1); }
 // static std::string numeric_to_s (ssize_t const& offset, ssize_t const& node)      { return std::to_string(node); }
@@ -15,7 +16,7 @@ std::vector<ssize_t> create_keys ()
 		tmp.insert(arc4random_uniform(0xFFFFFF) - 0x7FFFFF);
 
 	std::vector<ssize_t> res(tmp.begin(), tmp.end());
-	oak::random_shuffle(res.begin(), res.end());
+	test::shuffle(res.begin(), res.end());
 	return res;
 }
 
@@ -75,7 +76,7 @@ void test_erase ()
 	auto tree = create_tree(keys);
 
 	std::set<ssize_t> tmp(keys.begin(), keys.end());
-	oak::random_shuffle(keys.begin(), keys.end());
+	test::shuffle(keys.begin(), keys.end());
 
 	for(size_t i = keys.size() >> 1; i < keys.size(); ++i)
 	{
@@ -94,7 +95,7 @@ void test_erase ()
 	std::sort(keys.begin(), keys.end());
 	OAK_ASSERT(std::equal(tree.begin(), tree.end(), keys.begin(), &numeric_bin_comp));
 
-	oak::random_shuffle(keys.begin(), keys.end());
+	test::shuffle(keys.begin(), keys.end());
 	for(auto const& key : keys)
 	{
 		OAK_ASSERT(tree.find(key, &numeric_comp) != tree.end());

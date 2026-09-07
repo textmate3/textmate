@@ -2,6 +2,7 @@
 #import <buffer/buffer.h>
 #import <text/format.h>
 #import <test/bundle_index.h>
+#import <test/shuffle.h>
 #import <oak/duration.h>
 
 static bundles::item_ptr TestGrammarItem;
@@ -22,7 +23,7 @@ void benchmark_insert_50_mb ()
 	std::string tmp(32*1024, '\0');
 	for(size_t i = 0; i < tmp.size(); ++i)
 		tmp[i] = (i % 0x61) == 0x60 ? '\n' : 0x20 + (i % 0x61);
-	oak::random_shuffle(tmp.begin(), tmp.end());
+	test::shuffle(tmp.begin(), tmp.end());
 
 	ng::buffer_t buf;
 	size_t cnt = 50*1024*1024 / tmp.size();

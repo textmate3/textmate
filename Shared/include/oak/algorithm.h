@@ -28,13 +28,6 @@ namespace oak
 			++to;
 		map.erase(from, to);
 	}
-
-	template <typename _InputIter>
-	void random_shuffle (_InputIter first, _InputIter last)
-	{
-		static std::mt19937 g(std::random_device{}());
-		std::shuffle(first, last, g);
-	}
 };
 
 template <typename _SrcKeyT, typename _SrcValueT, typename _DstKeyT, typename _DstValueT>

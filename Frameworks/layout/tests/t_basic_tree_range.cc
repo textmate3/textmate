@@ -1,5 +1,6 @@
 #include <oak/basic_tree.h>
 #include <oak/oak.h>
+#include <test/shuffle.h>
 
 struct key_t
 {
@@ -94,7 +95,7 @@ void test_range_tree ()
 		tmp.insert(arc4random_uniform(0xFFFFFF) - 0x7FFFFF);
 
 	std::vector<ssize_t> keys(tmp.begin(), tmp.end());
-	oak::random_shuffle(keys.begin(), keys.end());
+	test::shuffle(keys.begin(), keys.end());
 
 	tree_t tree;
 	for(auto const& key : keys)
@@ -111,7 +112,7 @@ void test_range_tree ()
 	// = Test adjusting =
 	// ==================
 
-	oak::random_shuffle(keys.begin(), keys.end());
+	test::shuffle(keys.begin(), keys.end());
 	ssize_t pos = keys[0], distance = 200;
 	adjust(tree, pos, distance);
 	for(auto& key : keys)
@@ -129,7 +130,7 @@ void test_range_tree ()
 	// = Erase half the keys =
 	// =======================
 
-	oak::random_shuffle(keys.begin(), keys.end());
+	test::shuffle(keys.begin(), keys.end());
 	for(size_t i = keys.size() >> 1; i < keys.size(); ++i)
 	{
 		auto it = tree.find(keys[i], &position_comp);
@@ -141,7 +142,7 @@ void test_range_tree ()
 	keys.resize(keys.size() >> 1);
 	OAK_ASSERT_EQ(tree.size(), keys.size());
 
-	oak::random_shuffle(keys.begin(), keys.end());
+	test::shuffle(keys.begin(), keys.end());
 	for(auto const& key : keys)
 		unset(tree, key);
 	OAK_ASSERT(tree.empty());
