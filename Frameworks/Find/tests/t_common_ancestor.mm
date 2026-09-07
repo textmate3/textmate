@@ -1,11 +1,11 @@
 #import "../src/CommonAncestor.h"
 #import <ns/ns.h>
 
-// The folder that stands for a set of paths when Find in Project searches the
-// file browser's selection. None of these paths exist on disk, so the check
-// at the end that steps up from a file to its folder never fires and the
-// prefix logic is what is under test.
-
+// The folder that stands for a set of paths when
+// Find in Project searches the file browser's selection.
+// None of these paths exist on disk.
+// The check at the end that steps up from a file to its folder never fires,
+// and the prefix logic is what is under test.
 void test_siblings_share_their_folder ()
 {
 	OAK_ASSERT_EQ(to_s(CommonAncestor(@[ @"/foo/bar/one.rb", @"/foo/bar/two.rb" ])), "/foo/bar");
@@ -42,10 +42,10 @@ void test_a_trailing_separator_changes_nothing ()
 }
 
 // A folder selected together with something inside it answers the folder,
-// since everything selected is in it. A walk by character used to answer the
-// folder's parent here: it reached the end of the shorter path without
-// meeting a difference, and the last separator it had passed was the one
-// before the folder's own name.
+// since everything selected is in it.
+// A walk by character used to answer the folder's parent here:
+// it reached the end of the shorter path without meeting a difference,
+// and the last separator it had passed was the one before the folder's own name.
 void test_a_folder_and_something_inside_it_answers_the_folder ()
 {
 	OAK_ASSERT_EQ(to_s(CommonAncestor(@[ @"/foo/bar", @"/foo/bar/baz" ])), "/foo/bar");

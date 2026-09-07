@@ -1,9 +1,11 @@
 #import "CommonAncestor.h"
 
-// The deepest folder every path is under, taken by path component rather
-// than by character, so a folder selected with something inside it answers
-// the folder, and a name that merely begins the same way as another is not a
-// shared folder. Nothing in common is the root. One path is itself.
+// The deepest folder every path is under,
+// taken by path component rather than by character,
+// so a folder selected with something inside it answers the folder,
+// and a name that merely begins the same way as another is not a shared folder.
+// Nothing in common is the root.
+// One path is itself.
 static NSString* helper (NSArray<NSString*>* paths)
 {
 	if(paths.count < 2)
