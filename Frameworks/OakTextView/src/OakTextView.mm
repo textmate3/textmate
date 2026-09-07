@@ -11,7 +11,6 @@
 #import <OakAppKit/NSImage Additions.h>
 #import <OakAppKit/NSMenuItem Additions.h>
 #import <OakAppKit/OakPasteboard.h>
-#import <OakAppKit/OakPopOutAnimation.h>
 #import <OakAppKit/OakToolTip.h>
 #import <OakAppKit/OakAppKit-Swift.h>
 #import <OakFoundation/NSString Additions.h>
@@ -606,7 +605,7 @@ struct refresh_helper_t
 						NSRect imageRect;
 						NSImage* image = [_self imageForRanges:range imageRect:&imageRect];
 						imageRect = [[_self window] convertRectToScreen:[_self convertRect:imageRect toView:nil]];
-						OakShowPopOutAnimation(_self, imageRect, image);
+						[OakPopOutAnimation showIn:_self at:imageRect image:image hidePrevious:YES];
 					}
 				}
 
@@ -786,7 +785,7 @@ static std::string shell_quote (std::vector<std::string> paths)
 		NSRect imageRect;
 		NSImage* image = [self imageForRanges:range imageRect:&imageRect];
 		imageRect = [[self window] convertRectToScreen:[self convertRect:imageRect toView:nil]];
-		OakShowPopOutAnimation(self, imageRect, image, firstRange);
+		[OakPopOutAnimation showIn:self at:imageRect image:image hidePrevious:firstRange];
 		firstRange = NO;
 	}
 }
