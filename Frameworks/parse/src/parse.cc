@@ -98,7 +98,7 @@ namespace parse
 
 	static bool pattern_is_format_string (std::string const& ptrn)
 	{
-		bool res = oak::contains(ptrn.begin(), ptrn.end(), '$');
+		bool res = ptrn.contains('$');
 		return res;
 	}
 

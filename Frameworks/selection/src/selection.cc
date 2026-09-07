@@ -546,7 +546,7 @@ namespace ng
 		bool res = true;
 		static std::string const whitespaceChars[] = { " ", "\t", "\n" };
 		while(from < to && res)
-			res = res && oak::contains(std::begin(whitespaceChars), std::end(whitespaceChars), buffer[from++]);
+			res = res && std::ranges::contains(whitespaceChars, buffer[from++]);
 		return res;
 	}
 

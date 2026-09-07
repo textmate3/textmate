@@ -374,7 +374,7 @@ static NSString* const kFoldingsColumnIdentifier  = @"foldings";
 	else if([aMenuItem action] == @selector(showTabSizeSelectorPanel:))
 	{
 		static NSInteger const predefined[] = { 2, 3, 4, 8 };
-		if(oak::contains(std::begin(predefined), std::end(predefined), _textView.tabSize))
+		if(std::ranges::contains(predefined, _textView.tabSize))
 		{
 			[aMenuItem setTitle:@"Other…"];
 			[aMenuItem setState:NSControlStateValueOff];

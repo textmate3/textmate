@@ -246,7 +246,7 @@ namespace
 					std::vector<bundles::item_ptr> filters;
 					for(auto const& item : filter::find(_path, _content, _path_attributes, filter::kBundleEventTextExport))
 					{
-						if(!oak::contains(_text_export_filters.begin(), _text_export_filters.end(), item->uuid()))
+						if(!std::ranges::contains(_text_export_filters, item->uuid()))
 						{
 							filters.push_back(item);
 							_text_export_filters.push_back(item->uuid());
@@ -320,7 +320,7 @@ namespace
 					std::vector<bundles::item_ptr> filters;
 					for(auto const& item : filter::find(_path, _content, _path_attributes, filter::kBundleEventBinaryExport))
 					{
-						if(!oak::contains(_binary_export_filters.begin(), _binary_export_filters.end(), item->uuid()))
+						if(!std::ranges::contains(_binary_export_filters, item->uuid()))
 						{
 							filters.push_back(item);
 							_binary_export_filters.push_back(item->uuid());

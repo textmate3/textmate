@@ -14,7 +14,7 @@ size_t newline_size (_InputIter first, _InputIter const& last)
 {
 	for(auto str : { "\r\n", "\n", "\r" })
 	{
-		if(oak::has_prefix(first, last, str, str + strlen(str)))
+		if(std::ranges::starts_with(first, last, str, str + strlen(str)))
 			return strlen(str);
 	}
 	return 0;
@@ -81,7 +81,7 @@ static NSAttributedString* convert_and_highlight (char const* first, char const*
 	{
 		static std::string const newlines[] = { "\r\n", "\n", "\r" };
 
-		auto it = std::find_if(std::begin(newlines), std::end(newlines), [&](std::string const& str){ return oak::has_prefix(dst.begin() + eol, dst.end(), str.begin(), str.end()); });
+		auto it = std::find_if(std::begin(newlines), std::end(newlines), [&](std::string const& str){ return std::ranges::starts_with(dst.begin() + eol, dst.end(), str.begin(), str.end()); });
 		if(it == std::end(newlines))
 			continue;
 

@@ -2275,7 +2275,7 @@ static NSArray* const kObservedKeyPaths = @[ @"arrayController.arrangedObjects.p
 		active = [_textView validateMenuItem:menuItem];
 
 	SEL tabBarActions[] = { @selector(performCloseTab:), @selector(takeNewTabIndexFrom::), @selector(takeTabsToCloseFrom:), @selector(takeTabsToTearOffFrom:), @selector(toggleSticky:) };
-	if(oak::contains(std::begin(tabBarActions), std::end(tabBarActions), [menuItem action]))
+	if(std::ranges::contains(tabBarActions, [menuItem action]))
 	{
 		if(NSIndexSet* indexSet = [self tryObtainIndexSetFrom:menuItem])
 		{

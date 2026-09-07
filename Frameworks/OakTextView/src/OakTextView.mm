@@ -2577,7 +2577,7 @@ static void update_menu_key_equivalents (NSMenu* menu, std::multimap<std::string
 		dict[@"replaceString"] = aFindServer.replaceString;
 
 		static find_operation_t const inSelectionActions[] = { kFindOperationFindInSelection, kFindOperationReplaceAllInSelection };
-		if(oak::contains(std::begin(inSelectionActions), std::end(inSelectionActions), aFindServer.findOperation))
+		if(std::ranges::contains(inSelectionActions, aFindServer.findOperation))
 			dict[@"replaceAllScope"] = @"selection";
 
 		find::options_t options = aFindServer.findOptions;
@@ -4454,7 +4454,7 @@ static scope::context_t add_modifiers_to_scope (scope::context_t scope, NSUInteg
 			if(NSEvent* event = [NSApp nextEventMatchingMask:NSEventMaskAny untilDate:nil inMode:NSDefaultRunLoopMode dequeue:YES])
 			{
 				static NSEventType const events[] = { NSEventTypeLeftMouseDown, NSEventTypeLeftMouseUp, NSEventTypeRightMouseDown, NSEventTypeRightMouseUp, NSEventTypeOtherMouseDown, NSEventTypeOtherMouseUp, NSEventTypeLeftMouseDragged, NSEventTypeRightMouseDragged, NSEventTypeOtherMouseDragged, NSEventTypeKeyDown, NSEventTypeKeyUp, NSEventTypeFlagsChanged };
-				if(!oak::contains(std::begin(events), std::end(events), [event type]))
+				if(!std::ranges::contains(events, [event type]))
 				{
 					[NSApp sendEvent:event];
 				}

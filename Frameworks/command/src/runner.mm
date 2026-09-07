@@ -297,7 +297,7 @@ namespace command
 			if(NSEvent* event = [NSApp nextEventMatchingMask:NSEventMaskAny untilDate:nil inMode:NSDefaultRunLoopMode dequeue:YES])
 			{
 				static NSEventType const events[] = { NSEventTypeLeftMouseDown, NSEventTypeLeftMouseUp, NSEventTypeRightMouseDown, NSEventTypeRightMouseUp, NSEventTypeOtherMouseDown, NSEventTypeOtherMouseUp, NSEventTypeLeftMouseDragged, NSEventTypeRightMouseDragged, NSEventTypeOtherMouseDragged, NSEventTypeKeyDown, NSEventTypeKeyUp, NSEventTypeFlagsChanged };
-				if(!oak::contains(std::begin(events), std::end(events), [event type]))
+				if(!std::ranges::contains(events, [event type]))
 				{
 					[NSApp sendEvent:event];
 				}
