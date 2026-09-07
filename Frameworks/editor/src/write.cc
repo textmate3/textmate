@@ -8,8 +8,8 @@ namespace ng
 	{
 		std::string const str = buffer.substr(buffer.begin(buffer.convert(caret.index).line), caret.index);
 		size_t len = 0;
-		citerate(ch, diacritics::make_range(str.data(), str.data() + str.size()))
-			len += *ch == '\t' ? tabSize - (len % tabSize) : (text::is_east_asian_width(*ch) ? 2 : 1);
+		for(auto ch : diacritics::make_range(str.data(), str.data() + str.size()))
+			len += ch == '\t' ? tabSize - (len % tabSize) : (text::is_east_asian_width(ch) ? 2 : 1);
 		return len + caret.carry;
 	}
 

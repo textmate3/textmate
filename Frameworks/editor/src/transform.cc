@@ -12,8 +12,8 @@
 static size_t count_columns (std::string const& str, size_t tabSize)
 {
 	size_t col = 0;
-	citerate(ch, diacritics::make_range(str.data(), str.data() + str.size()))
-		col += (*ch == '\t' ? tabSize - (col % tabSize) : (text::is_east_asian_width(*ch) ? 2 : 1));
+	for(auto ch : diacritics::make_range(str.data(), str.data() + str.size()))
+		col += (ch == '\t' ? tabSize - (col % tabSize) : (text::is_east_asian_width(ch) ? 2 : 1));
 	return col;
 }
 
@@ -75,7 +75,8 @@ namespace transform
 				return format_string::expand("${open}${rhs}${op}${lhs}${close}", m.captures());
 
 			std::deque<char> tmp;
-			citerate(it, diacritics::make_range(src.data(), src.data() + src.size() - (hasNewline ? 1 : 0)))
+			auto const graphemes = diacritics::make_range(src.data(), src.data() + src.size() - (hasNewline ? 1 : 0));
+			for(auto it = graphemes.begin(); it != graphemes.end(); ++it)
 				tmp.insert(tmp.begin(), &it, &it + it.length());
 
 			std::copy(tmp.begin(), tmp.end(), back_inserter(res));

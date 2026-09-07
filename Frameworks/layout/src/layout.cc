@@ -649,7 +649,8 @@ namespace ng
 		size_t const tabSize = buffer.indent().tab_size();
 		size_t len = 0;
 		std::string const str = buffer.substr(caret, eol);
-		citerate(ch, diacritics::make_range(str.data(), str.data() + str.size()))
+		auto const graphemes = diacritics::make_range(str.data(), str.data() + str.size());
+		for(auto ch = graphemes.begin(); ch != graphemes.end(); ++ch)
 		{
 			if(len == column)
 				return caret + (&ch - str.data());

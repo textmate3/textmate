@@ -32,7 +32,8 @@ namespace text
 		std::vector<size_t> res;
 
 		size_t col = 0, len = 0, spaceCol = 0, spaceLen = 0;
-		citerate(ch, diacritics::make_range(str.data(), str.data() + str.size()))
+		auto const graphemes = diacritics::make_range(str.data(), str.data() + str.size());
+		for(auto ch = graphemes.begin(); ch != graphemes.end(); ++ch)
 		{
 			size_t prevLen = len, prevCol = col;
 			len += ch.length();
