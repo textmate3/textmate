@@ -16,7 +16,8 @@ public final class PopOutAnimation: NSObject {
   /// The flashes still on screen, so a new one can clear them.
   private static var live: [PopOutView] = []
 
-  /// Shows the image, the rendered text of the range, over its rectangle in screen coordinates.
+  /// Shows the image, the rendered text of the range,
+  /// over its rectangle in screen coordinates.
   /// With hidePrevious the flashes already showing go first,
   /// which is how a find clears the last one and a find all stacks them up.
   @objc public static func show(in parentView: NSView, at popOutRect: NSRect, image: NSImage, hidePrevious: Bool) {
@@ -128,8 +129,9 @@ private final class PopOutView: NSView {
     imageLayer.position = CGPoint(x: shapeLayer.bounds.midX, y: shapeLayer.bounds.midY)
   }
 
-  /// One animation group, made once and copied onto each flash: a pop up and back in the first tenth of a second,
-  /// a hold, then a fade between a third and two thirds of a second.
+  /// One animation group, made once and copied onto each flash:
+  /// a pop up and back in the first tenth of a second, a hold,
+  /// then a fade between a third and two thirds of a second.
   private static let animationGroup: CAAnimationGroup = {
     let grow = CABasicAnimation(keyPath: "transform.scale")
     grow.beginTime = growStartTime
