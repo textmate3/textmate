@@ -448,7 +448,7 @@ namespace ng
 	std::vector<paragraph_t::node_t>::iterator paragraph_t::iterator_at (size_t i)
 	{
 		size_t from = 0;
-		iterate(node, _nodes)
+		for(auto node = _nodes.begin(); node != _nodes.end(); ++node)
 		{
 			if(from == i)
 				return node;

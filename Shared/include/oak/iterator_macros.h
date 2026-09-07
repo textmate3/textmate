@@ -28,11 +28,6 @@
 #define foreach(v,f,l) for(decltype(f) v = (f), _end = (l); v != _end; ++v)
 #endif
 
-#ifdef iterate
-#undef iterate
-#endif
-#define iterate(v,c) foreach(v, std::begin(c), std::end(c))
-
 #ifndef uiterate
 #define uiterate(v,c,u) \
 decltype(c) u = (c); foreach(v, std::begin(u), std::end(u))

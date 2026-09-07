@@ -138,7 +138,7 @@ namespace find
 
 		if(options & ignore_case)
 		{
-			iterate(it, strings)
+			for(auto it = std::begin(strings); it != std::end(strings); ++it)
 			{
 				CFStringLowercase(  *it, nullptr);
 				CFStringUppercase(*++it, nullptr);
