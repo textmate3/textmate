@@ -2,7 +2,6 @@ enum OakSoundIdentifier
 {
 	OakSoundDidMoveItemUISound,
 	OakSoundDidTrashItemUISound,
-	OakSoundDidCompleteSomethingUISound,
 	OakSoundDidBeginRecordingUISound,
 	OakSoundDidEndRecordingUISound
 };
