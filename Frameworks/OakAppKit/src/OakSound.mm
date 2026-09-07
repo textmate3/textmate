@@ -14,7 +14,6 @@ void OakPlayUISound (OakSoundIdentifier aSound)
 	{
 		{ OakSoundDidTrashItemUISound,         "dock/drag to trash.aif"   },
 		{ OakSoundDidMoveItemUISound,          "system/Volume Mount.aif"  },
-		{ OakSoundDidCompleteSomethingUISound, "system/burn complete.aif" },
 		{ OakSoundDidBeginRecordingUISound,    "system/begin_record.caf"  },
 		{ OakSoundDidEndRecordingUISound,      "system/end_record.caf"    }
 	};
