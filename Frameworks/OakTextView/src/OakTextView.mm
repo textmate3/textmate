@@ -13,7 +13,7 @@
 #import <OakAppKit/OakPasteboard.h>
 #import <OakAppKit/OakPopOutAnimation.h>
 #import <OakAppKit/OakToolTip.h>
-#import <OakAppKit/OakSound.h>
+#import <OakAppKit/OakAppKit-Swift.h>
 #import <OakFoundation/NSString Additions.h>
 #import <OakFoundation/OakFoundation.h>
 #import <OakFoundation/OakFindProtocol.h>
@@ -3542,7 +3542,7 @@ static char const* kOakMenuItemTitle = "OakMenuItemTitle";
 	{
 		macroRecordingArray = [NSMutableArray new];
 	}
-	OakPlayUISound(flag ? OakSoundDidBeginRecordingUISound : OakSoundDidEndRecordingUISound);
+	[OakSound play:flag ? OakSoundIdentifierDidBeginRecording : OakSoundIdentifierDidEndRecording];
 }
 
 - (IBAction)playScratchMacro:(id)anArgument

@@ -4,7 +4,7 @@ target "${dirname}" {
 
 	files resources/* gfx/CloseButton/*.png "Resources"
 
-	sources src/*.{cc,mm}
+	sources src/*.{cc,mm,swift}
 	frameworks Cocoa Quartz UniformTypeIdentifiers
 	# The SDK's sqlite by path, so a Homebrew sqlite on the linker's search path is never
 	# picked up. Nothing the application ships may load a library from outside the system.
