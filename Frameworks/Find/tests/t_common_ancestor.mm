@@ -36,19 +36,17 @@ void test_no_paths_is_nothing ()
 	OAK_ASSERT(CommonAncestor(@[ ]) == nil);
 }
 
-// A folder selected together with something inside it. The character walk
-// reaches the end of the shorter path without meeting a difference, and the
-// last separator it passed is the one before the folder's own name, so today
-// the answer is the folder's parent. This test records that.
-void test_a_folder_and_something_inside_it_currently_answers_the_parent ()
+void test_a_trailing_separator_changes_nothing ()
 {
-	OAK_ASSERT_EQ(to_s(CommonAncestor(@[ @"/foo/bar", @"/foo/bar/baz" ])), "/foo");
+	OAK_ASSERT_EQ(to_s(CommonAncestor(@[ @"/foo/bar/", @"/foo/bar/baz" ])), "/foo/bar");
 }
 
-// What it should answer: the folder itself, since everything selected is in
-// it. This fails until the prefix is taken by path component rather than by
-// character.
-void test_a_folder_and_something_inside_it_should_answer_the_folder ()
+// A folder selected together with something inside it answers the folder,
+// since everything selected is in it. A walk by character used to answer the
+// folder's parent here: it reached the end of the shorter path without
+// meeting a difference, and the last separator it had passed was the one
+// before the folder's own name.
+void test_a_folder_and_something_inside_it_answers_the_folder ()
 {
 	OAK_ASSERT_EQ(to_s(CommonAncestor(@[ @"/foo/bar", @"/foo/bar/baz" ])), "/foo/bar");
 	OAK_ASSERT_EQ(to_s(CommonAncestor(@[ @"/foo/bar/baz", @"/foo/bar" ])), "/foo/bar");

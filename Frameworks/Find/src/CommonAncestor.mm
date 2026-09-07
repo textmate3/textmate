@@ -1,29 +1,24 @@
 #import "CommonAncestor.h"
 
+// The deepest folder every path is under, taken by path component rather
+// than by character, so a folder selected with something inside it answers
+// the folder, and a name that merely begins the same way as another is not a
+// shared folder. Nothing in common is the root. One path is itself.
 static NSString* helper (NSArray<NSString*>* paths)
 {
 	if(paths.count < 2)
 		return paths.firstObject;
 
-	NSUInteger maxLength = NSUIntegerMax;
-	for(NSString* path : paths)
-		maxLength = MIN(path.length, maxLength);
-
-	NSUInteger pathSeparatorIndex = 0;
-	for(NSUInteger i = 0; i < maxLength; ++i)
+	NSArray<NSString*>* common = paths.firstObject.stringByStandardizingPath.pathComponents;
+	for(NSString* path in paths)
 	{
-		unichar ch = [paths.firstObject characterAtIndex:i];
-		for(NSUInteger j = 1; j < paths.count; ++j)
-		{
-			if(ch != [paths[j] characterAtIndex:i])
-				return pathSeparatorIndex ? [paths.firstObject substringToIndex:pathSeparatorIndex] : @"/";
-		}
-
-		if(ch == '/')
-			pathSeparatorIndex = i;
+		NSArray<NSString*>* components = path.stringByStandardizingPath.pathComponents;
+		NSUInteger shared = 0;
+		while(shared < common.count && shared < components.count && [common[shared] isEqualToString:components[shared]])
+			++shared;
+		common = [common subarrayWithRange:NSMakeRange(0, shared)];
 	}
-
-	return pathSeparatorIndex ? [paths.firstObject substringToIndex:pathSeparatorIndex] : @"/";
+	return common.count ? [NSString pathWithComponents:common] : @"/";
 }
 
 NSString* CommonAncestor (NSArray<NSString*>* paths)
