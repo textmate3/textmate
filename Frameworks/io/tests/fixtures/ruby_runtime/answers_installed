@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "installed $1 /stub/rubies/ruby-$1"
+echo "ruby /stub/rubies/ruby-$1"
