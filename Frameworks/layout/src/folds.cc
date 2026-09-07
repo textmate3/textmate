@@ -3,7 +3,6 @@
 #include <regexp/indent.h>
 #include <text/ctype.h>
 #include <text/format.h>
-#include <oak/algorithm.h>
 #include <oak/oak.h>
 
 namespace ng

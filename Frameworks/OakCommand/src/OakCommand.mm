@@ -300,7 +300,8 @@ static pid_t run_command (dispatch_group_t rootGroup, std::string const& cmd, in
 	_didSaveChanges    = NO;
 
 	_environment = someVariables;
-	_environment << oak::basic_environment();
+	std::map<std::string, std::string> const basicEnvironment = oak::basic_environment();
+	_environment.insert(basicEnvironment.begin(), basicEnvironment.end());
 	[self updateEnvironment:_environment];
 
 	[self executeWithInput:(fileHandleForReading ?: [[NSFileHandle alloc] initWithFileDescriptor:open("/dev/null", O_RDONLY|O_CLOEXEC) closeOnDealloc:YES]) outputHandler:handler];

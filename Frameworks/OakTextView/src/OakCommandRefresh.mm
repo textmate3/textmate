@@ -129,7 +129,8 @@ static NSMutableSet<OakCommandRefresher*>* CommandRefreshers = [NSMutableSet set
 
 - (void)updateEnvironment:(std::map<std::string, std::string>&)res forCommand:(OakCommand*)aCommand
 {
-	res << _document.variables;
+	std::map<std::string, std::string> const documentVariables = _document.variables;
+	res.insert(documentVariables.begin(), documentVariables.end());
 	res = bundles::scope_variables(res); // Bundle items with a shellVariables setting
 	res = variables_for_path(res, to_s(_document.path)); // .tm_properties
 }

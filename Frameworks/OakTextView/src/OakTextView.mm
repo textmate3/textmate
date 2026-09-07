@@ -263,7 +263,8 @@ struct document_view_t : ng::buffer_api_t
 	std::map<std::string, std::string> variables (std::string const& scopeAttributes) const
 	{
 		std::map<std::string, std::string> res = _document.variables;
-		res << _editor->editor_variables(scopeAttributes);
+		std::map<std::string, std::string> const editorVariables = _editor->editor_variables(scopeAttributes);
+		res.insert(editorVariables.begin(), editorVariables.end());
 		return res;
 	}
 
@@ -1900,9 +1901,13 @@ doScroll:
 	if(!documentView || !self.theme)
 		return res;
 
-	res << documentView->variables(to_s([self scopeAttributes]));
+	std::map<std::string, std::string> const documentVariables = documentView->variables(to_s([self scopeAttributes]));
+	res.insert(documentVariables.begin(), documentVariables.end());
 	if(item)
-		res << item->bundle_variables();
+	{
+		std::map<std::string, std::string> const bundleVariables = item->bundle_variables();
+		res.insert(bundleVariables.begin(), bundleVariables.end());
+	}
 
 	if(auto themeItem = bundles::lookup(self.theme->uuid()))
 	{
@@ -1911,7 +1916,10 @@ doScroll:
 	}
 
 	if([self.delegate respondsToSelector:@selector(variables)])
-		res << [self.delegate variables];
+	{
+		std::map<std::string, std::string> const delegateVariables = [self.delegate variables];
+		res.insert(delegateVariables.begin(), delegateVariables.end());
+	}
 
 	res = bundles::scope_variables(res, [self scopeContext]);
 	res = variables_for_path(res, documentView->logical_path(), [self scopeContext].right, path::parent(documentView->path()));
@@ -4527,7 +4535,8 @@ static scope::context_t add_modifiers_to_scope (scope::context_t scope, NSUInteg
 	if(!documentView || !self.theme)
 		return;
 
-	res << documentView->variables(to_s([self scopeAttributes]));
+	std::map<std::string, std::string> const documentVariables = documentView->variables(to_s([self scopeAttributes]));
+	res.insert(documentVariables.begin(), documentVariables.end());
 	if(auto themeItem = bundles::lookup(self.theme->uuid()))
 	{
 		if(!themeItem->paths().empty())

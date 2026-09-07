@@ -84,7 +84,12 @@ namespace ng
 			}
 			else
 			{
-				env << oak::basic_environment() << editor_variables(scopeAttributes) << item->bundle_variables();
+				std::map<std::string, std::string> const basicEnvironment = oak::basic_environment();
+				std::map<std::string, std::string> const editorVariables = editor_variables(scopeAttributes);
+				std::map<std::string, std::string> const bundleVariables = item->bundle_variables();
+				env.insert(basicEnvironment.begin(), basicEnvironment.end());
+				env.insert(editorVariables.begin(), editorVariables.end());
+				env.insert(bundleVariables.begin(), bundleVariables.end());
 				env = bundles::scope_variables(env, this->scope(scopeAttributes));
 				env = variables_for_path(env, NULL_STR, this->scope(scopeAttributes).right);
 			}
