@@ -7,8 +7,7 @@
 #import <objc/objc-runtime.h>
 #import <Cocoa/Cocoa.h>
 #import <ExceptionHandling/NSExceptionHandler.h>
-#import <CoreFoundation/CFPlugInCOM.h> // must be loaded before QuickLook.h
-#import <Quartz/Quartz.h> // includes the private QuickLookUI.h
+#import <Quartz/Quartz.h> // brings in QuickLookUI, which the file browser's Quick Look panel uses
 #import <WebKit/WebKit.h>
 
 #endif /* end of include guard: PRELUDE_M_PCH_KZLXVFRT */
