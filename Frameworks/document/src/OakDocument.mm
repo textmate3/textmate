@@ -88,11 +88,23 @@ namespace document
 		void remove_all (std::map<std::string, std::map<text::pos_t, std::string>>& marks, std::string const& mark)
 		{
 			if(mark == NULL_STR)
+			{
 				marks.clear();
+			}
 			else if(!mark.empty() && mark.back() == '/')
-				oak::erase_descendent_keys(marks, mark);
+			{
+				// A mark that ends in a slash names a family, and every mark under it goes.
+				// The map is sorted, so the family's members sit together right after the family name.
+				auto from = marks.upper_bound(mark);
+				auto to = from;
+				while(to != marks.end() && to->first.starts_with(mark))
+					++to;
+				marks.erase(from, to);
+			}
 			else
+			{
 				marks.erase(mark);
+			}
 		}
 
 		std::map<std::string, std::map<text::pos_t, std::string>>& marks_for (std::string const& path)
