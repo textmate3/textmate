@@ -1,5 +1,6 @@
 #include <buffer/indexed_map.h>
 #include <oak/oak.h>
+#include <test/shuffle.h>
 
 static ssize_t const TestKeys[5][3] =
 {
@@ -46,7 +47,7 @@ void test_basic ()
 		tmp.insert(arc4random_uniform(0xFFFFFF) - 0x7FFFFF);
 
 	std::vector<ssize_t> keys(tmp.begin(), tmp.end());
-	oak::random_shuffle(keys.begin(), keys.end());
+	test::shuffle(keys.begin(), keys.end());
 	for(auto const& key : keys)
 		map.set(key, true);
 
@@ -55,7 +56,7 @@ void test_basic ()
 	OAK_ASSERT_EQ(tmp.size(), sorted.size());
 	OAK_ASSERT(std::equal(tmp.begin(), tmp.end(), sorted.begin()));
 
-	oak::random_shuffle(keys.begin(), keys.end());
+	test::shuffle(keys.begin(), keys.end());
 	for(size_t i = keys.size() >> 1; i < keys.size(); ++i)
 	{
 		map.remove(keys[i]);
@@ -76,7 +77,7 @@ void test_basic ()
 	OAK_ASSERT_EQ(keys.size(), sorted.size());
 	OAK_ASSERT(std::equal(keys.begin(), keys.end(), sorted.begin()));
 
-	oak::random_shuffle(sorted.begin(), sorted.end());
+	test::shuffle(sorted.begin(), sorted.end());
 	for(auto const& key : sorted)
 		map.remove(key);
 	OAK_ASSERT(map.empty());
@@ -309,7 +310,7 @@ void test_duplicate ()
 	indexed_map_t<bool> map;
 
 	ssize_t random[] = { 2, 7, 13, 15, 29 };
-	oak::random_shuffle(std::begin(random), std::end(random));
+	test::shuffle(std::begin(random), std::end(random));
 	for(auto i : random)
 		map.set(i, true);
 
@@ -318,7 +319,7 @@ void test_duplicate ()
 	OAK_ASSERT_EQ(values.size(), std::size(random));
 	OAK_ASSERT(std::find(values.begin(), values.end(), false) == values.end());
 
-	oak::random_shuffle(std::begin(random), std::end(random));
+	test::shuffle(std::begin(random), std::end(random));
 	for(auto i : random)
 		map.set(i, false);
 
@@ -333,7 +334,7 @@ void test_bind_left_right ()
 	indexed_map_t<bool> map;
 
 	ssize_t random[] = { 2, 7, 13, 15, 29 };
-	oak::random_shuffle(std::begin(random), std::end(random));
+	test::shuffle(std::begin(random), std::end(random));
 	for(auto i : random)
 		map.set(i, true);
 

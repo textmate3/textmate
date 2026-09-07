@@ -3,6 +3,7 @@
 #include <io/path.h>
 #include <text/format.h>
 #include <regexp/format_string.h>
+#include <test/shuffle.h>
 
 struct key_t
 {
@@ -49,7 +50,7 @@ static std::string create_buffer (size_t size = 50 * 1024)
 	std::string buffer(size, '\0');
 	for(size_t i = 0; i < buffer.size(); ++i)
 		buffer[i] = 0x20 + (i % 0x60);
-	oak::random_shuffle(buffer.begin(), buffer.end());
+	test::shuffle(buffer.begin(), buffer.end());
 	return buffer;
 }
 
