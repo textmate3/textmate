@@ -3,7 +3,7 @@
 #import "FFResultsViewController.h"
 #import "FFTextFieldViewController.h"
 #import "FFDocumentSearch.h"
-#import "CommonAncestor.h"
+#import "Find-Swift.h"
 #import "FFFolderMenu.h"
 #import "FFStatusBarViewController.h"
 #import <OakFoundation/OakFindProtocol.h>
@@ -710,7 +710,7 @@ static NSButton* OakCreateHistoryButton (NSString* toolTip)
 {
 	if(_searchTarget == FFSearchTargetFileBrowserItems && _fileBrowserItems.count > 1)
 	{
-		self.otherFolder = CommonAncestor(_fileBrowserItems);
+		self.otherFolder = [CommonAncestor of:_fileBrowserItems];
 		self.searchTarget = FFSearchTargetOther;
 	}
 	else if(NSString* parent = [self.searchFolder stringByDeletingLastPathComponent])
@@ -1135,7 +1135,7 @@ static NSButton* OakCreateHistoryButton (NSString* toolTip)
 
 		FFResultNode* node = [FFResultNode resultNodeWithMatch:match];
 		if(!parent || ![parent.document isEqual:node.document])
-			[_results addResultNode:(parent = [FFResultNode resultNodeWithMatch:match baseDirectory:CommonAncestor(_documentSearch.paths)])];
+			[_results addResultNode:(parent = [FFResultNode resultNodeWithMatch:match baseDirectory:[CommonAncestor of:_documentSearch.paths]])];
 		[parent addResultNode:node];
 	}
 
@@ -1254,7 +1254,7 @@ static NSButton* OakCreateHistoryButton (NSString* toolTip)
 	{
 		if(item.document.path)
 		{
-			std::string path = path::relative_to(to_s(item.document.path), to_s(CommonAncestor(_documentSearch.paths)));
+			std::string path = path::relative_to(to_s(item.document.path), to_s([CommonAncestor of:_documentSearch.paths]));
 			NSString* newGlob = [self.globString stringByAppendingFormat:@"~%@", [NSString stringWithCxxString:path]];
 			self.globString = newGlob;
 		}
@@ -1393,7 +1393,7 @@ static NSButton* OakCreateHistoryButton (NSString* toolTip)
 	else if(aMenuItem.action == @selector(toggleSearchBinaryFiles:))
 		aMenuItem.state = self.searchBinaryFiles ? NSControlStateValueOn : NSControlStateValueOff;
 	else if(aMenuItem.action == @selector(goToParentFolder:))
-		res = self.searchFolder != nil || _searchTarget == FFSearchTargetFileBrowserItems && CommonAncestor(_fileBrowserItems);
+		res = self.searchFolder != nil || _searchTarget == FFSearchTargetFileBrowserItems && [CommonAncestor of:_fileBrowserItems];
 	else if(aMenuItem.action == @selector(goBack:))
 		res = [_wherePopUpButton.menu indexOfItemWithTarget:self andAction:aMenuItem.action] != -1;
 	else if(aMenuItem.action == @selector(goForward:))

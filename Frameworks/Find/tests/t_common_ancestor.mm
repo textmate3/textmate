@@ -1,4 +1,4 @@
-#import "../src/CommonAncestor.h"
+#import <Find/Find-Swift.h>
 #import <ns/ns.h>
 
 // The folder that stands for a set of paths when
@@ -8,37 +8,37 @@
 // and the prefix logic is what is under test.
 void test_siblings_share_their_folder ()
 {
-	OAK_ASSERT_EQ(to_s(CommonAncestor(@[ @"/foo/bar/one.rb", @"/foo/bar/two.rb" ])), "/foo/bar");
+	OAK_ASSERT_EQ(to_s([CommonAncestor of:@[ @"/foo/bar/one.rb", @"/foo/bar/two.rb" ]]), "/foo/bar");
 }
 
 void test_cousins_share_the_folder_above ()
 {
-	OAK_ASSERT_EQ(to_s(CommonAncestor(@[ @"/foo/bar/one.rb", @"/foo/baz/two.rb" ])), "/foo");
+	OAK_ASSERT_EQ(to_s([CommonAncestor of:@[ @"/foo/bar/one.rb", @"/foo/baz/two.rb" ]]), "/foo");
 }
 
 void test_a_shared_name_prefix_is_not_a_shared_folder ()
 {
-	OAK_ASSERT_EQ(to_s(CommonAncestor(@[ @"/foo/bar", @"/foo/barn" ])), "/foo");
+	OAK_ASSERT_EQ(to_s([CommonAncestor of:@[ @"/foo/bar", @"/foo/barn" ]]), "/foo");
 }
 
 void test_nothing_in_common_is_the_root ()
 {
-	OAK_ASSERT_EQ(to_s(CommonAncestor(@[ @"/foo/one", @"/bar/two" ])), "/");
+	OAK_ASSERT_EQ(to_s([CommonAncestor of:@[ @"/foo/one", @"/bar/two" ]]), "/");
 }
 
 void test_one_path_is_itself ()
 {
-	OAK_ASSERT_EQ(to_s(CommonAncestor(@[ @"/foo/bar" ])), "/foo/bar");
+	OAK_ASSERT_EQ(to_s([CommonAncestor of:@[ @"/foo/bar" ]]), "/foo/bar");
 }
 
 void test_no_paths_is_nothing ()
 {
-	OAK_ASSERT(CommonAncestor(@[ ]) == nil);
+	OAK_ASSERT([CommonAncestor of:@[ ]] == nil);
 }
 
 void test_a_trailing_separator_changes_nothing ()
 {
-	OAK_ASSERT_EQ(to_s(CommonAncestor(@[ @"/foo/bar/", @"/foo/bar/baz" ])), "/foo/bar");
+	OAK_ASSERT_EQ(to_s([CommonAncestor of:@[ @"/foo/bar/", @"/foo/bar/baz" ]]), "/foo/bar");
 }
 
 // A folder selected together with something inside it answers the folder,
@@ -48,6 +48,6 @@ void test_a_trailing_separator_changes_nothing ()
 // and the last separator it had passed was the one before the folder's own name.
 void test_a_folder_and_something_inside_it_answers_the_folder ()
 {
-	OAK_ASSERT_EQ(to_s(CommonAncestor(@[ @"/foo/bar", @"/foo/bar/baz" ])), "/foo/bar");
-	OAK_ASSERT_EQ(to_s(CommonAncestor(@[ @"/foo/bar/baz", @"/foo/bar" ])), "/foo/bar");
+	OAK_ASSERT_EQ(to_s([CommonAncestor of:@[ @"/foo/bar", @"/foo/bar/baz" ]]), "/foo/bar");
+	OAK_ASSERT_EQ(to_s([CommonAncestor of:@[ @"/foo/bar/baz", @"/foo/bar" ]]), "/foo/bar");
 }

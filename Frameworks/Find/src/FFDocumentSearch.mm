@@ -1,5 +1,5 @@
 #import "FFDocumentSearch.h"
-#import "CommonAncestor.h"
+#import "Find-Swift.h"
 #import <OakFoundation/NSString Additions.h>
 #import <document/OakDocumentController.h>
 #import <document/OakDocument.h>
@@ -80,7 +80,7 @@ static NSDictionary* GlobOptionsForPath (std::string const& path, NSString* glob
 	NSUInteger searchToken = _lastSearchToken;
 	NSDate* searchStartDate = [NSDate date];
 
-	NSMutableDictionary* options = [GlobOptionsForPath(to_s(CommonAncestor(_paths)), _glob, _searchBinaryFiles, _searchHiddenFolders) mutableCopy];
+	NSMutableDictionary* options = [GlobOptionsForPath(to_s([CommonAncestor of:_paths]), _glob, _searchBinaryFiles, _searchHiddenFolders) mutableCopy];
 	options[kSearchFollowFileLinksKey]      = @(_searchFileLinks);
 	options[kSearchFollowDirectoryLinksKey] = @(_searchFolderLinks);
 	options[kSearchDepthFirstSearchKey]     = @YES;
