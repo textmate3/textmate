@@ -171,8 +171,8 @@ static std::string fake_ruby (test::jail_t& jail)
 	return jail.path("bin/ruby");
 }
 
-// echo prints the script's path, which the runner puts the command's name in place of.
-static std::string const kFakeRubyOutput = "Test Command\n";
+// echo prints the script's path and a newline. The runner puts the command's name in place of the path, and a tool tip loses its trailing newline.
+static std::string const kFakeRubyOutput = "Test Command";
 
 void test_a_ruby_command_runs_on_tm_ruby ()
 {
