@@ -169,7 +169,7 @@ namespace
 		{
 			std::map<std::string, bool> tmp;
 			std::string const base = _key == "" ? _key : _key + "/";
-			foreach(it, _helper->_entries.lower_bound(base), _helper->_entries.lower_bound(base + '\xFF'))
+			for(auto it = _helper->_entries.lower_bound(base), last = _helper->_entries.lower_bound(base + '\xFF'); it != last; ++it)
 			{
 				std::string const path = it->first.substr(base.length());
 				std::string::size_type const sep = path.find('/');

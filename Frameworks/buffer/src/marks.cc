@@ -106,7 +106,7 @@ namespace ng
 		std::multimap<size_t, std::pair<std::string, std::string>> res;
 		for(auto const& m : _marks)
 		{
-			foreach(it, m.second.lower_bound(from), m.second.upper_bound(to))
+			for(auto it = m.second.lower_bound(from), last = m.second.upper_bound(to); it != last; ++it)
 				res.emplace(it->first, std::make_pair(m.first, it->second));
 		}
 		return res;

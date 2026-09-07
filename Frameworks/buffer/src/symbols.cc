@@ -102,7 +102,7 @@ namespace ng
 		_symbols.remove(_symbols.lower_bound(from), _symbols.lower_bound(to));
 
 		std::set<scope::scope_t> all_scopes;
-		foreach(it, buffer->_scopes.lower_bound(from), buffer->_scopes.lower_bound(to))
+		for(auto it = buffer->_scopes.lower_bound(from), last = buffer->_scopes.lower_bound(to); it != last; ++it)
 			all_scopes.insert(all_scopes.end(), it->second);
 
 		std::map<scope::scope_t, transform_t> transforms;
@@ -119,7 +119,7 @@ namespace ng
 		size_t beginOfSymbol = 0;
 		bool inSymbol = false;
 		transform_t* transform = nullptr;
-		foreach(it, buffer->_scopes.lower_bound(from), buffer->_scopes.lower_bound(to))
+		for(auto it = buffer->_scopes.lower_bound(from), last = buffer->_scopes.lower_bound(to); it != last; ++it)
 		{
 			std::map<scope::scope_t, transform_t>::iterator transformIt = transforms.find(it->second);
 			if(transformIt != transforms.end())

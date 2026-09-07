@@ -78,7 +78,7 @@ void OakAddBundlesToMenu (std::vector<bundles::item_ptr> const& items, bool setK
 		{
 			bundles::item_ptr bundle = byBundle.begin()->first;
 			std::set<bundles::item_ptr> includedItems;
-			foreach(pair, byBundle.lower_bound(bundle), byBundle.upper_bound(bundle))
+			for(auto pair = byBundle.lower_bound(bundle), last = byBundle.upper_bound(bundle); pair != last; ++pair)
 				includedItems.insert(pair->second);
 			byBundle.erase(bundle);
 

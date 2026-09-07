@@ -79,7 +79,7 @@ namespace snippet
 				continue;
 
 			std::string const& src = fields[node]->range.to_s(text);
-			foreach(mirror, mirrors.lower_bound(node), mirrors.upper_bound(node))
+			for(auto mirror = mirrors.lower_bound(node), last = mirrors.upper_bound(node); mirror != last; ++mirror)
 			{
 				std::string str = mirror->second->transform(src, variables);
 				str = tabs_to_spaces(str, indent_info.create());
@@ -181,7 +181,7 @@ namespace snippet
 		{
 			if(dirty.find(node) != dirty.end())
 			{
-				foreach(mirror, mirrors.lower_bound(node), mirrors.upper_bound(node))
+				for(auto mirror = mirrors.lower_bound(node), last = mirrors.upper_bound(node); mirror != last; ++mirror)
 					updated.emplace_back(mirror->second->range, std::string());
 			}
 		}
@@ -194,7 +194,7 @@ namespace snippet
 		{
 			if(dirty.find(node) != dirty.end())
 			{
-				foreach(mirror, mirrors.lower_bound(node), mirrors.upper_bound(node))
+				for(auto mirror = mirrors.lower_bound(node), last = mirrors.upper_bound(node); mirror != last; ++mirror)
 					updated[i++].second = mirror->second->range.to_s(text);
 			}
 		}

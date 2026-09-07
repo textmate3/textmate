@@ -416,7 +416,7 @@ namespace ng
 		if(firstY != _rows.begin())
 			--firstY;
 
-		foreach(row, firstY, _rows.lower_bound(yMax, &row_y_comp))
+		for(auto row = firstY, last = _rows.lower_bound(yMax, &row_y_comp); row != last; ++row)
 			update_metrics_for_row(row);
 	}
 
@@ -633,7 +633,7 @@ namespace ng
 
 	void layout_t::did_update_scopes (size_t from, size_t to)
 	{
-		foreach(row, _rows.lower_bound(from, &row_offset_comp), _rows.lower_bound(to, &row_offset_comp))
+		for(auto row = _rows.lower_bound(from, &row_offset_comp), last = _rows.lower_bound(to, &row_offset_comp); row != last; ++row)
 		{
 			row->value.did_update_scopes(from, to, _buffer, row->offset._length);
 			refresh_line_at_index(row->offset._length, false);
@@ -822,7 +822,7 @@ namespace ng
 
 		if(drawBackground)
 		{
-			foreach(row, firstY, _rows.lower_bound(yMax, &row_y_comp))
+			for(auto row = firstY, last = _rows.lower_bound(yMax, &row_y_comp); row != last; ++row)
 				row->value.draw_background(_theme, *_metrics, context, isFlipped, visibleRect, background, _buffer, row->offset._length, CGPointMake(_margin.left, _margin.top + row->offset._height));
 		}
 
@@ -860,7 +860,7 @@ namespace ng
 			render::fill_rect(context, baseColors.marked_text_background, CGRectInset(r, -1, -1));
 		}
 
-		foreach(row, firstY, _rows.lower_bound(yMax, &row_y_comp))
+		for(auto row = firstY, last = _rows.lower_bound(yMax, &row_y_comp); row != last; ++row)
 			row->value.draw_foreground(_theme, *_metrics, context, isFlipped, visibleRect, _buffer, row->offset._length, selection, CGPointMake(_margin.left, _margin.top + row->offset._height));
 
 		if(_draw_caret && !_drop_marker)
