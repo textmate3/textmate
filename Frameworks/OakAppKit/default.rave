@@ -6,8 +6,9 @@ target "${dirname}" {
 
 	sources src/*.{cc,mm,swift}
 	frameworks Cocoa Quartz UniformTypeIdentifiers
-	# The SDK's sqlite by path, so a Homebrew sqlite on the linker's search path is never
-	# picked up. Nothing the application ships may load a library from outside the system.
+	# The SDK's sqlite by path.
+	# A Homebrew sqlite on the linker's search path is never picked up.
+	# Nothing the application ships may load a library from outside the system.
 	capture SDK_PATH "xcrun --sdk macosx --show-sdk-path"
 	libraries "${SDK_PATH}/usr/lib/libsqlite3.tbd"
 }
