@@ -3759,7 +3759,7 @@ static char const* kOakMenuItemTitle = "OakMenuItemTitle";
 	BOOL res = YES;
 	NSPasteboard* pboard  = [info draggingPasteboard];
 	NSArray* types        = [pboard types];
-	NSString* type DB_VAR = [pboard availableTypeFromArray:[[self class] dropTypes]];
+	[[maybe_unused]] NSString* type = [pboard availableTypeFromArray:[[self class] dropTypes]];
 	BOOL shouldMove       = ([info draggingSource] == self) && ([info draggingSourceOperationMask] & NSDragOperationMove);
 	BOOL shouldLink       = ([info draggingSource] != self) && ([info draggingSourceOperationMask] == NSDragOperationLink);
 
