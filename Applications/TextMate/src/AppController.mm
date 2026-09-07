@@ -30,7 +30,7 @@
 #import <bundles/query.h>
 #import <io/environment.h>
 #import <io/path.h>
-#import <io/rv.h>
+#import <io/ruby_runtime.h>
 #import <libproc.h>
 #import <regexp/glob.h>
 #import <ns/ns.h>
@@ -595,23 +595,40 @@ BOOL HasDocumentWindow (NSArray* windows)
 	return self.didFinishLaunching;
 }
 
-// The Ruby bundle commands run on comes from rv: the newest installed of the
-// series the application asks for, or one rv installs now, prebuilt, in
-// seconds. Off the main thread, since an install downloads. When it is
-// settled the environment every command gets is made again around it.
+// The Ruby bundle commands run on comes from the Runtimes bundle: its
+// resolver, a shell script around rv, finds the version the application
+// pins wherever rv looks, or installs it, prebuilt, in seconds. Off the main
+// thread, since an install downloads. When it is settled the environment
+// every command gets is made again around it. What the resolver reports on
+// the way, an install, a fallback, an error, is logged here and is the
+// banner's material once the banner exists.
+static NSString* const kRuntimesBundleUUID = @"0273983B-D121-4A7F-91CA-12C06A6CDE2A";
+
 - (void)activateApplicationRuby
 {
+	bundles::item_ptr runtimes = bundles::lookup(oak::uuid_t(to_s(kRuntimesBundleUUID)));
+	if(!runtimes)
+	{
+		os_log_error(OS_LOG_DEFAULT, "No Ruby for bundle commands: the Runtimes bundle is not installed");
+		return;
+	}
+
+	std::string const resolver = path::join(runtimes->support_path(), "bin/ruby_runtime");
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-		std::string const ruby = rv::application_ruby();
+		ruby_runtime::answer_t const answer = ruby_runtime::resolve(resolver, ruby_runtime::kPinnedVersion);
 		dispatch_async(dispatch_get_main_queue(), ^{
-			if(ruby == NULL_STR)
+			if(answer.installed != NULL_STR)
+				os_log(OS_LOG_DEFAULT, "Installed Ruby %{public}s for bundle commands at %{public}s", answer.installed.c_str(), answer.ruby.c_str());
+			if(answer.fallback != NULL_STR)
+				os_log(OS_LOG_DEFAULT, "Bundle commands run on a Ruby other than %{public}s: %{public}s", ruby_runtime::kPinnedVersion.c_str(), answer.fallback.c_str());
+			if(answer.ruby == NULL_STR)
 			{
-				os_log_error(OS_LOG_DEFAULT, "No Ruby %{public}s for bundle commands: rv is missing or could not install one", rv::kApplicationRubySeries.c_str());
+				os_log_error(OS_LOG_DEFAULT, "No Ruby for bundle commands: %{public}s", answer.error.c_str());
 				return;
 			}
-			oak::set_application_ruby_directory(ruby);
+			oak::set_application_ruby_directory(answer.ruby);
 			oak::set_basic_environment(oak::setup_basic_environment());
-			os_log(OS_LOG_DEFAULT, "Bundle commands run on the Ruby at %{public}s", ruby.c_str());
+			os_log(OS_LOG_DEFAULT, "Bundle commands run on the Ruby at %{public}s", answer.ruby.c_str());
 		});
 	});
 }

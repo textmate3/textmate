@@ -72,12 +72,15 @@ namespace oak
 		// so a command's shebang is rewritten to it. The system Ruby is never
 		// reached for either. A TM_RUBY the person sets, in the Variables
 		// preferences or a .tm_properties, still wins, since those layers
-		// come after this one.
+		// come after this one, which is why the application's own answer is
+		// kept a second time as TM_APPLICATION_RUBY: it is what a command runs
+		// on when the person's TM_RUBY is refused.
 		std::string const applicationRuby = application_ruby_directory();
 		if(applicationRuby != NULL_STR)
 		{
 			path = path::join(applicationRuby, "bin") + ":" + path;
-			res.emplace("TM_RUBY", path::join(applicationRuby, "bin/ruby"));
+			res.emplace("TM_RUBY",             path::join(applicationRuby, "bin/ruby"));
+			res.emplace("TM_APPLICATION_RUBY", path::join(applicationRuby, "bin/ruby"));
 		}
 
 		res.emplace("HOME",    entry->pw_dir);

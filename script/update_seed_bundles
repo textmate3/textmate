@@ -24,6 +24,7 @@ SEED_BUNDLES = %w[
   property-list.tmbundle
   ruby-on-rails.tmbundle
   ruby.tmbundle
+  runtimes.tmbundle
   source.tmbundle
   text.tmbundle
   themes.tmbundle

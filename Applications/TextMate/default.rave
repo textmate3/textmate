@@ -37,17 +37,13 @@ target "${dirname}" {
 	# Sparkle's own instructions give, so that library validation admits it.
 	add FLAGS    "-Fvendor/Sparkle"
 	add LN_FLAGS "-Fvendor/Sparkle -framework Sparkle -Wl,-rpath,@executable_path/../Frameworks"
-	set CS_NESTED "MacOS/rv Frameworks/Sparkle.framework/Versions/B/XPCServices/Installer.xpc/Contents/MacOS/Installer Frameworks/Sparkle.framework/Versions/B/XPCServices/Downloader.xpc/Contents/MacOS/Downloader Frameworks/Sparkle.framework/Versions/B/Autoupdate Frameworks/Sparkle.framework/Versions/B/Updater.app/Contents/MacOS/Updater Frameworks/Sparkle.framework/Versions/B/Sparkle"
+	set CS_NESTED "Frameworks/Sparkle.framework/Versions/B/XPCServices/Installer.xpc/Contents/MacOS/Installer Frameworks/Sparkle.framework/Versions/B/XPCServices/Downloader.xpc/Contents/MacOS/Downloader Frameworks/Sparkle.framework/Versions/B/Autoupdate Frameworks/Sparkle.framework/Versions/B/Updater.app/Contents/MacOS/Updater Frameworks/Sparkle.framework/Versions/B/Sparkle"
 
 	prefix "${target}.app/Contents"
 
 	copy  ../../vendor/Sparkle/Sparkle.framework "Frameworks"
 	files resources/* icons/*.icns "Resources"
 	files @mate @tm_query @gtm @PrivilegedTool "MacOS"
-	# rv, Spinel's Ruby manager, vendored prebuilt: the application asks it for the Ruby bundle
-	# commands run on, and has it install one when there is none. Re-signed with the application's
-	# identity through CS_NESTED, the way Sparkle's pieces are.
-	files ../../vendor/rv/rv "MacOS"
 	# The privileged helper's launchd job, registered with the system through
 	# SMAppService the first time the helper is needed. It names the helper by
 	# its path inside this bundle.
