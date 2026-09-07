@@ -100,8 +100,8 @@ namespace path
 
 	bool move (std::string const& src, std::string const& dst, bool overwrite)
 	{
-		std::string const& dst_parent = path::parent(dst);
-		std::string const& src_parent = path::parent(src);
+		std::string const& dst_parent    = path::parent(dst);
+		std::string const& src_parent    = path::parent(src);
 		[[maybe_unused]] bool src_exists = path::exists(src);
 		bool dst_exists = path::exists(dst);
 

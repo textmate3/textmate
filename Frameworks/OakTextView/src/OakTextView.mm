@@ -3757,11 +3757,11 @@ static char const* kOakMenuItemTitle = "OakMenuItemTitle";
 	ASSERT(dropPosition);
 
 	BOOL res = YES;
-	NSPasteboard* pboard  = [info draggingPasteboard];
-	NSArray* types        = [pboard types];
+	NSPasteboard* pboard            = [info draggingPasteboard];
+	NSArray* types                  = [pboard types];
 	[[maybe_unused]] NSString* type = [pboard availableTypeFromArray:[[self class] dropTypes]];
-	BOOL shouldMove       = ([info draggingSource] == self) && ([info draggingSourceOperationMask] & NSDragOperationMove);
-	BOOL shouldLink       = ([info draggingSource] != self) && ([info draggingSourceOperationMask] == NSDragOperationLink);
+	BOOL shouldMove                 = ([info draggingSource] == self) && ([info draggingSourceOperationMask] & NSDragOperationMove);
+	BOOL shouldLink                 = ([info draggingSource] != self) && ([info draggingSourceOperationMask] == NSDragOperationLink);
 
 	crash_reporter_info_t crashInfo("local %s, should move %s, type %s, all types %s", BSTR([info draggingSource] == self), BSTR(shouldMove), [type UTF8String], [[types description] UTF8String]);
 
