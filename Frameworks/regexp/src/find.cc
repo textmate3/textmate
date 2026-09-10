@@ -81,8 +81,8 @@ namespace find
 				}
 			}
 
-			riterate(it, allChildren)
-				(*it)->clear();
+			for(std::vector<dfa_node_ptr>* list : std::views::reverse(allChildren))
+				list->clear();
 		}
 
 		bool does_match (char needle) const                   { return needle == byte; }
@@ -193,10 +193,10 @@ namespace find
 				}
 			}
 
-			riterate(rowIter, matrix)
+			for(std::vector<std::string> const& row : std::views::reverse(matrix))
 			{
 				std::vector<dfa_node_ptr> tmp;
-				for(auto const& colIter : *rowIter)
+				for(auto const& colIter : row)
 				{
 					if(dfa_node_ptr new_node = node_from_string(colIter, children))
 					{
@@ -297,11 +297,11 @@ namespace find
 		dfa_node_ptr node_from_string (std::string const& str, std::vector<dfa_node_ptr> children) const
 		{
 			std::vector<dfa_node_ptr> tmp;
-			riterate(it, str)
+			for(char ch : std::views::reverse(str))
 			{
 				tmp.swap(children);
 				children.clear();
-				children.push_back(std::make_shared<dfa_node_t>(*it, tmp));
+				children.push_back(std::make_shared<dfa_node_t>(ch, tmp));
 			}
 			return children.empty() ? dfa_node_ptr() : children.front();
 		}

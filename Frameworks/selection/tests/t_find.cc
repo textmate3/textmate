@@ -36,8 +36,8 @@ static std::string search (std::string const& needle, std::string haystack, find
 		marks.insert(pair.first.last.index);
 	}
 
-	riterate(index, marks)
-		haystack.insert(*index, kMarker);
+	for(size_t index : std::views::reverse(marks))
+		haystack.insert(index, kMarker);
 
 	return haystack;
 }

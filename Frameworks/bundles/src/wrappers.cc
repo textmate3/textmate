@@ -151,12 +151,12 @@ namespace bundles
 		std::vector<item_ptr> const& items = query(kFieldSettingName, "shellVariables", scope, kItemTypeSettings, oak::uuid_t(), false);
 
 		std::vector< std::set<std::string> > stack;
-		riterate(item, items)
+		for(item_ptr const& item : std::views::reverse(items))
 		{
 			stack.push_back(std::set<std::string>());
-			for(auto pair : shell_variables(*item))
+			for(auto pair : shell_variables(item))
 			{
-				auto tmp = (*item)->bundle_variables();
+				auto tmp = item->bundle_variables();
 				tmp.insert(res.begin(), res.end());
 				res[pair.first] = format_string::expand(pair.second, tmp);
 				stack.back().insert(pair.first);
@@ -164,14 +164,14 @@ namespace bundles
 		}
 
 		std::set<std::string> didSet, shouldUnset;
-		riterate(set, stack)
+		for(std::set<std::string> const& set : std::views::reverse(stack))
 		{
 			std::vector<std::string> tmp;
-			std::set_intersection(set->begin(), set->end(), didSet.begin(), didSet.end(), back_inserter(tmp));
+			std::set_intersection(set.begin(), set.end(), didSet.begin(), didSet.end(), back_inserter(tmp));
 
 			if(tmp.empty())
-					didSet.insert(set->begin(), set->end());
-			else	shouldUnset.insert(set->begin(), set->end());
+					didSet.insert(set.begin(), set.end());
+			else	shouldUnset.insert(set.begin(), set.end());
 		}
 
 		std::vector<std::string> tmp;
