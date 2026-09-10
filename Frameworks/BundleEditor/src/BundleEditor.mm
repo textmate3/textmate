@@ -568,7 +568,7 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 	}
 
 	std::vector<be::entry_ptr> const& allBundles = bundles->children();
-	iterate(bundle, allBundles)
+	for(auto bundle = allBundles.begin(); bundle != allBundles.end(); ++bundle)
 	{
 		if((anItem->bundle() ?: anItem) != (*bundle)->represented_item())
 			continue;

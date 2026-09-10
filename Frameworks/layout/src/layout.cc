@@ -71,7 +71,7 @@ namespace ng
 
 	void layout_t::clear_text_widths ()
 	{
-		iterate(row, _rows)
+		for(auto row = _rows.begin(); row != _rows.end(); ++row)
 		{
 			row->value.reset_font_metrics(*_metrics);
 			update_row(row);
@@ -103,8 +103,8 @@ namespace ng
 		if(tabSize == _tab_size)
 			return;
 		_tab_size = tabSize;
-		iterate(row, _rows)
-			row->value.set_tab_size(*_metrics);
+		for(auto& row : _rows)
+			row.value.set_tab_size(*_metrics);
 		_dirty_rects.push_back(OakRectMake(0, 0, width(), height()));
 	}
 
@@ -123,7 +123,7 @@ namespace ng
 		_wrapping    = softWrap;
 		_wrap_column = wrapColumn;
 
-		iterate(row, _rows)
+		for(auto row = _rows.begin(); row != _rows.end(); ++row)
 		{
 			row->value.set_wrapping(effective_soft_wrap(row), effective_wrap_column(), *_metrics);
 			update_row(row);
@@ -187,7 +187,7 @@ namespace ng
 		_viewport_size = size;
 		if(oldWrapColumn != effective_wrap_column())
 		{
-			iterate(row, _rows)
+			for(auto row = _rows.begin(); row != _rows.end(); ++row)
 			{
 				if(effective_soft_wrap(row))
 				{

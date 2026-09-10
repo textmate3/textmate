@@ -130,7 +130,7 @@ namespace
 		void unwatch (std::string const& path, fs::event_callback_t* cb)
 		{
 			std::lock_guard<std::mutex> lock(streams_mutex);
-			iterate(stream, streams)
+			for(auto stream = streams.begin(); stream != streams.end(); ++stream)
 			{
 				if((*stream)->_requested.path() == path && (*stream)->_callback == cb)
 					return (void)streams.erase(stream);
