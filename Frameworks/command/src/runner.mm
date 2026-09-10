@@ -185,7 +185,8 @@ namespace command
 	{
 		fix_shebang(command);
 
-		static regexp::pattern_t const rubyShebang("\\A#!(/usr/bin/env ruby|/usr/bin/ruby)(?=[ \\t]|$)");
+		// The three ways a shebang reaches the system Ruby: through env, by its /usr/bin path, or by the framework path some older bundles spell out.
+		static regexp::pattern_t const rubyShebang("\\A#!(/usr/bin/env ruby|/usr/bin/ruby|/System/Library/Frameworks/Ruby\\.framework/Versions/[^/ \\t\\n]+/usr/bin/ruby)(?=[ \\t]|$)");
 		regexp::match_t const m = regexp::search(rubyShebang, *command);
 		if(!m)
 			return;
