@@ -2,7 +2,7 @@
 require 'pathname'
 require 'erb'
 
-user_code = ""
+user_code = String.new
 setup, tests, benchmarks = [ ], [ ], [ ]
 
 ARGV.each do |file|
