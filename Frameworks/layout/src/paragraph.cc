@@ -235,7 +235,8 @@ namespace ng
 
 		std::string const str = buffer.substr(pos, pos + len);
 		size_t from = 0, i = 0;
-		citerate(ch, diacritics::make_range(str.data(), str.data() + str.size()))
+		auto const graphemes = diacritics::make_range(str.data(), str.data() + str.size());
+		for(auto ch = graphemes.begin(); ch != graphemes.end(); ++ch)
 		{
 			if(*ch == '\n' || representation_for(*ch) != NULL_STR)
 			{
@@ -348,7 +349,8 @@ namespace ng
 					if(regexp::match_t const& m = regexp::search(pattern, str))
 					{
 						std::string tmp = format_string::expand(format, m.captures());
-						citerate(ch, diacritics::make_range(tmp.data(), tmp.data() + tmp.size()))
+						auto const graphemes = diacritics::make_range(tmp.data(), tmp.data() + tmp.size());
+						for(auto ch = graphemes.begin(); ch != graphemes.end(); ++ch)
 						{
 							if(*ch == '\t')
 									fillStr.append(std::string(tabSize - (fillStrWidth % tabSize), ' '));

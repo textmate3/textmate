@@ -29,6 +29,7 @@ Target: **2.1.0**, the first release of the project. Version 3.0.0 is the eventu
 - Sparkle's `Autoupdate` helper was left with its ad hoc signature, because the rule that names the bundle a nested binary belongs to took anything under a framework's `Versions` directory for the framework's own binary. Apple's first notarization answer named exactly that file. The rule now matches the framework only for the binary that carries its name, and `Autoupdate` is signed as the standalone tool it is.
 
 ### Changed
+- The sixteen loops over a string's graphemes that used the `citerate` macro from `oak/iterator_macros.h` are written out: a range for where only the code point is read, and a loop over a named range, `graphemes`, where the grapheme's bytes and length are asked for.
 - The twenty eight loops that used the `foreach` macro from `oak/iterator_macros.h` over an iterator pair are written out as the plain loop the macro expanded to, the end named, since each walks a slice of a sorted structure or a run of UTF-8 that no range stands for.
 - The sixteen loops that used the `iterate` macro from `oak/iterator_macros.h` are written out: a range for where the loop only reads each element, and a plain iterator loop where it erases, returns or measures the iterator itself. The macro is deleted.
 - Walking a container backwards is a range for over `std::views::reverse` at the fourteen places it happens, each element named for what it is, rather than the `riterate` macro from `oak/iterator_macros.h`, which is deleted. The prelude gains the ranges header.

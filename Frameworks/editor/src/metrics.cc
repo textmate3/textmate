@@ -16,8 +16,8 @@ namespace ng
 		ASSERT_EQ(buffer.convert(first.index).line, buffer.convert(last.index).line);
 		size_t len = 0, tabSize = buffer.indent().tab_size();
 		std::string const& str = buffer.substr(first.index, last.index);
-		citerate(ch, diacritics::make_range(str.data(), str.data() + str.size()))
-			len += *ch == '\t' ? tabSize - (len % tabSize) : (eastAsianWidth && text::is_east_asian_width(*ch) ? 2 : 1);
+		for(auto ch : diacritics::make_range(str.data(), str.data() + str.size()))
+			len += ch == '\t' ? tabSize - (len % tabSize) : (eastAsianWidth && text::is_east_asian_width(ch) ? 2 : 1);
 		return len + (first.index == last.index ? last.carry - first.carry : last.carry);
 	}
 
@@ -25,7 +25,8 @@ namespace ng
 	{
 		size_t len = 0, tabSize = buffer.indent().tab_size();
 		std::string const& str = buffer.substr(caret.index, buffer.eol(buffer.convert(caret.index).line));
-		citerate(ch, diacritics::make_range(str.data(), str.data() + str.size()))
+		auto const graphemes = diacritics::make_range(str.data(), str.data() + str.size());
+		for(auto ch = graphemes.begin(); ch != graphemes.end(); ++ch)
 		{
 			if(len == distance)
 				return index_t(caret.index + (&ch - str.data()));
