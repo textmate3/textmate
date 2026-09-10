@@ -37,6 +37,17 @@ namespace ruby_runtime
 	// that resolves there through a link.
 	bool is_system_ruby (std::string const& executable);
 
+	// The version below which bundle support makes no promises.
+	// A TM_RUBY below it is honored, and said so, so a failure reads as a version problem rather than a bundle bug.
+	extern std::string const kMinimumVersion;
+
+	// What the Ruby says RUBY_VERSION is, or NULL_STR when it cannot be run.
+	std::string version_of (std::string const& executable);
+
+	// Whether the version is below kMinimumVersion, major then minor as numbers.
+	// NULL_STR and anything that does not start with a number are not below it, since there is nothing to say about them.
+	bool is_below_minimum (std::string const& version);
+
 } /* ruby_runtime */
 
 #endif /* end of include guard: IO_RUBY_RUNTIME_H_5E2A8D40 */
