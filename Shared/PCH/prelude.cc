@@ -20,6 +20,7 @@
 #include <memory>
 #include <numeric>
 #include <random>
+#include <ranges>
 #include <thread>
 #include <boost/crc.hpp>
 

@@ -158,6 +158,23 @@ namespace command
 			command->insert(0, "#!/bin/bash\n[[ -f \"${TM_SUPPORT_PATH}/lib/bash_init.sh\" ]] && . \"${TM_SUPPORT_PATH}/lib/bash_init.sh\"\n\n");
 	}
 
+	// A TM_RUBY below the minimum is honored and said so on standard error, once per path.
+	// Asking a Ruby its version runs it, so the answer is kept for the life of the process.
+	static void say_once_when_below_minimum (std::string const& ruby)
+	{
+		static std::mutex mutex;
+		static std::set<std::string> seen;
+		{
+			std::lock_guard<std::mutex> lock(mutex);
+			if(!seen.insert(ruby).second)
+				return;
+		}
+
+		std::string const version = ruby_runtime::version_of(ruby);
+		if(ruby_runtime::is_below_minimum(version))
+			fprintf(stderr, "TM_RUBY names Ruby %s, %s, below the %s that TextMate's bundles expect. Commands run on it as asked, and a failure may be the version rather than the bundle.\n", version.c_str(), ruby.c_str(), ruby_runtime::kMinimumVersion.c_str());
+	}
+
 	// The Ruby a command's shebang is pointed at: TM_RUBY when it is an
 	// absolute path to anything but the system Ruby, else the application's
 	// own, TM_APPLICATION_RUBY. The system Ruby is never used, so a TM_RUBY
@@ -178,6 +195,7 @@ namespace command
 			return fallback;
 		}
 
+		say_once_when_below_minimum(ruby->second);
 		return ruby->second;
 	}
 
@@ -185,7 +203,8 @@ namespace command
 	{
 		fix_shebang(command);
 
-		static regexp::pattern_t const rubyShebang("\\A#!(/usr/bin/env ruby|/usr/bin/ruby)(?=[ \\t]|$)");
+		// The three ways a shebang reaches the system Ruby: through env, by its /usr/bin path, or by the framework path some older bundles spell out.
+		static regexp::pattern_t const rubyShebang("\\A#!(/usr/bin/env ruby|/usr/bin/ruby|/System/Library/Frameworks/Ruby\\.framework/Versions/[^/ \\t\\n]+/usr/bin/ruby)(?=[ \\t]|$)");
 		regexp::match_t const m = regexp::search(rubyShebang, *command);
 		if(!m)
 			return;

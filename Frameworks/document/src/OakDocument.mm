@@ -1854,8 +1854,8 @@ static void* kDocumentEditedObserverContext = &kDocumentEditedObserverContext;
 
 	// TODO Preserve visibleIndex, selectionRange, and folded
 	document::marks.move_to_buffer(to_s(_path), *_buffer);
-	riterate(pair, someReplacements)
-		_buffer->replace(pair->first.first, pair->first.second, pair->second);
+	for(auto const& pair : std::views::reverse(someReplacements))
+		_buffer->replace(pair.first.first, pair.first.second, pair.second);
 	document::marks.copy_from_buffer(to_s(_path), *_buffer);
 
 	return YES;

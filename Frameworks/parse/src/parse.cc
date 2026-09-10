@@ -380,11 +380,11 @@ namespace parse
 		}
 
 		scope::scope_t scope = while_rules.empty() ? stack->scope : while_rules.back()->parent->scope;
-		riterate(it, while_rules)
+		for(stack_ptr const& entry : std::views::reverse(while_rules))
 		{
-			if(regexp::match_t const& m = regexp::search((*it)->while_pattern, first, last, first + i))
+			if(regexp::match_t const& m = regexp::search(entry->while_pattern, first, last, first + i))
 			{
-				rule_t const* rule = (*it)->rule;
+				rule_t const* rule = entry->rule;
 				if(rule->scope_string != NULL_STR)
 				{
 					std::string const scopeString = expand(rule->scope_string, m);
@@ -405,7 +405,7 @@ namespace parse
 				continue;
 			}
 
-			stack = (*it)->parent;
+			stack = entry->parent;
 			if(stack->while_pattern)
 				stack->anchor = i;
 			break;
