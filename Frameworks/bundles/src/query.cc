@@ -225,7 +225,9 @@ namespace bundles
 	{
 		std::lock_guard<std::recursive_mutex> lock(cache().mutex());
 		std::multimap<std::string, item_ptr> const& values = cache().fetch(field);
-		foreach(pair, values.lower_bound(value), field == kFieldSemanticClass ? values.lower_bound(value + "/") : values.upper_bound(value)) // Since kFieldSemanticClass is a prefix match we want lower bound of the first item after the last possible prefix (which would be “value.zzzzz…” → “value/”).
+		// Since kFieldSemanticClass is a prefix match we want lower bound of the first item after the last possible prefix (which would be “value.zzzzz…” → “value/”).
+		auto const last = field == kFieldSemanticClass ? values.lower_bound(value + "/") : values.upper_bound(value);
+		for(auto pair = values.lower_bound(value); pair != last; ++pair)
 		{
 			if(auto rank = pair->second->does_match(field, value, scope, kind, bundle))
 			{

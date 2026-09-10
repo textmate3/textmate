@@ -30,7 +30,7 @@ namespace utf16
 	{
 		ASSERT(last == utf8::find_safe_end(first, last));
 		size_t res = 0;
-		foreach(it, utf8::make(first), utf8::make(utf8::find_safe_end(first, last)))
+		for(auto it = utf8::make(first), stop = utf8::make(utf8::find_safe_end(first, last)); it != stop; ++it)
 			res += (*it > 0xFFFF) ? 2 : 1;
 		return res;
 	}

@@ -12,7 +12,7 @@
 	{
 		// Re-encode every code point to remove redundant encodings, which NSString does not like.
 		std::string tmp;
-		foreach(ch, utf8::make(aString), utf8::make(aString + aLength))
+		for(auto ch = utf8::make(aString), last = utf8::make(aString + aLength); ch != last; ++ch)
 			tmp += utf8::to_s(*ch);
 		res = [[NSString alloc] initWithBytes:tmp.data() length:tmp.size() encoding:NSUTF8StringEncoding];
 	}

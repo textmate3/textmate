@@ -307,7 +307,7 @@ namespace bundles
 		if(field != kFieldAny)
 		{
 			match = false;
-			foreach(pair, _fields.lower_bound(field), _fields.upper_bound(field))
+			for(auto pair = _fields.lower_bound(field), last = _fields.upper_bound(field); pair != last; ++pair)
 				match = match || pair->second == value || (field == kFieldSemanticClass && pair->second.size() > value.size() && pair->second.find(value) == 0 && pair->second[value.size()] == '.');
 		}
 

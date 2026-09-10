@@ -138,7 +138,7 @@ static void parse_event_string (std::string const& eventString, std::string& key
 	{
 		key = "";
 		bool scanningFlags = true, real = true;
-		foreach(ch, utf8::make(eventString.data()), utf8::make(eventString.data() + eventString.size()))
+		for(auto ch = utf8::make(eventString.data()), last = utf8::make(eventString.data() + eventString.size()); ch != last; ++ch)
 		{
 			if(scanningFlags = scanningFlags && ns_flag_for_char(*ch) != 0)
 				flags |= ns_flag_for_char(*ch);
@@ -152,7 +152,7 @@ static void parse_event_string (std::string const& eventString, std::string& key
 		if(i == std::string::npos)
 			i = eventString.empty() ? 0 : eventString.size() - 1;
 
-		foreach(ch, eventString.data(), eventString.data() + i)
+		for(auto ch = eventString.data(), last = eventString.data() + i; ch != last; ++ch)
 			flags |= ns_flag_for_char(*ch);
 		key = eventString.substr(i);
 	}

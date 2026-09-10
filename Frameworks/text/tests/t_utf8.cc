@@ -25,7 +25,7 @@ void test_utf8_iterate ()
 	static std::vector<uint32_t> const expected = { 0x201C, 0xC6, 0x62, 0x6C, 0x65, 0x67, 0x72, 0xF8, 0x64, 0x2026, 0x201D, 0x20, 0x2014, 0x20, 0x20EF5 };
 
 	std::vector<uint32_t> chars;
-	foreach(ch, utf8::make(str.data()), utf8::make(str.data() + str.size()))
+	for(auto ch = utf8::make(str.data()), last = utf8::make(str.data() + str.size()); ch != last; ++ch)
 		chars.push_back(*ch);
 
 	OAK_ASSERT_EQ(chars, expected);
