@@ -1,0 +1,2 @@
+# The headers are Objective-C++ and C++, not C, which is what GitHub counts them as by default.
+*.h linguist-language=Objective-C++

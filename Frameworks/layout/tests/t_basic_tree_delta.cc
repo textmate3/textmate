@@ -70,7 +70,7 @@ void test_basic_tree_delta ()
 	OAK_ASSERT_EQ(buf, buffer);
 
 	buf = "";
-	riterate(it, tree)
+	for(auto it = tree.rbegin(); it != tree.rend(); ++it)
 		buf.insert(0, buffer.substr(it->offset.buffer_size, it->key.buffer_size));
 	OAK_ASSERT_EQ(buf, buffer);
 

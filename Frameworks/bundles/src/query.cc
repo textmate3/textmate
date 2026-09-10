@@ -187,7 +187,7 @@ namespace bundles
 
 	void remove_item (item_ptr item)
 	{
-		iterate(it, AllItems)
+		for(auto it = AllItems.begin(); it != AllItems.end(); ++it)
 		{
 			if((*it)->uuid() != item->uuid())
 				continue;

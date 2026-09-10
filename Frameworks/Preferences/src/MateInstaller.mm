@@ -1,7 +1,7 @@
 #import "MateInstaller.h"
 #import "Keys.h"
 #import <OakFoundation/NSString Additions.h>
-#import <SoftwareUpdate/OakCompareVersionStrings.h>
+#import <SoftwareUpdate/SoftwareUpdate-Swift.h>
 #import <io/path.h>
 #import <io/exec.h>
 #import <ns/ns.h>
@@ -181,7 +181,7 @@ static NSString* bundled_mate_version (NSString* matePath)
 
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 		NSString* newVersion = bundled_mate_version(newMate);
-		if(!newVersion || OakCompareVersionStrings(oldVersion, newVersion) != NSOrderedAscending)
+		if(!newVersion || [OakVersion compare:oldVersion to:newVersion] != NSOrderedAscending)
 			return;
 
 		if(cp_requires_admin(to_s(oldMate)))

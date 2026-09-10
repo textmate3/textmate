@@ -33,8 +33,8 @@ private:
 		std::vector<ssize_t> toRemove;
 		for(typename tree_t::iterator info = first; info != last; ++info)
 			toRemove.push_back(info->offset.length + info->key.length);
-		riterate(key, toRemove)
-			remove(*key);
+		for(ssize_t key : std::views::reverse(toRemove))
+			remove(key);
 	}
 
 public:

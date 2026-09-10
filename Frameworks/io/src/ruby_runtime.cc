@@ -94,4 +94,36 @@ namespace ruby_runtime
 		return false;
 	}
 
+	std::string const kMinimumVersion = "4.0";
+
+	std::string version_of (std::string const& executable)
+	{
+		if(executable == NULL_STR || access(executable.c_str(), X_OK) != 0)
+			return NULL_STR;
+
+		std::string const output = io::exec(executable, "-e", "print RUBY_VERSION", NULL);
+		if(output == NULL_STR)
+			return NULL_STR;
+
+		std::string const version = text::trim(output);
+		return version.empty() ? NULL_STR : version;
+	}
+
+	// The major and minor numbers at the front of a version, or false when there is no number there.
+	static bool leading_numbers (std::string const& version, unsigned* major, unsigned* minor)
+	{
+		if(version == NULL_STR)
+			return false;
+		*major = *minor = 0;
+		return sscanf(version.c_str(), "%u.%u", major, minor) >= 1;
+	}
+
+	bool is_below_minimum (std::string const& version)
+	{
+		unsigned major, minor, minimumMajor, minimumMinor;
+		if(!leading_numbers(version, &major, &minor) || !leading_numbers(kMinimumVersion, &minimumMajor, &minimumMinor))
+			return false;
+		return major < minimumMajor || (major == minimumMajor && minor < minimumMinor);
+	}
+
 } /* ruby_runtime */

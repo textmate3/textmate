@@ -1,0 +1,3 @@
+#!/bin/sh
+# A stand in for a Ruby asked for RUBY_VERSION with -e: it answers 3.2.1 whatever it is asked.
+printf '3.2.1'

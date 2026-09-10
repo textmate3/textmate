@@ -102,9 +102,9 @@ namespace snippet
 		if(!lines.empty())
 			lines.erase(lines.begin());
 
-		riterate(pair, lines)
+		for(auto const& line : std::views::reverse(lines))
 		{
-			size_t offset = pair->first - data;
+			size_t offset = line.first - data;
 			for(auto const& pos : positions)
 			{
 				if(offset <= pos->offset)
@@ -221,7 +221,7 @@ namespace snippet
 		ASSERTF(currentField.contains(range), "%zu (%zu) < %zu (%zu) && %zu (%zu) < %zu (%zu)", currentField.from.offset, currentField.from.rank, range.from.offset, range.from.rank, range.to.offset, range.to.rank, currentField.to.offset, currentField.to.rank);
 
 		std::vector<std::multimap<size_t, field_ptr>::iterator> mirrors_to_remove;
-		iterate(mirror, mirrors)
+		for(auto mirror = mirrors.begin(); mirror != mirrors.end(); ++mirror)
 		{
 			if(currentField.contains(mirror->second->range))
 				mirrors_to_remove.push_back(mirror);
@@ -271,9 +271,9 @@ namespace snippet
 		for(auto& record : records)
 			offsets.push_back(offsets.back() + record.snippet.fields[record.snippet.current_field]->range.from.offset + record.caret);
 
-		riterate(record, records)
+		for(record_t& record : std::views::reverse(records))
 		{
-			snippet::snippet_t& s = record->snippet;
+			snippet::snippet_t& s = record.snippet;
 			offsets.pop_back();
 			size_t oldLen = s.text.size();
 
