@@ -103,7 +103,7 @@ namespace ng
 	{
 		ASSERT_LE(from, to);
 		std::map<size_t, bool> res;
-		foreach(it, _misspellings.lower_bound(from), _misspellings.lower_bound(to))
+		for(auto it = _misspellings.lower_bound(from), last = _misspellings.lower_bound(to); it != last; ++it)
 			res[it->first < from ? 0 : it->first - from] = it->second;
 		if(!res.empty() && res.begin()->second == false)
 			res[0] = true;

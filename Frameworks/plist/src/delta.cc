@@ -176,9 +176,8 @@ namespace plist
 		dictionary_t res;
 		bool didFindNonDelta = false;
 
-		riterate(it, plists)
+		for(dictionary_t const& plist : std::views::reverse(plists))
 		{
-			dictionary_t const& plist = *it;
 			if(plist.find("isDelta") != plist.end())
 			{
 				auto deletedIt = plist.find("deleted");

@@ -68,7 +68,7 @@ void test_indent ()
 	};
 
 	indent::fsm_t fsm(indentSize, tabSize);
-	iterate(line, lines)
+	for(auto line = std::begin(lines); line != std::end(lines); ++line)
 	{
 		OAK_MASSERT_EQ(text::format("%td: %s", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
 	}
@@ -96,7 +96,7 @@ void test_seeding_proper_1 ()
 		{ 0, "}"         },
 	};
 
-	iterate(line, lines)
+	for(auto line = std::begin(lines); line != std::end(lines); ++line)
 	{
 		OAK_MASSERT_EQ(text::format("%td: %s", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
 	}
@@ -124,7 +124,7 @@ void test_seeding_proper_2 ()
 		{ 0, "}"         },
 	};
 
-	iterate(line, lines)
+	for(auto line = std::begin(lines); line != std::end(lines); ++line)
 	{
 		OAK_MASSERT_EQ(text::format("%td: %s", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
 	}
@@ -152,7 +152,7 @@ void test_seeding_improper ()
 		{ 0, "}"         },
 	};
 
-	iterate(line, lines)
+	for(auto line = std::begin(lines); line != std::end(lines); ++line)
 	{
 		OAK_MASSERT_EQ(text::format("%td: %s", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
 	}
@@ -178,7 +178,7 @@ void test_seeding_extra_indent ()
 		{ 0, "}"         },
 	};
 
-	iterate(line, lines)
+	for(auto line = std::begin(lines); line != std::end(lines); ++line)
 	{
 		OAK_MASSERT_EQ(text::format("%td: %s", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
 	}
@@ -196,7 +196,7 @@ void test_mixing ()
 	};
 
 	indent::fsm_t fsm(indentSize, tabSize);
-	iterate(line, lines)
+	for(auto line = std::begin(lines); line != std::end(lines); ++line)
 	{
 		OAK_MASSERT_EQ(text::format("%td: %s", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
 	}

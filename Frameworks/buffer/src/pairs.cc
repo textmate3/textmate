@@ -12,7 +12,7 @@ namespace ng
 		if(from < to)
 		{
 			std::set<size_t> ranksToRemove;
-			foreach(it, _pairs.lower_bound(from), _pairs.lower_bound(to))
+			for(auto it = _pairs.lower_bound(from), last = _pairs.lower_bound(to); it != last; ++it)
 			{
 				size_t rank = it->second;
 				ranksToRemove.insert(rank & ~1);

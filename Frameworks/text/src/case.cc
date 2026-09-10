@@ -50,7 +50,7 @@ namespace text
 
 		std::string res = "";
 		size_t from = 0, i = 0;
-		foreach(ch, utf8::make(first), utf8::make(last))
+		for(auto ch = utf8::make(first), stop = utf8::make(last); ch != stop; ++ch)
 		{
 			if(tests[i].tester(*ch))
 				continue;

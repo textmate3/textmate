@@ -7,7 +7,7 @@
 // 	foreach(it, v.begin(), v.end())
 // 		cout << *it;
 //
-// The iterate/riterate macros are taking a container instead, and calls beginof/endof on the container. Example:
+// The iterate macro takes a container instead, and calls std::begin/std::end on the container. Example:
 //
 // 	std::vector<char> v;
 // 	iterate(it, v)
@@ -28,11 +28,6 @@
 #define foreach(v,f,l) for(decltype(f) v = (f), _end = (l); v != _end; ++v)
 #endif
 
-#ifdef iterate
-#undef iterate
-#endif
-#define iterate(v,c) foreach(v, std::begin(c), std::end(c))
-
 #ifndef uiterate
 #define uiterate(v,c,u) \
 decltype(c) u = (c); foreach(v, std::begin(u), std::end(u))
@@ -44,10 +39,6 @@ decltype(c) u = (c); foreach(v, std::begin(u), std::end(u))
 
 #ifndef citerate
 #define citerate(v,c) uiterate(v,c,OAK_MERGE(_tmp_,OAK_UNIQUE))
-#endif
-
-#ifndef riterate
-#define riterate(v,c) foreach(v, std::reverse_iterator<decltype(std::end(c))>(std::end(c)), std::reverse_iterator<decltype(std::begin(c))>(std::begin(c)))
 #endif
 
 #endif /* end of include guard: OAK_ITERATOR_MACROS_H_1SQFE1YN */

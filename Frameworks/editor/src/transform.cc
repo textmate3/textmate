@@ -85,8 +85,8 @@ namespace transform
 		}
 		else
 		{
-			riterate(it, v)
-				res += std::string(it->first, it->second);
+			for(auto const& line : std::views::reverse(v))
+				res += std::string(line.first, line.second);
 
 			if(!hasNewline)
 			{

@@ -450,7 +450,7 @@ namespace ng
 	std::vector<paragraph_t::node_t>::iterator paragraph_t::iterator_at (size_t i)
 	{
 		size_t from = 0;
-		iterate(node, _nodes)
+		for(auto node = _nodes.begin(); node != _nodes.end(); ++node)
 		{
 			if(from == i)
 				return node;
@@ -504,7 +504,7 @@ namespace ng
 		auto lines = softlines(metrics);
 		for(size_t i = 0; i < lines.size(); ++i)
 		{
-			foreach(node, _nodes.begin() + lines[i].first, _nodes.begin() + lines[i].last)
+			for(auto node = _nodes.begin() + lines[i].first, stop = _nodes.begin() + lines[i].last; node != stop; ++node)
 				node->update_tab_width();
 		}
 	}
@@ -552,7 +552,7 @@ namespace ng
 			{
 				CGFloat x = lines[i].x;
 				size_t offset = lines[i].offset;
-				foreach(node, _nodes.begin() + lines[i].first, _nodes.begin() + lines[i].last)
+				for(auto node = _nodes.begin() + lines[i].first, stop = _nodes.begin() + lines[i].last; node != stop; ++node)
 				{
 					if(node->type() == kNodeTypeSoftBreak)
 					{
@@ -603,7 +603,7 @@ namespace ng
 				CGFloat x = lines[i].x, y = lines[i].y;
 				CGFloat height = wantsBaseline ? lines[i].baseline : lines[i].height;
 				size_t offset = lines[i].offset;
-				foreach(node, _nodes.begin() + lines[i].first, _nodes.begin() + lines[i].last)
+				for(auto node = _nodes.begin() + lines[i].first, stop = _nodes.begin() + lines[i].last; node != stop; ++node)
 				{
 					if(offset <= needle && needle < offset + node->length())
 					{
@@ -648,7 +648,7 @@ namespace ng
 				CGFloat x = lines[i].x;
 				size_t offset = lines[i].offset;
 
-				foreach(node, _nodes.begin() + lines[i].first, _nodes.begin() + lines[i].last)
+				for(auto node = _nodes.begin() + lines[i].first, stop = _nodes.begin() + lines[i].last; node != stop; ++node)
 				{
 					if(point.x <= anchor.x + x)
 						return {};
@@ -731,7 +731,7 @@ namespace ng
 		{
 			CGFloat x = lines[i].x;
 			size_t offset = lines[i].offset;
-			foreach(node, _nodes.begin() + lines[i].first, _nodes.begin() + lines[i].last)
+			for(auto node = _nodes.begin() + lines[i].first, stop = _nodes.begin() + lines[i].last; node != stop; ++node)
 			{
 				node->draw_background(theme, context, isFlipped, visibleRect, backgroundColor, buffer, bufferOffset + offset, CGPointMake(anchor.x + x, anchor.y + lines[i].y), lines[i].height);
 				x += node->width();
@@ -749,7 +749,7 @@ namespace ng
 		{
 			CGFloat x = lines[i].x;
 			size_t offset = bufferOffset + lines[i].offset;
-			foreach(node, _nodes.begin() + lines[i].first, _nodes.begin() + lines[i].last)
+			for(auto node = _nodes.begin() + lines[i].first, stop = _nodes.begin() + lines[i].last; node != stop; ++node)
 			{
 				std::vector< std::pair<size_t, size_t> > misspelled;
 				if(node->type() == kNodeTypeText)
