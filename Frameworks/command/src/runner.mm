@@ -175,11 +175,24 @@ namespace command
 			fprintf(stderr, "TM_RUBY names Ruby %s, %s, below the %s that TextMate's bundles expect. Commands run on it as asked, and a failure may be the version rather than the bundle.\n", version.c_str(), ruby.c_str(), ruby_runtime::kMinimumVersion.c_str());
 	}
 
+	// Says why a TM_RUBY was refused and what runs in its place, then answers with that.
+	// Standard error is where a launch from a terminal sees it.
+	// The log is where every other launch sees it, which is most of them.
+	static std::string refuse_tm_ruby (std::string const& reason, std::string const& fallback)
+	{
+		std::string const instead = fallback == NULL_STR ? "No other Ruby is available to bundle commands." : "Bundle commands run on " + fallback + " instead.";
+		fprintf(stderr, "%s %s\n", reason.c_str(), instead.c_str());
+		os_log_error(OS_LOG_DEFAULT, "%{public}s %{public}s", reason.c_str(), instead.c_str());
+		return fallback;
+	}
+
 	// The Ruby a command's shebang is pointed at: TM_RUBY when it is an
-	// absolute path to anything but the system Ruby, else the application's
-	// own, TM_APPLICATION_RUBY. The system Ruby is never used, so a TM_RUBY
-	// naming it is refused, said so on standard error, and the application's
-	// Ruby runs the command instead. NULL_STR when neither is there.
+	// absolute path to a Ruby that is there and is not the system's, else the
+	// application's own, TM_APPLICATION_RUBY. The system Ruby is never used,
+	// and a path with nothing runnable at it would fail the spawn with an
+	// error naming the command's script rather than the missing interpreter,
+	// so both are refused here where the reason can still be given.
+	// NULL_STR when neither Ruby is there.
 	static std::string ruby_for_shebang (std::map<std::string, std::string> const& environment)
 	{
 		auto applicationRuby = environment.find("TM_APPLICATION_RUBY");
@@ -190,10 +203,14 @@ namespace command
 			return fallback;
 
 		if(ruby_runtime::is_system_ruby(ruby->second))
-		{
-			fprintf(stderr, "TM_RUBY names the system Ruby, %s, which TextMate does not use. %s\n", ruby->second.c_str(), fallback == NULL_STR ? "No other Ruby is available to bundle commands." : ("Bundle commands run on " + fallback + " instead.").c_str());
-			return fallback;
-		}
+			return refuse_tm_ruby("TM_RUBY names the system Ruby, " + ruby->second + ", which TextMate does not use.", fallback);
+
+		// X_OK says yes to a directory, which is searchable rather than runnable,
+		// so being a regular file is asked for as well as being executable.
+		struct stat rubyInfo;
+		bool const isRunnable = stat(ruby->second.c_str(), &rubyInfo) == 0 && S_ISREG(rubyInfo.st_mode) && access(ruby->second.c_str(), X_OK) == 0;
+		if(!isRunnable)
+			return refuse_tm_ruby("TM_RUBY names " + ruby->second + ", which is not an executable file.", fallback);
 
 		say_once_when_below_minimum(ruby->second);
 		return ruby->second;
