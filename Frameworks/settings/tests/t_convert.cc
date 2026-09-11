@@ -70,10 +70,34 @@ void test_a_section_becomes_a_scoped_entry ()
 	OAK_ASSERT(has(json, "\"softWrap\": true"));
 }
 
+// The separator inside a section header is a semicolon. Spaces around the
+// selectors are fine.
 void test_a_section_with_several_selectors_keeps_them_all ()
 {
-	std::string const json = convert("[ *.md, *.markdown ]\nsoftWrap = true\n");
+	std::string const json = convert("[ *.md; *.markdown ]\nsoftWrap = true\n");
 	OAK_ASSERT(has(json, "\"match\": [\"*.md\", \"*.markdown\"]"));
+
+	std::string const tight = convert("[*.md;*.markdown]\nsoftWrap = true\n");
+	OAK_ASSERT(has(tight, "\"match\": [\"*.md\", \"*.markdown\"]"));
+}
+
+// A comma is not a separator, which is worth pinning down because it is the
+// thing a person reaches for. Without a space it becomes part of one selector,
+// which then matches nothing. With a space the whole section fails to parse and
+// is dropped in silence, and the settings under it land at the root, where they
+// apply everywhere rather than nowhere.
+//
+// The converter carries this through rather than correcting it, because a
+// converter that silently changes what a file means is worse than one that
+// shows you what the file always meant.
+void test_a_comma_is_not_a_separator_and_the_converter_does_not_pretend_it_is ()
+{
+	std::string const tight = convert("[*.md,*.markdown]\nsoftWrap = true\n");
+	OAK_ASSERT(has(tight, "\"match\": [\"*.md,*.markdown\"]"));
+
+	std::string const spaced = convert("[*.md, *.markdown]\nsoftWrap = true\n");
+	OAK_ASSERT(!has(spaced, "\"scoped\""));
+	OAK_ASSERT(has(spaced, "\"softWrap\": true"));
 }
 
 void test_a_variable_inside_a_section_stays_a_variable ()
