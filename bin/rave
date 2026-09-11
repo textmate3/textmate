@@ -1382,6 +1382,15 @@ module Target
           flags << "-F #{SWIFT_TESTING_FRAMEWORKS.shellescape} -framework Testing"
           flags << "-plugin-path #{SWIFT_TESTING_PLUGINS.shellescape}"
 
+          # The headers the required targets publish, the same way a target's
+          # own Swift sources get them. A module whose bridging header imports
+          # Objective-C from a required target cannot be imported by a test
+          # without these, and the error names the bridging header rather than
+          # the missing search path.
+          test_include_dirs = required_targets(target, targets, include_self: true, include_weak: true)
+            .map { |archs| include_dir(archs) }.reject(&:nil?).sort.uniq
+          flags += test_include_dirs.map { |dir| "-Xcc -I#{dir.shellescape}" }
+
           module_dependencies = []
           required.each do |t|
             if required_swift = swift_module(t)
