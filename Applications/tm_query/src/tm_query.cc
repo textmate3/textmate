@@ -1,4 +1,5 @@
 #include <settings/settings.h>
+#include <settings/convert.h>
 #include <OakSystem/application.h>
 
 extern char** environ;
@@ -17,6 +18,7 @@ static void usage (FILE* io = stdout)
 		"Usage: %1$s [-s<key>hv] ...\n"
 		"Options:\n"
 		" -s, --setting <key>       Print setting value for a key.\n"
+		" -c, --convert <file>      Print a .tm_properties file as JSON, and change nothing.\n"
 		" -h, --help                Show this information.\n"
 		" -v, --version             Print version information.\n"
 		"\n", getprogname(), AppVersion
@@ -69,27 +71,45 @@ int main (int argc, char* const* argv)
 
 	static struct option const longopts[] = {
 		{ "setting",          required_argument,   0,      's'   },
+		{ "convert",          required_argument,   0,      'c'   },
 		{ "help",             no_argument,         0,      'h'   },
 		{ "version",          no_argument,         0,      'v'   },
 		{ 0,                  0,                   0,      0     }
 	};
 
 	std::string key = NULL_STR;
+	std::string convertPath = NULL_STR;
 
 	int ch;
-	while((ch = getopt_long(argc, argv, "s:hv", longopts, nullptr)) != -1)
+	while((ch = getopt_long(argc, argv, "s:c:hv", longopts, nullptr)) != -1)
 	{
 		switch(ch)
 		{
-			case 's': key = optarg;        break;
-			case 'h': usage();             return EX_OK;
-			case 'v': version();           return EX_OK;
-			default:  usage(stderr);       return EX_USAGE;
+			case 's': key = optarg;         break;
+			case 'c': convertPath = optarg; break;
+			case 'h': usage();              return EX_OK;
+			case 'v': version();            return EX_OK;
+			default:  usage(stderr);        return EX_USAGE;
 		}
 	}
 
 	argc -= optind;
 	argv += optind;
+
+	// Converting reads one file and writes JSON. It answers on its own rather
+	// than through the settings machinery, since the point is to see what a
+	// file becomes, not what the application makes of it.
+	if(convertPath != NULL_STR)
+	{
+		std::string const json = settings::to_json_for_path(path::join(path::cwd(), convertPath));
+		if(json == NULL_STR)
+		{
+			fprintf(stderr, "Cannot read '%s'\n", convertPath.c_str());
+			return EX_NOINPUT;
+		}
+		fprintf(stdout, "%s", json.c_str());
+		return EX_OK;
+	}
 
 	initialize_environment();
 
