@@ -20,9 +20,9 @@ namespace python_runtime
 {
 	using answer_t = runtime_resolver::answer_t;
 
-	// The version bundle support is aimed at. A proposal rather than a
-	// decision: nothing is tested against it yet, and whether Python wants an
-	// exact version the way Ruby does, or a series, is still open.
+	// The version bundle commands run on, named exactly the way Ruby's is, and
+	// for the same reason: a series would move under the bundles without
+	// anything recording that it moved. Latest, and moved deliberately.
 	extern std::string const kPinnedVersion;
 
 	answer_t parse (std::string const& output);

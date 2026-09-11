@@ -4,7 +4,7 @@
 
 namespace python_runtime
 {
-	std::string const kPinnedVersion = "3.13";
+	std::string const kPinnedVersion = "3.14.7";
 
 	answer_t parse (std::string const& output)
 	{

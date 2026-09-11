@@ -80,7 +80,9 @@ void test_the_system_python_is_known_by_every_name ()
 	OAK_ASSERT(!python_runtime::is_system_python(NULL_STR));
 }
 
-void test_the_proposed_python_version ()
+void test_the_pinned_python_version ()
 {
-	OAK_ASSERT_EQ(python_runtime::kPinnedVersion, "3.13");
+	// Exact, the way Ruby's is. Moving it is a decision, and this line is what
+	// makes the decision show up in a diff.
+	OAK_ASSERT_EQ(python_runtime::kPinnedVersion, "3.14.7");
 }
