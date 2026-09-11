@@ -25,6 +25,7 @@
 #import <Preferences/Preferences.h>
 #import <Preferences/MateInstaller.h>
 #import <Sparkle/Sparkle.h>
+#import <Terminal/Terminal-Swift.h>
 #import <document/OakDocument.h>
 #import <document/OakDocumentController.h>
 #import <bundles/query.h>
@@ -418,6 +419,7 @@ BOOL HasDocumentWindow (NSArray* windows)
 			.submenuRef = &bundlesMenu, .submenu = {
 				{ @"Select Bundle Item…", @selector(showBundleItemChooser:), @"t", .modifierFlags = NSEventModifierFlagCommand|NSEventModifierFlagControl },
 				{ @"Edit Bundles…",       @selector(showBundleEditor:),      @"b", .modifierFlags = NSEventModifierFlagCommand|NSEventModifierFlagOption|NSEventModifierFlagControl },
+				{ @"Terminal…",           @selector(showTerminal:)                 },
 				{ /* -------- */ },
 			}
 		},
@@ -777,6 +779,17 @@ static NSString* const kRuntimesBundleUUID = @"0273983B-D121-4A7F-91CA-12C06A6CD
 - (IBAction)showPreferences:(id)sender
 {
 	[Preferences.sharedInstance showWindow:self];
+}
+
+// A spike: a terminal in a window of its own, opened the way the Bundle Editor
+// is. It starts a shell in the project the front window is showing, when there
+// is one, so it opens where the person's work is.
+- (IBAction)showTerminal:(id)sender
+{
+	NSString* directory = nil;
+	if([NSApp.mainWindow.delegate isKindOfClass:[DocumentWindowController class]])
+		directory = [(DocumentWindowController*)NSApp.mainWindow.delegate projectPath];
+	[TMTerminalWindowController.sharedInstance showIn:directory];
 }
 
 - (IBAction)showBundleEditor:(id)sender
