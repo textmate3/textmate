@@ -78,8 +78,56 @@ static NSString* const kUserDefaultsPreferencesSelectedPaneKey       = @"prefere
 	return sharedInstance;
 }
 
+// The six panes, in the order both arrangements show them.
+static NSArray<NSViewController<PreferencesPaneProtocol>*>* PreferencePaneControllers ()
+{
+	return @[
+		[[TMFilesPaneController alloc] init],
+		[[TMProjectsPaneController alloc] init],
+		[[TMBundlesPaneController alloc] init],
+		[[TMVariablesPaneController alloc] init],
+		[[TMUpdatesPaneController alloc] init],
+		[[TMTerminalPaneController alloc] init]
+	];
+}
+
+// A spike: the panes in a sidebar, the way System Settings arranges them,
+// rather than as a row of toolbar tabs. Off unless the default says otherwise.
+//
+//   defaults write com.textmate3.TextMate preferencesUsesSidebar -bool YES
+static BOOL PreferencesUsesSidebar ()
+{
+	return [NSUserDefaults.standardUserDefaults boolForKey:@"preferencesUsesSidebar"];
+}
+
+- (instancetype)initWithSidebar
+{
+	NSArray<NSViewController<PreferencesPaneProtocol>*>* viewControllers = PreferencePaneControllers();
+	TMPreferencesSidebarController* contentViewController = [[TMPreferencesSidebarController alloc] initWithPaneControllers:viewControllers selectedPaneDefault:kUserDefaultsPreferencesSelectedPaneKey];
+
+	NSWindow* window = [NSPanel windowWithContentViewController:contentViewController];
+	if(NSString* topLeft = [NSUserDefaults.standardUserDefaults stringForKey:kUserDefaultsPreferencesWindowFrameTopLeftKey])
+		[window setFrameTopLeftPoint:NSPointFromString(topLeft)];
+
+	if((self = [super initWithWindow:window]))
+	{
+		// A sidebar window is wider and taller than a tabbed one, since the
+		// list takes a column of its own and the panes were laid out for the
+		// narrower window.
+		[window setContentSize:NSMakeSize(720, 460)];
+		window.collectionBehavior = NSWindowCollectionBehaviorMoveToActiveSpace|NSWindowCollectionBehaviorFullScreenAuxiliary;
+		window.delegate           = self;
+		window.hidesOnDeactivate  = NO;
+		window.title              = @"Preferences";
+	}
+	return self;
+}
+
 - (instancetype)init
 {
+	if(PreferencesUsesSidebar())
+		return [self initWithSidebar];
+
 	PreferencesViewController* contentViewController = [[PreferencesViewController alloc] init];
 
 	NSWindow* window = [NSPanel windowWithContentViewController:contentViewController];
@@ -90,14 +138,7 @@ static NSString* const kUserDefaultsPreferencesSelectedPaneKey       = @"prefere
 	{
 		_preferencesViewController = contentViewController;
 
-		NSArray<NSViewController <PreferencesPaneProtocol>*>* viewControllers = @[
-			[[TMFilesPaneController alloc] init],
-			[[TMProjectsPaneController alloc] init],
-			[[TMBundlesPaneController alloc] init],
-			[[TMVariablesPaneController alloc] init],
-			[[TMUpdatesPaneController alloc] init],
-			[[TMTerminalPaneController alloc] init]
-		];
+		NSArray<NSViewController <PreferencesPaneProtocol>*>* viewControllers = PreferencePaneControllers();
 
 		for(NSViewController* viewController in viewControllers)
 			[contentViewController addChildViewController:viewController];
