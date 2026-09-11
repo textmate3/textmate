@@ -62,9 +62,12 @@ void test_other_interpreters_are_left_alone ()
 	test::jail_t jail;
 	std::map<std::string, std::string> const environment = tm_ruby(a_ruby_that_is_there(jail));
 
-	std::string command = "#!/usr/bin/env python3\nprint(1)\n";
+	// A language the application finds no runtime for is left exactly as it is.
+	// Python used to be one of these and is not any more, which is the point of
+	// the Python half of this file.
+	std::string command = "#!/usr/bin/env perl\nprint 1\n";
 	command::fix_shebang(&command, environment);
-	OAK_ASSERT_EQ(command, "#!/usr/bin/env python3\nprint(1)\n");
+	OAK_ASSERT_EQ(command, "#!/usr/bin/env perl\nprint 1\n");
 
 	std::string rubyish = "#!/usr/bin/env ruby18\nputs 1\n";
 	command::fix_shebang(&rubyish, environment);
@@ -143,11 +146,11 @@ void test_with_no_ruby_at_all_the_command_refuses_to_run_rather_than_reach_the_s
 	}
 }
 
-void test_a_command_that_is_not_ruby_is_untouched_even_with_no_ruby ()
+void test_a_command_in_an_unmanaged_language_is_untouched_even_with_no_runtime ()
 {
-	std::string command = "#!/usr/bin/env python3\nprint(1)\n";
+	std::string command = "#!/usr/bin/env perl\nprint 1\n";
 	command::fix_shebang(&command, NoRuby);
-	OAK_ASSERT_EQ(command, "#!/usr/bin/env python3\nprint(1)\n");
+	OAK_ASSERT_EQ(command, "#!/usr/bin/env perl\nprint 1\n");
 }
 
 void test_a_shebang_spelling_out_the_system_framework_ruby_is_rewritten ()
