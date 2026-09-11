@@ -205,7 +205,11 @@ namespace command
 		if(ruby_runtime::is_system_ruby(ruby->second))
 			return refuse_tm_ruby("TM_RUBY names the system Ruby, " + ruby->second + ", which TextMate does not use.", fallback);
 
-		if(access(ruby->second.c_str(), X_OK) != 0)
+		// X_OK says yes to a directory, which is searchable rather than runnable,
+		// so being a regular file is asked for as well as being executable.
+		struct stat rubyInfo;
+		bool const isRunnable = stat(ruby->second.c_str(), &rubyInfo) == 0 && S_ISREG(rubyInfo.st_mode) && access(ruby->second.c_str(), X_OK) == 0;
+		if(!isRunnable)
 			return refuse_tm_ruby("TM_RUBY names " + ruby->second + ", which is not an executable file.", fallback);
 
 		say_once_when_below_minimum(ruby->second);
