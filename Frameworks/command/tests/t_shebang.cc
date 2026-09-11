@@ -173,3 +173,85 @@ void test_a_shebang_spelling_out_the_system_framework_ruby_is_rewritten ()
 	OAK_ASSERT_EQ(withNoRuby.substr(0, 9), "#!/bin/sh");
 	OAK_ASSERT(withNoRuby.find("Ruby.framework") == std::string::npos);
 }
+
+// ================================
+// = The Python side, same shape =
+// ================================
+
+static std::map<std::string, std::string> const ApplicationPythonOnly = { { "TM_APPLICATION_PYTHON", "/Users/someone/.local/share/uv/python/cpython-3.13/bin/python3.13" } };
+
+static std::map<std::string, std::string> tm_python (std::string const& python)
+{
+	return { { "TM_PYTHON", python } };
+}
+
+void test_every_python_spelling_follows_tm_python ()
+{
+	test::jail_t jail;
+	std::string const python = a_ruby_that_is_there(jail);
+	std::map<std::string, std::string> const environment = tm_python(python);
+
+	for(std::string const& spelling : { "/usr/bin/env python", "/usr/bin/env python3", "/usr/bin/python", "/usr/bin/python3", "/usr/bin/env python3.9" })
+	{
+		std::string command = "#!" + spelling + "\nprint(1)\n";
+		command::fix_shebang(&command, environment);
+		OAK_MASSERT_EQ(spelling.c_str(), command, "#!" + python + "\nprint(1)\n");
+	}
+}
+
+void test_a_python_shebang_keeps_its_flags ()
+{
+	test::jail_t jail;
+	std::string const python = a_ruby_that_is_there(jail);
+
+	std::string command = "#!/usr/bin/env python3 -u\nprint(1)\n";
+	command::fix_shebang(&command, tm_python(python));
+	OAK_ASSERT_EQ(command, "#!" + python + " -u\nprint(1)\n");
+}
+
+void test_the_system_python_is_refused_in_favor_of_the_applications ()
+{
+	std::map<std::string, std::string> environment = ApplicationPythonOnly;
+	environment["TM_PYTHON"] = "/usr/bin/python3";
+
+	std::string command = "#!/usr/bin/env python3\nprint(1)\n";
+	command::fix_shebang(&command, environment);
+	OAK_ASSERT_EQ(command, "#!/Users/someone/.local/share/uv/python/cpython-3.13/bin/python3.13\nprint(1)\n");
+}
+
+void test_a_tm_python_with_nothing_at_it_falls_to_the_applications ()
+{
+	std::map<std::string, std::string> environment = ApplicationPythonOnly;
+	environment["TM_PYTHON"] = "/opt/pythons/cpython-3.13/bin/python3";
+
+	std::string command = "#!/usr/bin/env python3\nprint(1)\n";
+	command::fix_shebang(&command, environment);
+	OAK_ASSERT_EQ(command, "#!/Users/someone/.local/share/uv/python/cpython-3.13/bin/python3.13\nprint(1)\n");
+}
+
+void test_with_no_python_the_command_refuses_to_run_rather_than_reach_the_system ()
+{
+	std::string command = "#!/usr/bin/env python3\nprint(1)\n";
+	command::fix_shebang(&command, NoRuby);
+	OAK_ASSERT_EQ(command.substr(0, 9), "#!/bin/sh");
+	OAK_ASSERT(command.find("no Python for bundle commands") != std::string::npos);
+	OAK_ASSERT(command.find("/usr/bin/env python3") == std::string::npos);
+}
+
+// A Ruby command with a Python set, and the reverse, so neither language's
+// answer can ever land in the other's shebang.
+void test_one_language_never_answers_for_the_other ()
+{
+	test::jail_t jail;
+	std::string const interpreter = a_ruby_that_is_there(jail);
+
+	std::string rubyCommand = "#!/usr/bin/env ruby\nputs 1\n";
+	command::fix_shebang(&rubyCommand, tm_python(interpreter));
+	OAK_ASSERT_EQ(rubyCommand.substr(0, 9), "#!/bin/sh");
+	OAK_ASSERT(rubyCommand.find("no Ruby for bundle commands") != std::string::npos);
+
+	std::string pythonCommand = "#!/usr/bin/env python3\nprint(1)\n";
+	command::fix_shebang(&pythonCommand, tm_ruby(interpreter));
+	OAK_ASSERT_EQ(pythonCommand.substr(0, 9), "#!/bin/sh");
+	OAK_ASSERT(pythonCommand.find("no Python for bundle commands") != std::string::npos);
+}

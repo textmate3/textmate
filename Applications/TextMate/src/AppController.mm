@@ -30,6 +30,7 @@
 #import <bundles/query.h>
 #import <io/environment.h>
 #import <io/path.h>
+#import <io/python_runtime.h>
 #import <io/ruby_runtime.h>
 #import <libproc.h>
 #import <regexp/glob.h>
@@ -604,6 +605,34 @@ BOOL HasDocumentWindow (NSArray* windows)
 // banner's material once the banner exists.
 static NSString* const kRuntimesBundleUUID = @"0273983B-D121-4A7F-91CA-12C06A6CDE2A";
 
+// Python asks the same bundle for its own resolver. Nothing about Ruby changes:
+// the two run independently, and a machine with one and not the other is fine.
+- (void)activateApplicationPython
+{
+	bundles::item_ptr runtimes = bundles::lookup(oak::uuid_t(to_s(kRuntimesBundleUUID)));
+	if(!runtimes)
+		return; // The Ruby side has already said the bundle is missing.
+
+	std::string const resolver = path::join(runtimes->support_path(), "bin/python_runtime");
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		python_runtime::answer_t const answer = python_runtime::resolve(resolver, python_runtime::kPinnedVersion);
+		dispatch_async(dispatch_get_main_queue(), ^{
+			if(answer.installed != NULL_STR)
+				os_log(OS_LOG_DEFAULT, "Installed Python %{public}s for bundle commands at %{public}s", answer.installed.c_str(), answer.path.c_str());
+			if(answer.fallback != NULL_STR)
+				os_log(OS_LOG_DEFAULT, "Bundle commands run on a Python other than %{public}s: %{public}s", python_runtime::kPinnedVersion.c_str(), answer.fallback.c_str());
+			if(answer.path == NULL_STR)
+			{
+				os_log_error(OS_LOG_DEFAULT, "No Python for bundle commands: %{public}s", answer.error.c_str());
+				return;
+			}
+			oak::set_application_python(answer.path);
+			oak::set_basic_environment(oak::setup_basic_environment());
+			os_log(OS_LOG_DEFAULT, "Bundle commands run on the Python at %{public}s", answer.path.c_str());
+		});
+	});
+}
+
 - (void)activateApplicationRuby
 {
 	bundles::item_ptr runtimes = bundles::lookup(oak::uuid_t(to_s(kRuntimesBundleUUID)));
@@ -657,6 +686,7 @@ static NSString* const kRuntimesBundleUUID = @"0273983B-D121-4A7F-91CA-12C06A6CD
 	[MateInstaller updateIfRequired];
 	[AboutWindowController showChangesIfUpdated];
 	[self activateApplicationRuby];
+	[self activateApplicationPython];
 
 	[CrashReporter.sharedInstance logNewCrashReports];
 

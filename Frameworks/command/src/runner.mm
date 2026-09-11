@@ -4,6 +4,7 @@
 #include <OakFoundation/NSString Additions.h>
 #include <io/path.h>
 #include <io/pipe.h>
+#include <io/python_runtime.h>
 #include <io/ruby_runtime.h>
 #include <regexp/format_string.h>
 #include <text/replace_all.h>
@@ -175,10 +176,19 @@ namespace command
 			fprintf(stderr, "TM_RUBY names Ruby %s, %s, below the %s that TextMate's bundles expect. Commands run on it as asked, and a failure may be the version rather than the bundle.\n", version.c_str(), ruby.c_str(), ruby_runtime::kMinimumVersion.c_str());
 	}
 
-	// Says why a TM_RUBY was refused and what runs in its place, then answers with that.
+	// X_OK says yes to a directory, which is searchable rather than runnable,
+	// so being a regular file is asked for as well as being executable.
+	static bool is_runnable_file (std::string const& path)
+	{
+		struct stat info;
+		return stat(path.c_str(), &info) == 0 && S_ISREG(info.st_mode) && access(path.c_str(), X_OK) == 0;
+	}
+
+	// Says why an interpreter a person named was refused and what runs in its place,
+	// then answers with that.
 	// Standard error is where a launch from a terminal sees it.
 	// The log is where every other launch sees it, which is most of them.
-	static std::string refuse_tm_ruby (std::string const& reason, std::string const& fallback)
+	static std::string refuse_interpreter (std::string const& reason, std::string const& fallback)
 	{
 		std::string const instead = fallback == NULL_STR ? "No other Ruby is available to bundle commands." : "Bundle commands run on " + fallback + " instead.";
 		fprintf(stderr, "%s %s\n", reason.c_str(), instead.c_str());
@@ -203,17 +213,61 @@ namespace command
 			return fallback;
 
 		if(ruby_runtime::is_system_ruby(ruby->second))
-			return refuse_tm_ruby("TM_RUBY names the system Ruby, " + ruby->second + ", which TextMate does not use.", fallback);
+			return refuse_interpreter("TM_RUBY names the system Ruby, " + ruby->second + ", which TextMate does not use.", fallback);
 
-		// X_OK says yes to a directory, which is searchable rather than runnable,
-		// so being a regular file is asked for as well as being executable.
-		struct stat rubyInfo;
-		bool const isRunnable = stat(ruby->second.c_str(), &rubyInfo) == 0 && S_ISREG(rubyInfo.st_mode) && access(ruby->second.c_str(), X_OK) == 0;
-		if(!isRunnable)
-			return refuse_tm_ruby("TM_RUBY names " + ruby->second + ", which is not an executable file.", fallback);
+		if(!is_runnable_file(ruby->second))
+			return refuse_interpreter("TM_RUBY names " + ruby->second + ", which is not an executable file.", fallback);
 
 		say_once_when_below_minimum(ruby->second);
 		return ruby->second;
+	}
+
+	// The Python a command's shebang is pointed at, by the same rules as Ruby.
+	// No minimum version is checked, because none is decided: Python's bundles
+	// are older and less uniform than Ruby's and nothing is tested against a
+	// version yet.
+	static std::string python_for_shebang (std::map<std::string, std::string> const& environment)
+	{
+		auto applicationPython = environment.find("TM_APPLICATION_PYTHON");
+		std::string const fallback = applicationPython == environment.end() ? NULL_STR : applicationPython->second;
+
+		auto python = environment.find("TM_PYTHON");
+		if(python == environment.end() || !path::is_absolute(python->second))
+			return fallback;
+
+		if(python_runtime::is_system_python(python->second))
+			return refuse_interpreter("TM_PYTHON names the system Python, " + python->second + ", which TextMate does not use.", fallback);
+
+		if(!is_runnable_file(python->second))
+			return refuse_interpreter("TM_PYTHON names " + python->second + ", which is not an executable file.", fallback);
+
+		return python->second;
+	}
+
+	// Points a shebang that names a system interpreter at the one the application
+	// chose, or at a shell that explains itself when there is none. The interpreter
+	// is asked for only once the pattern has matched, since asking warns about a
+	// setting the person made and a command in another language is not their doing.
+	// Answers whether it matched, so a command is rewritten for one language only.
+	static bool rewrite_shebang (std::string* command, regexp::pattern_t const& pattern, std::string const& language, std::function<std::string()> const& interpreterFor)
+	{
+		regexp::match_t const m = regexp::search(pattern, *command);
+		if(!m)
+			return false;
+
+		std::string const interpreter = interpreterFor();
+		if(interpreter != NULL_STR)
+		{
+			command->replace(m.begin(), m.end() - m.begin(), "#!" + interpreter);
+		}
+		else
+		{
+			// With no interpreter known, the shebang would land on the system one
+			// through /usr/bin, which is the one thing that must not happen.
+			// The command says why it cannot run instead.
+			command->replace(m.begin(), m.end() - m.begin(), "#!/bin/sh\necho 'TextMate has no " + language + " for bundle commands. The Runtimes bundle provides one, and the log says why it did not.' >&2\nexit 1\n#");
+		}
+		return true;
 	}
 
 	void fix_shebang (std::string* command, std::map<std::string, std::string> const& environment)
@@ -222,22 +276,14 @@ namespace command
 
 		// The three ways a shebang reaches the system Ruby: through env, by its /usr/bin path, or by the framework path some older bundles spell out.
 		static regexp::pattern_t const rubyShebang("\\A#!(/usr/bin/env ruby|/usr/bin/ruby|/System/Library/Frameworks/Ruby\\.framework/Versions/[^/ \\t\\n]+/usr/bin/ruby)(?=[ \\t]|$)");
-		regexp::match_t const m = regexp::search(rubyShebang, *command);
-		if(!m)
+		if(rewrite_shebang(command, rubyShebang, "Ruby", [&]{ return ruby_for_shebang(environment); }))
 			return;
 
-		std::string const ruby = ruby_for_shebang(environment);
-		if(ruby != NULL_STR)
-		{
-			command->replace(m.begin(), m.end() - m.begin(), "#!" + ruby);
-		}
-		else
-		{
-			// With no Ruby known, the shebang would land on the system Ruby
-			// through /usr/bin, which is the one thing that must not happen.
-			// The command says why it cannot run instead.
-			command->replace(m.begin(), m.end() - m.begin(), "#!/bin/sh\necho 'TextMate has no Ruby for bundle commands. The Runtimes bundle provides one; see the log for why it did not.' >&2\nexit 1\n#");
-		}
+		// Python's spellings, bare and versioned both. A bundle written before the
+		// split says `python`, and macOS has had nothing at /usr/bin/python since
+		// 12.3, so those commands cannot run at all until this points them somewhere.
+		static regexp::pattern_t const pythonShebang("\\A#!(/usr/bin/env python[0-9.]*|/usr/bin/python[0-9.]*)(?=[ \\t]|$)");
+		rewrite_shebang(command, pythonShebang, "Python", [&]{ return python_for_shebang(environment); });
 	}
 
 	static NSString* hash (NSData* data)
