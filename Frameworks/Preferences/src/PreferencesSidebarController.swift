@@ -67,15 +67,58 @@ public final class PreferencesSidebarController: NSViewController {
   }
 }
 
-/// Hosts a pane's existing view controller inside SwiftUI.
-private struct PaneHost: NSViewControllerRepresentable {
+/// Shows the selected pane's view, one at a time.
+///
+/// A container whose single subview is swapped, rather than an
+/// `NSViewControllerRepresentable` handing back the controller. Two reasons,
+/// and the first is what made switching panes do nothing at all.
+///
+/// SwiftUI updates a representable in place when only its inputs change, so
+/// `makeNSViewController` runs once and every later pane arrives at
+/// `updateNSViewController`. Handing back a different controller from `make`
+/// is never asked for, so the first pane stays on screen forever.
+///
+/// A view controller also has one parent, and these are already children of
+/// the sidebar controller so their life cycle runs. Letting SwiftUI parent
+/// them as well would take them away from it.
+private struct PaneHost: NSViewRepresentable {
   let controller: NSViewController
 
-  func makeNSViewController(context: Context) -> NSViewController {
-    controller
+  func makeNSView(context: Context) -> NSView {
+    NSView()
   }
 
-  func updateNSViewController(_ controller: NSViewController, context: Context) {
+  func updateNSView(_ container: NSView, context: Context) {
+    PaneContainer.show(controller.view, in: container)
+  }
+}
+
+/// The swap itself, apart from SwiftUI, so it can be tested. Switching panes
+/// doing nothing was the whole of this spike's first bug, and a bug that
+/// visible deserves something that would have caught it.
+public enum PaneContainer {
+  /// Makes the pane's view the container's only subview, pinned across and to
+  /// the top. Does nothing when it is already there, so a redraw does not tear
+  /// the view out and put it back.
+  @MainActor
+  public static func show(_ paneView: NSView, in container: NSView) {
+    guard container.subviews.first !== paneView else { return }
+
+    for subview in container.subviews {
+      subview.removeFromSuperview()
+    }
+
+    paneView.translatesAutoresizingMaskIntoConstraints = false
+    container.addSubview(paneView)
+
+    // The height is left to the pane, since a sidebar window is taller than
+    // the panes were laid out for and stretching them would spread their rows
+    // rather than fill the space.
+    NSLayoutConstraint.activate([
+      paneView.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+      paneView.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+      paneView.topAnchor.constraint(equalTo: container.topAnchor),
+    ])
   }
 }
 
@@ -96,7 +139,6 @@ private struct PreferencesSidebarView: View {
             Image(nsImage: image)
           }
         }
-        .tag(pane.id)
       }
       .navigationSplitViewColumnWidth(min: 170, ideal: 190, max: 260)
     } detail: {

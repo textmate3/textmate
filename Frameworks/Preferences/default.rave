@@ -4,5 +4,6 @@ target "${dirname}" {
 	headers src/{Preferences,Keys,MateInstaller}.h
 
 	sources src/*.{mm,swift}
+	tests tests/*.swift
 	frameworks Cocoa UniformTypeIdentifiers
 }
