@@ -1,5 +1,5 @@
 #import "FileChooser.h"
-#import "OakAbbreviations.h"
+#import "OakFilterList-Swift.h"
 #import <OakAppKit/OakAppKit.h>
 #import <OakAppKit/OakUIConstructionFunctions.h>
 #import <OakAppKit/OakScopeBarView.h>

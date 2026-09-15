@@ -1,5 +1,5 @@
 #import "Favorites.h"
-#import <OakFilterList/OakAbbreviations.h>
+#import <OakFilterList/OakFilterList-Swift.h>
 #import <OakAppKit/OakAppKit.h>
 #import <OakAppKit/OakUIConstructionFunctions.h>
 #import <OakAppKit/OakScopeBarView.h>
