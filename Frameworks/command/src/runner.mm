@@ -10,6 +10,14 @@
 #include <text/replace_all.h>
 #include <oak/datatypes.h>
 
+NSString* const OakRuntimeMissingNotification = @"OakRuntimeMissingNotification";
+
+// The bundles that carry each language's runtime. Named here as well as in the
+// application because this is where it is noticed that one is missing, and the
+// notification has to say which one to offer.
+static NSString* const kRuntimesRubyBundleUUID   = @"0273983B-D121-4A7F-91CA-12C06A6CDE2A";
+static NSString* const kRuntimesPythonBundleUUID = @"5CA339D1-FDBB-4F83-BFDC-7069F626FCA8";
+
 static std::string trim_right (std::string const& str, std::string const& trimChars = " \t\n")
 {
 	std::string::size_type len = str.find_last_not_of(trimChars);
@@ -249,7 +257,7 @@ namespace command
 	// is asked for only once the pattern has matched, since asking warns about a
 	// setting the person made and a command in another language is not their doing.
 	// Answers whether it matched, so a command is rewritten for one language only.
-	static bool rewrite_shebang (std::string* command, regexp::pattern_t const& pattern, std::string const& language, std::function<std::string()> const& interpreterFor)
+	static bool rewrite_shebang (std::string* command, regexp::pattern_t const& pattern, std::string const& language, NSString* runtimeBundleUUID, std::function<std::string()> const& interpreterFor)
 	{
 		regexp::match_t const m = regexp::search(pattern, *command);
 		if(!m)
@@ -265,7 +273,16 @@ namespace command
 			// With no interpreter known, the shebang would land on the system one
 			// through /usr/bin, which is the one thing that must not happen.
 			// The command says why it cannot run instead.
-			command->replace(m.begin(), m.end() - m.begin(), "#!/bin/sh\necho 'TextMate has no " + language + " for bundle commands. The Runtimes bundle provides one, and the log says why it did not.' >&2\nexit 1\n#");
+			std::string const bundle = "Runtimes " + language;
+			command->replace(m.begin(), m.end() - m.begin(), "#!/bin/sh\necho 'This command needs " + language + ", and TextMate has none. The " + bundle + " bundle provides it: install it under Preferences, Bundles.' >&2\nexit 1\n#");
+
+			// Something with a window can offer the install. The command is
+			// already written to fail on its own, so nothing depends on this
+			// being observed, or on it being observed in time.
+			[NSNotificationCenter.defaultCenter postNotificationName:OakRuntimeMissingNotification object:nil userInfo:@{
+				@"language": [NSString stringWithUTF8String:language.c_str()],
+				@"bundle":   runtimeBundleUUID,
+			}];
 		}
 		return true;
 	}
@@ -276,14 +293,14 @@ namespace command
 
 		// The three ways a shebang reaches the system Ruby: through env, by its /usr/bin path, or by the framework path some older bundles spell out.
 		static regexp::pattern_t const rubyShebang("\\A#!(/usr/bin/env ruby|/usr/bin/ruby|/System/Library/Frameworks/Ruby\\.framework/Versions/[^/ \\t\\n]+/usr/bin/ruby)(?=[ \\t]|$)");
-		if(rewrite_shebang(command, rubyShebang, "Ruby", [&]{ return ruby_for_shebang(environment); }))
+		if(rewrite_shebang(command, rubyShebang, "Ruby", kRuntimesRubyBundleUUID, [&]{ return ruby_for_shebang(environment); }))
 			return;
 
 		// Python's spellings, bare and versioned both. A bundle written before the
 		// split says `python`, and macOS has had nothing at /usr/bin/python since
 		// 12.3, so those commands cannot run at all until this points them somewhere.
 		static regexp::pattern_t const pythonShebang("\\A#!(/usr/bin/env python[0-9.]*|/usr/bin/python[0-9.]*)(?=[ \\t]|$)");
-		rewrite_shebang(command, pythonShebang, "Python", [&]{ return python_for_shebang(environment); });
+		rewrite_shebang(command, pythonShebang, "Python", kRuntimesPythonBundleUUID, [&]{ return python_for_shebang(environment); });
 	}
 
 	static NSString* hash (NSData* data)

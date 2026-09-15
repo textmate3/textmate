@@ -244,6 +244,16 @@ static NSString* SafeBasename (NSString* name)
 	return NO;
 }
 
+- (Bundle*)bundleForIdentifier:(NSUUID*)anIdentifier
+{
+	for(Bundle* bundle in self.bundles)
+	{
+		if([bundle.identifier isEqual:anIdentifier])
+			return bundle;
+	}
+	return nil;
+}
+
 - (NSProgress*)installBundles:(NSArray<Bundle*>*)someBundles completionHandler:(void(^)(NSArray<Bundle*>*))callback
 {
 	NSMutableSet* bundlesToInstall = [NSMutableSet set];

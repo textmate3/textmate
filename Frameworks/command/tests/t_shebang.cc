@@ -146,6 +146,21 @@ void test_with_no_ruby_at_all_the_command_refuses_to_run_rather_than_reach_the_s
 	}
 }
 
+void test_the_refusal_names_the_bundle_that_would_fix_it ()
+{
+	// A person reading a command's error window should learn what to install,
+	// not that a log somewhere knows. The bundle names are the ones the
+	// catalog serves, so a typo here is a dead end for whoever hits it.
+	std::string ruby = "#!/usr/bin/env ruby\nputs 1\n";
+	command::fix_shebang(&ruby, NoRuby);
+	OAK_ASSERT(ruby.find("Runtimes Ruby") != std::string::npos);
+
+	std::string python = "#!/usr/bin/env python\nprint(1)\n";
+	command::fix_shebang(&python, NoRuby);
+	OAK_ASSERT(python.find("Runtimes Python") != std::string::npos);
+	OAK_ASSERT(python.find("Preferences") != std::string::npos);
+}
+
 void test_a_command_in_an_unmanaged_language_is_untouched_even_with_no_runtime ()
 {
 	std::string command = "#!/usr/bin/env perl\nprint 1\n";

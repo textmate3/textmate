@@ -11,6 +11,11 @@
 # Reads from ../api.textmate3.com/tarballs, the same prebuilt archives the
 # development catalog serves, and repacks each with its proper display name as
 # the top level directory, so first launch extraction needs nothing but tar.
+#
+# Runtimes Python is deliberately not here. It is the one runtime bundle a
+# person installs rather than receives, because the manager it carries is
+# larger than everything else in this list put together and a minority of
+# bundles need it.
 
 require "fileutils"
 require "tmpdir"
@@ -25,6 +30,7 @@ SEED_BUNDLES = %w[
   ruby-on-rails.tmbundle
   ruby.tmbundle
   runtimes.tmbundle
+  runtimes-ruby.tmbundle
   source.tmbundle
   text.tmbundle
   themes.tmbundle

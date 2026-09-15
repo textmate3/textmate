@@ -10,6 +10,7 @@
 #import <DocumentWindow/DocumentWindowController.h>
 #import <Find/Find.h>
 #import <CommitWindow/CommitWindow.h>
+#import <command/runner.h>
 #import <OakAppKit/NSAlert Additions.h>
 #import <OakAppKit/NSMenuItem Additions.h>
 #import <OakAppKit/OakAppKit.h>
@@ -603,15 +604,20 @@ BOOL HasDocumentWindow (NSArray* windows)
 // every command gets is made again around it. What the resolver reports on
 // the way, an install, a fallback, an error, is logged here and is the
 // banner's material once the banner exists.
-static NSString* const kRuntimesBundleUUID = @"0273983B-D121-4A7F-91CA-12C06A6CDE2A";
+static NSString* const kRuntimesRubyBundleUUID = @"0273983B-D121-4A7F-91CA-12C06A6CDE2A";
 
-// Python asks the same bundle for its own resolver. Nothing about Ruby changes:
-// the two run independently, and a machine with one and not the other is fine.
+// Python lives in a bundle of its own, and that bundle is optional. Not being
+// installed is the ordinary state of a machine whose owner writes no Python,
+// so it is not an error and nothing is said about it here. A Python command
+// that actually runs is what asks for it, through
+// OakRuntimeMissingNotification.
+static NSString* const kRuntimesPythonBundleUUID = @"5CA339D1-FDBB-4F83-BFDC-7069F626FCA8";
+
 - (void)activateApplicationPython
 {
-	bundles::item_ptr runtimes = bundles::lookup(oak::uuid_t(to_s(kRuntimesBundleUUID)));
+	bundles::item_ptr runtimes = bundles::lookup(oak::uuid_t(to_s(kRuntimesPythonBundleUUID)));
 	if(!runtimes)
-		return; // The Ruby side has already said the bundle is missing.
+		return;
 
 	std::string const resolver = path::join(runtimes->support_path(), "bin/python_runtime");
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -633,12 +639,56 @@ static NSString* const kRuntimesBundleUUID = @"0273983B-D121-4A7F-91CA-12C06A6CD
 	});
 }
 
+// A command asked for a language with no runtime behind it. The command has
+// already failed and said so on its own standard error, so this is the offer
+// to fix it rather than the report that something went wrong.
+//
+// Once per launch per language. A person who says no should not be asked again
+// by the next command in the same bundle, and a person who says yes is waiting
+// on a download rather than on another sheet.
+- (void)runtimeMissing:(NSNotification*)aNotification
+{
+	NSString* language = aNotification.userInfo[@"language"];
+	NSString* identifier = aNotification.userInfo[@"bundle"];
+	if(!language || !identifier)
+		return;
+
+	static NSMutableSet* asked = [NSMutableSet set];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		if([asked containsObject:language])
+			return;
+		[asked addObject:language];
+
+		Bundle* bundle = [BundlesManager.sharedInstance bundleForIdentifier:[[NSUUID alloc] initWithUUIDString:identifier]];
+		if(!bundle || bundle.isInstalled)
+		{
+			// Installed and still no runtime means the resolver failed rather
+			// than the bundle being absent, and the log already says why.
+			os_log_error(OS_LOG_DEFAULT, "A command needs %{public}@ and none was resolved", language);
+			return;
+		}
+
+		NSAlert* alert = [[NSAlert alloc] init];
+		alert.messageText     = [NSString stringWithFormat:@"This command needs %@.", language];
+		alert.informativeText = [NSString stringWithFormat:@"The ‘%@’ bundle provides the %@ that bundle commands run on. TextMate can install it now.", bundle.name, language];
+		[alert addButtons:@"Install", @"Not Now", nil];
+		if([alert runModal] != NSAlertFirstButtonReturn)
+			return;
+
+		[BundlesManager.sharedInstance installBundles:@[ bundle ] completionHandler:^(NSArray<Bundle*>* bundles){
+			if(![language isEqualToString:@"Python"])
+				return;
+			[self activateApplicationPython];
+		}];
+	});
+}
+
 - (void)activateApplicationRuby
 {
-	bundles::item_ptr runtimes = bundles::lookup(oak::uuid_t(to_s(kRuntimesBundleUUID)));
+	bundles::item_ptr runtimes = bundles::lookup(oak::uuid_t(to_s(kRuntimesRubyBundleUUID)));
 	if(!runtimes)
 	{
-		os_log_error(OS_LOG_DEFAULT, "No Ruby for bundle commands: the Runtimes bundle is not installed");
+		os_log_error(OS_LOG_DEFAULT, "No Ruby for bundle commands: the Runtimes Ruby bundle is not installed");
 		return;
 	}
 
@@ -687,6 +737,7 @@ static NSString* const kRuntimesBundleUUID = @"0273983B-D121-4A7F-91CA-12C06A6CD
 	[AboutWindowController showChangesIfUpdated];
 	[self activateApplicationRuby];
 	[self activateApplicationPython];
+	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(runtimeMissing:) name:OakRuntimeMissingNotification object:nil];
 
 	[CrashReporter.sharedInstance logNewCrashReports];
 
