@@ -81,12 +81,15 @@ import Foundation
   }
 
   @Test func theOldestPicksAreTheOnesForgotten() {
+    // Zero padded, so that no abbreviation is a prefix of another and each
+    // lookup answers for itself alone. Unpadded, `a1` matches `a10` through
+    // `a19` as well, which is the prefix rule doing its job.
     let remembered = abbreviations()
     for number in 1...(OakAbbreviations.limit + 1) {
-      remembered.learn(abbreviation: "a\(number)", forString: "/file\(number)")
+      remembered.learn(abbreviation: String(format: "a%03d", number), forString: "/file\(number)")
     }
-    #expect(remembered.strings(forAbbreviation: "a1").isEmpty)
-    #expect(!remembered.strings(forAbbreviation: "a2").isEmpty)
+    #expect(remembered.strings(forAbbreviation: "a001").isEmpty)
+    #expect(remembered.strings(forAbbreviation: "a002") == ["/file2"])
   }
 
   @Test func aPickSurvivesBeingReadBackFromDefaults() {
