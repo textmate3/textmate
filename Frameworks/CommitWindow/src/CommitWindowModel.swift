@@ -58,7 +58,7 @@ final class CommitWindowModel {
 
   /// What the tool receives on its standard output: a `-m` argument carrying
   /// the message, then every included path, each quoted for a shell.
-  static func standardOutput(message: String, paths: [String]) -> String {
+  nonisolated static func standardOutput(message: String, paths: [String]) -> String {
     let quoted = message.replacingOccurrences(of: "'", with: "'\"'\"'")
     let arguments = [" -m '\(quoted)' "] + paths.map { CommitWindowBridge.escapedPath($0) } + ["\n"]
     return arguments.joined(separator: " ")
@@ -139,7 +139,7 @@ final class CommitWindowModel {
 
   /// A command answers the new status first, then whatever else it wants to
   /// say. Output with no whitespace at all is not a status and is refused.
-  static func statusFromCommandOutput(_ output: String) -> String? {
+  nonisolated static func statusFromCommandOutput(_ output: String) -> String? {
     guard let end = output.rangeOfCharacter(from: .whitespacesAndNewlines) else { return nil }
     return String(output[..<end.lowerBound])
   }
