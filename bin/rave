@@ -854,6 +854,13 @@ module Target
           flags << "-o #{swift[:object].shellescape}"
           flags += config[:include].map { |dir| "-Xcc -I#{dir.shellescape}" } if config.include?(:include)
 
+          # A target whose tests are Swift is compiled so `@testable import`
+          # can reach its internal declarations. Without this the tests see
+          # only what the module makes public, which would mean widening a
+          # type's visibility to test it. Only targets that have Swift tests,
+          # since this keeps symbols the optimizer would otherwise drop.
+          flags << '-enable-testing' if (target[:tests] || []).any? { |file| file.end_with?('.swift') }
+
           dependencies = []
           if File.exist?(swift[:bridging_header])
             flags << "-import-objc-header #{swift[:bridging_header].shellescape}"
