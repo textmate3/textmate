@@ -8,6 +8,15 @@
 #include <oak/debug.h>
 #include <oak/callbacks.h>
 
+#ifdef __OBJC__
+// Posted when a command's shebang asks for a language the application has no
+// runtime for. The user info carries `language`, the name a person would read,
+// and `bundle`, the identifier of the runtime bundle that would provide it.
+// The command still runs, and still fails, saying why on its standard error.
+// This is only so something with a window can offer to fix it.
+extern NSString* const OakRuntimeMissingNotification;
+#endif
+
 namespace command
 {
 	void fix_shebang (std::string* command);

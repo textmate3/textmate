@@ -232,5 +232,5 @@ void test_a_ruby_command_with_only_the_system_ruby_does_not_run ()
 	delegate_ptr res = run_command("#!/usr/bin/env ruby\nputs RUBY_VERSION\n", "showAsTooltip", { { "TM_RUBY", "/usr/bin/ruby" }, { "TM_APPLICATION_RUBY", NULL_STR } });
 	OAK_ASSERT_EQ(res->rc, 1);
 	OAK_ASSERT_EQ(res->out, "");
-	OAK_ASSERT(res->err.find("no Ruby") != std::string::npos);
+	OAK_ASSERT(res->err.find("needs Ruby") != std::string::npos);
 }

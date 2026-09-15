@@ -25,6 +25,22 @@ namespace oak
 		application_ruby() = path::is_executable(path::join(directory, "bin/ruby")) ? directory : NULL_STR;
 	}
 
+	static std::string& application_python_interpreter ()
+	{
+		static std::string* interpreter = new std::string(NULL_STR);
+		return *interpreter;
+	}
+
+	std::string const& application_python ()
+	{
+		return application_python_interpreter();
+	}
+
+	void set_application_python (std::string const& interpreter)
+	{
+		application_python_interpreter() = path::is_executable(interpreter) ? interpreter : NULL_STR;
+	}
+
 	std::map<std::string, std::string> setup_basic_environment ()
 	{
 		std::string whitelistStr = "Apple_*:COMMAND_MODE:DIALOG*:SHELL:SHLVL:SSH_AUTH_SOCK:__CF_USER_TEXT_ENCODING";
@@ -81,6 +97,17 @@ namespace oak
 			path = path::join(applicationRuby, "bin") + ":" + path;
 			res.emplace("TM_RUBY",             path::join(applicationRuby, "bin/ruby"));
 			res.emplace("TM_APPLICATION_RUBY", path::join(applicationRuby, "bin/ruby"));
+		}
+
+		// The same for Python, and for the same reasons. The interpreter's own
+		// directory goes on PATH after Ruby's, since uv answers with the
+		// interpreter rather than a directory to join a bin onto.
+		std::string const applicationPython = application_python();
+		if(applicationPython != NULL_STR)
+		{
+			path = path::parent(applicationPython) + ":" + path;
+			res.emplace("TM_PYTHON",             applicationPython);
+			res.emplace("TM_APPLICATION_PYTHON", applicationPython);
 		}
 
 		res.emplace("HOME",    entry->pw_dir);

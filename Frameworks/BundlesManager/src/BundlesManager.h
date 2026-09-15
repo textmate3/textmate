@@ -9,6 +9,7 @@ extern NSString* const kUserDefaultsLastBundleUpdateCheckKey;
 
 @property (nonatomic, readonly) NSArray<Bundle*>* bundles;
 
+- (Bundle*)bundleForIdentifier:(NSUUID*)anIdentifier;
 - (NSProgress*)installBundles:(NSArray<Bundle*>*)someBundles completionHandler:(void(^)(NSArray<Bundle*>*))callback;
 - (void)uninstallBundle:(Bundle*)aBundle;
 - (void)loadBundlesIndex;
