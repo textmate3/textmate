@@ -1,5 +1,5 @@
 #import "OakHTMLOutputView.h"
-#import "browser/HOStatusBar.h"
+#import "HTMLOutput-Swift.h"
 #import "helpers/HOAutoScroll.h"
 #import "helpers/HOJSBridge.h"
 #import "HOFileHandleSchemeHandler.h"
@@ -8,7 +8,9 @@
 #import <OakAppKit/NSAlert Additions.h>
 #import <oak/debug.h>
 
-@interface HOStatusBar (BusyAndProgressProperties) <HOJSBridgeDelegate>
+// The status bar is Swift, in HTMLOutputStatusBar.swift, and already has the
+// two properties the bridge sets. This says so to the compiler.
+@interface HOStatusBar (JavaScriptBridge) <HOJSBridgeDelegate>
 @end
 
 @interface OakHTMLOutputView ()
@@ -147,7 +149,7 @@
 
 - (void)webView:(WKWebView*)webView didStartProvisionalNavigation:(WKNavigation*)navigation
 {
-	self.statusBar.busy = YES;
+	self.statusBar.isBusy = YES;
 	[self setUpdatesProgress:!self.isRunningCommand];
 }
 

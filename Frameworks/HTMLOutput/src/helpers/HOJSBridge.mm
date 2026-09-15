@@ -108,7 +108,7 @@
 
 	if([method isEqualToString:@"setBusy"])
 	{
-		_delegate.busy = [body[@"value"] boolValue];
+		_delegate.isBusy = [body[@"value"] boolValue];
 		return replyHandler(nil, nil);
 	}
 
