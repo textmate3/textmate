@@ -252,7 +252,7 @@ void test_with_no_python_the_command_refuses_to_run_rather_than_reach_the_system
 	std::string command = "#!/usr/bin/env python3\nprint(1)\n";
 	command::fix_shebang(&command, NoRuby);
 	OAK_ASSERT_EQ(command.substr(0, 9), "#!/bin/sh");
-	OAK_ASSERT(command.find("no Python for bundle commands") != std::string::npos);
+	OAK_ASSERT(command.find("needs Python") != std::string::npos);
 	OAK_ASSERT(command.find("/usr/bin/env python3") == std::string::npos);
 }
 
@@ -266,10 +266,10 @@ void test_one_language_never_answers_for_the_other ()
 	std::string rubyCommand = "#!/usr/bin/env ruby\nputs 1\n";
 	command::fix_shebang(&rubyCommand, tm_python(interpreter));
 	OAK_ASSERT_EQ(rubyCommand.substr(0, 9), "#!/bin/sh");
-	OAK_ASSERT(rubyCommand.find("no Ruby for bundle commands") != std::string::npos);
+	OAK_ASSERT(rubyCommand.find("needs Ruby") != std::string::npos);
 
 	std::string pythonCommand = "#!/usr/bin/env python3\nprint(1)\n";
 	command::fix_shebang(&pythonCommand, tm_ruby(interpreter));
 	OAK_ASSERT_EQ(pythonCommand.substr(0, 9), "#!/bin/sh");
-	OAK_ASSERT(pythonCommand.find("no Python for bundle commands") != std::string::npos);
+	OAK_ASSERT(pythonCommand.find("needs Python") != std::string::npos);
 }
