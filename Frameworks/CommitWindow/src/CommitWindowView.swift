@@ -159,7 +159,12 @@ struct CommitWindowView: View {
 /// The editor owns the text, not this. Mirroring it into a SwiftUI property
 /// would mean writing it back on every update, which would fight whoever is
 /// typing.
-@Observable
+///
+/// `@MainActor` because it holds and calls into `CommitMessageView`, an
+/// `NSView` subclass, whose isolation is inferred from `NSView` itself. This
+/// class is only ever touched from SwiftUI's own main-actor context, so the
+/// annotation states what was already true rather than changing anything.
+@MainActor @Observable
 final class CommitMessageDocument {
   @ObservationIgnored fileprivate weak var view: CommitMessageView?
   @ObservationIgnored private var pending: String?
