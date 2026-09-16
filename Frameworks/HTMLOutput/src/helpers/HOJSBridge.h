@@ -1,7 +1,7 @@
 #import <WebKit/WebKit.h>
 
 @protocol HOJSBridgeDelegate
-@property (nonatomic, getter = isBusy) BOOL busy;
+@property (nonatomic) BOOL isBusy;
 @property (nonatomic) double progress;
 @end
 

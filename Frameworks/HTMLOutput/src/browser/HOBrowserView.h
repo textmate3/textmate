@@ -1,7 +1,7 @@
 #import <oak/print_system_error.h>
 #import <WebKit/WebKit.h>
 
-@class HOStatusBar;
+@class HOStatusBar;   // Swift, in HTMLOutputStatusBar.swift
 
 @interface HOBrowserView : NSView <WKNavigationDelegate>
 @property (nonatomic, readonly) WKWebView* webView;
