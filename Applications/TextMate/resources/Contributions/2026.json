@@ -2,12 +2,34 @@
   "year": 2026,
   "commits": [
     {
+      "hash": "479d4e4a4beb9a5ad397ef0bf7fbe160edeee6d6",
+      "date": "2026-10-24T01:13:08-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Show Contributions natively from the per year JSON and take the web view, its bridge and the credits generator out of the About window",
+      "body": ""
+    },
+    {
+      "hash": "3f14e0fcbbd80858f3bfcc08888b97021495f8db",
+      "date": "2026-10-24T01:09:54-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Add the Contribution model and loader with tests, a blocks view for Markdown inside a row, name the account field username, sort each year by author date, and declare gh, rv and swiftlint with a Ruby pin",
+      "body": ""
+    },
+    {
       "hash": "5dba688c1eb67f605403cb7117f502492954bcc9",
       "date": "2026-10-24T00:49:39-07:00",
       "author": {
         "name": "Shane Becker",
-        "username": null,
-        "avatar_url": null
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Add script/update_contributions and the per year JSON of every commit it writes, with GitHub accounts resolved by GitHub",
       "body": ""

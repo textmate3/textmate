@@ -52,21 +52,22 @@ struct ContributionsView: View {
 }
 
 /// One commit: the author's avatar, the summary in bold with the short hash linked at the right, and who authored it when.
-/// A commit with a body opens to show it, drawn as Markdown, the way the page kept it behind an expander.
+/// A commit with a body has a chevron beside the summary that shows the rest of the message, drawn as Markdown, the way the page kept it behind an expander.
+/// The chevron is a button of its own rather than a DisclosureGroup, which draws no chevron inside a list row that is not its outline.
 struct ContributionRow: View {
   let commit: Contribution
+
+  @State private var showsMessage = false
 
   var body: some View {
     HStack(alignment: .top, spacing: 10) {
       avatar
-      if commit.body.isEmpty {
+      VStack(alignment: .leading, spacing: 2) {
         title
-      } else {
-        DisclosureGroup {
+        caption
+        if showsMessage {
           message
             .padding(.top, 4)
-        } label: {
-          title
         }
       }
     }
@@ -86,27 +87,41 @@ struct ContributionRow: View {
   }
 
   private var title: some View {
-    VStack(alignment: .leading, spacing: 2) {
-      HStack(alignment: .firstTextBaseline) {
-        Text(commit.summary)
-          .bold()
-        Spacer()
-        if let url = commit.commitURL {
-          Link(commit.shortHash, destination: url)
-            .font(.caption.monospaced())
+    HStack(alignment: .firstTextBaseline, spacing: 6) {
+      Text(commit.summary)
+        .bold()
+      if !commit.body.isEmpty {
+        Button {
+          showsMessage.toggle()
+        } label: {
+          Image(systemName: showsMessage ? "chevron.down" : "chevron.right")
         }
+        .buttonStyle(.plain)
+        .foregroundStyle(.secondary)
+        .help(showsMessage ? "Hide the rest of the message" : "Show the rest of the message")
       }
-      HStack(spacing: 4) {
-        if let profile = commit.author.profileURL {
-          Link(commit.author.name, destination: profile)
-        } else {
-          Text(commit.author.name)
-        }
-        Text("authored \(commit.date, format: .dateTime.month(.wide).day().year())")
+      Spacer()
+      if let url = commit.commitURL {
+        Link(commit.shortHash, destination: url)
+          .font(.caption.monospaced())
       }
-      .font(.caption)
-      .foregroundStyle(.secondary)
     }
+  }
+
+  /// The author's name, with their GitHub username when there is one, links to their profile in the same style as the hash link.
+  /// The rest of the line is secondary.
+  private var caption: some View {
+    HStack(spacing: 4) {
+      if let profile = commit.author.profileURL, let username = commit.author.username {
+        Link("\(commit.author.name) @\(username)", destination: profile)
+      } else {
+        Text(commit.author.name)
+          .foregroundStyle(.secondary)
+      }
+      Text("authored \(commit.date, format: .dateTime.month(.wide).day().year())")
+        .foregroundStyle(.secondary)
+    }
+    .font(.caption)
   }
 
   /// The body as Markdown, which rejoins the wrapped lines of a message into paragraphs. A body the parser refuses is shown as it is.

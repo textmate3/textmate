@@ -61,17 +61,19 @@ Dir.glob(File.join(DESTINATION, "*.json")).each do |path|
   JSON.parse(File.read(path)).fetch("commits").each { existing[it.fetch("hash")] = it }
 end
 
-# Hash, author date, author name, summary and body, each field ended by a NUL
-# and each commit by a record separator, neither of which a message can hold.
-format = "%H%x00%aI%x00%an%x00%s%x00%b%x1e"
+# Hash, author date, author name, author email, summary and body, each field
+# ended by a NUL and each commit by a record separator, neither of which a
+# message can hold. The email is not written out. It is what the account is
+# matched on, and git already has it.
+format = "%H%x00%aI%x00%an%x00%ae%x00%s%x00%b%x1e"
 log, status = Open3.capture2("git", "-C", ROOT, "log", "--format=#{format}")
 abort "update_contributions: git log failed" unless status.success?
 
 commits = log.split("\x1e").filter_map do |record|
-  hash, date, name, summary, body = record.sub(/\A\n/, "").split("\x00", 5)
+  hash, date, name, email, summary, body = record.sub(/\A\n/, "").split("\x00", 6)
   next if hash.nil? || hash.empty?
 
-  { hash: hash, date: date, name: name, summary: summary, body: body.to_s.strip }
+  { hash: hash, date: date, name: name, email: email, summary: summary, body: body.to_s.strip }
 end
 
 # A record without an account is asked about again while it is recent, since a
@@ -85,11 +87,24 @@ end
 
 accounts = github_accounts(commits.map { it[:hash] }.reject { settled?(existing[it]) })
 
+# An author is one account, so a commit GitHub has not seen, one on a branch
+# that has not merged, takes the account of another commit by the same email.
+def account_of(record)
+  author = record.fetch("author")
+  author["username"] && { "username" => author["username"], "avatar_url" => author["avatar_url"] }
+end
+
+by_email = {}
+commits.each do |commit|
+  account = accounts[commit[:hash]] || (existing[commit[:hash]] && account_of(existing[commit[:hash]]))
+  by_email[commit[:email]] ||= account if account && !commit[:email].empty?
+end
+
 records = commits.map do |commit|
   if settled?(record = existing[commit[:hash]])
     record
   else
-    account = accounts[commit[:hash]]
+    account = accounts[commit[:hash]] || by_email[commit[:email]]
     {
       "hash"    => commit[:hash],
       "date"    => commit[:date],
