@@ -1,10 +1,11 @@
 #import "AboutWindowController.h"
 #import "TextMate-Swift.h"
 #import <OakAppKit/OakUIConstructionFunctions.h>
+#import <OakAppKit/OakAppKit-Swift.h>
 #import <OakFoundation/OakFoundation.h>
-#import <OakFoundation/OakFoundation-Swift.h>
 #import <OakFoundation/NSString Additions.h>
 #import <BundlesManager/BundlesManager.h>
+#import <BundlesManager/BundlesManager-Swift.h>
 #import <ns/ns.h>
 
 static NSString* const kUserDefaultsReleaseNotesDigestKey = @"releaseNotesDigest";
@@ -17,12 +18,22 @@ static NSData* Digest (NSString* someString)
 	return [NSData dataWithBytes:md length:sizeof(md)];
 }
 
+// The release notes as shipped, the Markdown itself, which is what the
+// Changes page renders and what the digest below is taken over.
+static NSURL* ReleaseNotesURL ()
+{
+	return [NSBundle.mainBundle URLForResource:@"Changes" withExtension:@"md" subdirectory:@"About"];
+}
+
 @interface AboutWindowController () <NSWindowDelegate, NSToolbarDelegate, WKNavigationDelegate, WKScriptMessageHandler>
 @property (nonatomic, readonly) NSArray<NSString*>* segmentLabels;
 @property (nonatomic) NSToolbar* toolbar;
 @property (nonatomic) NSSegmentedControl* segmentedControl;
 @property (nonatomic) WKWebView* webView;
 @property (nonatomic) TMAboutViewController* aboutViewController;
+@property (nonatomic) OakMarkdownPageViewController* changesViewController;
+@property (nonatomic) OakMarkdownPageViewController* legalViewController;
+@property (nonatomic) BundleChangesViewController* bundlesViewController;
 @property (nonatomic) NSString* selectedPage;
 @end
 
@@ -35,7 +46,7 @@ static NSData* Digest (NSString* someString)
 
 + (void)showChangesIfUpdated
 {
-	NSURL* url = [[NSBundle mainBundle] URLForResource:@"Changes" withExtension:@"html"];
+	NSURL* url = ReleaseNotesURL();
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 		if(NSString* releaseNotes = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL])
 		{
@@ -78,6 +89,8 @@ static NSData* Digest (NSString* someString)
 		[win setHidesOnDeactivate:NO];
 		[win setTitleVisibility:NSWindowTitleHidden];
 
+		// The web view shows Contributions, the one page still rendered to
+		// HTML. The bridge script carries its errors to the log.
 		WKWebViewConfiguration* webConfig = [[WKWebViewConfiguration alloc] init];
 		[webConfig.userContentController addScriptMessageHandler:self name:@"textmate"];
 
@@ -88,17 +101,8 @@ static NSData* Digest (NSString* someString)
 		if(NSURL* url = [NSBundle.mainBundle URLForResource:@"WKWebView" withExtension:@"js"])
 		{
 			NSError* error;
-			if(NSMutableString* jsBridge = [NSMutableString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error])
+			if(NSString* jsBridge = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error])
 			{
-				NSDictionary* variables = @{
-					@"version":   OakApplicationInfo.main.shortVersion,
-					@"copyright": OakApplicationInfo.main.copyright,
-				};
-
-				[variables enumerateKeysAndObjectsUsingBlock:^(NSString* key, NSString* value, BOOL* stop){
-					[jsBridge appendFormat:@"TextMate.%@ = %@;\n", key, [self javaScriptEscapedString:[value isEqual:[NSNull null]] ? @"" : value]];
-				}];
-
 				WKUserScript* script = [[WKUserScript alloc] initWithSource:jsBridge injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
 				[self.webView.configuration.userContentController addUserScript:script];
 			}
@@ -113,7 +117,7 @@ static NSData* Digest (NSString* someString)
 		}
 
 		// The window takes its minimum size from whichever content view is in
-		// it, so this and the About page declare the same 560 by 200.
+		// it, so this and every native page declare the same 560 by 200.
 		[self.webView.widthAnchor constraintGreaterThanOrEqualToConstant:560].active = YES;
 		[self.webView.heightAnchor constraintGreaterThanOrEqualToConstant:200].active = YES;
 
@@ -140,8 +144,7 @@ static NSData* Digest (NSString* someString)
 	self.selectedPage = @"Changes";
 	[self showWindow:self];
 
-	NSURL* url = [[NSBundle mainBundle] URLForResource:@"Changes" withExtension:@"html"];
-	if(NSString* releaseNotes = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL])
+	if(NSString* releaseNotes = [NSString stringWithContentsOfURL:ReleaseNotesURL() encoding:NSUTF8StringEncoding error:NULL])
 		[NSUserDefaults.standardUserDefaults setObject:Digest(releaseNotes) forKey:kUserDefaultsReleaseNotesDigestKey];
 }
 
@@ -153,40 +156,67 @@ static NSData* Digest (NSString* someString)
 		self.selectedPage = [sender representedObject];
 }
 
+// The Changes.json at the top of each installed bundle, which the catalog
+// writes into every archive. A bundle from elsewhere has none and is skipped
+// on the Swift side.
+- (NSArray<NSURL*>*)bundleChangesFiles
+{
+	NSMutableArray<NSURL*>* files = [NSMutableArray array];
+	for(Bundle* bundle in BundlesManager.sharedInstance.bundles)
+	{
+		if(bundle.installed && bundle.path)
+			[files addObject:[NSURL fileURLWithPath:[bundle.path stringByAppendingPathComponent:@"Changes.json"]]];
+	}
+	return files;
+}
+
 - (void)setSelectedPage:(NSString*)pageName
 {
 	if(_selectedPage == pageName || [_selectedPage isEqualToString:pageName])
 		return;
 	_selectedPage = pageName;
 
-	// The About page is SwiftUI, hosted in place of the web view. The other
-	// pages are HTML in the web view, as before.
+	// Every page but Contributions is native. The Markdown pages are built
+	// once, since their files do not change while the application runs. The
+	// Bundles page is built each time it is shown, so that a bundle installed
+	// since the last look is in the list.
 	if([pageName isEqualToString:@"About"])
 	{
 		if(!self.aboutViewController)
 			self.aboutViewController = [[TMAboutViewController alloc] init];
 		self.window.contentView = self.aboutViewController.view;
-		_segmentedControl.selectedSegment = [_segmentLabels indexOfObject:pageName];
-		return;
 	}
-
-	NSDictionary* pages = @{
-		@"Changes":       @"About/Changes",
-		@"Bundles":       @"About/Bundles",
-		@"Legal":         @"About/Legal",
-		@"Contributions": @"About/Contributions"
-	};
-
-	if(NSString* file = pages[pageName])
+	else if([pageName isEqualToString:@"Changes"])
+	{
+		if(!self.changesViewController)
+			self.changesViewController = [[OakMarkdownPageViewController alloc] initWithFileURL:ReleaseNotesURL()];
+		self.window.contentView = self.changesViewController.view;
+	}
+	else if([pageName isEqualToString:@"Legal"])
+	{
+		if(!self.legalViewController)
+			self.legalViewController = [[OakMarkdownPageViewController alloc] initWithFileURL:[NSBundle.mainBundle URLForResource:@"Legal" withExtension:@"md" subdirectory:@"About"]];
+		self.window.contentView = self.legalViewController.view;
+	}
+	else if([pageName isEqualToString:@"Bundles"])
+	{
+		self.bundlesViewController = [[BundleChangesViewController alloc] initWithChangesFiles:[self bundleChangesFiles]];
+		self.window.contentView = self.bundlesViewController.view;
+	}
+	else if([pageName isEqualToString:@"Contributions"])
 	{
 		if(self.window.contentView != self.webView)
 			self.window.contentView = self.webView;
 
-		if(NSURL* url = [NSBundle.mainBundle URLForResource:file withExtension:@"html"])
+		if(NSURL* url = [NSBundle.mainBundle URLForResource:@"About/Contributions" withExtension:@"html"])
 			[self.webView loadRequest:[NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60]];
-
-		_segmentedControl.selectedSegment = [_segmentLabels indexOfObject:pageName];
 	}
+	else
+	{
+		return;
+	}
+
+	_segmentedControl.selectedSegment = [_segmentLabels indexOfObject:pageName];
 }
 
 - (void)selectPageAtRelativeOffset:(NSInteger)offset
@@ -242,72 +272,6 @@ static NSData* Digest (NSString* someString)
 // =============
 // = WKWebView =
 // =============
-
-static NSDictionary* RemoveOldCommits (NSDictionary* src)
-{
-	NSMutableDictionary* res = [src mutableCopy];
-	NSMutableArray* commits = [NSMutableArray array];
-
-	NSInteger year = [[[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] components:NSCalendarUnitYear fromDate:[NSDate date]] year];
-	NSMutableArray* years = [NSMutableArray array];
-	for(size_t i = year-2; i <= year; ++i)
-		[years addObject:[NSString stringWithFormat:@"%4zu-", i]];
-
-	for(NSDictionary* commit in src[@"commits"])
-	{
-		NSString* dateString = commit[@"date"];
-		for(NSString* prefix in years)
-		{
-			if([dateString hasPrefix:prefix]) // this is significantly faster than having to parse the date
-				[commits addObject:commit];
-		}
-	}
-
-	res[@"commits"] = commits;
-	return res;
-}
-
-- (void)webView:(WKWebView*)webView didFinishNavigation:(WKNavigation*)navigation
-{
-	if(![_selectedPage isEqualToString:@"Bundles"])
-		return;
-
-	bool first = true;
-	NSMutableString* str = [NSMutableString stringWithString:@"{\"bundles\":["];
-	for(Bundle* bundle in BundlesManager.sharedInstance.bundles)
-	{
-		if(!bundle.installed || !bundle.path)
-			continue;
-
-		NSError* err = NULL;
-		if(NSString* content = [NSString stringWithContentsOfFile:[bundle.path stringByAppendingPathComponent:@"Changes.json"] encoding:NSUTF8StringEncoding error:&err])
-		{
-			if(NSDictionary* obj = [NSJSONSerialization JSONObjectWithData:[content dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&err])
-			{
-				if(NSData* data = [NSJSONSerialization dataWithJSONObject:RemoveOldCommits(obj) options:0 error:&err])
-				{
-					if(!std::exchange(first, false))
-						[str appendString:@","];
-
-					[str appendString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
-					continue;
-				}
-			}
-		}
-		NSLog(@"%@: %@", bundle.name, err.localizedDescription);
-	}
-	[str appendString:@"]}"];
-
-	[self.webView evaluateJavaScript:[NSString stringWithFormat:@"setJSON(%@);", [self javaScriptEscapedString:str]] completionHandler:^(id res, NSError* error){ }];
-}
-
-- (NSString*)javaScriptEscapedString:(NSString*)src
-{
-	static NSRegularExpression* const regex = [NSRegularExpression regularExpressionWithPattern:@"['\"\\\\]" options:0 error:nil];
-	NSString* escaped = src ? [regex stringByReplacingMatchesInString:src options:0 range:NSMakeRange(0, src.length) withTemplate:@"\\\\$0"] : @"";
-	escaped = [escaped stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
-	return [NSString stringWithFormat:@"'%@'", escaped];
-}
 
 - (void)webView:(WKWebView*)webView decidePolicyForNavigationAction:(WKNavigationAction*)navigationAction decisionHandler:(void(^)(WKNavigationActionPolicy))decisionHandler
 {
