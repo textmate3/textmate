@@ -9,7 +9,7 @@ The first release from the TextMate 3 project, carrying the 2.0 lineage forward.
 - The application has an identity of its own, `com.textmate3.TextMate`, with its own Application Support directory. The first launch imports preferences, bundles and the session from TextMate 2 once, and leaves TextMate 2 as it was.
 - Releases are Developer ID signed and notarized, and update through Sparkle, with alpha and beta channels for those who opt in.
 - The bundle editor edits grammars, themes, preferences and macros as forms with live previews, in place of property list text.
-- macOS 26 is the minimum system.
+- macOS 27 is the minimum system.
 
 ## 2021-04-16 (v2.0.22)
 

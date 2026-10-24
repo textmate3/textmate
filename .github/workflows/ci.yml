@@ -9,9 +9,13 @@ on:
 
 jobs:
   build-and-test:
-    # The application targets macOS 26, so the build needs the macOS 26 SDK,
-    # which only the macOS 26 image carries. That image is Apple Silicon.
-    runs-on: macos-26
+    # The application targets macOS 27, and this is the macOS 27 image: 27.0.1
+    # with Xcode 27 and the 27 SDK. GitHub names its macOS images by Xcode once
+    # a release is new, so this is `xcode-27` rather than `macos-27`, and it is
+    # in preview. When a `macos-27` label appears it is the same system and
+    # this should move to it.
+    # The image is Apple Silicon.
+    runs-on: xcode-27
 
     # Uploading gtm to the release needs write access to repository contents.
     permissions:

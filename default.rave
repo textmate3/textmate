@@ -1,4 +1,9 @@
-set APP_MIN_OS    "26.0"
+# The minimum macOS lives in .macos-version, so the floor has one home that configure checks against
+# the SDK and that the release script writes into the update feed. It is named through a ${dir} path
+# so that editing the file regenerates the build, the way editing this file does, and every flag that
+# carries ${APP_MIN_OS} inherits that dependency and rebuilds with it.
+set     MACOS_VERSION_FILE "${dir}/.macos-version"
+capture APP_MIN_OS         "tr -d '[:space:]' < '${MACOS_VERSION_FILE}'"
 
 # A prerelease suffix for the version people read, empty for a plain build. The release scripts set
 # it for one build through release.rave, applied after local.rave.
