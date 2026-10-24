@@ -6,7 +6,7 @@
       "date": "2021-10-12T21:39:21+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove image, modified, and SCMStatus properties from FileItem",
@@ -17,7 +17,7 @@
       "date": "2021-10-12T21:35:56+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Bind file browser’s location icon to the image of a TMFileReference",
@@ -28,7 +28,7 @@
       "date": "2021-10-12T21:30:21+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Change default size of image returned by TMFileReference: 48×48 → 16×16",
@@ -39,7 +39,7 @@
       "date": "2021-10-12T17:34:11+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Allow creating TMFileReference from an image instead of URL",
@@ -50,7 +50,7 @@
       "date": "2021-05-26T14:27:20+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update ./configure script to write rudimentary ‘local.rave’ file",
@@ -61,7 +61,7 @@
       "date": "2021-05-26T14:11:31+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Setup “my” local.rave to find dependencies via my nix-profile",
@@ -72,7 +72,7 @@
       "date": "2021-05-26T14:06:05+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Assert that capnp includes/library can be found via default paths",
@@ -83,7 +83,7 @@
       "date": "2021-05-26T14:01:37+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove CAPNP_BIN and assert that capnp can be found via PATH",
@@ -94,7 +94,7 @@
       "date": "2021-05-26T13:58:01+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Don’t pass --minimum-deployment-target to ibtool in default build config",
@@ -105,7 +105,7 @@
       "date": "2021-05-26T09:29:24+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove deployment target from all xib files",
@@ -116,7 +116,7 @@
       "date": "2021-05-19T13:48:01+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Move embedded executables from Resources to MacOS directory",
@@ -127,7 +127,7 @@
       "date": "2021-05-17T21:37:40+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Move HTML/CSS/JS shown in about window to subfolder",
@@ -138,7 +138,7 @@
       "date": "2021-05-10T21:52:58+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove open/isOpen property from FileItem",
@@ -149,7 +149,7 @@
       "date": "2021-05-10T21:46:54+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Assign icon to *.rave files",
@@ -160,7 +160,7 @@
       "date": "2021-05-10T21:11:46+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove openURLs and modifiedURLs properties from file browser",
@@ -171,7 +171,7 @@
       "date": "2021-05-10T21:09:50+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not update file browser’s openURLs and modifiedURLs properties",
@@ -182,7 +182,7 @@
       "date": "2021-05-10T21:01:43+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use TMFileReference for icon and close button in file browser table view",
@@ -193,7 +193,7 @@
       "date": "2021-05-10T20:58:13+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add icon property to TMFileReference",
@@ -204,7 +204,7 @@
       "date": "2021-05-10T18:42:11+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let OakDocument update TMFileReference’s modified/closable state",
@@ -215,7 +215,7 @@
       "date": "2021-05-10T17:35:34+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Tweak implementation of FileItem’s localizedName",
@@ -226,7 +226,7 @@
       "date": "2021-05-10T17:29:52+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Ensure low content hugging priority for text field used in table view",
@@ -237,7 +237,7 @@
       "date": "2021-05-10T17:06:05+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use TMFileReference for a few icons in file browser",
@@ -248,7 +248,7 @@
       "date": "2021-05-10T14:20:04+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use custom code over setIconForFile: NSMenuItem custom category method",
@@ -259,7 +259,7 @@
       "date": "2021-05-10T14:01:49+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use TMFileReference for file icons in bundle item chooser",
@@ -270,7 +270,7 @@
       "date": "2021-05-10T12:31:33+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let file browser’s SCMManager update status of TMFileReference objects",
@@ -281,7 +281,7 @@
       "date": "2021-05-10T12:29:22+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add function to switch between non/emphasized matched text colors",
@@ -292,7 +292,7 @@
       "date": "2021-05-10T12:24:49+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Change naming convention for observer context constants",
@@ -303,7 +303,7 @@
       "date": "2021-05-10T12:14:50+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use property (dot) syntax when setting a few menu item properties",
@@ -314,7 +314,7 @@
       "date": "2021-05-10T12:11:52+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Show kUnknownFSObjectIcon for untitled documents in tab overflow menu",
@@ -325,7 +325,7 @@
       "date": "2021-05-10T12:01:38+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove unnecessary use of “unique” group names",
@@ -336,7 +336,7 @@
       "date": "2021-05-10T11:48:57+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Make sure we set image size to 16×16 when using with NSMenuItem",
@@ -347,7 +347,7 @@
       "date": "2021-05-10T11:07:45+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove tmDarkDividerColor NSColor category extension",
@@ -358,7 +358,7 @@
       "date": "2021-05-10T11:06:17+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove colorWithString: NSColor category extension",
@@ -369,7 +369,7 @@
       "date": "2021-05-10T11:01:57+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add TMFileReference framework",
@@ -380,7 +380,7 @@
       "date": "2021-05-02T19:16:55+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Find dialog’s “where” pop-up would not allow selecting leaf folders",
@@ -391,7 +391,7 @@
       "date": "2021-04-28T15:56:32+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Ensure closed sqlite3 connections are never reused",
@@ -402,7 +402,7 @@
       "date": "2021-04-25T09:40:48+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Move commit window shell command (helper) to the CommitWindow framework",
@@ -413,7 +413,7 @@
       "date": "2021-04-23T08:28:00+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use getter syntax for property declaration",
@@ -424,7 +424,7 @@
       "date": "2021-04-23T08:24:10+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use enumeration for OakPerformTableViewAction… return values",
@@ -435,7 +435,7 @@
       "date": "2021-04-23T08:22:08+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Create NSProgress object without implicitly adding as child of current",
@@ -446,7 +446,7 @@
       "date": "2021-04-16T20:36:14+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Default value for file browser’s “keep folders on top” now match Finder",
@@ -457,7 +457,7 @@
       "date": "2021-04-16T17:21:20+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove ‘parentItem’ NSMenu category extension",
@@ -468,7 +468,7 @@
       "date": "2021-04-16T17:14:18+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not rely on ‘parentItem’ NSMenu category extension",
@@ -479,21 +479,10 @@
       "date": "2021-04-16T17:13:07+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove unnecessary include",
-      "body": ""
-    },
-    {
-      "hash": "2b3427bb6ca3cb6c048e4811897afdb83ad4acb0",
-      "date": "2021-04-16T10:23:33+02:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Checkin release notes for v2.0.22",
       "body": ""
     },
     {
@@ -501,10 +490,21 @@
       "date": "2021-04-16T10:38:05+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update dialog plug-in (use NSTableViewStylePlain on macOS 11)",
+      "body": ""
+    },
+    {
+      "hash": "2b3427bb6ca3cb6c048e4811897afdb83ad4acb0",
+      "date": "2021-04-16T10:23:33+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for v2.0.22",
       "body": ""
     },
     {
@@ -512,7 +512,7 @@
       "date": "2021-04-16T08:59:44+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Disable floating group rows in file browser + search results (macOS 11)",
@@ -523,7 +523,7 @@
       "date": "2021-04-16T08:53:36+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use NSTableViewStylePlain for file browser and search results",
@@ -534,7 +534,7 @@
       "date": "2021-04-16T08:46:28+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use NSTableViewStylePlain for the snippet completion menu (macOS 11)",
@@ -545,7 +545,7 @@
       "date": "2021-04-16T08:43:36+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use std::nullopt instead of std::optional<std::string>()",
@@ -556,7 +556,7 @@
       "date": "2021-04-16T08:41:58+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add ability to stop find_t::each_match from going through all matches",
@@ -567,7 +567,7 @@
       "date": "2021-03-29T10:43:31+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update some links in About window to use https",
@@ -578,7 +578,7 @@
       "date": "2021-03-29T10:00:56+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Increase padding for file browser’s top folder pop-up",
@@ -589,7 +589,7 @@
       "date": "2021-03-29T09:57:32+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Increase padding in front of pop-ups in text view status bar",
@@ -600,7 +600,7 @@
       "date": "2021-03-29T09:44:36+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use macOS 11.0 instead of 10.16 in availability check",
@@ -611,7 +611,7 @@
       "date": "2021-03-29T09:41:31+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use segmented control in about window",
@@ -622,7 +622,7 @@
       "date": "2021-03-28T11:00:45+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Set com.apple.security.get-task-allow to true for debug builds",
@@ -633,7 +633,7 @@
       "date": "2021-03-28T10:49:06+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rave: Add ability to expand variables in files used as build arguments",
@@ -644,7 +644,7 @@
       "date": "2021-03-27T12:42:13+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let the “update menu” selector of MBMenuDelegate be a parameter",
@@ -655,7 +655,7 @@
       "date": "2021-03-27T12:22:17+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rave: More robust relaunch of the application built",
@@ -666,7 +666,7 @@
       "date": "2021-03-27T12:19:52+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rename AppKit/OakSubmenuController → MenuBuilder/MBMenuDelegate",
@@ -677,7 +677,7 @@
       "date": "2021-03-27T12:11:46+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Avoid using NSEvent support code from the ns frameworks",
@@ -688,7 +688,7 @@
       "date": "2021-03-27T11:50:53+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove unnecessary includes",
@@ -699,7 +699,7 @@
       "date": "2021-03-25T08:28:22+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Include ServiceManagement among precompiled headers",
@@ -710,7 +710,7 @@
       "date": "2021-03-25T08:25:03+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Autohide scrollbar in file browser",
@@ -721,7 +721,7 @@
       "date": "2021-03-25T08:20:35+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Change NSCompositingOperationSourceOver to NSCompositingOperationCopy",
@@ -732,7 +732,7 @@
       "date": "2021-03-25T08:17:41+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove OakBackgroundFillView’s support for NSImage",
@@ -743,7 +743,7 @@
       "date": "2021-03-22T21:38:58+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "OakTabBarViewController: No implicit animation when re-ordering tabs",
@@ -754,7 +754,7 @@
       "date": "2021-03-17T08:05:59+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rave: Simplify code",
@@ -765,7 +765,7 @@
       "date": "2021-03-17T08:05:04+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rave: Fix typo in variable name",
@@ -776,7 +776,7 @@
       "date": "2021-03-16T21:12:03+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Fix dependency: OakTextView needs to link with Find framework",
@@ -787,7 +787,7 @@
       "date": "2021-03-16T21:07:34+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove OakDebug.tmbundle",
@@ -798,7 +798,7 @@
       "date": "2021-03-16T21:02:58+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Include ‘attr.project.rave’ in scope when project has a ‘default.rave’",
@@ -809,7 +809,7 @@
       "date": "2021-03-16T21:00:31+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rave: Link rules are now dependent on files referenced in LN_FLAGS",
@@ -820,7 +820,7 @@
       "date": "2021-03-08T12:18:07+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Checkin release notes for v2.0.21",
@@ -831,7 +831,7 @@
       "date": "2021-03-08T12:07:22+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "The Open With submenu item is a shortcut for opening with default app",
@@ -842,7 +842,7 @@
       "date": "2021-03-08T11:22:35+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rework API for the Open With submenu",
@@ -853,7 +853,7 @@
       "date": "2021-03-08T09:25:36+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Better property names for Open With application info",
@@ -864,7 +864,7 @@
       "date": "2021-03-08T07:15:31+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Strip ‘##’-prefix from release title used with GitHub",
@@ -875,7 +875,7 @@
       "date": "2021-03-08T07:05:33+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Ensure ⌘⌫ / [⌥]⌘V are not sent to file browser with focused text view",
@@ -886,7 +886,7 @@
       "date": "2021-03-08T07:04:23+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Set about window’s toolbar style to “preference” (macOS 11.0)",
@@ -897,7 +897,7 @@
       "date": "2021-03-07T13:51:32+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Checkin release notes for v2.0.20",
@@ -908,7 +908,7 @@
       "date": "2021-03-07T13:01:04+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add some left padding to icons in bundle editor",
@@ -919,7 +919,7 @@
       "date": "2021-03-07T12:56:01+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Clip NSBrowser border in bundle editor on macOS 10.15 and earlier",
@@ -930,7 +930,7 @@
       "date": "2021-03-07T12:14:34+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Collapse the browser in the bundle editor when its height gets below 50",
@@ -941,7 +941,7 @@
       "date": "2021-03-07T11:52:02+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use split view in bundle editor between properties and editor",
@@ -952,7 +952,7 @@
       "date": "2021-03-07T11:47:58+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add bundle editor views directly to the properties container view",
@@ -963,7 +963,7 @@
       "date": "2021-03-07T11:42:26+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Set default split view position after restoring window frame size",
@@ -974,7 +974,7 @@
       "date": "2021-03-07T11:39:57+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use “pane splitter divider” between bundle editor text view and browser",
@@ -985,7 +985,7 @@
       "date": "2021-03-07T11:37:46+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Ensure we do not mutate array while performing fast enumeration",
@@ -996,7 +996,7 @@
       "date": "2021-03-07T11:26:35+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rave: Fix issue with generated headers and universal builds",
@@ -1007,7 +1007,7 @@
       "date": "2021-03-07T09:57:04+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update resizing mask for bundle editor nibs",
@@ -1018,7 +1018,7 @@
       "date": "2021-03-07T07:55:07+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Implement cancelOperation: for HTML output window (close via escape key)",
@@ -1029,7 +1029,7 @@
       "date": "2021-03-07T07:39:50+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Change HTML output window back from NSPanel to NSWindow",
@@ -1040,7 +1040,7 @@
       "date": "2021-03-06T14:48:17+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update dialog plug-in (ability to run modal dialogs via Dialog 2.x)",
@@ -1051,7 +1051,7 @@
       "date": "2021-03-06T13:23:01+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update dialog plug-in (log all calls to Dialog 1.x)",
@@ -1062,7 +1062,7 @@
       "date": "2021-03-05T16:27:23+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rave: Support notarizing single executables",
@@ -1073,7 +1073,7 @@
       "date": "2021-03-04T13:42:14+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rave: Defines can now reference defines declared later in the file",
@@ -1084,7 +1084,7 @@
       "date": "2021-03-04T13:36:49+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rave: Make variable match regexp a global constant",
@@ -1095,7 +1095,7 @@
       "date": "2021-03-03T10:00:36+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rave: Treat all values with a ‘${dir}/’ or ‘${HOME}/’ prefix as files",
@@ -1106,7 +1106,7 @@
       "date": "2021-03-03T09:31:26+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rave: Slightly more generalized handling of Cap’n Proto headers",
@@ -1117,7 +1117,7 @@
       "date": "2021-02-28T20:32:13+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use extracted changes for GitHub release",
@@ -1128,7 +1128,7 @@
       "date": "2021-02-28T20:28:14+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Extract changes (for tag message) into file instead of using a pipe",
@@ -1139,7 +1139,7 @@
       "date": "2021-02-28T20:25:08+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not strip comments (markdown headers) from git tag message",
@@ -1150,7 +1150,7 @@
       "date": "2021-02-25T21:30:03+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Checkin release notes for v2.0.19",
@@ -1161,7 +1161,7 @@
       "date": "2021-02-25T21:21:36+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Ensure ⌘Z / ⇧⌘Z are not sent to file browser when it does not have focus",
@@ -1172,7 +1172,7 @@
       "date": "2021-02-18T13:18:11+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Prevent tar from adding padding to the release archive",
@@ -1183,7 +1183,7 @@
       "date": "2021-02-16T11:00:27+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update GitHub build action to use macOS-latest and checkout@v2",
@@ -1194,7 +1194,7 @@
       "date": "2021-02-15T17:05:24+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Limit tab size settings (for Onigmo submodule) to C files",
@@ -1205,7 +1205,7 @@
       "date": "2021-02-15T16:55:45+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let bin/gen_build call ./configure to switch to new build file generator",
@@ -1216,7 +1216,7 @@
       "date": "2021-02-15T16:42:59+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add release/deploy build rules to version control but disable by default",
@@ -1227,7 +1227,7 @@
       "date": "2021-02-11T20:50:09+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Increase maximum number of open files if the current limit is below 2048",
@@ -1238,7 +1238,7 @@
       "date": "2021-02-11T20:43:15+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Show error dialog incase socket() fails",
@@ -1249,7 +1249,7 @@
       "date": "2021-02-11T20:42:40+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Abort after 5 seconds of ‘mate’ failing to connect to TextMate’s socket",
@@ -1260,7 +1260,7 @@
       "date": "2021-02-10T09:31:07+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add script to extract single section from release notes",
@@ -1271,7 +1271,7 @@
       "date": "2021-02-10T00:04:35+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove ninja.deploy as this is no longer useful",
@@ -1282,7 +1282,7 @@
       "date": "2021-02-09T23:57:36+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update CI for new build system",
@@ -1293,7 +1293,7 @@
       "date": "2021-02-09T23:55:50+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update ./configure to use new build system",
@@ -1304,7 +1304,7 @@
       "date": "2021-02-09T23:55:18+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update README.md with info about new build procedure",
@@ -1315,7 +1315,7 @@
       "date": "2021-02-09T23:34:12+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update URLs in README.md",
@@ -1326,7 +1326,7 @@
       "date": "2021-02-09T22:32:12+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update .tm_properties to reflect new build system",
@@ -1337,7 +1337,7 @@
       "date": "2021-02-09T22:24:58+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update git ignore",
@@ -1348,10 +1348,21 @@
       "date": "2021-02-09T22:11:38+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove old build files",
+      "body": ""
+    },
+    {
+      "hash": "5f5e8e168cc6e6b65e584895a98a734b30ff8618",
+      "date": "2021-02-09T11:38:16+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for v2.0.18",
       "body": ""
     },
     {
@@ -1359,7 +1370,7 @@
       "date": "2021-02-09T11:21:26+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update release notes script to no longer take new version as argument",
@@ -1370,43 +1381,10 @@
       "date": "2021-02-09T10:52:36+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add build files (for new build system)",
-      "body": ""
-    },
-    {
-      "hash": "e921af4e50fddab72c387a3f7585ceb4e901ba2f",
-      "date": "2021-01-25T22:50:54+01:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Add new build system",
-      "body": ""
-    },
-    {
-      "hash": "e11848bb6ef13b2032d9b97d6c43735990646134",
-      "date": "2021-01-06T16:59:58-05:00",
-      "author": {
-        "name": "Zev Eisenberg",
-        "login": "ZevEisenberg",
-        "avatar_url": "https://avatars.githubusercontent.com/u/464574?v=4"
-      },
-      "summary": "Add syntax highlighting to readme",
-      "body": ""
-    },
-    {
-      "hash": "5f5e8e168cc6e6b65e584895a98a734b30ff8618",
-      "date": "2021-02-09T11:38:16+01:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Checkin release notes for v2.0.18",
       "body": ""
     },
     {
@@ -1414,7 +1392,7 @@
       "date": "2021-02-09T09:10:47+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "No longer use drawer for properties in bundle editor",
@@ -1425,7 +1403,7 @@
       "date": "2021-02-09T09:04:38+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rename property from indent to labelWidth",
@@ -1436,7 +1414,7 @@
       "date": "2021-02-08T21:51:56+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Create bundle editor window in code",
@@ -1447,7 +1425,7 @@
       "date": "2021-02-07T14:46:45+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Revert \"Fix truncated text in tool tips using Dark Mode on macOS 10.15\"",
@@ -1458,21 +1436,10 @@
       "date": "2021-02-05T08:01:52+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Checkin release notes for 2.0.17",
-      "body": ""
-    },
-    {
-      "hash": "b9abd14e3cd2ad827d976b1da8f84d6e839f2280",
-      "date": "2021-02-04T22:09:48+01:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Checkin release notes for 2.0.16",
       "body": ""
     },
     {
@@ -1480,18 +1447,29 @@
       "date": "2021-02-04T22:32:39+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Fix truncated text in tool tips using Dark Mode on macOS 10.15",
       "body": "We add a border to the NSTextField in Dark Mode to match the system tool tips, but it appears that the frame returned by “fittingSize” does not take that into account, so it returns a frame 1-2 points too small to fit the text, resulting in the last line missing.\n\nThis appears to be a fairly new problem, so might depend on the SDK that we link with."
     },
     {
+      "hash": "b9abd14e3cd2ad827d976b1da8f84d6e839f2280",
+      "date": "2021-02-04T22:09:48+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.16",
+      "body": ""
+    },
+    {
       "hash": "5a9fc8d20ce6f3209fb77c9020c7a61684c9c253",
       "date": "2021-02-04T20:34:39+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Only use atomic save for remote volumes (by default)",
@@ -1502,7 +1480,7 @@
       "date": "2021-02-04T09:25:40+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Fix compiler warnings by initializing struct members in correct order",
@@ -1513,7 +1491,7 @@
       "date": "2021-01-30T15:31:45+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use ${YEAR} variable in NewApplication template’s InfoPlist.strings",
@@ -1524,7 +1502,7 @@
       "date": "2021-01-30T15:30:34+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use public modifier when logging exception name/reason",
@@ -1535,7 +1513,7 @@
       "date": "2021-01-30T15:29:53+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "The encoding pop-up button could create an NSMenuItem with nil as title",
@@ -1546,7 +1524,7 @@
       "date": "2021-01-30T15:27:25+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove non-matching tests/resources definitions from build files",
@@ -1557,7 +1535,7 @@
       "date": "2021-01-29T18:19:33+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Define missing BSTR macro in test source",
@@ -1568,7 +1546,7 @@
       "date": "2021-01-28T16:21:43+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove “GetoptLong” usage comment in ruby scripts",
@@ -1579,18 +1557,29 @@
       "date": "2021-01-28T16:17:56+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove DefaultBundles.tbz from git ignore file",
       "body": "This file is no longer built in the source directory."
     },
     {
+      "hash": "e921af4e50fddab72c387a3f7585ceb4e901ba2f",
+      "date": "2021-01-25T22:50:54+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add new build system",
+      "body": ""
+    },
+    {
       "hash": "ba1c99f7bc3338755a3c41bb98125d16efbaaf50",
       "date": "2021-01-24T10:31:11+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "build: Introduce CP_InfoPlist and move Info.plist files out of resources",
@@ -1601,7 +1590,7 @@
       "date": "2021-01-24T10:08:20+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "build: Remove Info.plist files from frameworks",
@@ -1612,7 +1601,7 @@
       "date": "2021-01-22T23:20:31+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Merge Info.plist and InfoPlist.strings variable expansion build rules",
@@ -1623,7 +1612,7 @@
       "date": "2021-01-22T23:08:36+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Call expand_variables with -o instead of redirecting stdout",
@@ -1634,7 +1623,7 @@
       "date": "2021-01-22T23:07:17+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add -o,--output option to bin/expand_variables",
@@ -1645,29 +1634,18 @@
       "date": "2021-01-22T23:02:31+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "fixup! Rename process_plist as it makes no assumption about input format",
       "body": ""
     },
     {
-      "hash": "5168278b2a2bb40bffe4615d9bfa2f1644c50c37",
-      "date": "2021-01-16T16:52:19-05:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "Set Preferences window toolbar style to NSWindowToolbarStylePreference",
-      "body": "This is necessary when linking with the macOS 11.0 SDK."
-    },
-    {
       "hash": "88481bdd127873aed24bcf045310a900d165b619",
       "date": "2021-01-17T14:09:12+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add NSWindow’s new toolbarStyle property to sdk-compat.h",
@@ -1678,7 +1656,7 @@
       "date": "2021-01-17T14:08:24+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Organize the sdk-compat.h file",
@@ -1689,7 +1667,7 @@
       "date": "2021-01-17T11:34:38+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update dialog plug-ins (NSHumanReadableCopyright in InfoPlist.strings)",
@@ -1700,7 +1678,7 @@
       "date": "2021-01-17T10:51:56+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "build: Bump file date after copying file to build directory",
@@ -1711,7 +1689,7 @@
       "date": "2021-01-17T10:44:05+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "build: Expand variables in InfoPlist.strings files",
@@ -1722,7 +1700,7 @@
       "date": "2021-01-17T10:41:10+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Make bin/expand_variables work with UTF-8/16BE/16LE",
@@ -1733,7 +1711,7 @@
       "date": "2021-01-17T09:45:02+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "build: Do not disable filters after first “generator”",
@@ -1744,7 +1722,7 @@
       "date": "2021-01-17T09:40:06+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "build: Add “generator” name to output path when extension is unchanged",
@@ -1755,7 +1733,7 @@
       "date": "2021-01-17T09:34:01+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "build: Catch exception raised when failing to delete old target",
@@ -1766,40 +1744,51 @@
       "date": "2021-01-17T09:32:10+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Avoid compiler warning by typecasting anonymous enum",
       "body": "The warning only appears when the anonymous enum is used in a conditional, hence why we do not need this change for all calls to NSFileTypeForHFSTypeCode."
     },
     {
-      "hash": "4606fdefff55f785503f2f82133dcb15ca614f5e",
-      "date": "2021-01-16T16:10:02+01:00",
+      "hash": "5168278b2a2bb40bffe4615d9bfa2f1644c50c37",
+      "date": "2021-01-16T16:52:19-05:00",
       "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
-      "summary": "Create default bundles archive in ninja file and store in build dir",
-      "body": "Previously we would download and archive the default bundles as part of ./configure and place the result in our source directory, this however both pollutes the source directory with generated files, but also had the ./configure step actually do a partial build, since we need to build the ‘bl’ executable to download bundles."
+      "summary": "Set Preferences window toolbar style to NSWindowToolbarStylePreference",
+      "body": "This is necessary when linking with the macOS 11.0 SDK."
     },
     {
       "hash": "c90a9bb3296f6cda21dfd627c578b42411e548c0",
       "date": "2021-01-16T09:46:11-06:00",
       "author": {
         "name": "Michael Sheets",
-        "login": "infininight",
+        "username": "infininight",
         "avatar_url": "https://avatars.githubusercontent.com/u/1974?v=4"
       },
       "summary": "Prevent UTTypeConformsTo self-reference",
       "body": "Prevent public.shell-script from conforming to itself creating a loop, should conform to public.script.\n\nReported by Thomas Tempelmann."
     },
     {
+      "hash": "4606fdefff55f785503f2f82133dcb15ca614f5e",
+      "date": "2021-01-16T16:10:02+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Create default bundles archive in ninja file and store in build dir",
+      "body": "Previously we would download and archive the default bundles as part of ./configure and place the result in our source directory, this however both pollutes the source directory with generated files, but also had the ./configure step actually do a partial build, since we need to build the ‘bl’ executable to download bundles."
+    },
+    {
       "hash": "a7406b832dff52eea9637ac016e5e62595a39520",
       "date": "2021-01-15T16:01:51+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use tertiary label color for shortcuts and tab triggers on macOS 10.16",
@@ -1810,7 +1799,7 @@
       "date": "2021-01-15T15:15:48+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add leading/trailing padding for the save dialog’s encoding options",
@@ -1821,7 +1810,7 @@
       "date": "2021-01-15T13:09:20+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not set NSWindowStyleMaskFullSizeContentView for clipboard history",
@@ -1832,7 +1821,7 @@
       "date": "2021-01-13T22:58:16+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove mercurial build dependency",
@@ -1843,7 +1832,7 @@
       "date": "2021-01-13T22:55:26+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove stuff about libressl from README",
@@ -1854,7 +1843,7 @@
       "date": "2021-01-13T22:52:35+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Ensure we are running on the main thread when updating property",
@@ -1865,7 +1854,7 @@
       "date": "2021-01-12T12:18:32+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove “Add License” button from window chrome",
@@ -1876,7 +1865,7 @@
       "date": "2021-01-12T10:42:25+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Introduce ${YEAR} variable in our InfoPlist.strings",
@@ -1887,7 +1876,7 @@
       "date": "2021-01-12T10:39:00+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add build rule that expands variables in InfoPlist.vstrings files",
@@ -1898,7 +1887,7 @@
       "date": "2021-01-12T10:14:11+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rename process_plist as it makes no assumption about input format",
@@ -1909,7 +1898,7 @@
       "date": "2021-01-12T10:13:01+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Fix usage summary for process_plist",
@@ -1920,7 +1909,7 @@
       "date": "2021-01-12T10:04:00+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Disable transformations with unchanged paths for assets in build dir",
@@ -1931,7 +1920,7 @@
       "date": "2021-01-11T16:32:10+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update dialog plug-ins (class property dot notation)",
@@ -1942,7 +1931,7 @@
       "date": "2021-01-11T15:54:28+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use single quotes when using ‘notarize_pass’ and ‘notarize_user’",
@@ -1953,11 +1942,22 @@
       "date": "2021-01-11T12:09:02+01:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Improve “estimated time remaining” code for software update",
       "body": "Use int64_t instead of NSUInteger, check against NSURLSessionTransferSizeUnknown, and ensure that completedUnitCount is the last thing we set on the NSProgress object, so that there is no potential race condition with a progress object being completed, but still having a non-zero estimated time remaining value."
+    },
+    {
+      "hash": "e11848bb6ef13b2032d9b97d6c43735990646134",
+      "date": "2021-01-06T16:59:58-05:00",
+      "author": {
+        "name": "Zev Eisenberg",
+        "username": "ZevEisenberg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/464574?v=4"
+      },
+      "summary": "Add syntax highlighting to readme",
+      "body": ""
     }
   ]
 }

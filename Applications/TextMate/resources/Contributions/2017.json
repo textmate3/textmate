@@ -2,77 +2,22 @@
   "year": 2017,
   "commits": [
     {
-      "hash": "b1fdd4377b012395adb7ba09dc2cee1c3ef8eec9",
-      "date": "2017-10-03T22:43:13-04:00",
+      "hash": "75e8723e64c695e464dc78f5b9d84681b9b994da",
+      "date": "2017-11-16T10:06:39+07:00",
       "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
-      "summary": "Allow customization of DocumentWindowController touch bar items",
-      "body": ""
-    },
-    {
-      "hash": "2294d369d06ee588042410e40fc0ec8ee494bb66",
-      "date": "2017-10-03T22:37:30-04:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "Add accessibility support for DocumentWindowController's touch bar",
-      "body": ""
-    },
-    {
-      "hash": "d8db03c426943d4b4032f551eac96aed3868919b",
-      "date": "2017-10-04T17:52:15-04:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "Add initial touch bar support for OakTextView",
-      "body": "This adds buttons for inserting/removing bookmarks and navigate them.\n\nSince the function keys were replaced with the touch bar, there currently is no other way to set and navigate bookmarks other than these buttons so make their visibility priority high."
-    },
-    {
-      "hash": "d8b17a1f06a83688cab2214787a5fcd1f2216ca9",
-      "date": "2017-10-03T22:32:57-04:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "Let DocumentWindowController's touch bar support nested touch bars",
-      "body": ""
-    },
-    {
-      "hash": "a31a985610b10024a201f11f3f51729039c392d3",
-      "date": "2017-04-19T16:54:48-04:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "Add support for Finder tags instead of just one label color",
-      "body": ""
-    },
-    {
-      "hash": "cec95ce60118903c12338a01feb87292f257f525",
-      "date": "2017-03-30T14:30:13-04:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "Remove unnecessary forward declaration",
-      "body": ""
+      "summary": "Specify ‘ns’ as a (link) dependency",
+      "body": "See http://lists.macromates.com/textmate/2017-November/040458.html"
     },
     {
       "hash": "fd827fb8179cd74e553680d605d2172e05822e07",
       "date": "2017-11-11T18:54:12+01:00",
       "author": {
         "name": "Pravdomil",
-        "login": "pravdomil",
+        "username": "pravdomil",
         "avatar_url": "https://avatars.githubusercontent.com/u/2387356?v=4"
       },
       "summary": "Add ‘public.data’ to list of supported file types for QuickLook plug-in",
@@ -83,7 +28,7 @@
       "date": "2017-10-13T21:59:45+13:00",
       "author": {
         "name": "Paul Collins",
-        "login": "pajodaco",
+        "username": "pajodaco",
         "avatar_url": "https://avatars.githubusercontent.com/u/20273065?v=4"
       },
       "summary": "Handle rate-limiting when using GitHub’s API to obtain author emails",
@@ -94,40 +39,18 @@
       "date": "2017-10-13T21:59:45+13:00",
       "author": {
         "name": "Paul Collins",
-        "login": "pajodaco",
+        "username": "pajodaco",
         "avatar_url": "https://avatars.githubusercontent.com/u/20273065?v=4"
       },
       "summary": "Create credits database file’s enclosing directory as necessary",
       "body": ""
     },
     {
-      "hash": "9f2eb762234e760c9ed0618cd4fdca89ec390358",
-      "date": "2017-10-04T23:07:14-04:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "Explicitly close OakChoiceMenu",
-      "body": "On 10.13, just setting our instance of OakChoiceMenu to `nil` no longer seem to close our window."
-    },
-    {
-      "hash": "75e8723e64c695e464dc78f5b9d84681b9b994da",
-      "date": "2017-11-16T10:06:39+07:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Specify ‘ns’ as a (link) dependency",
-      "body": "See http://lists.macromates.com/textmate/2017-November/040458.html"
-    },
-    {
       "hash": "408033460994bcac4092eff537a876342c9d4e6b",
       "date": "2017-10-09T10:31:07+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Fix bug in CommonAncestor function",
@@ -138,7 +61,7 @@
       "date": "2017-10-09T10:28:30+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use OakNotEmptyString convenience function",
@@ -149,7 +72,7 @@
       "date": "2017-10-08T20:17:43+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add a ‘didUpdateFrom’ argument when relaunching during software update",
@@ -160,7 +83,7 @@
       "date": "2017-10-08T20:12:14+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not hardcode bundle identifier in Caches path",
@@ -171,7 +94,7 @@
       "date": "2017-10-08T09:33:27+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Accept application/json for version update information",
@@ -182,7 +105,7 @@
       "date": "2017-10-08T09:19:49+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Change etag network filter to a general header (capture) filter",
@@ -193,7 +116,7 @@
       "date": "2017-10-08T09:13:03+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Change sw_update.cc → sw_update.mm",
@@ -204,7 +127,7 @@
       "date": "2017-10-08T09:00:32+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not require that _app_path is setup when calling relaunch",
@@ -215,7 +138,7 @@
       "date": "2017-10-08T08:53:12+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Accept additional application arguments for relaunch API",
@@ -226,21 +149,65 @@
       "date": "2017-10-07T13:43:19+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Move OakTabBarView into its own framework",
       "body": "The motivation is to get an OakAppKit that does not include hundres of image resources."
     },
     {
-      "hash": "0a597f15050ab35fa12d31076e95e7692558b05d",
-      "date": "2017-08-24T09:43:43-04:00",
+      "hash": "9f2eb762234e760c9ed0618cd4fdca89ec390358",
+      "date": "2017-10-04T23:07:14-04:00",
       "author": {
-        "name": "Jason Gavris",
-        "login": "jgavris",
-        "avatar_url": "https://avatars.githubusercontent.com/u/178749?v=4"
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
-      "summary": "Enable ThinLTO",
+      "summary": "Explicitly close OakChoiceMenu",
+      "body": "On 10.13, just setting our instance of OakChoiceMenu to `nil` no longer seem to close our window."
+    },
+    {
+      "hash": "d8db03c426943d4b4032f551eac96aed3868919b",
+      "date": "2017-10-04T17:52:15-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Add initial touch bar support for OakTextView",
+      "body": "This adds buttons for inserting/removing bookmarks and navigate them.\n\nSince the function keys were replaced with the touch bar, there currently is no other way to set and navigate bookmarks other than these buttons so make their visibility priority high."
+    },
+    {
+      "hash": "b1fdd4377b012395adb7ba09dc2cee1c3ef8eec9",
+      "date": "2017-10-03T22:43:13-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Allow customization of DocumentWindowController touch bar items",
+      "body": ""
+    },
+    {
+      "hash": "2294d369d06ee588042410e40fc0ec8ee494bb66",
+      "date": "2017-10-03T22:37:30-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Add accessibility support for DocumentWindowController's touch bar",
+      "body": ""
+    },
+    {
+      "hash": "d8b17a1f06a83688cab2214787a5fcd1f2216ca9",
+      "date": "2017-10-03T22:32:57-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Let DocumentWindowController's touch bar support nested touch bars",
       "body": ""
     },
     {
@@ -248,7 +215,7 @@
       "date": "2017-10-03T18:59:06-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Add capnp include path for C++/Objective-C++ files",
@@ -259,7 +226,7 @@
       "date": "2017-10-03T10:29:25-06:00",
       "author": {
         "name": "Jake Kirshner",
-        "login": "jakecast",
+        "username": "jakecast",
         "avatar_url": "https://avatars.githubusercontent.com/u/868863?v=4"
       },
       "summary": "Add basic touch-bar support",
@@ -270,7 +237,7 @@
       "date": "2017-10-03T09:42:10+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Only load charset (encoding) frequency database once",
@@ -281,7 +248,7 @@
       "date": "2017-10-03T08:36:10+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let EncodingWindowController accept NSData instead of char pointers",
@@ -292,7 +259,7 @@
       "date": "2017-10-03T08:23:55+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Change encoding classifier language from C++ to Objective-C++",
@@ -303,7 +270,7 @@
       "date": "2017-10-03T08:19:41+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not use NSOutlineView’s clickedRow for key events",
@@ -314,7 +281,7 @@
       "date": "2017-10-03T08:18:05+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Don’t use menuForEvent: when showing NSOutlineView’s menu using ⌥F2",
@@ -325,7 +292,7 @@
       "date": "2017-10-02T20:47:39+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Workaround for modified icons in the file chooser being pixelated",
@@ -336,7 +303,7 @@
       "date": "2017-10-02T20:12:46+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove var-args constructor from string list transformer",
@@ -347,7 +314,7 @@
       "date": "2017-10-02T20:09:43+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Change name of property setter: isChecking → checking",
@@ -358,7 +325,7 @@
       "date": "2017-10-02T20:06:51+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use NSBundle API instead of oak::application_t",
@@ -369,7 +336,7 @@
       "date": "2017-10-02T20:05:37+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Move instance variables from implementation to interface block",
@@ -380,7 +347,7 @@
       "date": "2017-10-02T13:33:59-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Temporarily peg support at C++14 (10.13)",
@@ -391,7 +358,7 @@
       "date": "2017-10-02T13:14:35-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Don't specify libc++ (10.9)",
@@ -402,7 +369,7 @@
       "date": "2017-09-15T09:02:24+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add format string API that accepts lambda (callback) for variables",
@@ -413,7 +380,7 @@
       "date": "2017-09-15T09:00:10+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove obsolete friend declaration",
@@ -424,7 +391,7 @@
       "date": "2017-09-15T08:41:01+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use a lambda for format string variables",
@@ -435,7 +402,7 @@
       "date": "2017-09-15T08:24:09+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not pass variables to `run_command` callback",
@@ -446,7 +413,7 @@
       "date": "2017-09-15T07:49:24+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Return variable value instead of iterator",
@@ -457,29 +424,18 @@
       "date": "2017-09-15T07:41:07+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use nested visitor instead of swapping member variables",
       "body": ""
     },
     {
-      "hash": "107a56e12dcd074ae62898548dd22e7487f7e859",
-      "date": "2017-09-12T18:00:30+02:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Add some new format string transformations",
-      "body": "- number: Show number with thousand separators, e.g. “32,351”\n- relative: Show dates as relative to now, e.g. “3 minutes ago”\n- duration: Show numbers as duration in seconds, e.g. “1 hour, 7 minutes”.\n- dirname: Show all but last path component\n- basename: Show last path component\n- urlescape: Encode characters that are not valid to include in URLs\n- shellescape: Wrap problematic strings in single quotes and/or escape single quote characters"
-    },
-    {
       "hash": "8bb4b9d337dda94cfe814cf57510aa3627789185",
       "date": "2017-09-12T18:46:36+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update dialog plug-in",
@@ -490,7 +446,7 @@
       "date": "2017-09-12T18:46:06+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add the 10.12 NSAlertStyle constants to sdk-compat.h",
@@ -501,7 +457,7 @@
       "date": "2017-09-12T18:32:23+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Introduce sdk-compat.h for redeclaring stuff in latest SDK",
@@ -512,18 +468,29 @@
       "date": "2017-09-12T18:19:11+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "fixup! Update MASPreferences submodule: identifier → viewIdentifier",
       "body": ""
     },
     {
+      "hash": "107a56e12dcd074ae62898548dd22e7487f7e859",
+      "date": "2017-09-12T18:00:30+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add some new format string transformations",
+      "body": "- number: Show number with thousand separators, e.g. “32,351”\n- relative: Show dates as relative to now, e.g. “3 minutes ago”\n- duration: Show numbers as duration in seconds, e.g. “1 hour, 7 minutes”.\n- dirname: Show all but last path component\n- basename: Show last path component\n- urlescape: Encode characters that are not valid to include in URLs\n- shellescape: Wrap problematic strings in single quotes and/or escape single quote characters"
+    },
+    {
       "hash": "ed915627801ca3c689d22b9ae55514c5ee90a7ca",
       "date": "2017-09-12T16:43:55+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use encode::url_part instead of NSString’s deprecated API",
@@ -534,7 +501,7 @@
       "date": "2017-09-12T16:23:48+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "fixup! Remove `OakShowSheetForWindow` wrapper (10.9)",
@@ -545,7 +512,7 @@
       "date": "2017-09-12T16:19:09+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Output error when referencing non-existing target",
@@ -556,7 +523,7 @@
       "date": "2017-09-12T16:10:32+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use triangular bullet (‣) instead of black small triangle (▸)",
@@ -567,10 +534,21 @@
       "date": "2017-09-12T16:07:36+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update MASPreferences submodule: identifier → viewIdentifier",
+      "body": ""
+    },
+    {
+      "hash": "0a597f15050ab35fa12d31076e95e7692558b05d",
+      "date": "2017-08-24T09:43:43-04:00",
+      "author": {
+        "name": "Jason Gavris",
+        "username": "jgavris",
+        "avatar_url": "https://avatars.githubusercontent.com/u/178749?v=4"
+      },
+      "summary": "Enable ThinLTO",
       "body": ""
     },
     {
@@ -578,7 +556,7 @@
       "date": "2017-07-12T12:11:56+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove OakPasteboardSelector’s shouldSendAction property",
@@ -589,7 +567,7 @@
       "date": "2017-07-12T11:54:59+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Change two methods to use Objective-C properties",
@@ -600,7 +578,7 @@
       "date": "2017-07-12T11:49:00+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Handle the case where pasteboard selector returns “no selection” (-1)",
@@ -611,7 +589,7 @@
       "date": "2017-07-12T11:23:46+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Change a few missing unsigned/int → NS[U]Integer",
@@ -622,7 +600,7 @@
       "date": "2017-07-12T10:34:42+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Allow disabling TextMate’s JavaScript API for commands with HTML output",
@@ -633,7 +611,7 @@
       "date": "2017-06-23T13:24:04-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Fix issues with redundant qualified names",
@@ -644,7 +622,7 @@
       "date": "2017-06-23T10:44:28-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Change `std::vector< std::pair<char const*, char const*> >` to `auto` (C++17)",
@@ -655,7 +633,7 @@
       "date": "2017-06-08T17:09:05-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Update deployment target to 10.9",
@@ -666,7 +644,7 @@
       "date": "2017-05-31T21:52:54+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use new alert style enumeration names (10.12)",
@@ -677,7 +655,7 @@
       "date": "2017-04-26T17:19:26-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Add \"Copy As Pathname\" to file browser's context menu",
@@ -688,10 +666,21 @@
       "date": "2017-04-21T15:34:44-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Exclude SyntaxMate.tmBundle from from ⌘T / ⇧⌘F",
+      "body": ""
+    },
+    {
+      "hash": "a31a985610b10024a201f11f3f51729039c392d3",
+      "date": "2017-04-19T16:54:48-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Add support for Finder tags instead of just one label color",
       "body": ""
     },
     {
@@ -699,29 +688,29 @@
       "date": "2017-04-11T22:01:29-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Resolve ambiguous autolayout issues",
       "body": "Most of these layout changes are related to the common pattern we used to set constraints for \"dividers\", where one of the dividers is specified to be connected to both edges of its superview then setting the other dividers' constraints to have equal widths (e.g., @\"H:|[divider(==divider2,==divider3)]\"). On 10.12, this now appears to result in ambiguous layout. We can resolve it by connecting at least one of the edges for each divider to its superview."
     },
     {
-      "hash": "a124b494c20b18878e347d185faedacb9d3e1c9d",
-      "date": "2017-02-01T19:35:16-05:00",
+      "hash": "cec95ce60118903c12338a01feb87292f257f525",
+      "date": "2017-03-30T14:30:13-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
-      "summary": "Revert \"Explicitly cast back to the CGEventFlags typedef\"",
-      "body": "This reverts commit 9e4e88ce76a334abe01f79e9d355623beac75831.\n\nCGEventFlags is (correctly) defined in the 10.12 sdk as:\n\n   typedef CF_OPTIONS(uint64_t, CGEventFlags)"
+      "summary": "Remove unnecessary forward declaration",
+      "body": ""
     },
     {
       "hash": "5f7d5b53d6b94527ec2b81b84e0c9ace8bc00407",
       "date": "2017-03-10T14:40:36+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update dialog plug-in (use view-based table view for popup)",
@@ -732,7 +721,7 @@
       "date": "2017-02-26T12:19:58+01:00",
       "author": {
         "name": "Martin Kühl",
-        "login": "mkhl",
+        "username": "mkhl",
         "avatar_url": "https://avatars.githubusercontent.com/u/505?v=4"
       },
       "summary": "Treat *.target files as source.tm-properties",
@@ -743,7 +732,7 @@
       "date": "2017-02-03T18:03:54+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update CxxTest subproject (despite not really being used)",
@@ -754,7 +743,7 @@
       "date": "2017-02-03T18:03:33+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use single setting to pair Go’s main and test files as related",
@@ -765,7 +754,7 @@
       "date": "2017-02-03T18:02:03+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update mate’s help text to show mark’s value as optional",
@@ -776,7 +765,7 @@
       "date": "2017-02-03T18:00:25+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update copyright year to 2017",
@@ -787,11 +776,22 @@
       "date": "2017-02-03T17:57:53+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Don’t save metadata for the COMMIT_EDITMSG file",
       "body": "Git will re-use the file, but with new content, so we do not want to remember caret position or similar.\n\nPreviously we recommended setting the git editor to ‘mate -wl1’ but disabling metadata is a better solution."
+    },
+    {
+      "hash": "a124b494c20b18878e347d185faedacb9d3e1c9d",
+      "date": "2017-02-01T19:35:16-05:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Revert \"Explicitly cast back to the CGEventFlags typedef\"",
+      "body": "This reverts commit 9e4e88ce76a334abe01f79e9d355623beac75831.\n\nCGEventFlags is (correctly) defined in the 10.12 sdk as:\n\n   typedef CF_OPTIONS(uint64_t, CGEventFlags)"
     }
   ]
 }

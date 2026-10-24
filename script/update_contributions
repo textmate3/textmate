@@ -9,14 +9,15 @@
 #
 # git supplies the commits. GitHub supplies, for each commit, the account it
 # resolves the author to, login and avatar, which is the one thing git does not
-# know and the only reason this script talks to the network. Commits already in
-# the files keep what they have, so a run asks GitHub about the commits since
-# the last run and no others. A run without gh, or offline, writes those with
-# their name alone and says so.
+# know and the only reason this script talks to the network, through gh, which
+# the Brewfile installs and `gh auth login` signs in. Commits already in the
+# files keep what they have, so a run asks GitHub about the commits since the
+# last run and no others.
 
 require "json"
 require "open3"
 require "set"
+require "time"
 
 REPOSITORY  = "textmate3/textmate"
 ROOT        = File.expand_path("..", __dir__)
@@ -30,18 +31,13 @@ def github_accounts(wanted)
   wanted = wanted.to_set
   return found if wanted.empty?
 
-  unless system("gh", "auth", "status", out: File::NULL, err: File::NULL)
-    warn "update_contributions: gh is not authenticated, so #{wanted.size} commits are written without their GitHub accounts"
-    return found
-  end
+  abort "update_contributions: gh is not installed. It is in the Brewfile, so `brew bundle` installs it." if system("gh", "--version", out: File::NULL, err: File::NULL).nil?
+  abort "update_contributions: gh is not signed in to GitHub. `gh auth login` signs it in." unless system("gh", "auth", "status", out: File::NULL, err: File::NULL)
 
   page = 1
   until wanted.empty?
     output, status = Open3.capture2("gh", "api", "repos/#{REPOSITORY}/commits?per_page=100&page=#{page}")
-    unless status.success?
-      warn "update_contributions: gh api failed on page #{page}, so #{wanted.size} commits are written without their GitHub accounts"
-      break
-    end
+    abort "update_contributions: gh api failed on page #{page}, so nothing was written" unless status.success?
 
     commits = JSON.parse(output)
     break if commits.empty?
@@ -51,7 +47,7 @@ def github_accounts(wanted)
 
       # A commit with no author email comes back with an empty object here rather than nil.
       account = commit["author"]
-      found[commit.fetch("sha")] = account && account["login"] ? { "login" => account["login"], "avatar_url" => account["avatar_url"] } : nil
+      found[commit.fetch("sha")] = account && account["login"] ? { "username" => account["login"], "avatar_url" => account["avatar_url"] } : nil
     end
     page += 1
   end
@@ -78,10 +74,19 @@ commits = log.split("\x1e").filter_map do |record|
   { hash: hash, date: date, name: name, summary: summary, body: body.to_s.strip }
 end
 
-accounts = github_accounts(commits.map { it[:hash] }.reject { existing.key?(it) })
+# A record without an account is asked about again while it is recent, since a
+# commit run from a branch is not on GitHub's main until it merges. The old
+# ones without an account stay that way, which keeps a routine run to one page.
+RECENT = Time.now - 90 * 24 * 60 * 60
+
+def settled?(record)
+  record && (record.fetch("author")["username"] || Time.iso8601(record.fetch("date")) < RECENT)
+end
+
+accounts = github_accounts(commits.map { it[:hash] }.reject { settled?(existing[it]) })
 
 records = commits.map do |commit|
-  if (record = existing[commit[:hash]])
+  if settled?(record = existing[commit[:hash]])
     record
   else
     account = accounts[commit[:hash]]
@@ -90,7 +95,7 @@ records = commits.map do |commit|
       "date"    => commit[:date],
       "author"  => {
         "name"       => commit[:name],
-        "login"      => account && account["login"],
+        "username"   => account && account["username"],
         "avatar_url" => account && account["avatar_url"],
       },
       "summary" => commit[:summary],
@@ -99,15 +104,18 @@ records = commits.map do |commit|
   end
 end
 
-# One file per year of the author date, newest commit first within it. A year
-# that is over never changes again, so its file does not either.
+# One file per year of the author date, newest author date first within it,
+# since that is the order the page shows and git log's own order is by commit
+# date and parentage, which a rebase or a cherry pick puts out of step with
+# it. A year that is over never changes again, so its file does not either.
 Dir.mkdir(DESTINATION) unless File.directory?(DESTINATION)
 by_year = records.group_by { it.fetch("date")[0, 4].to_i }
 by_year.sort.each do |year, year_records|
+  year_records = year_records.sort_by.with_index { |record, index| [-Time.iso8601(record.fetch("date")).to_f, index] }
   path = File.join(DESTINATION, "#{year}.json")
   File.write(path, JSON.pretty_generate({ "year" => year, "commits" => year_records }) + "\n")
   puts "  #{year}  #{year_records.size} commits"
 end
 
-without_account = records.count { it.fetch("author")["login"].nil? }
+without_account = records.count { it.fetch("author")["username"].nil? }
 puts "#{records.size} commits in #{by_year.size} files, #{without_account} without a GitHub account"

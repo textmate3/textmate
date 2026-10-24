@@ -2,11 +2,22 @@
   "year": 2026,
   "commits": [
     {
+      "hash": "5dba688c1eb67f605403cb7117f502492954bcc9",
+      "date": "2026-10-24T00:49:39-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": null,
+        "avatar_url": null
+      },
+      "summary": "Add script/update_contributions and the per year JSON of every commit it writes, with GitHub accounts resolved by GitHub",
+      "body": ""
+    },
+    {
       "hash": "544b58635a7ee18c1c57fca17399f7503a14de1a",
       "date": "2026-10-24T00:21:46-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Show the About window's Changes, Legal and Bundles pages natively (#71)",
@@ -17,7 +28,7 @@
       "date": "2026-10-23T23:57:47-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Add a native Markdown renderer to OakAppKit (#70)",
@@ -28,7 +39,7 @@
       "date": "2026-10-23T23:18:21-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Refresh the seed bundles with unescaped Changes.json (#69)",
@@ -39,7 +50,7 @@
       "date": "2026-10-23T22:55:24-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Insert commit summaries and bodies into the Bundles page as text (#68)",
@@ -50,7 +61,7 @@
       "date": "2026-10-23T22:06:07-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Raise the minimum macOS to 27 (and Swift to 6.4) (#67)",
@@ -61,7 +72,7 @@
       "date": "2026-09-15T20:49:42-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Mark CommitMessageDocument @MainActor (#66)",
@@ -72,7 +83,7 @@
       "date": "2026-09-15T19:50:24-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Move the chooser abbreviation memory to Swift (#65)",
@@ -83,7 +94,7 @@
       "date": "2026-09-15T19:19:40-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Move the commit window to Swift and SwiftUI (#63)",
@@ -94,7 +105,7 @@
       "date": "2026-09-15T18:08:29-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Move the HTML output status strip to SwiftUI (#64)",
@@ -105,7 +116,7 @@
       "date": "2026-09-15T04:16:20-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Refresh the seed bundles after the Python work landed (#62)",
@@ -116,7 +127,7 @@
       "date": "2026-09-15T04:03:25-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "A runtime bundle per language, and a Python for bundle commands (#58)",
@@ -127,7 +138,7 @@
       "date": "2026-09-10T20:33:45-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Refuse a TM_RUBY that is not an executable file and say why (#57)",
@@ -138,7 +149,7 @@
       "date": "2026-09-10T19:47:30-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Refresh the seed bundles from the current catalog archives",
@@ -149,7 +160,7 @@
       "date": "2026-09-10T16:16:36-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Write out the grapheme loops that used the citerate macro (#56)",
@@ -160,7 +171,7 @@
       "date": "2026-09-10T16:15:29-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Write out the loops that used the foreach macro over an iterator pair (#55)",
@@ -171,7 +182,7 @@
       "date": "2026-09-10T16:13:46-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Write out the loops that used the iterate macro and delete it (#54)",
@@ -182,7 +193,7 @@
       "date": "2026-09-10T16:11:41-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Walk containers backwards with std::views::reverse in place of the riterate macro (#53)",
@@ -193,7 +204,7 @@
       "date": "2026-09-10T16:10:52-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Say once when TM_RUBY is below the 4.0 minimum (#52)",
@@ -204,7 +215,7 @@
       "date": "2026-09-10T16:04:56-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Test end to end that a Ruby command runs on the Ruby its shebang names (#51)",
@@ -215,7 +226,7 @@
       "date": "2026-09-10T16:03:10-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Order version strings with a Swift Version (#50)",
@@ -226,7 +237,7 @@
       "date": "2026-09-10T15:59:48-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Rewrite shebangs that spell out the system framework Ruby (#49)",
@@ -237,7 +248,7 @@
       "date": "2026-09-10T15:54:29-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Drop the CFPlugInCOM import the QuickLook generator needed (#47)",
@@ -248,7 +259,7 @@
       "date": "2026-09-10T15:47:46-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Silence the frozen string warning in gen_test (#48)",
@@ -259,7 +270,7 @@
       "date": "2026-09-10T15:46:55-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Tell GitHub the headers are Objective-C++, not C (#46)",
@@ -270,7 +281,7 @@
       "date": "2026-09-07T05:12:45-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Fold environment maps with insert at each site and drop oak/algorithm.h (#45)",
@@ -281,7 +292,7 @@
       "date": "2026-09-07T05:02:13-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Write the family removal of marks out at its two callers (#44)",
@@ -292,7 +303,7 @@
       "date": "2026-09-07T05:00:52-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Replace oak::replace_copy with text::replace_all (#43)",
@@ -303,7 +314,7 @@
       "date": "2026-09-07T04:59:11-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Move the test shuffle helper into a test-only header (#42)",
@@ -314,7 +325,7 @@
       "date": "2026-09-07T04:26:41-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Replace oak::contains and oak::has_prefix with the standard library (#41)",
@@ -325,7 +336,7 @@
       "date": "2026-09-07T04:26:36-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Drop the unused slow_in_out easing curve (#40)",
@@ -336,7 +347,7 @@
       "date": "2026-09-07T03:45:22-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Drop the DB_VAR macro and the header that existed for it (#39)",
@@ -347,7 +358,7 @@
       "date": "2026-09-07T03:45:18-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "The oak grab bag header is a print_system_error header (#38)",
@@ -358,7 +369,7 @@
       "date": "2026-09-07T03:45:14-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Drop the file browser's duplicate status header (#37)",
@@ -369,7 +380,7 @@
       "date": "2026-09-07T02:36:45-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Drop the network framework's umbrella header (#36)",
@@ -380,7 +391,7 @@
       "date": "2026-09-07T02:04:40-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "The C and Mac preludes say include rather than import (#35)",
@@ -391,7 +402,7 @@
       "date": "2026-09-07T01:34:12-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "The yellow flash in Swift (#34)",
@@ -402,7 +413,7 @@
       "date": "2026-09-07T00:42:25-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "The folder that stands for a selection, in Swift (#33)",
@@ -413,7 +424,7 @@
       "date": "2026-09-07T00:14:22-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Find in Project on a folder and something inside it searches the folder, not its parent (#32)",
@@ -424,7 +435,7 @@
       "date": "2026-09-06T23:11:47-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "The interface sounds in Swift (#31)",
@@ -435,7 +446,7 @@
       "date": "2026-09-06T22:53:33-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Drop the interface sound nothing ever played (#30)",
@@ -446,7 +457,7 @@
       "date": "2026-09-06T19:44:32-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Bundle commands run on a pinned Ruby through rv and the Runtimes bundle, never the system Ruby (#29)",
@@ -457,7 +468,7 @@
       "date": "2026-09-06T17:22:22-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "A standalone helper beside the application's executable is signed as itself (#28)",
@@ -468,7 +479,7 @@
       "date": "2026-09-06T04:28:24-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "The Terminal preferences pane in SwiftUI, the last of the six (#27)",
@@ -479,7 +490,7 @@
       "date": "2026-09-06T04:11:21-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "The Bundles preferences pane in SwiftUI (#26)",
@@ -490,7 +501,7 @@
       "date": "2026-09-06T03:40:31-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "The Variables preferences pane in SwiftUI (#25)",
@@ -501,7 +512,7 @@
       "date": "2026-09-06T02:39:01-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "The Projects preferences pane in SwiftUI (#24)",
@@ -512,7 +523,7 @@
       "date": "2026-09-06T02:15:10-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "The Files preferences pane in SwiftUI (#23)",
@@ -523,7 +534,7 @@
       "date": "2026-09-06T01:44:19-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "The Updates preferences pane in SwiftUI, with the update channel (#22)",
@@ -534,7 +545,7 @@
       "date": "2026-09-05T21:57:28-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Re-order README",
@@ -545,7 +556,7 @@
       "date": "2026-09-05T21:53:59-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Update screenshots in README",
@@ -556,7 +567,7 @@
       "date": "2026-09-05T21:06:04-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Release builds talk to production regardless of local.rave (#21)",
@@ -567,7 +578,7 @@
       "date": "2026-09-05T20:32:30-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "WIP: Update README toward 2.1 ... 3.0",
@@ -578,7 +589,7 @@
       "date": "2026-09-05T18:52:04-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Two fixes from the first alpha: fetch tags with force, and zip without extended attributes (#20)",
@@ -589,7 +600,7 @@
       "date": "2026-09-05T17:52:58-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "The Legal page names what the application is made of (#19)",
@@ -600,7 +611,7 @@
       "date": "2026-09-05T17:33:29-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Markdown lint",
@@ -611,7 +622,7 @@
       "date": "2026-09-05T17:14:15-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "A release pipeline with alpha, beta and release channels (#18)",
@@ -622,7 +633,7 @@
       "date": "2026-09-05T16:34:41-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Notarize on request, and sign Sparkle's Autoupdate helper as itself (#17)",
@@ -633,7 +644,7 @@
       "date": "2026-09-05T16:26:19-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Run the workflow once per push (#16)",
@@ -644,7 +655,7 @@
       "date": "2026-09-05T16:15:28-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "The privileged helper as an SMAppService daemon, retiring the last deprecated call (#15)",
@@ -655,7 +666,7 @@
       "date": "2026-09-05T15:40:55-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Sign with a Developer ID, and re-sign the vendored Sparkle pieces with the same identity (#14)",
@@ -666,7 +677,7 @@
       "date": "2026-09-05T15:09:20-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Give the application its own identity, with a first launch import from TextMate 2 (#13)",
@@ -677,7 +688,7 @@
       "date": "2026-09-04T01:26:16-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Record the bundle editor forms and the parser deletion in the changelog (#12)",
@@ -688,7 +699,7 @@
       "date": "2026-09-04T00:00:18-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Delete the OpenStep ASCII property list parser and Ragel (#11)",
@@ -699,7 +710,7 @@
       "date": "2026-09-03T23:33:54-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Edit preferences and macros as forms in the bundle editor (#10)",
@@ -710,7 +721,7 @@
       "date": "2026-09-03T22:46:41-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Edit themes as a form with a live preview in the bundle editor (#9)",
@@ -721,7 +732,7 @@
       "date": "2026-09-03T22:25:09-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Grammar editor: panel edits reach the preview, rule shapes change, capture patterns in the outline (#8)",
@@ -732,7 +743,7 @@
       "date": "2026-09-03T22:11:17-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Grammar editor: live preview of sample text parsed with the grammar being edited (#7)",
@@ -743,7 +754,7 @@
       "date": "2026-09-03T22:04:36-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Grammar editor: add, remove and move rules, captures and repository names (#5)",
@@ -754,7 +765,7 @@
       "date": "2026-09-03T18:59:21-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Grammar editor: rules as an outline and a form, in place of the text pane (#4)",
@@ -765,7 +776,7 @@
       "date": "2026-09-03T18:05:40-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "GrammarSchema: the grammar format as data, with a validator (#3)",
@@ -776,7 +787,7 @@
       "date": "2026-09-03T16:27:30-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Swift Testing under script/test (#2)",
@@ -787,7 +798,7 @@
       "date": "2026-09-03T15:59:58-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "swift format's default two space indentation for the Swift sources",
@@ -798,7 +809,7 @@
       "date": "2026-09-03T15:46:06-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Swift and SwiftUI spike: ApplicationInfo, the About page, and the encoding chooser sheet (#1)",
@@ -809,7 +820,7 @@
       "date": "2026-09-03T14:22:22-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Rename LICENSE to LICENSE.md",
@@ -820,7 +831,7 @@
       "date": "2026-09-03T14:22:11-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Reformat LICENSE as Markdown",
@@ -831,7 +842,7 @@
       "date": "2026-09-03T05:17:12-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Record the removed gtm options in the changelog",
@@ -842,7 +853,7 @@
       "date": "2026-09-03T05:16:48-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Drop gtm's --trim and --delimiters options, which were parsed and never implemented",
@@ -853,7 +864,7 @@
       "date": "2026-09-03T05:05:25-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Pass .tbd library paths through in the test link too, which still prefixed them with -l",
@@ -864,7 +875,7 @@
       "date": "2026-09-03T04:56:01-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Record the property list caches and the end of the Homebrew run time dependency in the changelog",
@@ -875,7 +886,7 @@
       "date": "2026-09-03T04:56:01-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Remove Cap'n Proto: the schemas, the compiler step in bin/rave, the configure checks, the Brewfile line, and Homebrew's library directory from the linker search path",
@@ -886,7 +897,7 @@
       "date": "2026-09-03T04:55:44-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Link the SDK's sqlite by path in DocumentWindow and OakAppKit, so a Homebrew sqlite on the search path is never picked up",
@@ -897,7 +908,7 @@
       "date": "2026-09-03T04:55:14-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Drop the library validation entitlement from the command line tools, which load nothing foreign now, and say why the application still needs it for an ad hoc build",
@@ -908,7 +919,7 @@
       "date": "2026-09-03T04:55:14-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Store the encoding classifier's frequency tables as a binary property list, EncodingFrequencies.plist",
@@ -919,7 +930,7 @@
       "date": "2026-09-03T04:55:14-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Store the bundle index cache as a binary property list, BundlesIndex.plist, and read it back the same way in the application and gtm",
@@ -930,7 +941,7 @@
       "date": "2026-09-03T04:55:14-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Remove the cache format benchmark tool now that the format is chosen, keeping the launch measurement in script/benchmark_bundle_index",
@@ -941,7 +952,7 @@
       "date": "2026-09-03T03:41:46-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Left align the text columns of the benchmark report tables",
@@ -952,7 +963,7 @@
       "date": "2026-09-03T03:40:17-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Record the bundle index benchmark in the changelog",
@@ -963,7 +974,7 @@
       "date": "2026-09-03T03:40:17-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Report the first index build apart from the later ones, since it pays the process warmup a launch pays elsewhere",
@@ -974,7 +985,7 @@
       "date": "2026-09-03T03:39:34-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Add script/benchmark_bundle_index, which builds and runs the cache format and launch measurements and prints the report",
@@ -985,7 +996,7 @@
       "date": "2026-09-03T03:39:34-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Report bundle index cache load, index build and whole launch timings on stderr when TEXTMATE_BUNDLES_INDEX_TIMING is set, with TEXTMATE_BUNDLES_INDEX_PATH pointing the cache elsewhere",
@@ -996,7 +1007,7 @@
       "date": "2026-09-03T03:39:33-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Add bundle_index_benchmark, a tool that times the bundle index cache in Cap'n Proto, property list, JSON, JSON Lines, CSV and YAML forms",
@@ -1007,7 +1018,7 @@
       "date": "2026-09-03T03:26:16-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Move the bundle index content filter from BundlesManager into the bundles framework as prune_bundle_item_plist",
@@ -1018,7 +1029,7 @@
       "date": "2026-09-03T03:26:16-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Split the bundle index cache's property list form out of load and save as to_plist and from_plist",
@@ -1029,7 +1040,7 @@
       "date": "2026-09-02T22:48:03-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Move the gtm tag to the commit each upload was built from",
@@ -1040,7 +1051,7 @@
       "date": "2026-09-02T22:20:10-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Ship gtm inside the application and publish it from continuous integration as the gtm prerelease",
@@ -1051,7 +1062,7 @@
       "date": "2026-09-02T21:46:32-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Sign gtm with the helper entitlements, so the hardened runtime lets it load the Homebrew libraries and it starts",
@@ -1062,7 +1073,7 @@
       "date": "2026-09-02T20:40:26-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Carry the caret across a command's replacement by code point rather than byte, so a character that grows a byte keeps the caret after it",
@@ -1073,7 +1084,7 @@
       "date": "2026-09-02T20:09:07-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'tm_ruby_for_bundle_commands'",
@@ -1084,7 +1095,7 @@
       "date": "2026-09-02T18:48:52-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Point ruby shebangs at TM_RUBY for every bundle command, not only Command-R, so the Ruby a user picked runs their bundle code",
@@ -1095,7 +1106,7 @@
       "date": "2026-09-02T18:41:50-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Probe for the catalog server after the build in script/run, so the warning is the last thing before the launch",
@@ -1106,7 +1117,7 @@
       "date": "2026-09-02T16:35:21-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'bridge_stdin_closes'",
@@ -1117,7 +1128,7 @@
       "date": "2026-09-02T16:35:21-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'bridge_output_accumulates'",
@@ -1128,7 +1139,7 @@
       "date": "2026-09-02T16:35:21-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'overnight_tm_properties_doc'",
@@ -1139,7 +1150,7 @@
       "date": "2026-09-02T16:35:21-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'overnight_grapheme_caret'",
@@ -1150,7 +1161,7 @@
       "date": "2026-09-02T16:35:21-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'overnight_secure_coding'",
@@ -1161,7 +1172,7 @@
       "date": "2026-09-02T16:35:20-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'overnight_scheme_handler_scope'",
@@ -1172,7 +1183,7 @@
       "date": "2026-09-02T16:35:20-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'overnight_test_counter'",
@@ -1183,7 +1194,7 @@
       "date": "2026-09-02T16:35:06-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'overnight_crash_reporter'",
@@ -1194,7 +1205,7 @@
       "date": "2026-09-02T16:00:11-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Serve a linked bundle's assets by its resolved path and keep a page's directories after its output arrives, which is when the images and scripts are asked for",
@@ -1205,7 +1216,7 @@
       "date": "2026-09-02T15:48:44-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Close a page command's standard input once the script task that started it ends, unless that task wrote to it, so tools that forward stdin no longer hang the application",
@@ -1216,7 +1227,7 @@
       "date": "2026-09-02T15:33:08-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Keep a command's whole output in the bridge buffer, so TextMate.system resolves with all of it rather than the last read",
@@ -1227,7 +1238,7 @@
       "date": "2026-09-02T04:18:43-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Document every .tm_properties setting, its sources, syntax and accepted values",
@@ -1238,7 +1249,7 @@
       "date": "2026-09-02T04:12:40-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Step the caret by grapheme cluster, so a joined emoji or a decomposed accent is one arrow key press",
@@ -1249,7 +1260,7 @@
       "date": "2026-09-02T03:59:45-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "script/test ends with a verdict instead of ninja's short count",
@@ -1260,7 +1271,7 @@
       "date": "2026-09-02T03:58:12-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Restore file browser state under secure coding, with a round trip test",
@@ -1271,7 +1282,7 @@
       "date": "2026-09-02T03:54:07-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Serve HTML output assets only from bundle locations and the page's own directories",
@@ -1282,7 +1293,7 @@
       "date": "2026-09-02T03:45:35-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Log crash reports instead of uploading them to a server that cannot exist",
@@ -1293,7 +1304,7 @@
       "date": "2026-09-02T03:35:06-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "The divider fix also closed the commit window bug, verified against the previous commit",
@@ -1304,7 +1315,7 @@
       "date": "2026-09-02T03:16:50-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge brewfile",
@@ -1315,7 +1326,7 @@
       "date": "2026-09-02T02:53:59-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Markdown cleanup",
@@ -1326,7 +1337,7 @@
       "date": "2026-09-02T02:36:44-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Homebrew is the one way to install dependencies",
@@ -1337,7 +1348,7 @@
       "date": "2026-09-02T02:32:53-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "One Brewfile lists every Homebrew dependency, and CI and the README defer to it",
@@ -1348,7 +1359,7 @@
       "date": "2026-09-02T02:11:17-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge github_actions_ci",
@@ -1359,7 +1370,7 @@
       "date": "2026-09-02T02:11:17-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Record the continuous integration workflow",
@@ -1370,7 +1381,7 @@
       "date": "2026-09-02T02:06:42-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Install mercurial and subversion on the runner so the scm suite runs",
@@ -1381,7 +1392,7 @@
       "date": "2026-09-02T02:01:17-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "A CI workflow that builds on the macOS 26 runner and runs every test suite",
@@ -1392,7 +1403,7 @@
       "date": "2026-09-02T01:54:14-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge file_status_system_fixtures",
@@ -1403,7 +1414,7 @@
       "date": "2026-09-02T01:54:14-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Every file status case runs without privileges, the read-only volume on request",
@@ -1414,7 +1425,7 @@
       "date": "2026-09-02T00:48:31-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge file_status_fixtures",
@@ -1425,7 +1436,7 @@
       "date": "2026-09-02T00:48:31-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Build the file status test fixtures a user can create, and say what the rest need",
@@ -1436,7 +1447,7 @@
       "date": "2026-09-02T00:44:11-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge fix_gutter_clip_to_bounds",
@@ -1447,7 +1458,7 @@
       "date": "2026-09-02T00:42:13-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Clip the gutter fills to its bounds rather than its frame",
@@ -1458,7 +1469,7 @@
       "date": "2026-09-02T00:37:44-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge fix_gutter_divider_overdraw",
@@ -1469,7 +1480,7 @@
       "date": "2026-09-02T00:33:38-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Clip fill views to their bounds so the gutter divider stops painting over the gutter",
@@ -1480,7 +1491,7 @@
       "date": "2026-09-01T22:08:25-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "The Rails seed bundle follows the dot naming convention",
@@ -1491,7 +1502,7 @@
       "date": "2026-09-01T19:58:17-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Upstream merges happen in a fresh disposable clone",
@@ -1502,7 +1513,7 @@
       "date": "2026-09-01T19:34:51-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Delete the original maintainer build template and its release note helpers, superseded end to end",
@@ -1513,10 +1524,21 @@
       "date": "2026-09-01T19:31:39-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Reduce the never-running lipo machinery to a single-architecture accessor that refuses a second architecture loudly",
+      "body": ""
+    },
+    {
+      "hash": "447c5b9d3a0ea92fa751e2a479ae9c702252853b",
+      "date": "2026-09-01T16:09:44-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Inline the virtual key codes and drop the Carbon imports entirely",
       "body": ""
     },
     {
@@ -1524,7 +1546,7 @@
       "date": "2026-09-01T15:58:50-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Seed a minimal built-in bundle set on first launch, extracted from archives committed in Resources",
@@ -1535,7 +1557,7 @@
       "date": "2026-09-01T01:47:36-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Serialize bundle index update cycles, whose launch-time race ran duplicate install waves",
@@ -1546,7 +1568,7 @@
       "date": "2026-09-01T01:45:10-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Recheck spelling after synchronous repairs, whose disabled checks erased every underline they crossed",
@@ -1557,7 +1579,7 @@
       "date": "2026-09-01T01:42:24-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Fix the detached command wait races that dropped standard error from HTML output or hung forever",
@@ -1568,7 +1590,7 @@
       "date": "2026-09-01T01:37:05-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Convert the bundle editor templates, charset table and file reference bindings from OpenStep ASCII to XML property lists",
@@ -1579,7 +1601,7 @@
       "date": "2026-09-01T01:37:05-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Remove the ODB Editor Suite and the Intel build slice",
@@ -1590,43 +1612,10 @@
       "date": "2026-09-01T01:21:26-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Notarize with notarytool, replacing the altool submit and poll pair",
-      "body": ""
-    },
-    {
-      "hash": "1f795024b6ddaf6ee6c6c80dbbadfeeaffbbc746",
-      "date": "2026-09-01T01:10:39-07:00",
-      "author": {
-        "name": "Shane Becker",
-        "login": "veganstraightedge",
-        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
-      },
-      "summary": "Play user interface sounds through NSSound, removing AudioToolbox and fixing the per-play sound object leak",
-      "body": ""
-    },
-    {
-      "hash": "447c5b9d3a0ea92fa751e2a479ae9c702252853b",
-      "date": "2026-09-01T16:09:44-07:00",
-      "author": {
-        "name": "Shane Becker",
-        "login": "veganstraightedge",
-        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
-      },
-      "summary": "Inline the virtual key codes and drop the Carbon imports entirely",
-      "body": ""
-    },
-    {
-      "hash": "77bfe41cb40e8e40a3376d397c5374fee2104f1f",
-      "date": "2026-09-01T01:08:45-07:00",
-      "author": {
-        "name": "Shane Becker",
-        "login": "veganstraightedge",
-        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
-      },
-      "summary": "Remove the last Carbon link, accepting that colliding system hot keys cannot be recorded",
       "body": ""
     },
     {
@@ -1634,10 +1623,32 @@
       "date": "2026-09-01T01:18:15-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Remove the DefaultBundles first-launch seed, which only the deleted bl could build",
+      "body": ""
+    },
+    {
+      "hash": "1f795024b6ddaf6ee6c6c80dbbadfeeaffbbc746",
+      "date": "2026-09-01T01:10:39-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Play user interface sounds through NSSound, removing AudioToolbox and fixing the per-play sound object leak",
+      "body": ""
+    },
+    {
+      "hash": "77bfe41cb40e8e40a3376d397c5374fee2104f1f",
+      "date": "2026-09-01T01:08:45-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Remove the last Carbon link, accepting that colliding system hot keys cannot be recorded",
       "body": ""
     },
     {
@@ -1645,7 +1656,7 @@
       "date": "2026-09-01T01:06:26-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Delete bl and the parallel download stack that existed only to serve it",
@@ -1656,7 +1667,7 @@
       "date": "2026-09-01T00:38:40-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Target 2.1.0 as the first release, keeping 3.0.0 as the eventual milestone",
@@ -1667,7 +1678,7 @@
       "date": "2026-09-01T00:04:05-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Set the production Ed25519 public keys for application updates and the bundle catalog",
@@ -1678,7 +1689,7 @@
       "date": "2026-08-31T23:44:06-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Delete the four unbuildable CxxTest demo harnesses and land automated key event tests in the ns suite",
@@ -1689,7 +1700,7 @@
       "date": "2026-08-31T23:27:16-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Remove the unused CxxTest submodule, whose job bin/gen_test has done all along",
@@ -1700,7 +1711,7 @@
       "date": "2026-08-31T22:58:11-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Refuse bundle install destinations outside the managed Bundles directory at save, load, and install time",
@@ -1711,7 +1722,7 @@
       "date": "2026-08-31T22:22:12-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Remove the unread TMSigningKeys dictionary from Info.plist",
@@ -1722,7 +1733,7 @@
       "date": "2026-08-31T21:44:54-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Record the Ed25519 bundle catalog verification in the changelog",
@@ -1733,7 +1744,7 @@
       "date": "2026-08-31T21:43:26-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Markdown lint",
@@ -1744,7 +1755,7 @@
       "date": "2026-08-31T21:42:12-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Markdown lint",
@@ -1755,7 +1766,7 @@
       "date": "2026-08-31T21:40:17-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Rewire the bundle manager download path onto Ed25519, deleting the SecTransform verifier and the localhost bypass",
@@ -1766,7 +1777,7 @@
       "date": "2026-08-31T21:35:54-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Rewire the C++ catalog path onto Ed25519: index verified against a detached signature, tarballs against index signatures, signee and key chain deleted",
@@ -1777,7 +1788,7 @@
       "date": "2026-08-31T21:22:26-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Add Ed25519 signature verification to the network framework via runtime-resolved Security symbols",
@@ -1788,7 +1799,7 @@
       "date": "2026-08-31T20:24:41-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Narrow the App Transport Security exception from web content to local networking only",
@@ -1799,7 +1810,7 @@
       "date": "2026-08-31T20:13:52-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Scope the App Transport Security exception to web content only",
@@ -1810,7 +1821,7 @@
       "date": "2026-08-31T19:48:48-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Raise the minimum deployment target to macOS 26, adopting the standardized posix_spawn_file_actions_addchdir",
@@ -1821,7 +1832,7 @@
       "date": "2026-08-31T19:20:33-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Raise the minimum deployment target to macOS 15, deleting the reachability preflight it deprecates",
@@ -1832,7 +1843,7 @@
       "date": "2026-08-31T18:44:29-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Order changelog entries newest first within each section",
@@ -1843,7 +1854,7 @@
       "date": "2026-08-31T18:37:02-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Raise the minimum deployment target to macOS 14, deleting the three calls that version deprecates as no-ops",
@@ -1854,7 +1865,7 @@
       "date": "2026-08-31T18:18:45-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Point the production REST_API and update feed defaults at api.textmate3.com",
@@ -1865,7 +1876,7 @@
       "date": "2026-08-31T17:39:10-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Forward checkForUpdates: from the application delegate, so the preferences pane's Check Now reaches the updater",
@@ -1876,7 +1887,7 @@
       "date": "2026-08-31T17:34:57-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Adopt Sparkle for application updates, exercisable entirely against the localhost stand-in server",
@@ -1887,7 +1898,7 @@
       "date": "2026-08-31T17:34:57-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Copy symbolic links as links in rave, so an embedded framework's Versions layout survives",
@@ -1898,7 +1909,7 @@
       "date": "2026-08-31T16:49:40-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Replace kvdb with a property list store for per-project session state, migrating the old database",
@@ -1909,7 +1920,7 @@
       "date": "2026-08-31T16:41:57-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Add link to Onigmo's github repo page",
@@ -1920,7 +1931,7 @@
       "date": "2026-08-31T16:27:48-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Pin Onigmo to the fork's main for its safety fixes and prototype patch, and document the arrangement",
@@ -1931,7 +1942,7 @@
       "date": "2026-08-31T15:37:56-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Absorb the document type icons into this repository, leaving only third-party forks as submodules",
@@ -1942,7 +1953,7 @@
       "date": "2026-08-31T14:43:41-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Absorb the dialog plug-in source into this repository, following the commit window precedent",
@@ -1953,7 +1964,7 @@
       "date": "2026-08-31T14:42:19-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Remove stale directory and symbolic link outputs in rave's cleanup, which unlink could never delete",
@@ -1964,7 +1975,7 @@
       "date": "2026-08-27T22:48:46-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Bump the dialog plug-in for the corrected nib usage examples",
@@ -1975,7 +1986,7 @@
       "date": "2026-08-27T22:06:37-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Move $DIALOG onto a UNIX socket and drop the TextMate 1 compatibility plug-in",
@@ -1986,7 +1997,7 @@
       "date": "2026-08-27T21:41:48-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Move the commit window onto a UNIX socket and share socket_callback_t from the io framework",
@@ -1997,7 +2008,7 @@
       "date": "2026-08-26T19:35:32-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Describe what the code does rather than what it replaced",
@@ -2008,7 +2019,7 @@
       "date": "2026-08-26T19:09:08-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "State what the comments describe rather than what it replaced",
@@ -2019,7 +2030,7 @@
       "date": "2026-08-26T18:31:15-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Draw the symbolic link badge from a symbol instead of the deprecated Icon Services one",
@@ -2030,7 +2041,7 @@
       "date": "2026-08-26T17:54:21-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Remove QuickLook support, fix rave stale output cleanup under Ruby 4.0, and inline reasoning that pointed at the private planning repository",
@@ -2041,7 +2052,7 @@
       "date": "2026-08-26T03:14:30-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Name the file URL pasteboard type as NSPasteboardTypeFileURL instead of the deprecated kUTTypeFileURL",
@@ -2052,7 +2063,7 @@
       "date": "2026-08-26T02:36:41-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Delete the software development kit compatibility header, every block of which was already inactive",
@@ -2063,7 +2074,7 @@
       "date": "2026-08-26T02:20:15-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Remove Touch Bar support, a feature for discontinued hardware",
@@ -2074,7 +2085,7 @@
       "date": "2026-08-25T03:16:04-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Bump the dialog plug-in to drop its always-true availability guards",
@@ -2085,7 +2096,7 @@
       "date": "2026-08-25T03:11:01-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Stop linking Security in scm, which never used it",
@@ -2096,7 +2107,7 @@
       "date": "2026-08-24T21:50:11-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Stop importing the Carbon umbrella into every translation unit, and include CoreGraphics and CoreText in the three headers that were relying on it",
@@ -2107,7 +2118,7 @@
       "date": "2026-08-24T21:37:05-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Ask NSWorkspace which applications can open a document instead of LSCopyApplicationURLsForURL",
@@ -2118,7 +2129,7 @@
       "date": "2026-08-24T21:28:46-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Stop linking Carbon in OakFilterList and scm, neither of which uses a Carbon symbol",
@@ -2129,7 +2140,7 @@
       "date": "2026-08-24T21:09:40-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Fall back to the HOME environment variable in path::home() when getpwuid returns nothing readable",
@@ -2140,7 +2151,7 @@
       "date": "2026-08-24T21:08:50-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Remove the Show Radar Entry button, the deprecated LSOpenURLsWithRole call behind it, and the io framework's Carbon link",
@@ -2151,7 +2162,7 @@
       "date": "2026-08-24T18:21:04-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'dialog_deprecations'",
@@ -2162,7 +2173,7 @@
       "date": "2026-08-24T17:47:19-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Bump the dialog plug-in to drop its legacy WebView, colorUsingColorSpaceName: and setAllowedFileTypes: deprecations",
@@ -2173,7 +2184,7 @@
       "date": "2026-08-23T23:41:07-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Markdown lint",
@@ -2184,7 +2195,7 @@
       "date": "2026-08-23T23:32:48-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "CHANGELOG: record the keychain and framework-link changes, and correct the bundle editor template entry to match what the templates actually say",
@@ -2195,7 +2206,7 @@
       "date": "2026-08-23T23:30:39-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "CHANGELOG: record the WKWebView migration, retire the unstyled output known issue now that it is fixed",
@@ -2206,7 +2217,7 @@
       "date": "2026-08-23T22:57:48-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'webkit_wkwebview'",
@@ -2217,7 +2228,7 @@
       "date": "2026-08-23T22:37:32-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Report page errors from HTML output to the application. The legacy view had an undocumented addMessageToConsole: hook, which the migration dropped; this is the supported equivalent, hooking window error events, unhandled promise rejections and console error and warn. It matters more than it did before: a bundle that wraps a bridge call in try/catch and discards the result, which the git gateway does, would otherwise swallow the guidance the bridge throws and fail with no trace anywhere. Git Config saving silently was exactly that",
@@ -2228,7 +2239,7 @@
       "date": "2026-08-23T22:28:44-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Attach the stream handlers before starting a command. Construction used to spawn the process and begin reading, while the handlers were attached a few lines later, so anything written in that window was buffered and never streamed. A command that writes immediately would lose its first chunk, which for a page that renders only from onreadoutput means losing the beginning of its content. Starting is now a separate call the bridge makes once the handlers are in place",
@@ -2239,7 +2250,7 @@
       "date": "2026-08-23T22:15:34-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Keep a command's output job registered until its page has been read. A command finishing does not mean the web view has asked for its output: loading is asynchronous, so a fast command completes before the request arrives, and unregistering at completion left nothing to serve. That is what produced a frame load interruption for quick commands like Git Status while a slow one like a Ruby script with a sleep in it worked. The pipe's read end still holds everything written, so the handler now clears the job when it reads to the end instead. This is also the real cause of the failure attributed to unsynchronised registry access earlier; the lock is still correct, but it was not the bug",
@@ -2250,7 +2261,7 @@
       "date": "2026-08-23T21:48:27-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Reinstate the JavaScript bridge on WKWebView, asynchronously. The page half is a user script injected at document start, registered on the configuration once rather than attached per navigation, since the window-object hook it used before does not exist. The application half answers through a reply handler, because there is no synchronous path from a page into the host process. Most of the old surface is unchanged: passing a callback works, and cancel, write, close and the streaming handlers still reach the running command. Only reading outputString or errorString off the return value cannot work, since both need the command to have finished, and that case throws an error naming the property and showing both replacements rather than yielding undefined and rendering wrong output silently. The fifteen second warning for long synchronous commands goes with the synchronous mode it existed to police",
@@ -2261,7 +2272,7 @@
       "date": "2026-08-23T21:19:11-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Synchronise the scheme handler's job registry, and report the URL that actually failed. Registration runs on whichever queue the command's output handler is on, while lookup runs on the main thread when the content process asks for the page, and an unsynchronised NSMutableDictionary gives no visibility guarantee across that boundary. The symptom was a job registered and then not found moments later, so the page never loaded and WebKit reported a frame load interruption instead. Every access takes a lock now. The error page also reported (null) as the failing URL, because a provisional failure leaves the web view without one; it comes from the error's user info instead",
@@ -2272,7 +2283,7 @@
       "date": "2026-08-23T21:11:36-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Remove the protocol relative URL helper, whose only caller went with the resource load delegate",
@@ -2283,7 +2294,7 @@
       "date": "2026-08-23T21:10:44-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Finish the WebKit migration in the application, leaving the JavaScript bridge. The txmt link interception moves to the navigation delegate, and the delegate methods that no longer have a counterpart are deleted rather than left compiling against protocols nothing implements. Three behaviours go with them and are recorded where they were: the tm-file to file rewrite, protocol relative URL fixing, and the not-found error page, all of which lived in the resource load delegate, for which WKWebView offers no equivalent because subresource requests cannot be rewritten. Link clicks can still be handled in the navigation delegate; subresources cannot. The status bar's link preview on hover goes the same way. No legacy WebKit symbol remains outside the bridge",
@@ -2294,7 +2305,7 @@
       "date": "2026-08-23T21:06:05-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Move find, selection and view source in HTML output windows off the synchronous DOM. All three reached into the document directly, which is not possible when the content lives in another process. Searching goes through findString:withConfiguration:, whose three options map exactly onto the old ones; selection comes back from window.getSelection through JavaScript; and view source asks the page for its markup, which arrives already decoded and so retires the encoding branches the old code carried. Every caller is a menu action or the find server, none of which needed an answer inline",
@@ -2305,7 +2316,7 @@
       "date": "2026-08-23T21:04:31-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Replace the NSURLProtocol that served command output with a WKURLSchemeHandler. NSURLProtocol properties do not survive the crossing into the content process, so the output pipe and process identifier move from the request to a registry keyed by URL, which OakCommand populates before loading and clears when the command ends. The properties only the application side reads stay on the request. The handler also serves the page's own assets from disk, which is what makes the styling work: a page from a custom scheme cannot load file:// subresources, but can load them through the same scheme. That deletes 73 lines of NSURLProtocol subclass and the registerURLSchemeAsLocal call with it",
@@ -2316,7 +2327,7 @@
       "date": "2026-08-23T20:50:47-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Move the HTML output browser view, its delegates and auto-scroll to WKWebView. The frame-based API is gone: loads, stopping, title and history now go to the web view directly, and the request that was loaded is remembered by the view because WKWebView does not expose it. Progress reporting moves from three notifications to key value observing on estimatedProgress. The three panel callbacks gain completion handlers, since the content process cannot be blocked waiting for a modal answer, and window creation moves to the configuration-based delegate method. Auto-scroll is reimplemented inside the page with a MutationObserver, because the document view it used to observe lives in another process now. The JavaScript bridge is not yet installed: didClearWindowObject has no equivalent and user scripts are the replacement, so TextMate.system is unavailable until that lands",
@@ -2327,7 +2338,7 @@
       "date": "2026-08-23T20:36:17-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Stop the HTML output public interface naming WebView, ahead of replacing it. The header exposed the web view itself, which meant every consumer was coupled to the web engine class even though only three call sites used it, and two of those were one hack: reaching through to the UI delegate to invoke webViewClose:. That is now closeAsIfRequestedByPage, which says what the caller wants rather than how it currently happens, and the focus case is contentView typed as a plain NSView. Nothing outside the HTMLOutput framework names a legacy WebKit class now, apart from registerURLSchemeAsLocal: in OakCommand, which the migration proper replaces",
@@ -2338,7 +2349,7 @@
       "date": "2026-08-23T16:33:18-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'small_cleanups'",
@@ -2349,7 +2360,7 @@
       "date": "2026-08-23T16:32:16-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Tidy three small things the deprecation pass left behind. The last two always-true availability annotations go, both API_AVAILABLE(macos(10.13)) on accessibility rotor methods in OakTextView; an earlier sweep missed them because it searched for macosx(10. while these spell it macos(10. The io framework stops linking Security, which it does not use: not one Sec symbol appears anywhere under Frameworks/io. That turned out to be load bearing by accident, because the authorization framework and PrivilegedTool call AuthorizationCreate and friends and were getting the link transitively through io, so authorization now declares Security itself, which is where it is actually earned. And the Ruby 1.8 -wKU flags become -w in the two Bundle Editor command templates and bin/show_log, so that new commands stop inheriting a shebang that warns",
@@ -2360,7 +2371,7 @@
       "date": "2026-08-23T15:31:45-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'keychain_secitem'",
@@ -2371,7 +2382,7 @@
       "date": "2026-08-23T15:28:29-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Replace the deprecated SecKeychainItem calls in the proxy credential lookup with the SecItem family. The query was already modern; only the second half was not, asking SecItemCopyMatching for opaque handles and then interrogating each one through SecKeychainItemCopyAttributesAndData with a CSSM format descriptor. That descriptor was the tree's only remaining CSSM reference, and it emitted no warning of its own, so a warnings-driven sweep would have left it behind. The lookup now runs in two passes, because kSecReturnData cannot be combined with kSecMatchLimitAll: together they fail with errSecParam, which a first attempt at this got wrong and which returned no credentials at all. Enumerating accounts first and fetching one password at a time also preserves the previous behaviour of moving on when a particular item cannot be read",
@@ -2382,7 +2393,7 @@
       "date": "2026-08-23T15:08:25-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'signature_verification_tests'",
@@ -2393,7 +2404,7 @@
       "date": "2026-08-23T14:59:06-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Add test coverage for download signature verification, which had none. The filter that decides whether a downloaded catalog or software update is authentic was completely untested: Frameworks/network/tests held only t_download.cc, so a change making verification always succeed would have passed every check in the tree. Ten tests now cover the accept path, a corrupted signature, a modified payload, a truncated payload, an unknown signee, a missing signee, a missing signature, an empty payload, and the localhost bypass. Verified by mutation: making receive_end return true unconditionally fails eight of them. Fixtures are a real key pair and real signatures rather than mocks, with the private half deliberately not committed since only the public key is needed to verify",
@@ -2404,7 +2415,7 @@
       "date": "2026-08-23T13:38:12-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Americanize spelling: colour -> color",
@@ -2415,7 +2426,7 @@
       "date": "2026-08-23T00:48:34-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "CHANGELOG: close the gap that split the Removed list",
@@ -2426,7 +2437,7 @@
       "date": "2026-08-23T00:48:19-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "CHANGELOG: record the deprecation pass, eleven API migrations plus the three defects it surfaced",
@@ -2437,7 +2448,7 @@
       "date": "2026-08-23T00:45:09-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'deprecations_all'",
@@ -2448,7 +2459,7 @@
       "date": "2026-08-22T18:16:23-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'uti_icons' into deprecations_all",
@@ -2459,7 +2470,7 @@
       "date": "2026-08-22T18:16:23-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Resolve filename extensions to content types through a helper that handles package types. Replacing iconForFileType: with iconForContentType: needs a UTType, and typeWithFilenameExtension: does not resolve package types such as tmbundle. It synthesises a dynamic type instead, which carries no icon, so the Bundles preference pane lost its icon. The helper falls back to a package lookup whenever the plain one yields an undeclared type, which restores the declared icon without disturbing ordinary extensions. Checked against the old API across all nine of TextMate's own extensions plus rb, md, png and an unrecognised one, and every result matches",
@@ -2470,7 +2481,7 @@
       "date": "2026-08-22T17:53:54-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'pasteboard_types' into deprecations_all",
@@ -2481,7 +2492,7 @@
       "date": "2026-08-22T17:53:54-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Convert dropped URLs back to paths before handing them to dropFiles:. Moving the editor read side to readObjectsForClasses: changed the element type from NSString to NSURL, but dropFiles: and everything below it works in paths, and its parameter was an untyped NSArray so nothing caught the mismatch. At runtime to_s(NSString*) casts straight to CFStringRef and calls CFStringGetLength on it, which for an NSURL is undefined rather than a crash, so dragging a file into the editor silently did nothing instead of failing loudly. The parameter is now typed NSArray<NSString*>* so the same mistake cannot be made quietly again",
@@ -2492,7 +2503,7 @@
       "date": "2026-08-22T13:07:11-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'small_singles' into deprecations_all",
@@ -2503,7 +2514,7 @@
       "date": "2026-08-22T13:07:11-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'launch_services' into deprecations_all",
@@ -2514,7 +2525,7 @@
       "date": "2026-08-22T13:07:11-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'secure_coding' into deprecations_all",
@@ -2525,7 +2536,7 @@
       "date": "2026-08-22T13:07:11-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'commit_editing' into deprecations_all",
@@ -2536,7 +2547,7 @@
       "date": "2026-08-22T13:07:11-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'onigmo_6_2_0' into deprecations_all",
@@ -2547,7 +2558,7 @@
       "date": "2026-08-22T13:07:11-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'workspace_launch' into deprecations_all",
@@ -2558,7 +2569,7 @@
       "date": "2026-08-22T13:07:10-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'vfork_to_posix_spawn' into deprecations_all",
@@ -2569,7 +2580,7 @@
       "date": "2026-08-22T13:07:10-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'vla_and_unused' into deprecations_all",
@@ -2580,7 +2591,7 @@
       "date": "2026-08-22T13:07:10-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'user_notifications' into deprecations_all",
@@ -2591,7 +2602,7 @@
       "date": "2026-08-22T13:07:10-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'pasteboard_types' into deprecations_all",
@@ -2602,7 +2613,7 @@
       "date": "2026-08-22T13:07:10-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'uti_icons' into deprecations_all",
@@ -2613,7 +2624,7 @@
       "date": "2026-08-22T13:07:10-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Merge branch 'fsevents_dispatch_queue' into deprecations_all",
@@ -2624,7 +2635,7 @@
       "date": "2026-08-22T02:41:56-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Ask for a banner rather than an alert when a crash report notification arrives while TextMate is frontmost. UNNotificationPresentationOptionAlert was deprecated in favour of UNNotificationPresentationOptionBanner, which is the name macOS has used for that presentation style since notification alerts and banners stopped being separate things",
@@ -2635,7 +2646,7 @@
       "date": "2026-08-22T02:38:18-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Delete the unreferenced resource.cc and resource.h from the io framework. Nothing in the application, the frameworks, the plug-ins or the tests includes resource.h or calls either function it declared. is_text_clipping asked LaunchServices for an HFS type code, which only ever mattered for files carrying a classic Mac file type and no extension, and its caller already answered the same question from the extension. path::resource read a Carbon resource fork through FSOpenResFile and Get1Resource, wrapped in a pragma that suppressed the deprecation warnings rather than facing them. Removing the file clears three LaunchServices warnings and retires the last Carbon Resource Manager use in one step. The fourth LaunchServices warning, LSOpenURLsWithRole in path.cc, is left alone and written up: the only supported replacement is on NSWorkspace, which this C++ translation unit cannot call without a shim, and the button it serves links to a 2011 radar on a service that no longer exists",
@@ -2646,7 +2657,7 @@
       "date": "2026-08-22T02:36:39-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Silence the commitEditing deprecation by declaring the method where it is implemented. The punch list recorded this as a call that needed replacing, which was wrong: commitEditing was not removed, it moved from a deprecated informal category on NSObject in NSKeyValueBinding.h onto the formal NSEditor protocol. Every warning came from a receiver whose own interface never declared the method, so the compiler resolved the call against the old category. Declaring it in the two class extensions that implement it clears all eight. Adopting NSEditor outright looked tempting and also silences them, but it would be a promise neither class can keep, because the protocol requires discardEditing, commitEditingWithDelegate:didCommitSelector:contextInfo: and commitEditingAndReturnError: as well, and neither implements any of the three",
@@ -2657,7 +2668,7 @@
       "date": "2026-08-22T02:33:47-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Replace the deprecated NSKeyedArchiver and NSKeyedUnarchiver initialisers in the file browser with their modern forms, and report a read failure instead of silently ignoring it. Secure coding is deliberately left off. Turning it on is not a flag flip: restoreStateWithCoder: decodes every value with decodeObjectForKey:, which throws under secure coding because it names no expected classes, and the superclass also writes into this archive, so its contents would have to cooperate too. Nothing in the suite exercises state restoration, and a throw here would quietly lose file browser history and expansion rather than fail visibly, so adopting it properly wants the running app",
@@ -2668,7 +2679,7 @@
       "date": "2026-08-22T02:32:09-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Replace mktemp with mkstemp, and give the one caller that wanted a directory an mkdtemp of its own. mktemp only reserves a name, so any other process can claim the path in the window before the caller opens it. The file callers all open the result with O_CREAT and O_TRUNC rather than O_EXCL, so finding the file already created changes nothing for them. The test jail was the exception: it called the same function and then made a directory at the returned path, which stops working the moment something real is sitting there. It now goes through a new path::temp_dir that names and creates the directory in one atomic step, which closes the same race on that side. The hanging io_test found this, not the compiler. Also swaps alternateSelectedControlColor for selectedContentBackgroundColor, and the deprecated NSAccessibilityException name for NSRangeException, which is what the throw site actually describes",
@@ -2679,7 +2690,7 @@
       "date": "2026-08-22T02:07:47-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Update the vendored Onigmo from 5.15.0 to 6.2.0. The fork carried no local commits, so this is a clean fast forward of 585 upstream commits rather than a merge, but Onigmo 6 is not a drop in replacement. It renamed the umbrella header from oniguruma.h to onigmo.h, spelled out the encoding source file names, and moved the generated Unicode tables into a directory it expects on the include path. It also decides the width of st_data_t by comparing SIZEOF_LONG and SIZEOF_LONG_LONG against SIZEOF_VOIDP, and an undefined macro reads as zero, so the hand maintained config.h had to learn the two sizes it never previously needed. This drops the deprecated-non-prototype warnings from 37 to 8, all 8 now in a single vendored hash table implementation. IMPORTANT: the submodule now points at a commit that exists only in the local clone, fetched from k-takata/Onigmo. A recursive clone of this branch will fail until textmate3/Onigmo is pushed forward to 6.2.0",
@@ -2690,7 +2701,7 @@
       "date": "2026-08-22T02:02:58-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Replace the deprecated NSWorkspace launch calls with the NSWorkspaceOpenConfiguration family. The launch option bit mask becomes properties on a configuration object, so NSWorkspaceLaunchWithoutActivation is now activates set to NO and NSWorkspaceLaunchWithoutAddingToRecents is addsToRecentItems set to NO. The Open With menu loses its AppleScript detour entirely: it built an odoc Apple event by hand purely because, as its own comment said, the old URL based call could not open more than one document at a time, and openURLs:withApplicationAtURL: does exactly that. The mate tool wraps the new call in a semaphore, because the replacement reports through a completion handler on a background queue while the tool goes straight on to talk to the application over its socket",
@@ -2701,7 +2712,7 @@
       "date": "2026-08-22T02:01:41-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Replace vfork with posix_spawn in the four sites that are actually compiled. vfork borrows the parent address space, so the child may legally do almost nothing before exec, and every one of these children broke that rule. posix_spawn expresses the same setup declaratively: POSIX_SPAWN_CLOEXEC_DEFAULT replaces the loop that closed every inherited descriptor, POSIX_SPAWN_SETSIGDEF with an explicit signal set replaces resetting four handlers by hand, and a process group of zero replaces setpgid(0, getpid()). The one place the translation is not exact is the working directory: the forked child ignored a chdir failure, while posix_spawn fails the whole spawn when a file action fails, so the directory change is now requested only when the directory exists. The test suite caught that difference. Exec failure also stops travelling back as a child exit code, since posix_spawn returns the error to the caller directly. OakDebug has a fifth vfork, left alone because no target compiles that framework",
@@ -2712,7 +2723,7 @@
       "date": "2026-08-22T01:58:18-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Replace every variable length array with a std::vector or a std::string, and remove the two variables that were set but never read. Variable length arrays are a C99 feature that C++ never adopted, so Clang accepts them only as an extension. The ranker keeps its two dimensional matrix[i][j] indexing through a vector of row pointers, which leaves the dozen index sites in the matching walk untouched, at the cost of moving the matrix off the stack. In the privileged tool the unread variable held the return values of bind and listen, checked only by assert, which the release build compiles away. Those are now checked explicitly and the helper exits with a diagnostic if either fails, so a socket that cannot listen no longer looks like a working one",
@@ -2723,7 +2734,7 @@
       "date": "2026-08-22T01:52:18-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Remove the last of the NSUserNotification code from the crash reporter. The delivery path already went through UNUserNotificationCenter, but the class still declared NSUserNotificationCenterDelegate and kept both of its methods, plus an applicationDidFinishLaunching: hook whose only job was forwarding NSApplicationLaunchUserNotificationKey to one of them. UNUserNotificationCenter delivers a launch-time notification click through didReceiveNotificationResponse: instead, so the hook had nothing left to do. Its removal does not delay delegate registration, because the very next line of the application delegate still touches the shared instance. The two API_AVAILABLE(macosx(10.14)) annotations go too, since the deployment target is now well above them",
@@ -2734,7 +2745,7 @@
       "date": "2026-08-22T01:50:59-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Replace the deprecated pasteboard type constants with their UniformTypeIdentifiers-era replacements. NSFilenamesPboardType becomes NSPasteboardTypeFileURL, NSURLPboardType becomes NSPasteboardTypeURL, NSColorPboardType becomes NSPasteboardTypeColor, kUTTypeURL becomes UTTypeURL.identifier, and the NSGeneralPboard and NSFindPboard names become NSPasteboardNameGeneral and NSPasteboardNameFind. The two constants carry different semantics: NSFilenamesPboardType is a single property list item holding an array of path strings, while NSPasteboardTypeFileURL is one item per file, so every read site moves from propertyListForType: to readObjectsForClasses: with NSPasteboardURLReadingFileURLsOnlyKey and works in NSURL rather than NSString. The write side already used writeObjects: with NSURL, so dragging out of the file browser was already publishing the modern type",
@@ -2745,7 +2756,7 @@
       "date": "2026-08-22T01:46:04-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Replace the deprecated iconForFileType: with iconForContentType: across all eleven call sites. HFS type codes map to UniformTypeIdentifiers constants: kUnknownFSObjectIcon to UTTypeItem, kGenericFolderIcon to UTTypeFolder, kGenericDocumentIcon to UTTypeContent. Filename extension lookups go through UTType typeWithFilenameExtension: and fall back to UTTypeItem, since that returns nil for an unrecognised extension and iconForContentType: takes a nonnull argument. The six framework targets that use it now declare the UniformTypeIdentifiers framework, which propagates to the app and QuickLook generator at link time",
@@ -2756,7 +2767,7 @@
       "date": "2026-08-22T01:32:29-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "CHANGELOG: record the FSEvents move to dispatch queues",
@@ -2767,7 +2778,7 @@
       "date": "2026-08-22T01:31:35-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Move FSEvents streams from run loop scheduling to dispatch queues, replacing the deprecated FSEventStreamScheduleWithRunLoop at all three sites. Callbacks go to the main queue rather than a background one, which preserves existing threading exactly: scm's schedule_update reads CFRunLoopGetCurrent to hop back to and mutates shared state without locking, and the main run loop drains the main queue, so delivery timing is unchanged. The two FSEventStreamFlushSync calls are removed because a synchronous flush cannot be serviced by the queue that is blocked calling it, which would deadlock. Nothing depended on that synchrony: streams start from kFSEventStreamEventIdSinceNow or signal replay completion asynchronously through kFSEventStreamEventFlagHistoryDone. Verified by io_test, whose four watcher tests make real filesystem changes and fail on a five second timeout if callbacks stop arriving",
@@ -2778,7 +2789,7 @@
       "date": "2026-08-21T23:41:39-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "CHANGELOG: record the preferences window defaults key rename and its one-time effect on upgrading users",
@@ -2789,7 +2800,7 @@
       "date": "2026-08-21T23:39:48-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Rename the preferences window defaults keys off the MASPreferences name, which implied a dependency the app dropped years ago when the window was reimplemented natively. They now follow the codebase convention as preferencesWindowFrameTopLeft and preferencesSelectedPane. An upgrading user opens the preferences window once at its default position on the first pane, because both reads fall back cleanly when the key is absent and both values rewrite on the next window move or pane change",
@@ -2800,7 +2811,7 @@
       "date": "2026-08-21T14:17:57-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Point the remaining four submodules at the textmate3 repos — cxxtest, document-icons, Onigmo, and kvdb all already carry the exact pinned commits on their main branches, so this is a clean swap that removes the last dependency on upstream availability",
@@ -2811,21 +2822,10 @@
       "date": "2026-08-21T14:06:20-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Point the two dialog submodules at the textmate3 forks — main references commits that exist only in our forks (the C++23 fixes), so a fresh clone against the upstream URLs could not fetch them. The other four submodules still reference upstream commits and resolve either way; re-pointing them is a separate consistency decision",
-      "body": ""
-    },
-    {
-      "hash": "1be44fbac875396edf7dba9461398ab95d83083b",
-      "date": "2026-08-21T02:25:15-07:00",
-      "author": {
-        "name": "Shane Becker",
-        "login": "veganstraightedge",
-        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
-      },
-      "summary": "script/run: warn when the catalog server is not listening on localhost:3000 — local builds point REST_API there, and a missing server makes bundle installs and update checks fail quietly, which has cost debugging time; the check is a quarter-second TCP probe and never blocks the launch",
       "body": ""
     },
     {
@@ -2833,7 +2833,7 @@
       "date": "2026-08-21T14:03:05-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Remove three .DS_Store files that a git add . swept into the variant migration commit, ignore them going forward, and drop the stale revoked_serials.cc ignore left over from the deleted license framework",
@@ -2844,7 +2844,7 @@
       "date": "2026-08-21T13:31:14-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "configure: stop requiring boost/variant.hpp and sparsehash headers (both no longer used), and delete the Travis configuration — travis-ci.org shut down in 2021 and the file still targeted xcode7.2",
@@ -2855,7 +2855,7 @@
       "date": "2026-08-21T13:23:08-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "development.md: add the sweep-by-complement principle with the full inventory of where code lives in this repository — an extension-filtered sweep missed the Ragel source during the variant migration, caught only because C++ fails loudly",
@@ -2866,7 +2866,7 @@
       "date": "2026-08-21T13:20:35-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "delta: delete the orphaned file-local equal helper — the migration's qualification redirected its only caller to plist::equal, which implements the same deep strict-type equality (mismatched alternatives unequal, scalars by operator==, containers element-wise); the local visitor was a duplicate of that relation and is now dead. Delta tests pass",
@@ -2877,7 +2877,7 @@
       "date": "2026-08-21T02:32:31-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "NSBackgroundStyleDark -> NSBackgroundStyleEmphasized (5 sites) — renamed in macOS 10.14, same raw value, deprecation-clean",
@@ -2888,7 +2888,7 @@
       "date": "2026-08-21T02:31:30-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Flatten the 30 always-true availability guards — every @available check in the tree targeted macOS 11 or lower, all below the new 13.0 floor. Dead else-branches deleted with them: the pre-10.14 label/checkbox construction paths, the light-mode-only tooltip and I-beam cursor fallbacks, the hand-rolled relative date formatter, the NSUserNotification crash report path, the NSTask exception-based launch, the pre-10.13 tab-switching key fallbacks in the main menu (and their now-unused performWindowMenuAction helper), and the bundle editor's pre-Big-Sur browser clip view workaround",
@@ -2899,10 +2899,21 @@
       "date": "2026-08-21T02:25:44-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "CHANGELOG: record the sparsehash removal and the legacy Objective-C flag cleanup",
+      "body": ""
+    },
+    {
+      "hash": "1be44fbac875396edf7dba9461398ab95d83083b",
+      "date": "2026-08-21T02:25:15-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "script/run: warn when the catalog server is not listening on localhost:3000 — local builds point REST_API there, and a missing server makes bundle installs and update checks fail quietly, which has cost debugging time; the check is a quarter-second TCP probe and never blocks the launch",
       "body": ""
     },
     {
@@ -2910,7 +2921,7 @@
       "date": "2026-08-21T02:22:43-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Fix the four straggler warnings: an unused binding in Favorites (which also fixes trash-by-link to actually use the bound link), an unused row binding in OakPasteboard, and two variable-length arrays (RMateServer's accept scratch buffer becomes a fixed-size array, the dialog plugin's index buffer becomes std::vector)",
@@ -2921,7 +2932,7 @@
       "date": "2026-08-21T02:21:49-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Drop the legacy Objective-C flags -fobjc-abi-version=3 and -fobjc-call-cxx-cdtors — both describe behavior modern clang defaults to; full rebuild clean",
@@ -2932,7 +2943,7 @@
       "date": "2026-08-21T02:21:15-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Replace sparsehash with std::unordered_map — the theme style cache was the sole user, scope_t already has a std::hash specialization, and the sentinel set_empty_key call goes away; sparsehash leaves the precompiled header, the README dependency lists, and the build prerequisites entirely",
@@ -2943,7 +2954,7 @@
       "date": "2026-08-21T02:19:33-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "CHANGELOG: record the boost::variant to std::variant migration",
@@ -2954,7 +2965,7 @@
       "date": "2026-08-21T02:19:12-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Complete the variant migration: parser::node_t moves from boost::variant with recursive_wrapper to a struct deriving std::variant, defined in parser.h after its alternatives are complete since std::variant cannot hold incomplete types; parser and format_string visitors move to std::visit and parser::get_if/get_ref. The transitional boost::to_s shim and the boost/variant.hpp precompiled header include are gone. Full build clean; all sixteen framework test suites pass",
@@ -2965,7 +2976,7 @@
       "date": "2026-08-21T02:16:08-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Migrate every plist consumer from boost::get to plist::get_if and plist::get_ref, and the remaining visitors (BundleEditor's template expander, ns's Core Foundation converter) to std::visit — bundles, editor, settings, theme, layout, selection, document, parse, command, and plist framework suites all pass",
@@ -2976,7 +2987,7 @@
       "date": "2026-08-21T02:13:08-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "plist: migrate any_t from boost::make_recursive_variant to a struct deriving std::variant — arrays and dictionaries contain the incomplete any_t (vector is standard-blessed since C++17, map relies on libc++, acceptable macOS-only), C++23 P2162 makes std::visit work on the derived type, and get_if/get_ref helpers stand in for boost::get since std::get does not extend to derived types. to_s moves from the boost namespace (an old argument-dependent-lookup hack) to plist, with a transitional forwarding shim. Visitors lose their static_visitor bases. plist framework tests pass",
@@ -2987,7 +2998,7 @@
       "date": "2026-08-21T01:58:02-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "CHANGELOG: record the deployment target bump, C++23, the Gestalt replacement, the iterator modernization, and the selection_t fallback fix",
@@ -2998,7 +3009,7 @@
       "date": "2026-08-21T01:57:24-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Raise the C++ standard from c++2a to c++23 — full build clean, text/buffer/editor framework suites pass; includes the dialog-1.x submodule fix for a NULL returned as std::string",
@@ -3009,7 +3020,7 @@
       "date": "2026-08-21T01:57:24-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "selection_t: construct the empty-selection fallback range from pos_t() instead of the literal 0 — range_t(0) resolved through std::string((char*)0), undefined behavior whenever a selection string parsed to nothing; C++23 deletes that constructor and turned the latent crash into a compile error. Verified by the text framework test suite",
@@ -3020,7 +3031,7 @@
       "date": "2026-08-21T01:54:50-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Replace std::iterator inheritance with explicit member typedefs in the six custom iterators (basic_tree, indexed_map, buffer storage, utf8, diacritics, tokenize) — std::iterator was deprecated in C++17 and each template instantiation warned in every including translation unit, drowning real warnings: 526 -> 112 for a full build. Verified by the buffer and text framework test suites",
@@ -3031,7 +3042,7 @@
       "date": "2026-08-21T01:52:11-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Drop the libkern/OSAtomic.h import from the precompiled header — deprecated and nothing uses it",
@@ -3042,7 +3053,7 @@
       "date": "2026-08-21T01:52:11-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Replace Gestalt with sysctl kern.osproductversion for the macOS version — Gestalt was deprecated in 10.8 and capped its answers at 10.9-era values, so the attr.os-version scope attributes and the software update user agent have reported fiction for a decade; execute_with_privileges stays behind its pragma until the authorization framework migrates to an XPC helper",
@@ -3053,7 +3064,7 @@
       "date": "2026-08-21T01:50:47-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Raise the minimum deployment target from macOS 10.12 to macOS 13. The build completes with zero failures; the newly visible deprecation warnings (NSKeyedArchiver legacy API, NSWorkspace launchApplicationAtURL, LSItemInfoRecord, and friends) are the compiler-enumerated migration worklist",
@@ -3064,21 +3075,10 @@
       "date": "2026-08-21T01:48:54-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Delete the license manager, SyntaxMate, and NewApplication. The license framework (key validation, trial logic, Keychain storage), the About window's Registration tab and page, and the addLicense JavaScript bridge plumbing go together: TextMate has been free for years (verified: no LicenseManager symbols in the built binary). SyntaxMate was an unshipped XPC syntax service unreferenced by the build, removed with its bundle submodule. NewApplication was a never-shipped template skeleton",
-      "body": ""
-    },
-    {
-      "hash": "d2b9c21f25cede8c071f023b4073d063e3ee3e19",
-      "date": "2026-08-20T15:26:44-07:00",
-      "author": {
-        "name": "Shane Becker",
-        "login": "veganstraightedge",
-        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
-      },
-      "summary": "Delete the AddressBook lookup: Bundle Editor no longer reads the me-card email via deprecated AddressBook.framework; drops the Contacts permission prompt on first launch (framework link, precompiled-header import, NSContactsUsageDescription, and the TM_ROT13_EMAIL template field all removed)",
       "body": ""
     },
     {
@@ -3086,7 +3086,7 @@
       "date": "2026-08-21T00:58:07-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "CHANGELOG: the allowFileAccessFromFileURLs change did not resolve the unstyled HTML output windows — reclassify as a known issue with the investigation trail (watch the unified log for 'Not allowed to load local resource', enable developerExtrasEnabled on the output view)",
@@ -3097,10 +3097,21 @@
       "date": "2026-08-21T00:50:43-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "HTML output: allow local-origin pages to load file:// subresources — modern WebKit defaults allowFileAccessFromFileURLs to NO, so command output (served from the registered-as-local x-txmt-filehandle scheme) could not load its theme style sheets, scripts, or header images and rendered as bare HTML; opt in via the private WebPreferences setter, guarded by respondsToSelector",
+      "body": ""
+    },
+    {
+      "hash": "d2b9c21f25cede8c071f023b4073d063e3ee3e19",
+      "date": "2026-08-20T15:26:44-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Delete the AddressBook lookup: Bundle Editor no longer reads the me-card email via deprecated AddressBook.framework; drops the Contacts permission prompt on first launch (framework link, precompiled-header import, NSContactsUsageDescription, and the TM_ROT13_EMAIL template field all removed)",
       "body": ""
     },
     {
@@ -3108,7 +3119,7 @@
       "date": "2026-06-02T01:50:51-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "README: list Ruby 4.0+ as a build requirement (transitional; expected to change as distribution decisions land)",
@@ -3119,7 +3130,7 @@
       "date": "2026-06-01T17:20:11-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "GUI bundle install: immediate fetch on launch + localhost signature bypass in OakDownloadManager",
@@ -3130,7 +3141,7 @@
       "date": "2026-06-01T11:04:46-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "CHANGELOG: record api.textmate3.com server and localhost signature-bypass",
@@ -3141,7 +3152,7 @@
       "date": "2026-06-01T11:02:30-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "signature check: skip when downloading from localhost (dev loop against api.textmate3.com)",
@@ -3152,7 +3163,7 @@
       "date": "2026-06-01T09:57:50-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "CHANGELOG: record ruby18/ruby20 shebang sweep + shim binary deletion",
@@ -3163,7 +3174,7 @@
       "date": "2026-05-31T23:43:58-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "BundleEditor templates + bundled Avian.tmbundle: ruby18 shebangs -> ruby",
@@ -3174,7 +3185,7 @@
       "date": "2026-05-28T19:40:09-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Edit Engineering principles doc/dev.md",
@@ -3185,7 +3196,7 @@
       "date": "2026-05-13T17:45:45-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "doc/development.md: add 'Don't use abbreviations' principle and fix existing violations (deps->dependencies, compat->compatibility, regex->regular expression)",
@@ -3196,7 +3207,7 @@
       "date": "2026-05-13T17:39:10-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "doc/development.md: seed engineering principles (don't be clever, root cause not symptom, verify own work, match the platform, …)",
@@ -3207,7 +3218,7 @@
       "date": "2026-05-13T17:32:25-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "CHANGELOG: correct the helper-entitlements entry (separate file, not the app's)",
@@ -3218,7 +3229,7 @@
       "date": "2026-05-13T17:32:07-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "codesign: switch helpers to dedicated HelperEntitlements.plist (no ${CS_GET_TASK_ALLOW} template; codesign reads file directly without rave expand step)",
@@ -3229,7 +3240,7 @@
       "date": "2026-05-13T17:16:58-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "codesign: helper binaries inherit TextMate.app entitlements (mate, tm_query, PrivilegedTool, TextMateQL) - fixes macOS 26 Library Validation rejecting brew-signed libcapnp",
@@ -3240,7 +3251,7 @@
       "date": "2026-05-13T16:59:24-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "CHANGELOG.md: seed with Keep-a-Changelog format; record Ruby modernization, plist swap, deleted dead code, build/log scripts",
@@ -3251,7 +3262,7 @@
       "date": "2026-05-13T16:21:27-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "script/build, script/run, script/log: STRTA wrappers around ninja + unified log stream",
@@ -3262,7 +3273,7 @@
       "date": "2026-05-13T01:23:21-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Skip command test_html_error too (intermittent subprocess hang)",
@@ -3273,7 +3284,7 @@
       "date": "2026-05-12T22:47:02-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Full test sweep green: --no-parallel, conditional .mm runner, skip html race",
@@ -3284,7 +3295,7 @@
       "date": "2026-05-12T21:53:01-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Skip live-spelling tests; emit test_runner.mm for Obj-C++ tests",
@@ -3295,7 +3306,7 @@
       "date": "2026-05-12T20:56:17-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Fix command runner bundleId nil + remaining file test failures",
@@ -3306,7 +3317,7 @@
       "date": "2026-05-12T20:22:55-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Fix cf t_rect: handle no-x case with CGRectZero",
@@ -3317,7 +3328,7 @@
       "date": "2026-05-12T19:16:45-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Fix scm t_git: default branch is now main, not master",
@@ -3328,7 +3339,7 @@
       "date": "2026-05-12T19:00:34-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Fix io t_attributes: ignore com.apple.provenance xattr",
@@ -3339,7 +3350,7 @@
       "date": "2026-05-12T18:53:00-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Fix network test: drop xattr headers from test web server",
@@ -3350,7 +3361,7 @@
       "date": "2026-05-12T18:32:19-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Add settings_t::set_cascade_root_path for hermetic tests",
@@ -3361,7 +3372,7 @@
       "date": "2026-05-12T17:26:03-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Add script/test (STRTA)",
@@ -3372,7 +3383,7 @@
       "date": "2026-05-12T14:34:21-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Wire CxxTest test runners into rave/ninja",
@@ -3383,7 +3394,7 @@
       "date": "2026-05-12T04:48:07-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Simplify contributions.md credis page, for now",
@@ -3394,7 +3405,7 @@
       "date": "2026-05-12T04:39:37-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Ruby 3 replaced Kernel#open's '|cmd' with IO.popen",
@@ -3405,7 +3416,7 @@
       "date": "2026-05-12T04:34:53-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "Fix ERB args in docs site gen Ruby scripts",
@@ -3416,7 +3427,7 @@
       "date": "2026-05-12T04:31:58-07:00",
       "author": {
         "name": "Shane Becker",
-        "login": "veganstraightedge",
+        "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
       "summary": "In build scripts, use user's Ruby, not system Ruby",

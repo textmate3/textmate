@@ -6,7 +6,7 @@
       "date": "2018-12-25T16:45:18+01:00",
       "author": {
         "name": "Boris Dušek",
-        "login": "dusek",
+        "username": "dusek",
         "avatar_url": "https://avatars.githubusercontent.com/u/41975?v=4"
       },
       "summary": "Implement \"Symbols\" accessibility rotor",
@@ -17,7 +17,7 @@
       "date": "2018-12-07T12:50:33+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Convenience constructor for labels appear to not use controlTextColor",
@@ -28,7 +28,7 @@
       "date": "2018-12-06T11:58:16-05:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Update link for Oniguruma official site",
@@ -39,7 +39,7 @@
       "date": "2018-12-06T11:56:15-05:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Remove legal notice for XcodeEditor",
@@ -50,7 +50,7 @@
       "date": "2018-12-06T22:06:10+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Checkin release notes for 2.0-rc.22",
@@ -61,7 +61,7 @@
       "date": "2018-12-06T21:58:38+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Associate search results with the current find delegate",
@@ -72,10 +72,21 @@
       "date": "2018-12-06T21:53:28+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Introduce find dialog delegate instead of using project identifier",
+      "body": ""
+    },
+    {
+      "hash": "85a11ba0bfe46bee4287ae33a14fd5e11c65f627",
+      "date": "2018-12-05T12:09:16-05:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Check whether or not indexOfObject: returns NSNotFound",
       "body": ""
     },
     {
@@ -83,29 +94,18 @@
       "date": "2018-12-05T21:48:05+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not set NSBackgroundStyleRaised for controls and text in status bars",
       "body": "It appears to be ignored on 10.14 but earlier versions of macOS rendered the elements with a shadow, which is probably not a good fit for our current design."
     },
     {
-      "hash": "85a11ba0bfe46bee4287ae33a14fd5e11c65f627",
-      "date": "2018-12-05T12:09:16-05:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "Check whether or not indexOfObject: returns NSNotFound",
-      "body": ""
-    },
-    {
       "hash": "a6e6437262522d6d2097a4e7b396069b19dfe024",
       "date": "2018-12-05T21:16:25+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Set ‘accessibilityElement’ on NSControl’s cell object",
@@ -116,7 +116,7 @@
       "date": "2018-12-05T12:00:04+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use fontAttributesInRange: instead of attributesAtIndex:effectiveRange:",
@@ -127,29 +127,18 @@
       "date": "2018-12-05T11:58:12+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not request attributes for an empty NSAttributedString",
       "body": "This would throw an “out of bounds” exception."
     },
     {
-      "hash": "ca80254b80da6b4c7bccd4179fdd11ed9b46e825",
-      "date": "2018-11-22T15:18:36-05:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "Refactor finder tags to use catalog colors",
-      "body": "Also, reworked the OFBFinderTagsChooser to have a similar look as on 10.14."
-    },
-    {
       "hash": "fab38c6defadd02eca5dcbf43984e57ad3f5a03f",
       "date": "2018-12-04T12:34:19+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Check whether or not indexOfObject: returns NSNotFound",
@@ -160,7 +149,7 @@
       "date": "2018-12-04T12:19:48+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Set wantsLayer to YES for all NSVisualEffectView subclasses",
@@ -171,29 +160,18 @@
       "date": "2018-12-02T19:46:47+01:00",
       "author": {
         "name": "Boris Dušek",
-        "login": "dusek",
+        "username": "dusek",
         "avatar_url": "https://avatars.githubusercontent.com/u/41975?v=4"
       },
       "summary": "Use new convenience accessibility APIs in OakTextView.mm",
       "body": ""
     },
     {
-      "hash": "9ad976a4c04328ba7e0aacba0fb37da79b507df4",
-      "date": "2018-12-01T14:06:29+01:00",
-      "author": {
-        "name": "Boris Dušek",
-        "login": "dusek",
-        "avatar_url": "https://avatars.githubusercontent.com/u/41975?v=4"
-      },
-      "summary": "Migrate OakTextView to new Accessibility API",
-      "body": "macOS 10.10 SDK introduced new protocol-based accessibility APIs. The\nold accessibility APIs are now deprecated. These APIs require a\nminimum deployment target of 10.10, which is fulfilled since TextMate\n2.0 rc 12.\n\nMain changes connected with this new API is that it is statically\ntyped, so it is no longer necessary to convert parameters from (and\nresults to) NSValue objects.\n\nStill some of the weakly-typed original APIs are not deprecated and\nhave no alternative in the new API, notably e.g. the\naccessibilityArray* methods, so they are kept."
-    },
-    {
       "hash": "dd77fcd6e1d2eb925f5008c9fa90caabe9aec576",
       "date": "2018-12-02T23:30:07+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add one line of margin below tab views",
@@ -204,7 +182,7 @@
       "date": "2018-12-02T23:16:17+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Only skip updating to new layout when reloadData results in same layout",
@@ -215,7 +193,7 @@
       "date": "2018-12-02T23:15:13+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Hide left border of first tab by placing it at X position -1",
@@ -226,29 +204,51 @@
       "date": "2018-12-02T18:24:17+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Checkin release notes for 2.0-rc.20",
       "body": ""
     },
     {
+      "hash": "9ad976a4c04328ba7e0aacba0fb37da79b507df4",
+      "date": "2018-12-01T14:06:29+01:00",
+      "author": {
+        "name": "Boris Dušek",
+        "username": "dusek",
+        "avatar_url": "https://avatars.githubusercontent.com/u/41975?v=4"
+      },
+      "summary": "Migrate OakTextView to new Accessibility API",
+      "body": "macOS 10.10 SDK introduced new protocol-based accessibility APIs. The\nold accessibility APIs are now deprecated. These APIs require a\nminimum deployment target of 10.10, which is fulfilled since TextMate\n2.0 rc 12.\n\nMain changes connected with this new API is that it is statically\ntyped, so it is no longer necessary to convert parameters from (and\nresults to) NSValue objects.\n\nStill some of the weakly-typed original APIs are not deprecated and\nhave no alternative in the new API, notably e.g. the\naccessibilityArray* methods, so they are kept."
+    },
+    {
       "hash": "dff0b6ed54fd72eedbbfc5713cbb6653d4d45dd2",
       "date": "2018-11-23T16:34:27+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Always allow vertical scroll elasticity in text view",
       "body": ""
     },
     {
+      "hash": "ca80254b80da6b4c7bccd4179fdd11ed9b46e825",
+      "date": "2018-11-22T15:18:36-05:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Refactor finder tags to use catalog colors",
+      "body": "Also, reworked the OFBFinderTagsChooser to have a similar look as on 10.14."
+    },
+    {
       "hash": "b08801ac332f96befafda471e3aa3a257d0ea5f0",
       "date": "2018-11-22T23:02:06+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update the “NewApplication” template",
@@ -259,7 +259,7 @@
       "date": "2018-11-22T22:35:45+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "New tool tip material was accidentally disabled in a previous commit",
@@ -270,7 +270,7 @@
       "date": "2018-11-22T22:32:15+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Make private function ‘static’",
@@ -281,43 +281,10 @@
       "date": "2018-11-22T22:28:58+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove unnecessary import",
-      "body": ""
-    },
-    {
-      "hash": "7030b0041e4903129b1ebb08e674d2fd0ae26cc2",
-      "date": "2018-11-19T09:34:03+07:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Update documents array and selected document inside animation group",
-      "body": ""
-    },
-    {
-      "hash": "f92a50b59a947c0ac099dc7d9be0b8ddcfb5ab82",
-      "date": "2018-11-18T14:38:23+07:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Remove unused tab bar graphics",
-      "body": ""
-    },
-    {
-      "hash": "f2d38e4e0fb6c44c401c9391c7c3bfe2c37bd6fb",
-      "date": "2018-11-18T14:35:59+07:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Update OakTabBarView to use title bar material for active tab",
       "body": ""
     },
     {
@@ -325,7 +292,7 @@
       "date": "2018-11-22T16:22:44+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Support font style changes in OakSyntaxFormatter",
@@ -336,7 +303,7 @@
       "date": "2018-11-22T16:20:59+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let OakSyntaxFormatter use OakTheme",
@@ -347,7 +314,7 @@
       "date": "2018-11-22T16:18:52+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add OakTheme: An Objective-C version of theme_t",
@@ -358,7 +325,7 @@
       "date": "2018-11-22T16:05:44+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add UUID for the macOS System Theme",
@@ -369,7 +336,7 @@
       "date": "2018-11-22T15:56:23+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not include themes in the View menu when hideFromUser is true",
@@ -380,7 +347,7 @@
       "date": "2018-11-22T15:55:16+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add URL escaping for the path component of SCM URLs",
@@ -391,7 +358,7 @@
       "date": "2018-11-21T15:37:03+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use NSPasteboard’s writeObjects: when copying items from file browser",
@@ -402,7 +369,7 @@
       "date": "2018-11-21T15:26:14+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use NSPasteboard’s writeObjects: when copying find in folder results",
@@ -413,7 +380,7 @@
       "date": "2018-11-21T15:00:50+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Move outlineView:writeItems:toPasteboard: to view controller",
@@ -424,7 +391,7 @@
       "date": "2018-11-21T14:50:30+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Implement outlineView:pasteboardWriterForItem: for file browser dragging",
@@ -435,7 +402,7 @@
       "date": "2018-11-21T14:32:44+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use NSPasteboard’s writeObjects: for file browser’s service menu support",
@@ -446,7 +413,7 @@
       "date": "2018-11-20T22:20:35+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "The gear shown for action pop-up buttons was clipped on 10.14",
@@ -457,7 +424,7 @@
       "date": "2018-11-19T14:36:01+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rename a few menu items",
@@ -468,7 +435,7 @@
       "date": "2018-11-19T14:10:54+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Opening the Set Wrap Margin dialog would not have focus in text field",
@@ -479,7 +446,7 @@
       "date": "2018-11-19T12:10:18+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use tertiaryLabelColor for disabled bundle items in bundle editor",
@@ -490,7 +457,7 @@
       "date": "2018-11-19T11:41:09+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not call SCM status callbacks when status changes from unknown → none",
@@ -501,7 +468,7 @@
       "date": "2018-11-19T11:36:29+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Reset SCM status when changing OakTextView’s document",
@@ -512,18 +479,51 @@
       "date": "2018-11-19T09:39:17+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Make document window controller’s document array a read only property",
       "body": "This is because we may sometimes want to enable implicit animations when updating this property, by making it read-only we limit places from where it can be updated, to make it easier to audit the code.\n\nCurrently no-one outside the class actually uses the property, so we could (and may) make it private."
     },
     {
+      "hash": "7030b0041e4903129b1ebb08e674d2fd0ae26cc2",
+      "date": "2018-11-19T09:34:03+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update documents array and selected document inside animation group",
+      "body": ""
+    },
+    {
+      "hash": "f92a50b59a947c0ac099dc7d9be0b8ddcfb5ab82",
+      "date": "2018-11-18T14:38:23+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove unused tab bar graphics",
+      "body": ""
+    },
+    {
+      "hash": "f2d38e4e0fb6c44c401c9391c7c3bfe2c37bd6fb",
+      "date": "2018-11-18T14:35:59+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update OakTabBarView to use title bar material for active tab",
+      "body": ""
+    },
+    {
       "hash": "79172d552ed8d89c883874e2436f4b5ee6ba1729",
       "date": "2018-11-17T20:20:55+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Set controlSize on NSControl instead of its cell",
@@ -534,7 +534,7 @@
       "date": "2018-11-17T11:30:09+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not call abort for posix_spawn related failures",
@@ -545,7 +545,7 @@
       "date": "2018-11-16T14:07:23+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Convert “count of items” font in filter dialogs to use monospaced digits",
@@ -556,7 +556,7 @@
       "date": "2018-11-16T12:14:53+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Convert font used for line number in status bar to use monospaced digits",
@@ -567,7 +567,7 @@
       "date": "2018-11-16T12:10:23+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Introduce statusBarFontSize user defaults key and increase default size",
@@ -578,7 +578,7 @@
       "date": "2018-11-16T12:04:54+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not limit width of “Tab Size” pop-up in status bar",
@@ -589,7 +589,7 @@
       "date": "2018-11-16T11:58:01+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Simplify layout code using NSLayoutFormatAlignAllTop",
@@ -600,7 +600,7 @@
       "date": "2018-11-16T11:26:37+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use systemFontSizeForControlSize: when changing button’s control size",
@@ -611,7 +611,7 @@
       "date": "2018-11-16T11:18:36+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Move OakCreateStatusBarPopUpButton to OTVStatusBar.mm",
@@ -622,7 +622,7 @@
       "date": "2018-11-16T11:11:11+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Some changes for Find dialog’s status text on 10.14",
@@ -633,7 +633,7 @@
       "date": "2018-11-15T23:32:14+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use non-deprecated API to create property lists from data",
@@ -644,7 +644,7 @@
       "date": "2018-11-15T23:10:25+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use isAccessibilityElement instead of accessibilityIsIgnored",
@@ -655,7 +655,7 @@
       "date": "2018-11-15T23:02:30+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "fixup! Use NSVisualEffectMaterialToolTip for tool tips on 10.14",
@@ -666,7 +666,7 @@
       "date": "2018-11-15T22:01:41+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use BSD time functions instead of deprecated CFGregorianDate",
@@ -677,7 +677,7 @@
       "date": "2018-11-15T16:40:25+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Tweak layout of action buttons in file browser",
@@ -688,7 +688,7 @@
       "date": "2018-11-15T16:38:07+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use NSButton/NSTextField convenience constructors on 10.12",
@@ -699,7 +699,7 @@
       "date": "2018-11-15T16:28:54+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not set button’s hugging priority in OakCreateButton",
@@ -710,7 +710,7 @@
       "date": "2018-11-15T16:17:21+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove unnecessary property",
@@ -721,7 +721,7 @@
       "date": "2018-11-15T16:13:04+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use secondaryLabelColor for text in status bar",
@@ -732,7 +732,7 @@
       "date": "2018-11-15T16:08:29+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not pass default value for argument to OakCreateButton",
@@ -743,7 +743,7 @@
       "date": "2018-11-15T16:06:49+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove unused functions",
@@ -754,7 +754,7 @@
       "date": "2018-11-15T12:57:32+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove support for OakBackgroundFillViewStyleStatusBar",
@@ -765,40 +765,40 @@
       "date": "2018-11-15T12:50:18+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Make NSVisualEffectView the superview of our status bars",
       "body": "The result is the same though with the NSVisualEffectView being a superview, a subview can query the interiorBackgroundStyle to affect rendering."
     },
     {
-      "hash": "7f794f618d186177407be577a44a72aba5aecebb",
-      "date": "2018-11-15T12:47:06+07:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Remove drawRect: overload as we no longer change contentBorderThickness",
-      "body": ""
-    },
-    {
       "hash": "727e4e626f8708210c096cbfda68fdf182f5fddf",
       "date": "2018-11-15T12:49:06+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not set contentBorderThickness for HTML output view",
       "body": "This is no longer required due to using an NSVisualEffectView for the status bar."
     },
     {
+      "hash": "7f794f618d186177407be577a44a72aba5aecebb",
+      "date": "2018-11-15T12:47:06+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove drawRect: overload as we no longer change contentBorderThickness",
+      "body": ""
+    },
+    {
       "hash": "a0ac9c9a921c85910110fe795b95342e0e06f0df",
       "date": "2018-11-15T12:17:33+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let NSScrollView draw border above/below search results",
@@ -809,7 +809,7 @@
       "date": "2018-11-15T11:36:40+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use layout constraints for the centered small checkbox in search results",
@@ -820,7 +820,7 @@
       "date": "2018-11-15T11:34:40+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add margin around the “Show Hidden Files” checkbox in file open panel",
@@ -831,7 +831,7 @@
       "date": "2018-11-15T11:28:54+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not use NSBackgroundStyleRaised for views in file browser header",
@@ -842,7 +842,7 @@
       "date": "2018-11-15T11:25:54+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Since we center views in file browser header there is no need to stretch",
@@ -853,62 +853,18 @@
       "date": "2018-11-15T11:22:16+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use a divider with a flat appearance",
       "body": "Closes #1425"
     },
     {
-      "hash": "21d003ebc80c152b74d79df078bc9ec5802a9455",
-      "date": "2018-11-14T15:54:02+07:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "File browser view was only observing changes to user defaults on 10.14",
-      "body": ""
-    },
-    {
-      "hash": "7c52308785825f2469dbc42d17f473e638e34d02",
-      "date": "2018-11-14T15:52:48+07:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Use systemRedColor instead of redColor (10.10)",
-      "body": ""
-    },
-    {
-      "hash": "c235a61ecaa4e3f4b8645aa81ac18922239de6e4",
-      "date": "2018-11-14T11:37:47+07:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Do not enable blending of file browser header until 10.14",
-      "body": ""
-    },
-    {
-      "hash": "b9174f2e8726cfd522fc438e751794eb86071771",
-      "date": "2018-11-14T11:05:49+07:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Checkin release notes for 2.0-rc.18",
-      "body": ""
-    },
-    {
       "hash": "9fe62089efe90ad4ea046b8128b89a6b5a92b1a5",
       "date": "2018-11-14T13:13:23-05:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Remove forward declarations for macOS 10.12 SDK",
@@ -919,10 +875,54 @@
       "date": "2018-11-14T13:07:24-05:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Add some more forward declarations for macOS 10.14 SDK",
+      "body": ""
+    },
+    {
+      "hash": "21d003ebc80c152b74d79df078bc9ec5802a9455",
+      "date": "2018-11-14T15:54:02+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "File browser view was only observing changes to user defaults on 10.14",
+      "body": ""
+    },
+    {
+      "hash": "7c52308785825f2469dbc42d17f473e638e34d02",
+      "date": "2018-11-14T15:52:48+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use systemRedColor instead of redColor (10.10)",
+      "body": ""
+    },
+    {
+      "hash": "c235a61ecaa4e3f4b8645aa81ac18922239de6e4",
+      "date": "2018-11-14T11:37:47+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not enable blending of file browser header until 10.14",
+      "body": ""
+    },
+    {
+      "hash": "b9174f2e8726cfd522fc438e751794eb86071771",
+      "date": "2018-11-14T11:05:49+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0-rc.18",
       "body": ""
     },
     {
@@ -930,7 +930,7 @@
       "date": "2018-11-13T16:41:49-05:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Check the correct return value (-1) when item is not found",
@@ -941,7 +941,7 @@
       "date": "2018-11-12T19:58:48+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Show an alert if version control information is unavailable",
@@ -952,7 +952,7 @@
       "date": "2018-11-12T19:30:05+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use window color behind file browser (instead of blur)",
@@ -963,7 +963,7 @@
       "date": "2018-11-12T19:19:01+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Delay centering selected file browser row till next event loop cycle",
@@ -974,7 +974,7 @@
       "date": "2018-11-12T19:16:14+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Provide a default include glob for file browser",
@@ -985,7 +985,7 @@
       "date": "2018-11-12T19:15:12+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use DISPATCH_APPLY_AUTO instead of explicit global queue",
@@ -996,7 +996,7 @@
       "date": "2018-11-10T15:31:54+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "No need to set view’s next responder to its view controller (10.10)",
@@ -1007,7 +1007,7 @@
       "date": "2018-11-09T13:57:06+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update CoreText constants to use “modern” names",
@@ -1018,7 +1018,7 @@
       "date": "2018-11-09T00:32:17+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update dialog plug-in (Use NSVisualEffectView for Dialog’s pop-up menu)",
@@ -1029,7 +1029,7 @@
       "date": "2018-11-08T23:05:43+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use NSVisualEffectMaterialToolTip for tool tips on 10.14",
@@ -1040,18 +1040,29 @@
       "date": "2018-11-08T09:33:13+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use a CALayer for our zooming icon animation",
       "body": "This should ensure smooth animation even when the CPU load is high (which it often is when opening files)."
     },
     {
+      "hash": "6aaa1df99bcead32fcb8a1705072d2475d425119",
+      "date": "2018-11-07T15:25:53+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not let the tab bar itself handle expanded/collapsed state",
+      "body": ""
+    },
+    {
       "hash": "38f892b49612420747ef5ddffbf4cf1c32274a13",
       "date": "2018-11-07T15:18:00+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use values from NSWindow to calculate the cascade offset for new windows",
@@ -1062,29 +1073,18 @@
       "date": "2018-11-07T15:15:01+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Hide tab bar view using the view controller’s hidden property (10.12)",
       "body": "For users on an OS earlier than 10.12, the tab bar will always be visible, even when configured to not show for windows with only a single document (tab)."
     },
     {
-      "hash": "6aaa1df99bcead32fcb8a1705072d2475d425119",
-      "date": "2018-11-07T15:25:53+07:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Do not let the tab bar itself handle expanded/collapsed state",
-      "body": ""
-    },
-    {
       "hash": "35f1312f9a86a61998cfeca69d64d9f2d5925e25",
       "date": "2018-11-06T20:46:59+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove UI setting for having tabs “Extend to the width of the window”",
@@ -1095,7 +1095,7 @@
       "date": "2018-11-06T20:01:34+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Set default light/dark themes when enabling changeThemeBasedOnAppearance",
@@ -1106,32 +1106,10 @@
       "date": "2018-11-06T19:59:56+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add a constant for the Twilight theme UUID",
-      "body": ""
-    },
-    {
-      "hash": "cb5997717da7c3e29ea4462410acea8b50c6866d",
-      "date": "2018-11-02T15:11:04-04:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "Allow switching themes based on the effective appearance",
-      "body": "The feature is currently not exposed via the UI.\n\nTo enable set the changeThemeBasedOnAppearance defaults key to YES and assign the darkModeThemeUUID and universalThemeUUID default keys with the desired theme uuids to use in dark or light mode, respectively."
-    },
-    {
-      "hash": "d5c929dfaf563baaba0fd6258e835f857e2f3e88",
-      "date": "2018-11-02T15:10:27-04:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "Move theme relate methods out of the status bar delegate section",
       "body": ""
     },
     {
@@ -1139,7 +1117,7 @@
       "date": "2018-11-06T19:22:21+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not blend file browser content with header on 10.11 and earlier",
@@ -1150,7 +1128,7 @@
       "date": "2018-11-06T17:27:07+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use hypot function to calculate mouse drag distance",
@@ -1161,7 +1139,7 @@
       "date": "2018-11-05T19:14:44+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Replace macro recording image with red (flat) circle",
@@ -1172,7 +1150,7 @@
       "date": "2018-11-05T18:24:45+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Move tabs to title bar",
@@ -1183,7 +1161,7 @@
       "date": "2018-11-05T17:52:29+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove ability to have file browser header in the tab bar",
@@ -1194,7 +1172,7 @@
       "date": "2018-11-05T17:47:35+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use NSIsEmptyRect instead of comparing size to NSZeroSize",
@@ -1205,7 +1183,7 @@
       "date": "2018-11-05T17:45:58+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Change accessibility label of folder pop-up button to “Current folder”",
@@ -1216,7 +1194,7 @@
       "date": "2018-11-04T11:41:16+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update selected tab index when tab bar has no selected tab",
@@ -1227,7 +1205,7 @@
       "date": "2018-11-03T21:53:18+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Send performClose: to window delegate instead of to OakTabBarView",
@@ -1238,7 +1216,7 @@
       "date": "2018-11-03T21:26:57+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add missing include",
@@ -1249,7 +1227,7 @@
       "date": "2018-11-03T15:41:35+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rename setSelectedTab: → setSelectedTabIndex:",
@@ -1260,7 +1238,7 @@
       "date": "2018-11-03T14:43:47+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update OakScopeBarView to new accessibility API (10.10)",
@@ -1271,7 +1249,7 @@
       "date": "2018-11-03T14:35:51+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update OakDocumentView to new accessibility API (10.10)",
@@ -1282,7 +1260,7 @@
       "date": "2018-11-03T11:18:04+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Limit public API of OakTabBarView",
@@ -1293,18 +1271,40 @@
       "date": "2018-11-03T11:13:13+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Move OakTabBarStyle to own header",
       "body": "This allows us to make OakTabItemView.h a private header."
     },
     {
+      "hash": "cb5997717da7c3e29ea4462410acea8b50c6866d",
+      "date": "2018-11-02T15:11:04-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Allow switching themes based on the effective appearance",
+      "body": "The feature is currently not exposed via the UI.\n\nTo enable set the changeThemeBasedOnAppearance defaults key to YES and assign the darkModeThemeUUID and universalThemeUUID default keys with the desired theme uuids to use in dark or light mode, respectively."
+    },
+    {
+      "hash": "d5c929dfaf563baaba0fd6258e835f857e2f3e88",
+      "date": "2018-11-02T15:10:27-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Move theme relate methods out of the status bar delegate section",
+      "body": ""
+    },
+    {
       "hash": "c5f1a6c098ade00a889ea25448d2a3d333318b7e",
       "date": "2018-11-02T20:52:02+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "NSVisualEffectBlendingModeWithinWindow requires a layer backed view",
@@ -1315,7 +1315,7 @@
       "date": "2018-11-02T16:35:26+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Checkin release notes for 2.0-rc.15",
@@ -1326,7 +1326,7 @@
       "date": "2018-11-02T16:31:49+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Draw a custom dash for removing find results and favorites",
@@ -1337,7 +1337,7 @@
       "date": "2018-11-02T14:52:44+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let text/background color depend on effective appearance in about window",
@@ -1348,7 +1348,7 @@
       "date": "2018-11-02T12:10:18+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use NSBoxSeparator instead of configuring the border manually",
@@ -1359,7 +1359,7 @@
       "date": "2018-11-02T11:00:02+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use file browser’s icon support for the bundle item chooser",
@@ -1370,7 +1370,7 @@
       "date": "2018-11-02T10:49:56+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let file browser scroll view extend behind its header",
@@ -1381,7 +1381,7 @@
       "date": "2018-11-02T08:35:51+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "fixup! Don’t use textured windows for Open Quickly (⌘T) and friends",
@@ -1392,7 +1392,7 @@
       "date": "2018-11-02T08:29:18+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use full size content view for pasteboard choosers",
@@ -1403,7 +1403,7 @@
       "date": "2018-11-02T08:28:11+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use full size content view for Open Quickly (⌘T) and friends",
@@ -1414,7 +1414,7 @@
       "date": "2018-11-02T08:26:22+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update all instances of accessibilitySetOverrideValue:forAttribute:",
@@ -1425,7 +1425,7 @@
       "date": "2018-11-02T08:25:11+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Patch (rather than replace) the key view loop when replacing views",
@@ -1436,7 +1436,7 @@
       "date": "2018-11-02T08:23:37+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Refactor OakChooser superclass",
@@ -1447,7 +1447,7 @@
       "date": "2018-11-02T08:21:46+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Make OakChooser windows inherit from NSWindowController",
@@ -1458,7 +1458,7 @@
       "date": "2018-11-02T08:21:20+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Change symbol chooser’s document property to TMDocument",
@@ -1469,7 +1469,7 @@
       "date": "2018-11-02T08:20:46+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Make OakPasteboardChooser be an NSWindowController subclass",
@@ -1480,7 +1480,7 @@
       "date": "2018-11-01T16:34:27-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Use dynamic colors for the background and text in OakKeyEquivalentView",
@@ -1491,7 +1491,7 @@
       "date": "2018-11-01T18:21:47+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Make the table view in pasteboard history a “full size content view”",
@@ -1502,7 +1502,7 @@
       "date": "2018-11-01T15:39:16+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use visual effect view for snippet pop-up menu (10.11)",
@@ -1513,7 +1513,7 @@
       "date": "2018-11-01T15:23:48+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Make OakChoiceMenu an NSWindowController subclass",
@@ -1524,7 +1524,7 @@
       "date": "2018-11-01T15:21:17+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Prefix instance variables with underscore in OakChoiceMenu",
@@ -1535,7 +1535,7 @@
       "date": "2018-11-01T14:43:41+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add NSVisualEffectView behind file browser when running on 10.11",
@@ -1546,7 +1546,7 @@
       "date": "2018-11-01T12:06:04+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Checkin release notes for 2.0-rc.14",
@@ -1557,7 +1557,7 @@
       "date": "2018-11-01T11:49:01+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not open document in existing project if option key is down",
@@ -1568,7 +1568,7 @@
       "date": "2018-11-01T11:24:15+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Put additional Select Next/Previous Tab shortcuts in main menu (10.13)",
@@ -1579,7 +1579,7 @@
       "date": "2018-11-01T00:16:04+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Automatically set “allows key equivalents when hidden” for hidden items",
@@ -1590,7 +1590,7 @@
       "date": "2018-11-01T00:09:05+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Set titlebarAppearsTransparent for main window",
@@ -1601,7 +1601,7 @@
       "date": "2018-10-31T23:21:33+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Exception was thrown when requesting icon for document with no path",
@@ -1612,7 +1612,7 @@
       "date": "2018-10-31T23:10:18+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use beginSheetModalForWindow:completionHandler: over deprecated API",
@@ -1623,7 +1623,7 @@
       "date": "2018-10-31T23:08:33+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update constant names for 10.10",
@@ -1634,7 +1634,7 @@
       "date": "2018-10-31T23:07:52+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use self.window instead of accessing instance variable of superclass",
@@ -1645,7 +1645,7 @@
       "date": "2018-10-31T21:41:43+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Assume @available directive is available (Xcode 9)",
@@ -1656,7 +1656,7 @@
       "date": "2018-10-31T16:52:55+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove XcodeEditor submodule",
@@ -1667,7 +1667,7 @@
       "date": "2018-10-31T16:45:40+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update MGScopeBar submodule: Have MGScopeBar opt out of Dark Mode",
@@ -1678,7 +1678,7 @@
       "date": "2018-10-31T10:32:46+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "The bundle selection menu now uses same appearance as the calling view",
@@ -1689,7 +1689,7 @@
       "date": "2018-10-31T00:52:26+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not use OakFileIconImage for menu items and recent projects",
@@ -1700,7 +1700,7 @@
       "date": "2018-10-31T00:50:08+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove unused include of OakFileIconImage.h",
@@ -1711,7 +1711,7 @@
       "date": "2018-10-31T00:28:49+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Move search fields to title bar in pasteboard history dialogs",
@@ -1722,7 +1722,7 @@
       "date": "2018-10-31T00:07:14+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use semantic colors for find dialog history pop-up list",
@@ -1733,7 +1733,7 @@
       "date": "2018-10-30T21:22:13+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove custom NSCell subclass used for file browser’s folder pop-up",
@@ -1744,7 +1744,7 @@
       "date": "2018-10-30T20:53:10+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use separatorColor dividers in Open Quickly (⌘T) and friends",
@@ -1755,7 +1755,7 @@
       "date": "2018-10-30T20:46:55+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Don’t use textured windows for Open Quickly (⌘T) and friends",
@@ -1766,7 +1766,7 @@
       "date": "2018-10-30T20:13:33+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Set tool tip text color to black",
@@ -1777,7 +1777,7 @@
       "date": "2018-10-30T18:52:30+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Selecting file outside project (⌃⌘R) would fail",
@@ -1788,7 +1788,7 @@
       "date": "2018-10-30T16:12:10+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use file browser’s image class for document icons",
@@ -1799,7 +1799,7 @@
       "date": "2018-10-30T16:10:51+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Make new file browser’s CreateIconImageForURL public API",
@@ -1810,7 +1810,7 @@
       "date": "2018-10-30T15:31:48+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use textColor and secondaryLabelColor for find in folder results",
@@ -1821,7 +1821,7 @@
       "date": "2018-10-30T15:29:16+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use semantic color for image shown when holding command in find results",
@@ -1832,7 +1832,7 @@
       "date": "2018-10-30T13:46:34+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update deployment target of all xib files to 10.10",
@@ -1843,7 +1843,7 @@
       "date": "2018-10-30T13:45:38+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Show as many parents as required to disambiguate file browser items",
@@ -1854,7 +1854,7 @@
       "date": "2018-10-30T12:41:49+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove code and graphics for rendering tabs prior to 10.10",
@@ -1865,7 +1865,7 @@
       "date": "2018-10-30T12:31:51+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove most of our 10.10 compatibility checks",
@@ -1876,21 +1876,10 @@
       "date": "2018-10-30T11:51:01+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Guard against no file browser root item when updating modified/open URLs",
-      "body": ""
-    },
-    {
-      "hash": "56c7e34f74210c18e8d6c4724342a2e756e9d272",
-      "date": "2018-10-29T22:10:23+07:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Checkin release notes for 2.0-rc.11",
       "body": ""
     },
     {
@@ -1898,51 +1887,51 @@
       "date": "2018-10-29T15:00:56-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Guard against an empty string",
       "body": ""
     },
     {
-      "hash": "bad84bd51113e5a630571b92cf4d5cb7f97264ac",
-      "date": "2018-10-29T20:51:09+07:00",
+      "hash": "56c7e34f74210c18e8d6c4724342a2e756e9d272",
+      "date": "2018-10-29T22:10:23+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
-      "summary": "Tweak how we throttle fetching SCM status",
-      "body": "When we observe a change on disk we will fetch status after 0.5 seconds if we are active, otherwise 3 seconds.\n\nIf we become active and have a pending update, we update immediately.\n\nThe reason for the delay is that the change on disk could be the version control system working, for example performing a rebase, and not all systems can gracefully handle requesting status when in the midst of such operation."
+      "summary": "Checkin release notes for 2.0-rc.11",
+      "body": ""
     },
     {
       "hash": "045fd33497eca97670a6b0c7483202ee483c2568",
       "date": "2018-10-29T21:01:47+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not update user defaults in a background thread (queue)",
       "body": "Since observers of NSUserDefaultsDidChangeNotification will be called from the thread that triggered the change, we should only update user defaults from the main thread."
     },
     {
-      "hash": "9baff6d7e1e535909564a7ff47f80b4b35a4a146",
-      "date": "2018-10-27T01:30:37-04:00",
+      "hash": "bad84bd51113e5a630571b92cf4d5cb7f97264ac",
+      "date": "2018-10-29T20:51:09+07:00",
       "author": {
-        "name": "Ian Gregory",
-        "login": "ThatsJustCheesy",
-        "avatar_url": "https://avatars.githubusercontent.com/u/16456186?v=4"
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
-      "summary": "Selectively apply BG colors in OakSyntaxFormatter",
-      "body": "OakSyntaxFormatter now applies background colors only when they do not match the theme's global background color. The old behavior drew the background all the time, which looked off when drawing formatted text in the Find History list. This effect is made especially apparent by macOS 10.14's translucent combo boxes, and now that they're used for history in the Find dialog, this needed to be fixed."
+      "summary": "Tweak how we throttle fetching SCM status",
+      "body": "When we observe a change on disk we will fetch status after 0.5 seconds if we are active, otherwise 3 seconds.\n\nIf we become active and have a pending update, we update immediately.\n\nThe reason for the delay is that the change on disk could be the version control system working, for example performing a rebase, and not all systems can gracefully handle requesting status when in the midst of such operation."
     },
     {
       "hash": "0eb5250c265ab9babfcab0549c15af0b0bcaa210",
       "date": "2018-10-29T19:48:06+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Pass directory with changes to FSEvents observer",
@@ -1953,7 +1942,7 @@
       "date": "2018-10-29T13:34:08+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Fix indentation",
@@ -1964,7 +1953,7 @@
       "date": "2018-10-29T11:47:13+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update document’s match captures from find dialog",
@@ -1975,40 +1964,18 @@
       "date": "2018-10-29T11:44:07+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Store captures from last search with OakDocument instead of OakTextView",
       "body": "This both allows updating the captures from outside the text view (e.g. Find dialog) and it uses the correct captures if performing searches in multiple tabs with delayed replacements."
     },
     {
-      "hash": "05e61188eef1fa5ae52958b62b5eba88448a91a9",
-      "date": "2018-10-28T23:57:39-04:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "Change Select Previous/Next Tab key equivalents",
-      "body": "⌃⇧⇥ and ⌃⇥ are the preferred system wide shortcuts for changing tabs. In order to avoid a disruptive change, the previous shortcuts are still supported (in fact, it appears that all apps using the system tabbing mechanism support the previous shortcuts as well)."
-    },
-    {
-      "hash": "14cd991a1db3fa4b09035658214b04d665cce689",
-      "date": "2018-10-28T22:53:15-04:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "Move \"Select Previous Tab\" above \"Select Next Tab\"",
-      "body": "This makes the Window menu more consistent with system apps."
-    },
-    {
       "hash": "493620710b3dba0ef36c1659357baa2592a8677e",
       "date": "2018-10-29T11:05:00+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Avoid copying full status map for each file observer",
@@ -2019,18 +1986,29 @@
       "date": "2018-10-29T10:59:12+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Don’t call repositoryAtURL: when we already have a repository",
       "body": ""
     },
     {
+      "hash": "05e61188eef1fa5ae52958b62b5eba88448a91a9",
+      "date": "2018-10-28T23:57:39-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Change Select Previous/Next Tab key equivalents",
+      "body": "⌃⇧⇥ and ⌃⇥ are the preferred system wide shortcuts for changing tabs. In order to avoid a disruptive change, the previous shortcuts are still supported (in fact, it appears that all apps using the system tabbing mechanism support the previous shortcuts as well)."
+    },
+    {
       "hash": "82c0752c0f4e44bec2458267d2c0179e03d26c6f",
       "date": "2018-10-29T10:53:32+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove method from SCMManager only used by one client",
@@ -2041,7 +2019,7 @@
       "date": "2018-10-29T10:49:14+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Pass SCMRepository to observers (instead of status map)",
@@ -2052,7 +2030,7 @@
       "date": "2018-10-29T10:38:01+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use SCMManager instead of scm framework for SCM status data source",
@@ -2063,7 +2041,7 @@
       "date": "2018-10-29T10:36:22+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let SCMManager use the SCM drivers directly",
@@ -2074,18 +2052,29 @@
       "date": "2018-10-29T10:29:32+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add symbolic link to scm drivers",
       "body": "The drivers include ../status.h so we need to link to that file as well."
     },
     {
+      "hash": "14cd991a1db3fa4b09035658214b04d665cce689",
+      "date": "2018-10-28T22:53:15-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Move \"Select Previous Tab\" above \"Select Next Tab\"",
+      "body": "This makes the Window menu more consistent with system apps."
+    },
+    {
       "hash": "82dda5588d60323168d15f73b05ae5cc73b7a1d5",
       "date": "2018-10-29T09:27:31+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Wrong URL got passed to SCMManager",
@@ -2096,7 +2085,7 @@
       "date": "2018-10-28T23:03:32+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Allow observing subdirectories with FSEventsManager",
@@ -2107,7 +2096,7 @@
       "date": "2018-10-28T22:36:22+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not have FSEventsManager load directory contents",
@@ -2118,7 +2107,7 @@
       "date": "2018-10-28T16:51:33+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Only allow observing full repository instead of “files with status”",
@@ -2129,7 +2118,7 @@
       "date": "2018-10-28T16:43:17+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Fix capitalization of URL in parentURL",
@@ -2140,7 +2129,7 @@
       "date": "2018-10-28T15:54:04+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rename SCMRepository → SCMDirectory",
@@ -2151,7 +2140,7 @@
       "date": "2018-10-28T15:05:31+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update link dependencies for new file browser framework",
@@ -2162,7 +2151,7 @@
       "date": "2018-10-28T15:00:54+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Move remaining code and resources from OakFileBrowser → FileBrowser",
@@ -2173,7 +2162,7 @@
       "date": "2018-10-28T14:51:47+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Move file item auxiliary views to new file browser framework",
@@ -2184,7 +2173,7 @@
       "date": "2018-10-28T14:41:18+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Move “select base name” cell subclass to new file browser framework",
@@ -2195,7 +2184,7 @@
       "date": "2018-10-28T13:38:25+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "fixup! Switch to new file browser",
@@ -2206,7 +2195,7 @@
       "date": "2018-10-28T13:36:33+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update OakFileBrowserDelegate protocol to new file browser controller",
@@ -2217,7 +2206,7 @@
       "date": "2018-10-28T13:32:14+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rename notification constants",
@@ -2228,7 +2217,7 @@
       "date": "2018-10-28T13:21:19+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use display name instead of localized name for file browser location",
@@ -2239,65 +2228,21 @@
       "date": "2018-10-28T13:13:03+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Move OakFileBrowser delegate protocol and constants to new file browser",
       "body": ""
     },
     {
-      "hash": "b43abb13a62c0d38d446f11b909640c5278c470d",
-      "date": "2018-10-20T11:26:10-04:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "Use a dynamic color for the dark divider style (10.14)",
-      "body": ""
-    },
-    {
-      "hash": "62ee2f94bedfd0a7e5f223cf7d539fb25aace029",
-      "date": "2018-10-18T14:46:27-04:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "Add support for building Asset Catalogs",
-      "body": "We compile all assets into one file that resides in the main app bundle so while we can have multiple asset catalogs (per Framework, etc.), individual assets should still be namespaced."
-    },
-    {
       "hash": "8e186231fd2075d8d22e1ea99b54b5fba1873842",
       "date": "2018-10-28T12:09:12+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Fix typo in bin/gen_build",
-      "body": ""
-    },
-    {
-      "hash": "e64b09b688c15441ea131a518c0a8ab3816a8de8",
-      "date": "2018-10-20T11:12:45-04:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "Introduce overloads for the new divider styles",
-      "body": "Also, switch to use the new divider styles in most places. The remaining usage of the old \"OakCreateLine\" functions are in the OakChooser windows. These will be refactor for better dark mode support next."
-    },
-    {
-      "hash": "3b90855b986f91197d463bc33d9ce588ca907d7e",
-      "date": "2018-10-18T15:41:13-04:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "OakBackgroundFillView: Introduce styles for light and dark dividers",
       "body": ""
     },
     {
@@ -2305,7 +2250,7 @@
       "date": "2018-10-28T10:14:51+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Allow setting default find in folder globs with defaultFindInFolderGlobs",
@@ -2316,7 +2261,7 @@
       "date": "2018-10-28T09:58:40+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add some additional defaults for Filter Through Command",
@@ -2327,7 +2272,7 @@
       "date": "2018-10-28T09:55:43+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Allow creating OakHistoryList with a user defaults fallback key",
@@ -2338,7 +2283,7 @@
       "date": "2018-10-28T09:50:35+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Refactor how we initialize OakHistoryList",
@@ -2349,7 +2294,7 @@
       "date": "2018-10-28T09:14:25+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove assertion that does not hold for malformed content",
@@ -2360,7 +2305,7 @@
       "date": "2018-10-28T00:23:05+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove import of unused header",
@@ -2371,7 +2316,7 @@
       "date": "2018-10-27T23:48:18+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove most code related to old file browser",
@@ -2382,7 +2327,7 @@
       "date": "2018-10-27T23:25:38+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Switch to new file browser",
@@ -2393,7 +2338,7 @@
       "date": "2018-10-27T23:23:38+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Support working with array as object value for our select base name cell",
@@ -2404,7 +2349,7 @@
       "date": "2018-10-27T22:43:34+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add file browser view controller",
@@ -2415,7 +2360,7 @@
       "date": "2018-10-27T22:38:20+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add reload action method to file browser view",
@@ -2426,7 +2371,7 @@
       "date": "2018-10-27T22:37:48+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add API to force reload of an observed directory",
@@ -2437,7 +2382,7 @@
       "date": "2018-10-27T20:30:21+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Make previewableItems a public property",
@@ -2448,18 +2393,29 @@
       "date": "2018-10-27T12:49:28+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Disable animated file browser updates when we have more than ~500 items",
       "body": "Insert and remove could still be done, but the re-ordering does not scale as we currently use an LCS algorithm that require N*M storage.\n\nLong-term my thinking is that we can limit animated re-ordering to only include the visible rows, but my initial attempt at this showed some issues with the NSOutlineView, as re-ordering non-visible items still require a reload, which had visible side-effects."
     },
     {
+      "hash": "9baff6d7e1e535909564a7ff47f80b4b35a4a146",
+      "date": "2018-10-27T01:30:37-04:00",
+      "author": {
+        "name": "Ian Gregory",
+        "username": "ThatsJustCheesy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/16456186?v=4"
+      },
+      "summary": "Selectively apply BG colors in OakSyntaxFormatter",
+      "body": "OakSyntaxFormatter now applies background colors only when they do not match the theme's global background color. The old behavior drew the background all the time, which looked off when drawing formatted text in the Find History list. This effect is made especially apparent by macOS 10.14's translucent combo boxes, and now that they're used for history in the Find dialog, this needed to be fixed."
+    },
+    {
       "hash": "387a5a844db2ad5ad406fa8e6818038eca11fadc",
       "date": "2018-10-27T09:30:43+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Allow file packages to be inline expandable (like directories)",
@@ -2470,7 +2426,7 @@
       "date": "2018-10-27T09:29:20+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add new user defaults key: allowExpandingPackages",
@@ -2481,7 +2437,7 @@
       "date": "2018-10-26T23:35:11+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Don’t move focus to text view by default when opening/closing documents",
@@ -2492,7 +2448,7 @@
       "date": "2018-10-26T22:41:47+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add disk operations (move, copy, delete) to file browser view",
@@ -2503,7 +2459,7 @@
       "date": "2018-10-26T07:52:35+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use NSCountedSet when constructing the Open With menu",
@@ -2514,7 +2470,7 @@
       "date": "2018-10-26T00:09:52+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add new file browser view",
@@ -2525,7 +2481,7 @@
       "date": "2018-10-22T14:51:45+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add symbolic links to some private OakFileBrowser headers",
@@ -2536,29 +2492,73 @@
       "date": "2018-10-22T14:49:53+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Bump minimum OS to 10.10",
       "body": ""
     },
     {
+      "hash": "b43abb13a62c0d38d446f11b909640c5278c470d",
+      "date": "2018-10-20T11:26:10-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Use a dynamic color for the dark divider style (10.14)",
+      "body": ""
+    },
+    {
+      "hash": "e64b09b688c15441ea131a518c0a8ab3816a8de8",
+      "date": "2018-10-20T11:12:45-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Introduce overloads for the new divider styles",
+      "body": "Also, switch to use the new divider styles in most places. The remaining usage of the old \"OakCreateLine\" functions are in the OakChooser windows. These will be refactor for better dark mode support next."
+    },
+    {
       "hash": "b00f01a99239326babe8ac273f760d521256d987",
       "date": "2018-10-20T20:37:43+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Fix potential exception when deleting rows that show the field editor",
       "body": "The issue is that we call NSWindow’s makeFirstResponder: with the old field editor, but there is no guarantee that the old field editor is still part of the window’s view hierarchy."
     },
     {
+      "hash": "3b90855b986f91197d463bc33d9ce588ca907d7e",
+      "date": "2018-10-18T15:41:13-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "OakBackgroundFillView: Introduce styles for light and dark dividers",
+      "body": ""
+    },
+    {
+      "hash": "62ee2f94bedfd0a7e5f223cf7d539fb25aace029",
+      "date": "2018-10-18T14:46:27-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Add support for building Asset Catalogs",
+      "body": "We compile all assets into one file that resides in the main app bundle so while we can have multiple asset catalogs (per Framework, etc.), individual assets should still be namespaced."
+    },
+    {
       "hash": "566acd2445122d13807550a88075edad6f9b1ee1",
       "date": "2018-10-16T21:44:31+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add NSOutlineView subclass for file browser",
@@ -2569,7 +2569,7 @@
       "date": "2018-10-16T21:20:47+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add NSTableCellView subclass for use with FileItem",
@@ -2580,7 +2580,7 @@
       "date": "2018-10-16T17:24:20+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add FileItem subclass for SCM status",
@@ -2591,7 +2591,7 @@
       "date": "2018-10-16T16:41:07+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add FileItem subclass for mounted volumes",
@@ -2602,7 +2602,7 @@
       "date": "2018-10-16T16:35:16+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add API that allows observing children of a URL",
@@ -2613,7 +2613,7 @@
       "date": "2018-10-16T15:56:11+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add FileItem class as interface to the filesystem",
@@ -2624,7 +2624,7 @@
       "date": "2018-10-16T08:47:35+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add source for new FSEventsManager",
@@ -2635,7 +2635,7 @@
       "date": "2018-10-15T08:01:38+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add helper function to create document icon images",
@@ -2646,7 +2646,7 @@
       "date": "2018-10-15T06:59:50+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add source for new SCMManager",
@@ -2657,7 +2657,7 @@
       "date": "2018-10-13T20:23:48-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Use std::make_shared",
@@ -2668,7 +2668,7 @@
       "date": "2018-10-13T20:19:17-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Add virtual destructor",
@@ -2679,7 +2679,7 @@
       "date": "2018-10-13T14:55:47+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Eliminate the optional menu title argument for MBCreateMenu",
@@ -2690,7 +2690,7 @@
       "date": "2018-10-13T14:44:52+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Support attributes for separators created via MBCreateMenu",
@@ -2701,7 +2701,7 @@
       "date": "2018-10-13T14:42:42+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not bypass the type checker when forwarding methods to file browser",
@@ -2712,7 +2712,7 @@
       "date": "2018-10-12T17:36:24+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Change ‘url’ property to ‘URL’",
@@ -2723,7 +2723,7 @@
       "date": "2018-10-12T17:27:20+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Declare OakTabBarView as a dependency of the file browser",
@@ -2734,7 +2734,7 @@
       "date": "2018-10-12T17:24:38+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Move settings key from OakTabBarView to Preferences framework",
@@ -2745,7 +2745,7 @@
       "date": "2018-10-10T19:08:08-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Add virtual destructors for `buffer_api_t` and `layout_movement_t`",
@@ -2756,18 +2756,29 @@
       "date": "2018-10-10T15:52:11-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Introduce `OAK_AVAILABLE` macro",
       "body": "Newer versions of clang now warn when using API's that are only available on OS version newer than the target OS unless they are guarded using `@available`.\n\nThis is temporary and should be remove when we move away from older versions of Xcode."
     },
     {
+      "hash": "5aedfce3a175c2aa3d78fbd57513a12e42becb2c",
+      "date": "2018-10-08T22:17:55-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Don't update our background style unless it changes",
+      "body": "Also, always remove our background view before attempting to add another one."
+    },
+    {
       "hash": "213df1ef5951e3238d788d7b015e35e580893501",
       "date": "2018-10-08T10:51:59+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove superfluous blank line",
@@ -2778,7 +2789,7 @@
       "date": "2018-10-07T14:14:15+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Go through OakFileBrowser to create new files in directory",
@@ -2789,29 +2800,18 @@
       "date": "2018-10-07T12:37:38+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove unused instance variable.",
       "body": ""
     },
     {
-      "hash": "5aedfce3a175c2aa3d78fbd57513a12e42becb2c",
-      "date": "2018-10-08T22:17:55-04:00",
-      "author": {
-        "name": "Ronald Wampler",
-        "login": "rdwampler",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
-      },
-      "summary": "Don't update our background style unless it changes",
-      "body": "Also, always remove our background view before attempting to add another one."
-    },
-    {
       "hash": "c3e7e97c21d5281b8debcf3c0aa096509edc3e5c",
       "date": "2018-10-07T12:00:07+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update dialog plug-ins (coding style and text color in pop-up menu)",
@@ -2822,7 +2822,7 @@
       "date": "2018-10-07T11:27:58+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Enable visual effect view for status bar on 10.10 and forward",
@@ -2833,7 +2833,7 @@
       "date": "2018-10-07T11:26:21+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Inline helper methods used to setup NSVisualEffectView",
@@ -2844,7 +2844,7 @@
       "date": "2018-10-06T21:52:03-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Let `LiveSearchView` inherit from `OakBackgroundFillView`",
@@ -2855,7 +2855,7 @@
       "date": "2018-10-06T21:44:31-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "OakBackgroundFillView: Add support of Mojave Dark mode",
@@ -2866,7 +2866,7 @@
       "date": "2018-10-06T11:52:53+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update coding style for where to place colon after dictionary keys",
@@ -2877,7 +2877,7 @@
       "date": "2018-10-06T10:36:09+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use controlTextColor (instead of blackColor) in a few places",
@@ -2888,7 +2888,7 @@
       "date": "2018-10-05T18:13:58+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Calling ‘mate -w’ repeatedly would not always return focus to terminal",
@@ -2899,7 +2899,7 @@
       "date": "2018-10-05T18:12:16+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Take precautions to make TextMate stay active after opening a document",
@@ -2910,7 +2910,7 @@
       "date": "2018-10-05T18:01:31+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Prefix member data with underscore and do not capture it in debug output",
@@ -2921,7 +2921,7 @@
       "date": "2018-10-05T09:21:00+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Set a foreground color when styling is disabled (find text fields)",
@@ -2932,7 +2932,7 @@
       "date": "2018-10-03T12:24:20-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Fix typo: 'therefor' → 'therefore'",
@@ -2943,7 +2943,7 @@
       "date": "2018-09-30T21:56:11+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Change definition of moving to begin/end of highlight characters",
@@ -2954,7 +2954,7 @@
       "date": "2018-09-30T21:08:35+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Limit command error output to 7 lines with a “Show Full Output” button",
@@ -2965,7 +2965,7 @@
       "date": "2018-09-30T20:25:29+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use UTF with no byte order mark when reading file with unknown encoding",
@@ -2976,7 +2976,7 @@
       "date": "2018-09-06T11:24:23+02:00",
       "author": {
         "name": "Derek Linz",
-        "login": "dlinz",
+        "username": "dlinz",
         "avatar_url": "https://avatars.githubusercontent.com/u/3458969?v=4"
       },
       "summary": "Update README.md to use new location of Cap’n Proto",
@@ -2987,10 +2987,21 @@
       "date": "2018-08-21T12:21:47+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Include sdk-compat.h after system frameworks",
+      "body": ""
+    },
+    {
+      "hash": "43fc65805d298902ddd03d782eb17992f56ad670",
+      "date": "2018-08-21T11:30:26+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add NSAppearanceName stuff from the macOS 10.14 SDK",
       "body": ""
     },
     {
@@ -2998,7 +3009,7 @@
       "date": "2018-08-21T09:42:12+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Using findAll as action in a macro would work as findNext",
@@ -3009,7 +3020,7 @@
       "date": "2018-08-21T09:39:20+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Find options would not be updated when replaying a macro",
@@ -3020,21 +3031,10 @@
       "date": "2018-08-21T09:20:47+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let clipboard_t::entry_t accept options and remove my_entry_t subclass",
-      "body": ""
-    },
-    {
-      "hash": "43fc65805d298902ddd03d782eb17992f56ad670",
-      "date": "2018-08-21T11:30:26+02:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Add NSAppearanceName stuff from the macOS 10.14 SDK",
       "body": ""
     },
     {
@@ -3042,7 +3042,7 @@
       "date": "2018-08-19T14:25:51-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "OakTabBarView: Support Dark mode (10.14)",
@@ -3053,7 +3053,7 @@
       "date": "2018-08-19T14:21:27-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Make \"TabClose\" images templates",
@@ -3064,7 +3064,7 @@
       "date": "2018-08-19T13:42:24-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Add OakTabBarView images for Dark mode (10.14)",
@@ -3075,7 +3075,7 @@
       "date": "2018-08-17T11:03:18-04:00",
       "author": {
         "name": "Zev Eisenberg",
-        "login": "ZevEisenberg",
+        "username": "ZevEisenberg",
         "avatar_url": "https://avatars.githubusercontent.com/u/464574?v=4"
       },
       "summary": "Fix part of speech.",
@@ -3086,40 +3086,18 @@
       "date": "2018-08-06T20:44:59+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Enable clipping for menu item text",
       "body": "The default is to wrap text, which could happen when installing a replacement font.\n\nSpecifically installing https://github.com/jenskutilek/FiraSystemFontReplacement shows a problem for menu items using ⌃⇧ in their shortcut key.\n\nMy theory is that the font lack these glyphs and font substitution can take them from different fonts, and thus, sometimes they would render as narrow, other times in regular width.\n\nIt appears that when we measure the string width, and use for the cell’s width, we get the narrow glyphs, but then when rendering the text, the wider glyphs are used, causing the text to overflow and thus wrap."
     },
     {
-      "hash": "096801b8ad59a1c2030527f1e767fc764052fd11",
-      "date": "2018-07-08T15:38:41-04:00",
-      "author": {
-        "name": "Ian Gregory",
-        "login": "ThatsJustCheesy",
-        "avatar_url": "https://avatars.githubusercontent.com/u/16456186?v=4"
-      },
-      "summary": "Fix what I assume are typos",
-      "body": ""
-    },
-    {
-      "hash": "2a68a2be53c3344f1df49e6f32606e784ec9095e",
-      "date": "2018-07-08T15:07:35-04:00",
-      "author": {
-        "name": "Ian Gregory",
-        "login": "ThatsJustCheesy",
-        "avatar_url": "https://avatars.githubusercontent.com/u/16456186?v=4"
-      },
-      "summary": "Add excludeSCMDeleted to hide deleted files",
-      "body": "New setting that prevents deleted files from appearing in the file browser while still uncommitted. There seems to be some demand for this (https://stackoverflow.com/questions/17590302/textmate-2-alpha-showing-references-for-deleted-files , https://stackoverflow.com/questions/50428259/how-can-i-keep-deleted-files-from-showing-up-in-textmate-2-file-browser-sidebar), and it's just a nice option to have."
-    },
-    {
       "hash": "9240fd008df15a3637d544dcde7af0fd5c0aa4c6",
       "date": "2018-07-31T18:58:46+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "fixup! Move path::info to OakFileBrowser",
@@ -3130,7 +3108,7 @@
       "date": "2018-07-30T22:35:41+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use objectForInfoDictionaryKey: instead of localizedInfoDictionary",
@@ -3141,7 +3119,7 @@
       "date": "2018-07-30T22:34:20+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use title case for software update error dialog",
@@ -3152,7 +3130,7 @@
       "date": "2018-07-30T22:31:17+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Warn user when running on a read-only file system.",
@@ -3163,7 +3141,7 @@
       "date": "2018-07-20T10:56:05+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Move path::info to OakFileBrowser",
@@ -3174,7 +3152,7 @@
       "date": "2018-07-20T10:34:19+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use path::is_directory in path::make_dir (instead of path::info)",
@@ -3185,7 +3163,7 @@
       "date": "2018-07-20T10:32:44+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Don’t call path::info() in path::is_directory",
@@ -3196,7 +3174,7 @@
       "date": "2018-07-10T19:22:15+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove ‘enabled’ property from OFBFinderTagsChooser",
@@ -3207,7 +3185,7 @@
       "date": "2018-07-10T19:19:08+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Listen for mouse entering/leave notification instead of tracking mouse",
@@ -3218,7 +3196,7 @@
       "date": "2018-07-10T19:14:56+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Post a notification when mouse enters/leaves OakRolloverButton",
@@ -3229,7 +3207,7 @@
       "date": "2018-07-10T10:34:57+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let our Finder tag chooser use OakRolloverButton for the tags",
@@ -3240,7 +3218,7 @@
       "date": "2018-07-08T23:19:23+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Forward NSTableCellView’s background style down to the close button",
@@ -3251,29 +3229,40 @@
       "date": "2018-07-08T22:42:19+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Implementing setNilValueForKey: is only necessary for primitive types",
       "body": ""
     },
     {
-      "hash": "417e2080f88d2311cd703fa5dde3236a8227bc7d",
-      "date": "2018-06-28T17:39:38+02:00",
+      "hash": "096801b8ad59a1c2030527f1e767fc764052fd11",
+      "date": "2018-07-08T15:38:41-04:00",
       "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+        "name": "Ian Gregory",
+        "username": "ThatsJustCheesy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/16456186?v=4"
       },
-      "summary": "Remove use of oak::application_t in NewApplication template",
+      "summary": "Fix what I assume are typos",
       "body": ""
+    },
+    {
+      "hash": "2a68a2be53c3344f1df49e6f32606e784ec9095e",
+      "date": "2018-07-08T15:07:35-04:00",
+      "author": {
+        "name": "Ian Gregory",
+        "username": "ThatsJustCheesy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/16456186?v=4"
+      },
+      "summary": "Add excludeSCMDeleted to hide deleted files",
+      "body": "New setting that prevents deleted files from appearing in the file browser while still uncommitted. There seems to be some demand for this (https://stackoverflow.com/questions/17590302/textmate-2-alpha-showing-references-for-deleted-files , https://stackoverflow.com/questions/50428259/how-can-i-keep-deleted-files-from-showing-up-in-textmate-2-file-browser-sidebar), and it's just a nice option to have."
     },
     {
       "hash": "94f7be75024c0604ba83960cba99c981ede86ec6",
       "date": "2018-07-08T20:57:12+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rename didChangeFavoriteTag: → didChangeFinderTag:",
@@ -3284,7 +3273,7 @@
       "date": "2018-07-08T20:54:27+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove “Favorite” from selectedTags / selectedTagsToRemove",
@@ -3295,7 +3284,7 @@
       "date": "2018-07-08T20:46:02+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Minor code simplification by using array operators",
@@ -3306,7 +3295,7 @@
       "date": "2018-07-08T20:41:41+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let OFBFinderTagsChooser deal with OakFinderTag instead of display names",
@@ -3317,7 +3306,7 @@
       "date": "2018-07-08T20:34:21+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove OakFinderTag’s markedFavorite property",
@@ -3328,7 +3317,7 @@
       "date": "2018-07-08T20:28:54+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Provide OFBFinderTagsChooser with non-favorite tags",
@@ -3339,7 +3328,7 @@
       "date": "2018-07-08T20:17:45+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Recreate favorite Finder tags on each method call",
@@ -3350,7 +3339,7 @@
       "date": "2018-07-08T20:11:53+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add favoriteFinderTags property to OFBFinderTagsChooser",
@@ -3361,7 +3350,7 @@
       "date": "2018-07-08T20:05:22+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Make OakFinderTag’s constructor and label property private",
@@ -3372,7 +3361,7 @@
       "date": "2018-07-08T20:00:36+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add foreground/background color properties to OakFinderTag",
@@ -3383,10 +3372,21 @@
       "date": "2018-07-08T19:53:01+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use OakFinderTags instead of label numbers in OakLabelSwatchView",
+      "body": ""
+    },
+    {
+      "hash": "c5eb4c3259181cfc61c045e2f1633bbf92c6c4e0",
+      "date": "2018-07-08T19:30:26+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove unused code",
       "body": ""
     },
     {
@@ -3394,29 +3394,18 @@
       "date": "2018-07-08T19:29:17+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Only make a tag removable when all selected items have the tag set",
       "body": "This is consistent with how Finder works."
     },
     {
-      "hash": "c5eb4c3259181cfc61c045e2f1633bbf92c6c4e0",
-      "date": "2018-07-08T19:30:26+02:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Remove unused code",
-      "body": ""
-    },
-    {
       "hash": "42fa47a2fd48bde4d59992b9a6285cafb5c1e251",
       "date": "2018-07-08T18:20:17+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove path::tag_data and let finderTagsFromData: be private",
@@ -3427,7 +3416,7 @@
       "date": "2018-07-08T18:17:30+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let OFBFinderTagsChooser’s chosenTag property by an OakFinderTag",
@@ -3438,7 +3427,7 @@
       "date": "2018-07-08T18:16:20+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let FSItem’s finderTags setter update file on disk",
@@ -3449,7 +3438,7 @@
       "date": "2018-07-08T17:51:37+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let FSItem create finderTags when requested",
@@ -3460,7 +3449,7 @@
       "date": "2018-07-08T17:23:53+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove all code related to labels",
@@ -3471,7 +3460,7 @@
       "date": "2018-07-08T17:17:32+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove OakFinderLabelChooser",
@@ -3482,7 +3471,7 @@
       "date": "2018-07-08T15:28:51+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add trailing separator to file browser’s action menu",
@@ -3493,7 +3482,7 @@
       "date": "2018-07-08T15:25:09+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Ensure the “Tags…” menu item is always disabled",
@@ -3504,7 +3493,7 @@
       "date": "2018-07-08T14:59:20+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update FSItem’s finderTags property when updating the tags on disk",
@@ -3515,7 +3504,7 @@
       "date": "2018-07-08T14:58:19+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let SCM data source set finderTags when creating FSItem objects",
@@ -3526,7 +3515,7 @@
       "date": "2018-07-08T14:51:04+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "The secondaryLabelColor class property was introduced in 10.10",
@@ -3537,18 +3526,29 @@
       "date": "2018-07-08T14:47:59+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Minor stylistic changes: Whitespace and put const after the type",
       "body": "The rationale behind the latter is for consistency with pointer declarations, e.g. we need to do `NSString* const kConstant = …` to indicate that the variable is a constant NSString pointer, so for this reason I prefer to also do `CGFloat const kConstant = …`\n\nThis commit can be merged into its parent."
     },
     {
+      "hash": "417e2080f88d2311cd703fa5dde3236a8227bc7d",
+      "date": "2018-06-28T17:39:38+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove use of oak::application_t in NewApplication template",
+      "body": ""
+    },
+    {
       "hash": "52fda481dc9ee52fcf71a1134b900b61bc8f839d",
       "date": "2018-06-28T10:37:00+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Change beta/nightly software update constants to prerelease/canary",
@@ -3559,7 +3559,7 @@
       "date": "2018-06-24T10:38:55+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Change Check for Updates → Check for Update (singular)",
@@ -3570,7 +3570,7 @@
       "date": "2018-06-24T10:35:32+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let MenuBuilder support setting menu state",
@@ -3581,7 +3581,7 @@
       "date": "2018-06-24T10:34:40+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use “space” instead of “␣” when creating string from key equivalent",
@@ -3592,7 +3592,7 @@
       "date": "2018-06-20T14:44:17+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use light gray color for OakKeyEquivalentView’s frame",
@@ -3603,7 +3603,7 @@
       "date": "2018-06-20T14:43:51+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add hardcoded baselineOffsetFromBottom to OakKeyEquivalentView",
@@ -3614,7 +3614,7 @@
       "date": "2018-06-17T22:26:30+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add missing left/right constraints for horizontal separator lines",
@@ -3625,21 +3625,10 @@
       "date": "2018-06-17T17:06:03+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Call fileSystemRepresentation directly on NSURL (10.9)",
-      "body": ""
-    },
-    {
-      "hash": "e70791ee89ddd5434472da597201990220057636",
-      "date": "2018-06-16T22:27:01+02:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Rename a bunch of constants to fix deprecation warnings (10.12)",
       "body": ""
     },
     {
@@ -3647,18 +3636,29 @@
       "date": "2018-06-16T22:55:07+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not provide graphics context when creating a fake NSEvent",
       "body": "This is not required and 10.12 makes accessing the NSEvent’s context property deprecated, as it always (did?) return nil."
     },
     {
+      "hash": "e70791ee89ddd5434472da597201990220057636",
+      "date": "2018-06-16T22:27:01+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rename a bunch of constants to fix deprecation warnings (10.12)",
+      "body": ""
+    },
+    {
       "hash": "a623b8b6ecc710bf2ec9d1c8cb05705b8b499372",
       "date": "2018-06-16T21:50:25+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Fix typo: NSLeftMouseDown → NSLeftMouseDownMask",
@@ -3669,7 +3669,7 @@
       "date": "2018-06-12T00:01:39+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Remove dependency on ‘ns’ framework",
@@ -3680,7 +3680,7 @@
       "date": "2018-06-11T16:00:48+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Checkin release notes for 2.0-rc.10",
@@ -3691,7 +3691,7 @@
       "date": "2018-06-11T15:28:37+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Enable horizontal scroll for project/folder search results",
@@ -3702,7 +3702,7 @@
       "date": "2018-06-11T15:06:22+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Move “remove” button for search results to the left side",
@@ -3713,7 +3713,7 @@
       "date": "2018-06-11T11:43:53+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Fix potential deadlock when using ⇧⌘T just after loading new document",
@@ -3724,7 +3724,7 @@
       "date": "2018-06-10T19:44:54+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Escape newlines and backslashes in parameters sent by mate to TextMate",
@@ -3735,7 +3735,7 @@
       "date": "2018-06-10T19:26:31+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Fix out-of-range string access in mate protocol parser",
@@ -3746,7 +3746,7 @@
       "date": "2018-06-06T18:02:40+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Do not check if dirname_r and basename_r are available (10.12)",
@@ -3757,10 +3757,21 @@
       "date": "2018-06-06T18:01:17+02:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Format string: Include seconds when the period is less than 10 minutes",
+      "body": ""
+    },
+    {
+      "hash": "b8b46d1ae389be0c94657c57a917fa1280a8687a",
+      "date": "2018-04-30T15:23:19+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add header for OakMainMenu (menu subclass)",
       "body": ""
     },
     {
@@ -3768,7 +3779,7 @@
       "date": "2018-04-30T13:21:09+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Use MBCreateMenu for a few pop-up menus",
@@ -3779,7 +3790,7 @@
       "date": "2018-04-30T12:15:59+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Tidy up main menu",
@@ -3790,7 +3801,7 @@
       "date": "2018-04-30T11:28:47+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Create dock menu in our application delegate",
@@ -3801,29 +3812,18 @@
       "date": "2018-04-30T11:11:48+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Create main menu in our application delegate",
       "body": "The advantages are:\n\n- More compatible with version control\n- Easier to copy/paste menus and menu items between other projects\n- Easier to setup menu delegates or obtain pointers to menu items\n- We can use symbolic names when setting a menu item’s tag\n- More transparent: We can read the declaration in a few minutes, use search, etc.\n\nThere are two disadvantage that I can think of:\n\n1. We currently need to use private API to create the Open Recent submenu. Should this become a problem in a future macOS update, we can always create a single Open Recent menu in MainMenu.nib and use that when building our menu.\n\n2. If you make a typo in the menu declaration then the compiler error will often just point to the first line of the declaration rather than the line with the incorrectly declared item. One can comment out sections to narrow it down, if many edits have been made since last compile."
     },
     {
-      "hash": "b8b46d1ae389be0c94657c57a917fa1280a8687a",
-      "date": "2018-04-30T15:23:19+07:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Add header for OakMainMenu (menu subclass)",
-      "body": ""
-    },
-    {
       "hash": "8ddfa9efe1e031f890dbf54f69db76a4d856d075",
       "date": "2018-04-30T10:48:52+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Identify Select Tab submenu by its menu title instead of pointer",
@@ -3834,7 +3834,7 @@
       "date": "2018-04-30T10:05:10+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Rename ApplicationController → AppDelegate",
@@ -3845,7 +3845,7 @@
       "date": "2018-04-30T09:55:33+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update main menu template to what’s included with Xcode 9.2",
@@ -3856,7 +3856,7 @@
       "date": "2018-04-30T09:43:06+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Let our application delegate create the main menu",
@@ -3867,7 +3867,7 @@
       "date": "2018-04-30T09:09:04+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Add a menu builder framework",
@@ -3878,7 +3878,7 @@
       "date": "2018-04-25T22:28:33+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Change behavior of shift page up/down sent to inactive table views",
@@ -3889,7 +3889,7 @@
       "date": "2018-04-25T22:07:50+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Consult table view’s delegate about which rows we can select",
@@ -3900,7 +3900,7 @@
       "date": "2018-04-25T21:47:38+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Auto-hide scrollbars",
@@ -3911,7 +3911,7 @@
       "date": "2018-04-03T22:18:19-04:00",
       "author": {
         "name": "Ronald Wampler",
-        "login": "rdwampler",
+        "username": "rdwampler",
         "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
       },
       "summary": "Always uppercase the encoding charset",
@@ -3922,7 +3922,7 @@
       "date": "2018-04-02T12:55:09+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Checkin release notes for 2.0-rc.9",
@@ -3933,7 +3933,7 @@
       "date": "2018-04-02T12:47:15+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Revert \"Add ‘public.data’ to list of supported file types for QuickLook plug-in\"",
@@ -3944,29 +3944,18 @@
       "date": "2018-03-08T16:31:15+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Checkin release notes for 2.0-rc.8",
       "body": ""
     },
     {
-      "hash": "a843a02aa1ad3f05e4f1aa3f9292f68604e39983",
-      "date": "2018-03-07T15:29:41+07:00",
-      "author": {
-        "name": "Allan Odgaard",
-        "login": "sorbits",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
-      },
-      "summary": "Revert \"Specify ‘ns’ as a (link) dependency\"",
-      "body": "This reverts commit 75e8723e64c695e464dc78f5b9d84681b9b994da."
-    },
-    {
       "hash": "a232a1848b1b21982648419541ab9a04c5baf1bd",
       "date": "2018-03-08T12:10:06+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Update copyright to 2004-2018",
@@ -3977,7 +3966,7 @@
       "date": "2018-03-08T12:05:37+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Only use dirname_r and basename_r if on macOS 10.12",
@@ -3988,18 +3977,29 @@
       "date": "2018-03-08T11:45:55+07:00",
       "author": {
         "name": "Allan Odgaard",
-        "login": "sorbits",
+        "username": "sorbits",
         "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
       },
       "summary": "Disable exact rank calculation for large strings",
       "body": "The algorithm to calculate exact rank requires n × m storage which is stack allocated, so for large strings, we could blow the stack.\n\nRather than switch to dynamic allocation, we’re just foregoing the exact rank, since for large strings, it’s unlikely to be useful to try to calculate such a thing."
     },
     {
+      "hash": "a843a02aa1ad3f05e4f1aa3f9292f68604e39983",
+      "date": "2018-03-07T15:29:41+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Revert \"Specify ‘ns’ as a (link) dependency\"",
+      "body": "This reverts commit 75e8723e64c695e464dc78f5b9d84681b9b994da."
+    },
+    {
       "hash": "e3ded6e2f9ede6b9f5fb7f7f3022b621355a2df4",
       "date": "2018-02-07T14:00:43+01:00",
       "author": {
         "name": "Jacob Carlborg",
-        "login": "jacob-carlborg",
+        "username": "jacob-carlborg",
         "avatar_url": "https://avatars.githubusercontent.com/u/306980?v=4"
       },
       "summary": "Add imported and exported type declarations for D",
@@ -4010,7 +4010,7 @@
       "date": "2018-02-03T21:24:39-06:00",
       "author": {
         "name": "Ryan Schmidt",
-        "login": "ryandesign",
+        "username": "ryandesign",
         "avatar_url": "https://avatars.githubusercontent.com/u/429209?v=4"
       },
       "summary": "Mark strong properties as strong",
@@ -4021,7 +4021,7 @@
       "date": "2018-02-01T01:23:24-06:00",
       "author": {
         "name": "Michael Sheets",
-        "login": "infininight",
+        "username": "infininight",
         "avatar_url": "https://avatars.githubusercontent.com/u/1974?v=4"
       },
       "summary": "Fix generation of contribution page",

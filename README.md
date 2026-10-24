@@ -81,7 +81,10 @@ To build TextMate, you need the following:
 | [boost](https://boost.org)                                | portable C++ source libraries  |
 | [ninja](https://ninja-build.org)                          | build system similar to `make` |
 | [Ruby 4.0+](https://ruby-lang.org)                        | build system and dev scripts   |
+| [rv](https://github.com/spinel-coop/rv)                   | runs the scripts on the Ruby in `.ruby-version` |
+| [SwiftLint](https://github.com/realm/SwiftLint)           | style check in `script/lint`   |
 | [multimarkdown](https://fletcherpenney.net/multimarkdown) | Markdown compiler              |
+| [gh](https://cli.github.com)                              | GitHub accounts for the Contributions page, `script/update_contributions` |
 
 The `Brewfile` at repo root lists all [Homebrew](https://brew.sh) dependencies. Two are only required for the test suite (`mercurial` and `subversion`).
 

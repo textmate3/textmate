@@ -25,6 +25,24 @@ public struct MarkdownView: View {
   }
 }
 
+/// The blocks of a document stacked, with no scroll view of their own, for a place that already scrolls, such as a row of a list.
+/// A plain stack rather than a lazy one, since what goes here is short: a commit message, a note.
+public struct MarkdownBlocksView: View {
+  public let document: MarkdownDocument
+
+  public init(document: MarkdownDocument) {
+    self.document = document
+  }
+
+  public var body: some View {
+    VStack(alignment: .leading, spacing: 8) {
+      ForEach(document.blocks.indices, id: \.self) { index in
+        MarkdownBlockView(block: document.blocks[index])
+      }
+    }
+  }
+}
+
 /// One block, by its case.
 /// A list hands its items to MarkdownListView, which comes back here for the blocks inside each item.
 struct MarkdownBlockView: View {
