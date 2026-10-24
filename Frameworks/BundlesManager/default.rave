@@ -1,6 +1,7 @@
 target "${dirname}" {
 	require OakAppKit OakFoundation OakSystem SoftwareUpdate bundles io ns regexp text
 	headers src/Bundle.h src/BundlesManager.h
-	sources src/*.{cc,mm}
+	sources src/*.{mm,swift}
+	tests tests/*.swift
 	frameworks Foundation
 }

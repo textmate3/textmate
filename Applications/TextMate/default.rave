@@ -48,7 +48,11 @@ target "${dirname}" {
 	# SMAppService the first time the helper is needed. It names the helper by
 	# its path inside this bundle.
 	files LaunchDaemons/*.plist "Library/LaunchDaemons"
-	files about/*            "Resources/About"
+	# Contributions is the one About page still rendered to HTML, with its
+	# stylesheet and script. Changes and Legal ship as the Markdown they are,
+	# through copy rather than files, since files would convert them.
+	files about/Contributions.md about/css about/js "Resources/About"
+	copy  about/Changes.md about/Legal.md             "Resources/About"
 	files Info.plist         "."
 	copy  support/*          "SharedSupport"
 	copy  @Dialog2           "PlugIns"

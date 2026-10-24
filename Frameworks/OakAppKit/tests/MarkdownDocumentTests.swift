@@ -74,10 +74,12 @@ extension MarkdownBlock {
   @Test func aParagraphKeepsItsLinkAndCodeSpanAndLosesTheBlockIntent() throws {
     let document = try MarkdownDocument(markdown: try fixture("Sample.md"))
     let text = try #require(document.blocks[2].paragraph)
-    #expect(plain(text) == "A paragraph with a link and code span and emphasis.")
+    #expect(plain(text) == "A paragraph with a link and a reference and code span and emphasis.")
 
+    // The second link is reference style, defined at the foot of the file, which Legal.md uses throughout.
+    // The definition itself is not a block: the document still has six.
     let links = text.runs.compactMap(\.link)
-    #expect(links == [URL(string: "https://example.com")])
+    #expect(links == [URL(string: "https://example.com"), URL(string: "https://gnu.org/licenses/gpl-3.0.html")])
 
     let codeSpans = text.runs.filter { $0.inlinePresentationIntent == .code }.map { plain(AttributedString(text[$0.range])) }
     #expect(codeSpans == ["code span"])
