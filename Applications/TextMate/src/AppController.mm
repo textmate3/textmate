@@ -14,6 +14,7 @@
 #import <OakAppKit/NSAlert Additions.h>
 #import <OakAppKit/NSMenuItem Additions.h>
 #import <OakAppKit/OakAppKit.h>
+#import <OakAppKit/OakAppKit-Swift.h>
 #import <OakAppKit/OakPasteboard.h>
 #import <OakFilterList/BundleItemChooser.h>
 #import <OakFoundation/OakFoundation.h>
@@ -602,8 +603,9 @@ BOOL HasDocumentWindow (NSArray* windows)
 // pins wherever rv looks, or installs it, prebuilt, in seconds. Off the main
 // thread, since an install downloads. When it is settled the environment
 // every command gets is made again around it. What the resolver reports on
-// the way, an install, a fallback, an error, is logged here and is the
-// banner's material once the banner exists.
+// the way, an install, a fallback, an error, is logged here and put on the
+// notice board, which every document window shows as a strip above its text
+// until the person dismisses it.
 static NSString* const kRuntimesRubyBundleUUID = @"0273983B-D121-4A7F-91CA-12C06A6CDE2A";
 
 // Python lives in a bundle of its own, and that bundle is optional. Not being
@@ -624,12 +626,19 @@ static NSString* const kRuntimesPythonBundleUUID = @"5CA339D1-FDBB-4F83-BFDC-706
 		python_runtime::answer_t const answer = python_runtime::resolve(resolver, python_runtime::kPinnedVersion);
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if(answer.installed != NULL_STR)
+			{
 				os_log(OS_LOG_DEFAULT, "Installed Python %{public}s for bundle commands at %{public}s", answer.installed.c_str(), answer.path.c_str());
+				[OakNoticeBoard.shared post:[NSString stringWithFormat:@"TextMate installed Python %s for bundle commands, at %s.", answer.installed.c_str(), answer.path.c_str()]];
+			}
 			if(answer.fallback != NULL_STR)
+			{
 				os_log(OS_LOG_DEFAULT, "Bundle commands run on a Python other than %{public}s: %{public}s", python_runtime::kPinnedVersion.c_str(), answer.fallback.c_str());
+				[OakNoticeBoard.shared post:[NSString stringWithFormat:@"Bundle commands run on a Python other than %s. %s.", python_runtime::kPinnedVersion.c_str(), answer.fallback.c_str()]];
+			}
 			if(answer.path == NULL_STR)
 			{
 				os_log_error(OS_LOG_DEFAULT, "No Python for bundle commands: %{public}s", answer.error.c_str());
+				[OakNoticeBoard.shared post:[NSString stringWithFormat:@"Python bundle commands will not run. %s.", answer.error.c_str()]];
 				return;
 			}
 			oak::set_application_python(answer.path);
@@ -689,6 +698,7 @@ static NSString* const kRuntimesPythonBundleUUID = @"5CA339D1-FDBB-4F83-BFDC-706
 	if(!runtimes)
 	{
 		os_log_error(OS_LOG_DEFAULT, "No Ruby for bundle commands: the Runtimes Ruby bundle is not installed");
+		[OakNoticeBoard.shared post:@"Ruby bundle commands will not run. The Runtimes Ruby bundle is not installed."];
 		return;
 	}
 
@@ -697,12 +707,19 @@ static NSString* const kRuntimesPythonBundleUUID = @"5CA339D1-FDBB-4F83-BFDC-706
 		ruby_runtime::answer_t const answer = ruby_runtime::resolve(resolver, ruby_runtime::kPinnedVersion);
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if(answer.installed != NULL_STR)
+			{
 				os_log(OS_LOG_DEFAULT, "Installed Ruby %{public}s for bundle commands at %{public}s", answer.installed.c_str(), answer.ruby.c_str());
+				[OakNoticeBoard.shared post:[NSString stringWithFormat:@"TextMate installed Ruby %s for bundle commands, at %s.", answer.installed.c_str(), answer.ruby.c_str()]];
+			}
 			if(answer.fallback != NULL_STR)
+			{
 				os_log(OS_LOG_DEFAULT, "Bundle commands run on a Ruby other than %{public}s: %{public}s", ruby_runtime::kPinnedVersion.c_str(), answer.fallback.c_str());
+				[OakNoticeBoard.shared post:[NSString stringWithFormat:@"Bundle commands run on a Ruby other than %s. %s.", ruby_runtime::kPinnedVersion.c_str(), answer.fallback.c_str()]];
+			}
 			if(answer.ruby == NULL_STR)
 			{
 				os_log_error(OS_LOG_DEFAULT, "No Ruby for bundle commands: %{public}s", answer.error.c_str());
+				[OakNoticeBoard.shared post:[NSString stringWithFormat:@"Ruby bundle commands will not run. %s.", answer.error.c_str()]];
 				return;
 			}
 			oak::set_application_ruby_directory(answer.ruby);
