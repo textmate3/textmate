@@ -5,6 +5,7 @@ target "${dirname}" {
 	files resources/* gfx/CloseButton/*.png "Resources"
 
 	sources src/*.{cc,mm,swift}
+	tests tests/*.swift
 	frameworks Cocoa Quartz UniformTypeIdentifiers
 	# The SDK's sqlite by path.
 	# A Homebrew sqlite on the linker's search path is never picked up.
