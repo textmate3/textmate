@@ -35,7 +35,6 @@ class Release
   SIGN_UPDATE   = File.join(ROOT, "vendor/Sparkle/bin/sign_update")
   SPARKLE_KEY   = "textmate3-production"
   REPOSITORY    = "textmate3/textmate"
-  MINIMUM_MACOS = "26.0"
   CHANNELS      = %w[alpha beta release].freeze
 
   attr_reader :channel, :base_version, :version, :tag
@@ -137,10 +136,11 @@ class Release
     @production ||= begin
       text = File.read(DEFAULT_RAVE)
       values = {
-        bundle_key: text[/BUNDLE_PUBLIC_ED_KEY=\\"([^"\\]+)\\"/, 1],
-        feed_key:   text[/^set SU_PUBLIC_ED_KEY\s+"([^"]+)"/, 1],
-        feed_url:   text[/^set SU_FEED_URL\s+"([^"]+)"/, 1],
-        rest_api:   text[/REST_API=\\"([^"\\]+)\\"/, 1],
+        bundle_key:    text[/BUNDLE_PUBLIC_ED_KEY=\\"([^"\\]+)\\"/, 1],
+        feed_key:      text[/^set SU_PUBLIC_ED_KEY\s+"([^"]+)"/, 1],
+        feed_url:      text[/^set SU_FEED_URL\s+"([^"]+)"/, 1],
+        minimum_macos: text[/^set APP_MIN_OS\s+"([^"]+)"/, 1],
+        rest_api:      text[/REST_API=\\"([^"\\]+)\\"/, 1],
       }
       missing = values.select { |_, value| value.nil? }.keys
       abort "release: default.rave no longer declares #{missing.join(", ")}" unless missing.empty?
@@ -232,7 +232,7 @@ class Release
     item.add_element("sparkle:version").text = build_number
     item.add_element("sparkle:shortVersionString").text = version
     item.add_element("sparkle:channel").text = channel if prerelease?
-    item.add_element("sparkle:minimumSystemVersion").text = MINIMUM_MACOS
+    item.add_element("sparkle:minimumSystemVersion").text = production[:minimum_macos]
     item.add_element("pubDate").text = Time.now.utc.rfc2822
     item.add_element("link").text = "https://github.com/#{REPOSITORY}/releases/tag/#{tag}"
     description = item.add_element("description")
