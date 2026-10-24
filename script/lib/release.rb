@@ -5,7 +5,8 @@
 # one more than the tags that already carry that channel, so nothing is edited by hand between
 # alphas. The build number is the commit count, which the build derives itself.
 #
-# What happens, in order: a release.rave carrying the suffix and the production catalog and feed is
+# What happens, in order: the Contributions page's data is brought up to date and committed when it
+# changed, a release.rave carrying the suffix and the production catalog and feed is
 # written for this one build, script/notarize builds, signs, submits and staples, the built
 # application is checked to talk to production, the stapled application is zipped, the zip is
 # signed with the production Sparkle key from the login keychain, a GitHub Release is created for
@@ -55,6 +56,7 @@ class Release
   def run
     check_preconditions
     puts "Releasing #{version} on the #{channel} channel"
+    refresh_contributions
     build
     zip = archive
     signature, length = sign(zip)
@@ -100,6 +102,20 @@ class Release
 
   def existing_tags
     capture("git", "tag", "--list", "v#{base_version}-#{channel}.*").lines.map(&:strip)
+  end
+
+  # The Contributions page's data, brought up to this release. The script reads
+  # main and asks GitHub about the commits since the last run, through the gh
+  # the preconditions already require. A change is committed and pushed before
+  # the build, so the build number counts it and the released application
+  # carries it. The commit this makes is the one commit the data cannot hold.
+  def refresh_contributions
+    run! "script/update_contributions"
+    return if capture("git", "status", "--porcelain", "--", "Applications/TextMate/resources/Contributions").empty?
+
+    run! "git", "add", "Applications/TextMate/resources/Contributions"
+    run! "git", "commit", "--quiet", "--message", "Refresh the contributions data for #{version}"
+    run! "git", "push", "--quiet"
   end
 
   # The build, with the suffix in place for it and gone after, and then a
