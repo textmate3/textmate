@@ -888,7 +888,10 @@ module Target
             command:      'xcrun --sdk macosx swiftc -c -wmo -parse-as-library -emit-dependencies $flags $in',
             depfile:      swift[:object].chomp('.o') + '.d',
             deps:         'gcc',
-            description:  "Compile Swift module ‘#{swift[:name]}’…",
+            # A description belongs to the ninja rule, and every Swift compile
+            # shares this one, so the module name is a variable of the step.
+            description:  "Compile Swift ‘$module’…",
+            module:       swift[:name],
             dependencies: dependencies,
             # Waits for the exported headers of the targets required outright,
             # which a bridging header may import. Not the transitive ones: the
@@ -1405,7 +1408,8 @@ module Target
             command:      'xcrun --sdk macosx swiftc -c -wmo -parse-as-library -emit-dependencies $flags $in',
             depfile:      test_object.chomp('.o') + '.d',
             deps:         'gcc',
-            description:  "Compile Swift tests ‘#{module_name}’…",
+            description:  "Compile Swift ‘$module’…",
+            module:       module_name,
             dependencies: module_dependencies,
           }
 
