@@ -1,4 +1,4 @@
-set APP_MIN_OS    "26.0"
+set APP_MIN_OS    "27.0"
 
 # A prerelease suffix for the version people read, empty for a plain build. The release scripts set
 # it for one build through release.rave, applied after local.rave.

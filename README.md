@@ -11,7 +11,7 @@ TextMate 3 will always be a Mac-assed Mac app.
 - ✅ remove legacy dependencies
 - ✅ delete dead code
 - ✅ drop Intel chip support
-- ✅ raise minimum requirements: macOS 26+, Ruby 4+, Swift 6+
+- ✅ raise minimum requirements: macOS 27+, Ruby 4+, Swift 6+
 - ✅ use Sparkle for app updates
 - ⚠️ update bundle catalog content and UI
 - ⚠️ add LSP (Language Server Protocol)
@@ -77,7 +77,7 @@ To build TextMate, you need the following:
 
 | Dependency                                                | Usage                          |
 | --------------------------------------------------------- | ------------------------------ |
-| [macOS 26+](https://apple.com/macos)                      | minimum macOS version          |
+| [macOS 27+](https://apple.com/macos)                      | minimum macOS version          |
 | [boost](https://boost.org)                                | portable C++ source libraries  |
 | [ninja](https://ninja-build.org)                          | build system similar to `make` |
 | [Ruby 4.0+](https://ruby-lang.org)                        | build system and dev scripts   |
