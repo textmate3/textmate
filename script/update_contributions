@@ -7,7 +7,8 @@
 # Run this after merging, and before a release, then commit the result. The
 # commit that adds the files is itself not in them, which is the nature of it.
 #
-# git supplies the commits. GitHub supplies, for each commit, the account it
+# git supplies the commits, those of main and no other branch, wherever this is
+# run from. GitHub supplies, for each commit, the account it
 # resolves the author to, login and avatar, which is the one thing git does not
 # know and the only reason this script talks to the network, through gh, which
 # the Brewfile installs and `gh auth login` signs in. Commits already in the
@@ -66,7 +67,7 @@ end
 # message can hold. The email is not written out. It is what the account is
 # matched on, and git already has it.
 format = "%H%x00%aI%x00%an%x00%ae%x00%s%x00%b%x1e"
-log, status = Open3.capture2("git", "-C", ROOT, "log", "--format=#{format}")
+log, status = Open3.capture2("git", "-C", ROOT, "log", "main", "--format=#{format}")
 abort "update_contributions: git log failed" unless status.success?
 
 commits = log.split("\x1e").filter_map do |record|

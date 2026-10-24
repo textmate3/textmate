@@ -2,37 +2,15 @@
   "year": 2026,
   "commits": [
     {
-      "hash": "479d4e4a4beb9a5ad397ef0bf7fbe160edeee6d6",
-      "date": "2026-10-24T01:13:08-07:00",
+      "hash": "24899423f975d578b497c08c8bff68687d8082c6",
+      "date": "2026-10-24T01:45:42-07:00",
       "author": {
         "name": "Shane Becker",
         "username": "veganstraightedge",
         "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
       },
-      "summary": "Show Contributions natively from the per year JSON and take the web view, its bridge and the credits generator out of the About window",
-      "body": ""
-    },
-    {
-      "hash": "3f14e0fcbbd80858f3bfcc08888b97021495f8db",
-      "date": "2026-10-24T01:09:54-07:00",
-      "author": {
-        "name": "Shane Becker",
-        "username": "veganstraightedge",
-        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
-      },
-      "summary": "Add the Contribution model and loader with tests, a blocks view for Markdown inside a row, name the account field username, sort each year by author date, and declare gh, rv and swiftlint with a Ruby pin",
-      "body": ""
-    },
-    {
-      "hash": "5dba688c1eb67f605403cb7117f502492954bcc9",
-      "date": "2026-10-24T00:49:39-07:00",
-      "author": {
-        "name": "Shane Becker",
-        "username": "veganstraightedge",
-        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
-      },
-      "summary": "Add script/update_contributions and the per year JSON of every commit it writes, with GitHub accounts resolved by GitHub",
-      "body": ""
+      "summary": "Show Contributions natively, with the data behind it as one JSON file per year (#72)",
+      "body": "The About window's Contributions page was the last one in a web view.\nIts HTML was made at build time by an ERB template inside\n`Contributions.md`, running `git log` over the checkout, hashing author\nemails for Gravatar, looking up GitHub accounts in a hand kept table of\nforty email hashes that stops in 2014, leaving out Allan Odgaard's\ncommits by a joke of his own, and linking every commit to the upstream\nrepository.\n\n**The data.** `script/update_contributions` writes one JSON file per\nyear under the application's resources with every commit's hash, author\ndate, author name, summary and body, and the GitHub username and avatar\nthat GitHub itself resolves the author to through the repository's\ncommits endpoint, which works for private emails too. Each year is\nsorted by author date, newest first, since `git log`'s own order follows\ncommit date and parentage and a rebase or a cherry pick puts the two out\nof step. The files are committed, so a build needs neither the network\nnor a token. Commits already in the files keep what they have, so a\nroutine run asks GitHub about the commits since the last one and reads\none page. A commit GitHub has not seen, one on a branch that has not\nmerged, takes the account of another commit by the same email. 6,071\ncommits in eleven files. Allan's 5,171 are in. 39 commits have no\naccount, all old, one of them because its author email is empty, which\nthe API answers with an empty object rather than null.\n\n**The page.** `Contribution` and `ContributionYear` in OakFoundation\ndecode the files, with tests over a real year file, and\n`days(calendar:)` groups a year by the day each commit was authored,\nunder the titles the page used. `ContributionsView` reads the directory\noff the main thread behind a progress indicator and lists every commit\nunder a heading per day: the author's avatar, the summary with a chevron\nthat opens the rest of the message drawn as Markdown so its wrapped\nlines read as paragraphs, the short hash linked to the commit in this\nrepository, and the author linked to their profile as name and username\nwhen GitHub knows them. `MarkdownBlocksView` in OakAppKit is the\nrenderer without its scroll view, for a body inside a row that already\nscrolls.\n\n**What leaves.** The web view, the bridge script, the message handler,\n`Contributions.md` with its stylesheet and script, and\n`bin/gen_credits.rb`. The Markdown to HTML build stays, since the Help\npages are converted by it.\n\n**Dependencies.** `gh` is what the script asks GitHub through, and it\nwas not declared anywhere, so it is in the Brewfile and the README now,\nand the script aborts naming them when it is missing or signed out. The\nsame check found `rv` and `swiftlint` undeclared, so they are declared\ntoo, and `.ruby-version` pins the Ruby the scripts run on, which until\nnow came from the machine's home directory."
     },
     {
       "hash": "544b58635a7ee18c1c57fca17399f7503a14de1a",
