@@ -1,0 +1,797 @@
+{
+  "year": 2017,
+  "commits": [
+    {
+      "hash": "b1fdd4377b012395adb7ba09dc2cee1c3ef8eec9",
+      "date": "2017-10-03T22:43:13-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Allow customization of DocumentWindowController touch bar items",
+      "body": ""
+    },
+    {
+      "hash": "2294d369d06ee588042410e40fc0ec8ee494bb66",
+      "date": "2017-10-03T22:37:30-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Add accessibility support for DocumentWindowController's touch bar",
+      "body": ""
+    },
+    {
+      "hash": "d8db03c426943d4b4032f551eac96aed3868919b",
+      "date": "2017-10-04T17:52:15-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Add initial touch bar support for OakTextView",
+      "body": "This adds buttons for inserting/removing bookmarks and navigate them.\n\nSince the function keys were replaced with the touch bar, there currently is no other way to set and navigate bookmarks other than these buttons so make their visibility priority high."
+    },
+    {
+      "hash": "d8b17a1f06a83688cab2214787a5fcd1f2216ca9",
+      "date": "2017-10-03T22:32:57-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Let DocumentWindowController's touch bar support nested touch bars",
+      "body": ""
+    },
+    {
+      "hash": "a31a985610b10024a201f11f3f51729039c392d3",
+      "date": "2017-04-19T16:54:48-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Add support for Finder tags instead of just one label color",
+      "body": ""
+    },
+    {
+      "hash": "cec95ce60118903c12338a01feb87292f257f525",
+      "date": "2017-03-30T14:30:13-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Remove unnecessary forward declaration",
+      "body": ""
+    },
+    {
+      "hash": "fd827fb8179cd74e553680d605d2172e05822e07",
+      "date": "2017-11-11T18:54:12+01:00",
+      "author": {
+        "name": "Pravdomil",
+        "login": "pravdomil",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2387356?v=4"
+      },
+      "summary": "Add ‘public.data’ to list of supported file types for QuickLook plug-in",
+      "body": "This enables QuickLook preview for text files without extension such as README, LICENSE, etc."
+    },
+    {
+      "hash": "108b99149ce4decb02d8d4bce42d5da7189a2f9c",
+      "date": "2017-10-13T21:59:45+13:00",
+      "author": {
+        "name": "Paul Collins",
+        "login": "pajodaco",
+        "avatar_url": "https://avatars.githubusercontent.com/u/20273065?v=4"
+      },
+      "summary": "Handle rate-limiting when using GitHub’s API to obtain author emails",
+      "body": ""
+    },
+    {
+      "hash": "d00a5cd4a09a2280e12634ec03bb44fe96e75ee3",
+      "date": "2017-10-13T21:59:45+13:00",
+      "author": {
+        "name": "Paul Collins",
+        "login": "pajodaco",
+        "avatar_url": "https://avatars.githubusercontent.com/u/20273065?v=4"
+      },
+      "summary": "Create credits database file’s enclosing directory as necessary",
+      "body": ""
+    },
+    {
+      "hash": "9f2eb762234e760c9ed0618cd4fdca89ec390358",
+      "date": "2017-10-04T23:07:14-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Explicitly close OakChoiceMenu",
+      "body": "On 10.13, just setting our instance of OakChoiceMenu to `nil` no longer seem to close our window."
+    },
+    {
+      "hash": "75e8723e64c695e464dc78f5b9d84681b9b994da",
+      "date": "2017-11-16T10:06:39+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Specify ‘ns’ as a (link) dependency",
+      "body": "See http://lists.macromates.com/textmate/2017-November/040458.html"
+    },
+    {
+      "hash": "408033460994bcac4092eff537a876342c9d4e6b",
+      "date": "2017-10-09T10:31:07+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix bug in CommonAncestor function",
+      "body": "When all paths had the same prefix as first item, the first item would be returned as the common ancestor even if the other paths were not children.\n\nFor example:\n\n    /path/to/some_folder\n    /path/to/some_folder_with_same_prefix\n\nHere `/path/to/some_folder` was returned even though `/path/to` is the common ancestor.\n\nThe function is still not correct when all paths are actual descendants of first path, but since it’s only used for display purposes, and with “find in folder” (where paths shouldn’t overlap), I am not bothering with that issue."
+    },
+    {
+      "hash": "4268b576051a862f845919aeb48454618bbfab10",
+      "date": "2017-10-09T10:28:30+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use OakNotEmptyString convenience function",
+      "body": ""
+    },
+    {
+      "hash": "06bd8b2be05da9ee8a5ea45c6c930fd493cd7c61",
+      "date": "2017-10-08T20:17:43+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add a ‘didUpdateFrom’ argument when relaunching during software update",
+      "body": ""
+    },
+    {
+      "hash": "a8b7906a4bc8583cd370f22905b092a6b25e77b3",
+      "date": "2017-10-08T20:12:14+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not hardcode bundle identifier in Caches path",
+      "body": ""
+    },
+    {
+      "hash": "6893bceae68ee337465ddb9bef239100789515ab",
+      "date": "2017-10-08T09:33:27+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Accept application/json for version update information",
+      "body": ""
+    },
+    {
+      "hash": "75d4c29f11ff9baca1b5d7e6ec2bdabcea0a79fa",
+      "date": "2017-10-08T09:19:49+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change etag network filter to a general header (capture) filter",
+      "body": ""
+    },
+    {
+      "hash": "81d1f84a2c3a5dcdce5373c6cc51597bdc3a09a0",
+      "date": "2017-10-08T09:13:03+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change sw_update.cc → sw_update.mm",
+      "body": ""
+    },
+    {
+      "hash": "eead4102dcb949c0dc838af01c549725c3396931",
+      "date": "2017-10-08T09:00:32+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not require that _app_path is setup when calling relaunch",
+      "body": ""
+    },
+    {
+      "hash": "c6e07fadf3d49ac3640b6a20670d3d07701c9f4c",
+      "date": "2017-10-08T08:53:12+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Accept additional application arguments for relaunch API",
+      "body": "This allows us to indicate to the new instance why it was launched."
+    },
+    {
+      "hash": "503d493f47901dc451f37ee2c0caf08b578a549e",
+      "date": "2017-10-07T13:43:19+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move OakTabBarView into its own framework",
+      "body": "The motivation is to get an OakAppKit that does not include hundres of image resources."
+    },
+    {
+      "hash": "0a597f15050ab35fa12d31076e95e7692558b05d",
+      "date": "2017-08-24T09:43:43-04:00",
+      "author": {
+        "name": "Jason Gavris",
+        "login": "jgavris",
+        "avatar_url": "https://avatars.githubusercontent.com/u/178749?v=4"
+      },
+      "summary": "Enable ThinLTO",
+      "body": ""
+    },
+    {
+      "hash": "71aa9764af9d110f82f6b9371ba4cc69a3c6ad0a",
+      "date": "2017-10-03T18:59:06-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Add capnp include path for C++/Objective-C++ files",
+      "body": "This is needed after commit 2748e12699063dd92d0211d36b32ccf44a7bc103."
+    },
+    {
+      "hash": "9f1cec343ea835fe2cb7e78aa9fe4ea350533627",
+      "date": "2017-10-03T10:29:25-06:00",
+      "author": {
+        "name": "Jake Kirshner",
+        "login": "jakecast",
+        "avatar_url": "https://avatars.githubusercontent.com/u/868863?v=4"
+      },
+      "summary": "Add basic touch-bar support",
+      "body": ""
+    },
+    {
+      "hash": "f7f6444885be9c2eb7bfa7f3f3dfb7f939f303e8",
+      "date": "2017-10-03T09:42:10+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Only load charset (encoding) frequency database once",
+      "body": "Previously this database was loaded each time a file of unknown encoding was read, which could add a significant overhead when using “find in folder” with a large database and many files with unknown encoding."
+    },
+    {
+      "hash": "7d38095532a9ed64b7a2c0842c52ee611474c003",
+      "date": "2017-10-03T08:36:10+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let EncodingWindowController accept NSData instead of char pointers",
+      "body": ""
+    },
+    {
+      "hash": "2748e12699063dd92d0211d36b32ccf44a7bc103",
+      "date": "2017-10-03T08:23:55+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change encoding classifier language from C++ to Objective-C++",
+      "body": ""
+    },
+    {
+      "hash": "c57a70db83776cb70db0f25dd16a8308bf54db7d",
+      "date": "2017-10-03T08:19:41+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not use NSOutlineView’s clickedRow for key events",
+      "body": ""
+    },
+    {
+      "hash": "5fc61d0a34ee04d477d59a73ff4efb092d47b2a5",
+      "date": "2017-10-03T08:18:05+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t use menuForEvent: when showing NSOutlineView’s menu using ⌥F2",
+      "body": "The reason is that menuForEvent: will draw an outline around the items under the mouse, which can be incorrect when we use the keyboard.\n\nWhile we can address it by creating a fake mouse event that points to the selection, this will fail when there is no selection, so I felt it was better to always forego it."
+    },
+    {
+      "hash": "5782569a1f0e218e3f2c8b45d4ca3874a2eee8a9",
+      "date": "2017-10-02T20:47:39+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Workaround for modified icons in the file chooser being pixelated",
+      "body": "Comment also added to the source (since this workaround is not optimal, and I would like to find the correct solution):\n\nIf we use `self.size` for the off-screen image buffer then we get a scaled up 16×16 image in the file chooser (⌘T).\n\nMy theory is that when drawing the image, the image size is 16×16 but the graphics context uses a transformation so that each point is multiple pixels, which our off-screen image does not replicate.\n\nI do not know how to get the actual “pixel size” of the destination, so using the largest image is a workaround and knowing the actual size could give a better result."
+    },
+    {
+      "hash": "ed6be1b35e67001f138e4fa43d3e471853923b71",
+      "date": "2017-10-02T20:12:46+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove var-args constructor from string list transformer",
+      "body": "Instead add constructor that takes a dictionary so that it can be used with values that are not consecutive and starting from zero."
+    },
+    {
+      "hash": "e804a57e04da37c2ea4fcb3b34ef270e9b8aba61",
+      "date": "2017-10-02T20:09:43+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change name of property setter: isChecking → checking",
+      "body": ""
+    },
+    {
+      "hash": "8d56ad455aa9603a32843db2adcdb8443c1eb044",
+      "date": "2017-10-02T20:06:51+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSBundle API instead of oak::application_t",
+      "body": ""
+    },
+    {
+      "hash": "5bc450f56f36c6f5816456a18a28c632efa8a9ab",
+      "date": "2017-10-02T20:05:37+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move instance variables from implementation to interface block",
+      "body": ""
+    },
+    {
+      "hash": "234e64dcfcf2845d3a1c34e29bcd7d5419d7f42d",
+      "date": "2017-10-02T13:33:59-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Temporarily peg support at C++14 (10.13)",
+      "body": "Building with c++1z support on the latest version of clang on High Sierra (10.13) causes a couple of runtime crashes."
+    },
+    {
+      "hash": "1fb9947d42df4ba96b46fae0d94b790ca6c83437",
+      "date": "2017-10-02T13:14:35-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Don't specify libc++ (10.9)",
+      "body": "Since our minimum target is now 10.9, clang will default to use and link with libc++\ninstead of libstdc++.\n\nThis also reverts commit 162b3dee2c08fa235718f54852644548bec68d15."
+    },
+    {
+      "hash": "239d5bc19fe6901e071568038aff4e46c1c03fb2",
+      "date": "2017-09-15T09:02:24+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add format string API that accepts lambda (callback) for variables",
+      "body": ""
+    },
+    {
+      "hash": "f869f09b6c2fb7bddf88e67ead32ff66881fc721",
+      "date": "2017-09-15T09:00:10+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove obsolete friend declaration",
+      "body": ""
+    },
+    {
+      "hash": "0b1496011ffd1accd36c74843b485e47b375be98",
+      "date": "2017-09-15T08:41:01+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use a lambda for format string variables",
+      "body": ""
+    },
+    {
+      "hash": "47ccee4f36f5273664c0df2a1abe8c7c7ea225be",
+      "date": "2017-09-15T08:24:09+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not pass variables to `run_command` callback",
+      "body": "The caller already has a copy of the environment variables so this was redundant."
+    },
+    {
+      "hash": "78e0546a59b22a7680a0533316f0bbfd65c9af13",
+      "date": "2017-09-15T07:49:24+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Return variable value instead of iterator",
+      "body": ""
+    },
+    {
+      "hash": "bc3e42330b5c926cd1d68468fb137a2edbbf8b96",
+      "date": "2017-09-15T07:41:07+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use nested visitor instead of swapping member variables",
+      "body": ""
+    },
+    {
+      "hash": "107a56e12dcd074ae62898548dd22e7487f7e859",
+      "date": "2017-09-12T18:00:30+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add some new format string transformations",
+      "body": "- number: Show number with thousand separators, e.g. “32,351”\n- relative: Show dates as relative to now, e.g. “3 minutes ago”\n- duration: Show numbers as duration in seconds, e.g. “1 hour, 7 minutes”.\n- dirname: Show all but last path component\n- basename: Show last path component\n- urlescape: Encode characters that are not valid to include in URLs\n- shellescape: Wrap problematic strings in single quotes and/or escape single quote characters"
+    },
+    {
+      "hash": "8bb4b9d337dda94cfe814cf57510aa3627789185",
+      "date": "2017-09-12T18:46:36+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update dialog plug-in",
+      "body": ""
+    },
+    {
+      "hash": "1b0eafddebcc5cb42c4ba233ab1d3107556264f3",
+      "date": "2017-09-12T18:46:06+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add the 10.12 NSAlertStyle constants to sdk-compat.h",
+      "body": ""
+    },
+    {
+      "hash": "a0a15caa2ac2a0c992bec86b82a41ee1b8b3e838",
+      "date": "2017-09-12T18:32:23+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Introduce sdk-compat.h for redeclaring stuff in latest SDK",
+      "body": "This is when we are not yet ready to require building with the latest SDK but need to use some of symbols defined there."
+    },
+    {
+      "hash": "896ab7c02efd3c499f9cbff10f616c9205f3b837",
+      "date": "2017-09-12T18:19:11+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "fixup! Update MASPreferences submodule: identifier → viewIdentifier",
+      "body": ""
+    },
+    {
+      "hash": "ed915627801ca3c689d22b9ae55514c5ee90a7ca",
+      "date": "2017-09-12T16:43:55+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use encode::url_part instead of NSString’s deprecated API",
+      "body": "While NSString does have a “modern” replacement, it seems simpler to use our own API because we are already dealing with a std::string."
+    },
+    {
+      "hash": "c5fd9d074d4fdb886e2cb56fa927647d1502e274",
+      "date": "2017-09-12T16:23:48+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "fixup! Remove `OakShowSheetForWindow` wrapper (10.9)",
+      "body": "There were two issues:\n\n1. The window’s sheetParent property is cleared when sending orderOut: to the window so the NSModalResponse was never passed on, as we were sending it to nil.\n\n2. The endSheet:returnCode: was using NSModalResponseCancel but the completion handler was actually testing for NSModalResponseAbort"
+    },
+    {
+      "hash": "14e91b6d35c36a80d22295bd8a2696ce6b9aca98",
+      "date": "2017-09-12T16:19:09+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Output error when referencing non-existing target",
+      "body": ""
+    },
+    {
+      "hash": "f30ce914559683c0bfb0a57127725c7bd71c6536",
+      "date": "2017-09-12T16:10:32+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use triangular bullet (‣) instead of black small triangle (▸)",
+      "body": "We were already using the triangular bullet in a few places, so I made it consistent. Semantically the small triangle might be more appropriate, because we do not use the glyph as a point marker, but I think the triangular bullet aligns better with the text (it’s raised above the baseline where the triangle seems to just touch the baseline)."
+    },
+    {
+      "hash": "212ef9b488ec717f241148cf8b6fbbfb2716e940",
+      "date": "2017-09-12T16:07:36+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update MASPreferences submodule: identifier → viewIdentifier",
+      "body": ""
+    },
+    {
+      "hash": "353ae8839cf0b62dac08225a8240e9609bf0fb34",
+      "date": "2017-07-12T12:11:56+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove OakPasteboardSelector’s shouldSendAction property",
+      "body": "This was used when the selector also functioned as the standalone pasteboard history UI."
+    },
+    {
+      "hash": "9c00277a465a06f401666749835c3dca6a6b4352",
+      "date": "2017-07-12T11:54:59+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change two methods to use Objective-C properties",
+      "body": ""
+    },
+    {
+      "hash": "5c853a7cb2f1c68d8bfa04539ca0e2778a13ce43",
+      "date": "2017-07-12T11:49:00+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Handle the case where pasteboard selector returns “no selection” (-1)",
+      "body": "This is based on a bug report which I have been unable to reproduce, as the pasteboard selector should always have one item selected."
+    },
+    {
+      "hash": "511e370b77fa4fb5a2b4cd62316b28b3f7882551",
+      "date": "2017-07-12T11:23:46+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change a few missing unsigned/int → NS[U]Integer",
+      "body": "One API was declared as returning ‘unsigned’ but was actually returning a signed integer."
+    },
+    {
+      "hash": "ffd6271a695665cd5f78c4b77a37a4f0136d8d11",
+      "date": "2017-07-12T10:34:42+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Allow disabling TextMate’s JavaScript API for commands with HTML output",
+      "body": "This is done by setting the ‘disableJavaScriptAPI’ key to ‘true’ in the tmCommand file.\n\nThe rationale behind this is that a command like “HTML → Show Preview” is using the HTML output view with user data which should not have access to the special TextMate JavaScript object, for example a user may have a `<script>` tag that loads JavaScript from a CDN, and such script would effectively have shell access to the user’s machine."
+    },
+    {
+      "hash": "c0fb320549bc0ef1b437756d1a67b2dfda026dbc",
+      "date": "2017-06-23T13:24:04-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Fix issues with redundant qualified names",
+      "body": "Starting in Clang 5, lookup with nested-class names is stricter (e.g., A::A now specifically refers to the constructor name)."
+    },
+    {
+      "hash": "49cc123544edb219a9fd131c68837e32bfaa271d",
+      "date": "2017-06-23T10:44:28-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Change `std::vector< std::pair<char const*, char const*> >` to `auto` (C++17)",
+      "body": "C++17 added a non-const overload for std::string::data()."
+    },
+    {
+      "hash": "44a7e580d92df67da4fc61b13f45be433c38182f",
+      "date": "2017-06-08T17:09:05-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Update deployment target to 10.9",
+      "body": ""
+    },
+    {
+      "hash": "4d86258e47a16016ac08189b6929da636885db75",
+      "date": "2017-05-31T21:52:54+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use new alert style enumeration names (10.12)",
+      "body": ""
+    },
+    {
+      "hash": "08f41a37dc7dd647232bacb8eaca93801d2d5b00",
+      "date": "2017-04-26T17:19:26-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Add \"Copy As Pathname\" to file browser's context menu",
+      "body": "This is implemented as an alternate menu item to \"Copy\" like in Finder."
+    },
+    {
+      "hash": "e1ed38959c56f20165214dd8ec02485d0c164aa9",
+      "date": "2017-04-21T15:34:44-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Exclude SyntaxMate.tmBundle from from ⌘T / ⇧⌘F",
+      "body": ""
+    },
+    {
+      "hash": "f3cd0b0797b375d9ebbeda1f3c1665a9ea628d7d",
+      "date": "2017-04-11T22:01:29-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Resolve ambiguous autolayout issues",
+      "body": "Most of these layout changes are related to the common pattern we used to set constraints for \"dividers\", where one of the dividers is specified to be connected to both edges of its superview then setting the other dividers' constraints to have equal widths (e.g., @\"H:|[divider(==divider2,==divider3)]\"). On 10.12, this now appears to result in ambiguous layout. We can resolve it by connecting at least one of the edges for each divider to its superview."
+    },
+    {
+      "hash": "a124b494c20b18878e347d185faedacb9d3e1c9d",
+      "date": "2017-02-01T19:35:16-05:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Revert \"Explicitly cast back to the CGEventFlags typedef\"",
+      "body": "This reverts commit 9e4e88ce76a334abe01f79e9d355623beac75831.\n\nCGEventFlags is (correctly) defined in the 10.12 sdk as:\n\n   typedef CF_OPTIONS(uint64_t, CGEventFlags)"
+    },
+    {
+      "hash": "5f7d5b53d6b94527ec2b81b84e0c9ace8bc00407",
+      "date": "2017-03-10T14:40:36+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update dialog plug-in (use view-based table view for popup)",
+      "body": ""
+    },
+    {
+      "hash": "a00f13f071ae2463f09680083e9e3ef21b2daf6e",
+      "date": "2017-02-26T12:19:58+01:00",
+      "author": {
+        "name": "Martin Kühl",
+        "login": "mkhl",
+        "avatar_url": "https://avatars.githubusercontent.com/u/505?v=4"
+      },
+      "summary": "Treat *.target files as source.tm-properties",
+      "body": ""
+    },
+    {
+      "hash": "e072a6a1ac88fd2ef3a3362af05da804b7348872",
+      "date": "2017-02-03T18:03:54+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update CxxTest subproject (despite not really being used)",
+      "body": ""
+    },
+    {
+      "hash": "cd9c6b1c3d6cce8307b836973d1695101190ceec",
+      "date": "2017-02-03T18:03:33+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use single setting to pair Go’s main and test files as related",
+      "body": ""
+    },
+    {
+      "hash": "ddb7a630743504fde04fc3eeaefb16050a39df5b",
+      "date": "2017-02-03T18:02:03+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update mate’s help text to show mark’s value as optional",
+      "body": ""
+    },
+    {
+      "hash": "76cc25b2a68605749a08f511ae80ce9f72432618",
+      "date": "2017-02-03T18:00:25+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update copyright year to 2017",
+      "body": ""
+    },
+    {
+      "hash": "fe000014fd92b4a65046a8eea7024633e2df6391",
+      "date": "2017-02-03T17:57:53+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t save metadata for the COMMIT_EDITMSG file",
+      "body": "Git will re-use the file, but with new content, so we do not want to remember caret position or similar.\n\nPreviously we recommended setting the git editor to ‘mate -wl1’ but disabling metadata is a better solution."
+    }
+  ]
+}

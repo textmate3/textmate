@@ -1,0 +1,1963 @@
+{
+  "year": 2021,
+  "commits": [
+    {
+      "hash": "346b52b108b387462d4b3def481fb74983ae89f3",
+      "date": "2021-10-12T21:39:21+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove image, modified, and SCMStatus properties from FileItem",
+      "body": ""
+    },
+    {
+      "hash": "ef895507887e361a75e2ffc518ff806eb5448164",
+      "date": "2021-10-12T21:35:56+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Bind file browser’s location icon to the image of a TMFileReference",
+      "body": "This is the last place using FileItem’s image property."
+    },
+    {
+      "hash": "ea73cc783f67231a1e8494b3e8e986273167cfd3",
+      "date": "2021-10-12T21:30:21+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change default size of image returned by TMFileReference: 48×48 → 16×16",
+      "body": "This makes binding menu items to a file reference image much simpler, as we do not have to bind to a property wrapper that resizes the image.\n\nAs a general rule, we always copy an image, before we change its size, so the image obtained from TMFileReference should always stay at its default size."
+    },
+    {
+      "hash": "1af594a2a2ce9e1d817fb8ba3db93d33e5a3469d",
+      "date": "2021-10-12T17:34:11+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Allow creating TMFileReference from an image instead of URL",
+      "body": "This is for places where we normally want to show a (live) image representing a URL (and its modified/SCM status) via bindings, but occasionally, we want to show a static image.\n\nFor example the location shown in the file browser. This is normally a folder, but it could be “Computer”. Similar for folder search results when searching unsaved documents."
+    },
+    {
+      "hash": "19c2271434b6143232cedb9a295a5b3dfb74199b",
+      "date": "2021-05-26T14:27:20+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update ./configure script to write rudimentary ‘local.rave’ file",
+      "body": "If user does not have dependencies in /usr/local then they must edit the file themselves."
+    },
+    {
+      "hash": "a8f17b750adb3a20b38271c43c7d17fac9e08239",
+      "date": "2021-05-26T14:11:31+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Setup “my” local.rave to find dependencies via my nix-profile",
+      "body": ""
+    },
+    {
+      "hash": "3826398fd867a237c563d7a6d6d7ab09d84bb441",
+      "date": "2021-05-26T14:06:05+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Assert that capnp includes/library can be found via default paths",
+      "body": "User should set up FLAGS / LN_FLAGS in local.rave to point to where capnp is installed."
+    },
+    {
+      "hash": "f89c04251948e2559b1a6af25e709d7b2fcfd669",
+      "date": "2021-05-26T14:01:37+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove CAPNP_BIN and assert that capnp can be found via PATH",
+      "body": ""
+    },
+    {
+      "hash": "cb195b2c0c576a0bc1e13627d1a72e0f512ec0ae",
+      "date": "2021-05-26T13:58:01+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t pass --minimum-deployment-target to ibtool in default build config",
+      "body": "See description of previous commit for more details."
+    },
+    {
+      "hash": "97caab644a433ba0a1591ca1d8f5ace55a5b58d1",
+      "date": "2021-05-26T09:29:24+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove deployment target from all xib files",
+      "body": "We pass --minimum-deployment-target to ibtool so having the deployment target in the xib is redundant.\n\nFurthermore, it appears that when building on macOS 11, a directory will be created for xib files when they:\n\n1. Are a custom view (as opposed to a window)\n2. Contains a deployment target\n3. Contains a table view\n\nTherefore, to successfully build on macOS 11 we cannot set deployment target for xib files meeting the above 3 criteria, which is easier when we only set the target in one place, instead of every single xib.\n\nThanks to Kevin Sjöberg for helping track this down."
+    },
+    {
+      "hash": "2f09c4562bbc877b3e4d04fbaeabbd3424039f74",
+      "date": "2021-05-19T13:48:01+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move embedded executables from Resources to MacOS directory",
+      "body": ""
+    },
+    {
+      "hash": "5d87b8ef9bfe05e2da1a93158c298e257092d4d9",
+      "date": "2021-05-17T21:37:40+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move HTML/CSS/JS shown in about window to subfolder",
+      "body": ""
+    },
+    {
+      "hash": "fb8da4622eaf04f9f598e07e70fabd1ed5873b55",
+      "date": "2021-05-10T21:52:58+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove open/isOpen property from FileItem",
+      "body": ""
+    },
+    {
+      "hash": "62c271cbb5426c7a3173396f9a6a0c547c00e9b6",
+      "date": "2021-05-10T21:46:54+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Assign icon to *.rave files",
+      "body": "Also remove icon from ‘target’ files, the previous name used for TextMate’s build configuration files."
+    },
+    {
+      "hash": "fd9d4f07ed0408b3bc08b0efe0ad129a9311c323",
+      "date": "2021-05-10T21:11:46+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove openURLs and modifiedURLs properties from file browser",
+      "body": ""
+    },
+    {
+      "hash": "5d10c1f63e0e48c99ca8c760bafdb327659b1ba8",
+      "date": "2021-05-10T21:09:50+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not update file browser’s openURLs and modifiedURLs properties",
+      "body": ""
+    },
+    {
+      "hash": "5867cf2c8ead7ee783ee2f81f2773efdedf518d7",
+      "date": "2021-05-10T21:01:43+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use TMFileReference for icon and close button in file browser table view",
+      "body": ""
+    },
+    {
+      "hash": "b1e88c3ce7f6c57fcb02a329cc950b53d6e36b2b",
+      "date": "2021-05-10T20:58:13+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add icon property to TMFileReference",
+      "body": "This is like ‘image’ but will dim the image when isModified returns YES."
+    },
+    {
+      "hash": "00b103238153e361f48933e34b025cca4d3b5d71",
+      "date": "2021-05-10T18:42:11+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let OakDocument update TMFileReference’s modified/closable state",
+      "body": ""
+    },
+    {
+      "hash": "5b0437da0867f730ff44737c3853a004ac4e2f99",
+      "date": "2021-05-10T17:35:34+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Tweak implementation of FileItem’s localizedName",
+      "body": "We now log an error if we are unable to obtain the NSURLLocalizedNameKey property, but still cache the (fallback) name (so that we do not repeatedly try to obtain the missing property)."
+    },
+    {
+      "hash": "a5c6fe985f89c4f4ca58bcd0ea05df0ed2de3a5b",
+      "date": "2021-05-10T17:29:52+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ensure low content hugging priority for text field used in table view",
+      "body": "When the NSTextField is not editable then it will (by default) hug its content, which is undesired, since the potential views following the text field (tags and close button) should appear right-aligned.\n\nIn general though, we do not have controls after the text field when it is read-only, as it represents a missing file, so this is just for layout consistency."
+    },
+    {
+      "hash": "f609a46e3a956b35ac5b7111eadec8d815c038cb",
+      "date": "2021-05-10T17:06:05+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use TMFileReference for a few icons in file browser",
+      "body": "Specifically the folder pop-up menu and the zooming icon animation.\n\nThe former is so that we can ensure that the icon has a size of 16×16."
+    },
+    {
+      "hash": "33f006e480529f36505dc758102eb41b4284d4de",
+      "date": "2021-05-10T14:20:04+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use custom code over setIconForFile: NSMenuItem custom category method",
+      "body": "While more code, it’s a step toward getting rid of the category extension method."
+    },
+    {
+      "hash": "c7a787893e46b242e799361804d621afdb88a04f",
+      "date": "2021-05-10T14:01:49+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use TMFileReference for file icons in bundle item chooser",
+      "body": "This is the icon used for settings that are from key binding or property settings files."
+    },
+    {
+      "hash": "2e8becc54a784314e9ec19957918c81b7e990592",
+      "date": "2021-05-10T12:31:33+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let file browser’s SCMManager update status of TMFileReference objects",
+      "body": "Ideally the SCMManager should be moved out of the file browser framework, but I am not yet sure where the best place is."
+    },
+    {
+      "hash": "cbee7d8e76fe3dd511a430d258e9c49257546809",
+      "date": "2021-05-10T12:29:22+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add function to switch between non/emphasized matched text colors",
+      "body": "Currently we assume all background and underline colors are for matched text, ideally we should check if the color match the non/emphasized color for background/underline."
+    },
+    {
+      "hash": "fd742dc917b0e5478d1906b021d0d29f0452dccc",
+      "date": "2021-05-10T12:24:49+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change naming convention for observer context constants",
+      "body": "Also make sure we pass the context as argument when removing the observer (CommitWindow class)."
+    },
+    {
+      "hash": "4290cdc6892b14373ab5914df13dd0c3938b1d00",
+      "date": "2021-05-10T12:14:50+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use property (dot) syntax when setting a few menu item properties",
+      "body": ""
+    },
+    {
+      "hash": "b838e4bc6c67d0db824c3fede616cd395754de02",
+      "date": "2021-05-10T12:11:52+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Show kUnknownFSObjectIcon for untitled documents in tab overflow menu",
+      "body": ""
+    },
+    {
+      "hash": "7df99c2a6cf125436a8b7f35e0c71a591584c84f",
+      "date": "2021-05-10T12:01:38+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove unnecessary use of “unique” group names",
+      "body": "Using NULL_STR means that this scope should be set regardless of what other rules match."
+    },
+    {
+      "hash": "3de36428426c1da3dfeafcf959bc091aba3563d0",
+      "date": "2021-05-10T11:48:57+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make sure we set image size to 16×16 when using with NSMenuItem",
+      "body": ""
+    },
+    {
+      "hash": "9bc2eb58cc0f98ba8d2b0b55196a1d3ccb605e89",
+      "date": "2021-05-10T11:07:45+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove tmDarkDividerColor NSColor category extension",
+      "body": ""
+    },
+    {
+      "hash": "b3a4d5781ec370f9022aac20cafe36951b2b9ece",
+      "date": "2021-05-10T11:06:17+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove colorWithString: NSColor category extension",
+      "body": ""
+    },
+    {
+      "hash": "866ae0f770b85a4db0f63d9adcf8f57875593901",
+      "date": "2021-05-10T11:01:57+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add TMFileReference framework",
+      "body": "The motivation is to have a universal type for a file that knows whether or not the file is open/modified, if it has SCM status, what icon to use for the file, and supporting bindings for the latter (incase icon is updated).\n\nThis does sound like a “document” but there are many places where we just want to show a file icon (with SCM and “modified” status) without instantiating a full document, for example folder pop-up menus.\n\nWe would also like a way to “close” the file, incase it is open, for example from file browser or “open quickly”, which is not really a document action per se, furthermore, we may delete the file from the file browser, which again, is more of a file than document action, but if the file is “open” somewhere, it should be notified about the delete operation."
+    },
+    {
+      "hash": "bdd894246b7bf3dc57dacb7bf8c2a9a92f634d7a",
+      "date": "2021-05-02T19:16:55+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Find dialog’s “where” pop-up would not allow selecting leaf folders",
+      "body": "Using the “where” pop-up to navigate to subfolders would only work when the item selected had a submenu."
+    },
+    {
+      "hash": "965028aec15196447362a9e9e909be6d164c1350",
+      "date": "2021-04-28T15:56:32+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ensure closed sqlite3 connections are never reused",
+      "body": "This could happen if the clipboard was updated after an NSApplicationWillTerminateNotification had been sent."
+    },
+    {
+      "hash": "1f68037ccf5e6a157c9c0dbf1cc3e8b712c0e9a8",
+      "date": "2021-04-25T09:40:48+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move commit window shell command (helper) to the CommitWindow framework",
+      "body": ""
+    },
+    {
+      "hash": "46469b765b42b34d3026b8706e85506a55415f11",
+      "date": "2021-04-23T08:28:00+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use getter syntax for property declaration",
+      "body": ""
+    },
+    {
+      "hash": "984f59bb837a415ccbe810ad68fd98dae0017f42",
+      "date": "2021-04-23T08:24:10+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use enumeration for OakPerformTableViewAction… return values",
+      "body": ""
+    },
+    {
+      "hash": "05e4127dad5901c3ffb510edab1f5287b8360498",
+      "date": "2021-04-23T08:22:08+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Create NSProgress object without implicitly adding as child of current",
+      "body": "We don’t currently have a current progress object, so this should not affect anything, but in the future, there might be more progress objects, so to make things easier to debug, we should always use the discrete constructor method."
+    },
+    {
+      "hash": "6d4b0ecc967b9d313076ff6b3b7f9613ab70c440",
+      "date": "2021-04-16T20:36:14+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Default value for file browser’s “keep folders on top” now match Finder",
+      "body": ""
+    },
+    {
+      "hash": "0fd87c19e05f30c97ae4bea0fd207c747ccd4e88",
+      "date": "2021-04-16T17:21:20+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove ‘parentItem’ NSMenu category extension",
+      "body": ""
+    },
+    {
+      "hash": "a252e3b54dc348bd6b7e15b414a02d212c5135a2",
+      "date": "2021-04-16T17:14:18+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not rely on ‘parentItem’ NSMenu category extension",
+      "body": "This is the only place we use the category extension, so let’s remove it as shared code."
+    },
+    {
+      "hash": "083297d0a2045c178a35b11952f8cee83df63e57",
+      "date": "2021-04-16T17:13:07+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove unnecessary include",
+      "body": ""
+    },
+    {
+      "hash": "2b3427bb6ca3cb6c048e4811897afdb83ad4acb0",
+      "date": "2021-04-16T10:23:33+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for v2.0.22",
+      "body": ""
+    },
+    {
+      "hash": "a1725229109d8cf8b05184573b85b9cc3bc8611e",
+      "date": "2021-04-16T10:38:05+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update dialog plug-in (use NSTableViewStylePlain on macOS 11)",
+      "body": ""
+    },
+    {
+      "hash": "c7dd98ec01ce002d221dcd00fc0fd69ab7295ed7",
+      "date": "2021-04-16T08:59:44+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Disable floating group rows in file browser + search results (macOS 11)",
+      "body": "There appears to be a problem with floating views (in tables) on Big Sur, so this is an attempt of a temporary workaround. The visual look of group rows is currently not very good (on macOS 11)."
+    },
+    {
+      "hash": "a8601fd9f7f3ec37935dc064e6706fea696cc42b",
+      "date": "2021-04-16T08:53:36+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSTableViewStylePlain for file browser and search results",
+      "body": "I am a little torn about this, as this is basically “revert Big Sur’s UI changes”, but I don’t think the new default look is appropriate for these lists."
+    },
+    {
+      "hash": "8b8176630a1bbb73cddf9509756dcae8095e7d0a",
+      "date": "2021-04-16T08:46:28+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSTableViewStylePlain for the snippet completion menu (macOS 11)",
+      "body": ""
+    },
+    {
+      "hash": "b027886b1f211324b3bf38feca9242e64b4dcf27",
+      "date": "2021-04-16T08:43:36+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use std::nullopt instead of std::optional<std::string>()",
+      "body": ""
+    },
+    {
+      "hash": "488d971d64b67c9542f9cceb40b666fc4a6921ce",
+      "date": "2021-04-16T08:41:58+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add ability to stop find_t::each_match from going through all matches",
+      "body": ""
+    },
+    {
+      "hash": "26a56c67e297e95c92119156b281e101f768742e",
+      "date": "2021-03-29T10:43:31+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update some links in About window to use https",
+      "body": ""
+    },
+    {
+      "hash": "88ca589cbc06ce8730182c82fb88d699a1e44ed8",
+      "date": "2021-03-29T10:00:56+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Increase padding for file browser’s top folder pop-up",
+      "body": "The spacing was so that the icon (in the folder pop-up) was aligned with the file item icons in the list below, but this no longer holds on Big Sur, and the spacing is too tight on Big Sur.\n\nLike with the status bar pop-ups, I am using the increased spacing for all builds, to keep things simple."
+    },
+    {
+      "hash": "73aa2680f81d3c47fe480bd2e167531456319d60",
+      "date": "2021-03-29T09:57:32+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Increase padding in front of pop-ups in text view status bar",
+      "body": "Prior to Big Sur, the internal left-padding on borderless NSPopUpButtons was excessive, which is why we used negative space to limit the amount of whitespace.\n\nIt appears that the default spacing is now more appropriate (on Big Sur).\n\nIdeally we would only increase the spacing on Big Sur, but the extra spacing doesn’t look too bad on Catalina (and presumably earlier), so I am going with the Big Sur spacing constants for all builds, to keep the code simpler."
+    },
+    {
+      "hash": "63617054a2e156ccd8287a16bc65eac80faab5e4",
+      "date": "2021-03-29T09:44:36+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use macOS 11.0 instead of 10.16 in availability check",
+      "body": ""
+    },
+    {
+      "hash": "a55a0d150e36256b94f87a17b5410a11f8a183e8",
+      "date": "2021-03-29T09:41:31+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use segmented control in about window",
+      "body": "NSToolbarDisplayModeLabelOnly renders incorrectly on macOS 11 (latest tested 11.2.3), so it appears this mode is now “deprecated with no replacement”."
+    },
+    {
+      "hash": "f3751f2127c4e85d6e4fcbce141cf590779b17e8",
+      "date": "2021-03-28T11:00:45+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Set com.apple.security.get-task-allow to true for debug builds",
+      "body": ""
+    },
+    {
+      "hash": "659254d2d168af76b9db8c47ba47b274b044e15f",
+      "date": "2021-03-28T10:49:06+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rave: Add ability to expand variables in files used as build arguments",
+      "body": "Some build steps take input files that are not built per se, for example ‘codesign’ takes an entitlement property list, and the linker may take a text file to embed in the linked executable.\n\nIt is now possible to have these files go through variable expansion via the ‘expand’ command, for example:\n\n    expand CS_ENTITLEMENTS \"${dir}/Entitlements.plist\"\n\nThis will run ‘Entitlements.plist’ through ‘bin/expand_variables’ and set ‘CS_ENTITLEMENTS’ to the resulting file."
+    },
+    {
+      "hash": "9562e46893e3bf50365106e9d6526b846d0c1d54",
+      "date": "2021-03-27T12:42:13+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let the “update menu” selector of MBMenuDelegate be a parameter",
+      "body": "This is instead of hardcoding both selectors and menu item titles in the class, to find out which should be used to update the menu."
+    },
+    {
+      "hash": "d4bb02981b1eb7c288dd695c1e27cb38e76f7c49",
+      "date": "2021-03-27T12:22:17+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rave: More robust relaunch of the application built",
+      "body": ""
+    },
+    {
+      "hash": "4ba567ff38d365277d267bc59f2131279df192ad",
+      "date": "2021-03-27T12:19:52+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rename AppKit/OakSubmenuController → MenuBuilder/MBMenuDelegate",
+      "body": "This belongs more naturally in the MenuBuilder framework."
+    },
+    {
+      "hash": "64c5dd136f5d661f3c4b7dc0d0df2b0880b3a01e",
+      "date": "2021-03-27T12:11:46+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Avoid using NSEvent support code from the ns frameworks",
+      "body": "The support provided by this framework is more robust, but as we only need to check for ⌘1-⌘9 we don’t need this robustness and prefer to avoid the dependency."
+    },
+    {
+      "hash": "89b7ca91d6600bd10f99a503de3131b75aeb3666",
+      "date": "2021-03-27T11:50:53+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove unnecessary includes",
+      "body": ""
+    },
+    {
+      "hash": "dc60a74e59eabc5504eafd83850efd7a2159472d",
+      "date": "2021-03-25T08:28:22+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Include ServiceManagement among precompiled headers",
+      "body": "This is not required by any of the current sources, but it will be required, once we remove our use of AuthorizationExecuteWithPrivileges."
+    },
+    {
+      "hash": "3c611f00c92c83b45763c0f9b55d09e26bfd2be2",
+      "date": "2021-03-25T08:25:03+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Autohide scrollbar in file browser",
+      "body": "By default, scrollbars are hidden on macOS when using a trackpad, but for mouse users, or people with scrollbars set to always visible, this is probably preferable (all other scrollviews in TextMate use autohiding scrollbars)."
+    },
+    {
+      "hash": "7f9fe4cd90131b41bbe7d2cde4b053e3fc7b9ccf",
+      "date": "2021-03-25T08:20:35+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change NSCompositingOperationSourceOver to NSCompositingOperationCopy",
+      "body": "This is when we know the destination is “empty”, so we might as well pick the simpler copy operation."
+    },
+    {
+      "hash": "2b7a30205de6362a74f80cb549a8bae384cda806",
+      "date": "2021-03-25T08:17:41+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove OakBackgroundFillView’s support for NSImage",
+      "body": "This was used for the gradient/color bar separators many OS versions ago."
+    },
+    {
+      "hash": "a24b0524add98c61551a2b25980b19d5a0f240c0",
+      "date": "2021-03-22T21:38:58+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "OakTabBarViewController: No implicit animation when re-ordering tabs",
+      "body": "This is only relevant when using the binding interface, instead of manual reload.\n\nThe tab bar cannot do an animated relayout when tabs are re-ordered. It probably should detect this itself, and skip the animation, though the animation group is setup in the controller, so this would still cause some side-effects."
+    },
+    {
+      "hash": "2624e59e2c51354a8282f7fdfbc9dff350bd8ca7",
+      "date": "2021-03-17T08:05:59+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rave: Simplify code",
+      "body": ""
+    },
+    {
+      "hash": "2b960ea97ccb8cbd24d3ad3537e3a8a965ff6444",
+      "date": "2021-03-17T08:05:04+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rave: Fix typo in variable name",
+      "body": ""
+    },
+    {
+      "hash": "c723a9f5d2118c64cbeebe6d88cbe90e2ab43746",
+      "date": "2021-03-16T21:12:03+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix dependency: OakTextView needs to link with Find framework",
+      "body": "This is because we use the Find singleton and FindMatch class."
+    },
+    {
+      "hash": "33f07d7fb4aa86a0565ffb97fb1abe3fce05047f",
+      "date": "2021-03-16T21:07:34+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove OakDebug.tmbundle",
+      "body": "Majority of this is no longer used."
+    },
+    {
+      "hash": "9dad220cbd8ed9368d03906fc13983ed6de31aa3",
+      "date": "2021-03-16T21:02:58+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Include ‘attr.project.rave’ in scope when project has a ‘default.rave’",
+      "body": ""
+    },
+    {
+      "hash": "8adf0b3c92423b031d88eb6d8c2c460d76ed223e",
+      "date": "2021-03-16T21:00:31+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rave: Link rules are now dependent on files referenced in LN_FLAGS",
+      "body": "For example if we link an executable with an embedded property list, then the linking step can be made dependent on the source property list by using a “${plist}” variable in LN_FLAGS set to “${dir}/info.plist” or similar."
+    },
+    {
+      "hash": "0259671836e223218776d474a4cd294034482b8e",
+      "date": "2021-03-08T12:18:07+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for v2.0.21",
+      "body": ""
+    },
+    {
+      "hash": "dfff5d27e350754dce6f686edcab88c86e954d49",
+      "date": "2021-03-08T12:07:22+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "The Open With submenu item is a shortcut for opening with default app",
+      "body": "This is only when the default application is not TextMate.\n\nIdeally the regular “Open” item would change to “Open With «application»” when the selected items are not text documents, and there is an application to handle them, but the code changes required for this are non-trivial because what the item does, is not decided until the user triggers it, and it may not treat all selected items the same."
+    },
+    {
+      "hash": "4324aaf341d5d1b87f3e39a89a60fd741582704a",
+      "date": "2021-03-08T11:22:35+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rework API for the Open With submenu",
+      "body": "The API expose a few more implementation details and require the user retains the delegate for the duration of the menu’s lifecycle.\n\nThe upside is that we avoid the global singleton and it is now possible to examine and use the information gathered by the Open With menu delegate."
+    },
+    {
+      "hash": "f533019eaf29ad3d9b23663e64d725be24fcfac8",
+      "date": "2021-03-08T09:25:36+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Better property names for Open With application info",
+      "body": ""
+    },
+    {
+      "hash": "34d2e44a20f195c0e68e75a8349de0c2564e4395",
+      "date": "2021-03-08T07:15:31+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Strip ‘##’-prefix from release title used with GitHub",
+      "body": "The release text is “«title»\\n\\n«body»” where only the body should be markdown format.\n\nIdeally we would only strip the prefix from the title (first line), but that is more complex, and currently we do not use headings in the body."
+    },
+    {
+      "hash": "3453bddac6fac373fc0eeab76b2f6b7265b45f25",
+      "date": "2021-03-08T07:05:33+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ensure ⌘⌫ / [⌥]⌘V are not sent to file browser with focused text view",
+      "body": "Due to the high priority menus have in the responder chain, we effectively cannot have context menus with key equivalents, if these menu items have explicit targets.\n\nWe need the explicit targets so that the context menu works when the application is not the active application."
+    },
+    {
+      "hash": "3a460d9085416ba90324ceb6ea0da8e604097049",
+      "date": "2021-03-08T07:04:23+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Set about window’s toolbar style to “preference” (macOS 11.0)",
+      "body": ""
+    },
+    {
+      "hash": "df8ae27128d7f1eb577c23451903d2de5b7587f1",
+      "date": "2021-03-07T13:51:32+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for v2.0.20",
+      "body": ""
+    },
+    {
+      "hash": "b2b4d1200986d7befa450d548bd6e2514c58715a",
+      "date": "2021-03-07T13:01:04+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add some left padding to icons in bundle editor",
+      "body": ""
+    },
+    {
+      "hash": "20e3444d160e8da415182bf79cddf72516e19f5d",
+      "date": "2021-03-07T12:56:01+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Clip NSBrowser border in bundle editor on macOS 10.15 and earlier",
+      "body": ""
+    },
+    {
+      "hash": "eb2c26a88f34e17a479d639dca27c310692907f2",
+      "date": "2021-03-07T12:14:34+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Collapse the browser in the bundle editor when its height gets below 50",
+      "body": ""
+    },
+    {
+      "hash": "8496e62f3aa40b6a42eed7b6da8435f6c049aec4",
+      "date": "2021-03-07T11:52:02+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use split view in bundle editor between properties and editor",
+      "body": ""
+    },
+    {
+      "hash": "fed09bd6dc4b4553efb3560f7abb237da6d99263",
+      "date": "2021-03-07T11:47:58+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add bundle editor views directly to the properties container view",
+      "body": "There was no reason for the extra subview."
+    },
+    {
+      "hash": "ae34471c954ce27e5ffe6b8c4545edcac8b34544",
+      "date": "2021-03-07T11:42:26+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Set default split view position after restoring window frame size",
+      "body": "We set the default position to a fraction of the split view height (rather than absolute value), so this is only if scaling is not done proportionally, and only when there is no saved split view size."
+    },
+    {
+      "hash": "f043952b4bfd8ddc5d344ef44340a6c2511388f7",
+      "date": "2021-03-07T11:39:57+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use “pane splitter divider” between bundle editor text view and browser",
+      "body": ""
+    },
+    {
+      "hash": "9a416e5386ee95bb015de492800df33c0d63b374",
+      "date": "2021-03-07T11:37:46+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ensure we do not mutate array while performing fast enumeration",
+      "body": ""
+    },
+    {
+      "hash": "36e1d85c413d07e377b7430133d9e85a98d38a85",
+      "date": "2021-03-07T11:26:35+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rave: Fix issue with generated headers and universal builds",
+      "body": "Generated Ragel and Cap’n Proto sources are required by both Intel and Arm targets, but as the output is the same, we cache and re-use the result from these transformations.\n\nThis however meant that our heuristic to find generated headers, and add these to the include path, would fail when we are receiving cached results (as we skip the intermediate, identical, steps).\n\nWe now return the intermediate steps from the cache, but mark them as duplicates, so that they can be stripped when generating the build file.\n\nNot an ideal solution, but the real issue is really identifying generated headers, and getting these added to the include path."
+    },
+    {
+      "hash": "651db91d05c847c1904f83dffbd7b7a85566ecce",
+      "date": "2021-03-07T09:57:04+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update resizing mask for bundle editor nibs",
+      "body": "They are now all set to have resizable width."
+    },
+    {
+      "hash": "b5c7170d9ac7aa7d00e56d10738c51da028ec25c",
+      "date": "2021-03-07T07:55:07+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Implement cancelOperation: for HTML output window (close via escape key)",
+      "body": ""
+    },
+    {
+      "hash": "52d52395375c856fb2de2550a5af70d5f4a99380",
+      "date": "2021-03-07T07:39:50+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change HTML output window back from NSPanel to NSWindow",
+      "body": "The problem is that if another panel opens, that panel is not tied to our HTML output window, for example opening the Find dialog does not allow us to press return to search in the HTML output, and if we open a modal dialog, when that modal dialog is disposed, the *main window* will be brought to front (not the previously focused panel).\n\nThis effectively reverts commit 92953099e6230cd61c921039084185eab0aac7b7."
+    },
+    {
+      "hash": "4d429c63900144f168adcd4abacffc419a198737",
+      "date": "2021-03-06T14:48:17+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update dialog plug-in (ability to run modal dialogs via Dialog 2.x)",
+      "body": ""
+    },
+    {
+      "hash": "337fd7c0f2c5ee6c205ab9d6b8a2ad886e971aec",
+      "date": "2021-03-06T13:23:01+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update dialog plug-in (log all calls to Dialog 1.x)",
+      "body": ""
+    },
+    {
+      "hash": "be513fc5066828c3db4fcd03c9d4cec0218a98c6",
+      "date": "2021-03-05T16:27:23+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rave: Support notarizing single executables",
+      "body": "Executables can be notarized, although not stapled.\n\nOne can check the status of an executable using:\n\n    spctl -a -vvv -t install /path/to/executable"
+    },
+    {
+      "hash": "5784028ff3727be02b3ac0b3a3573dc50d900342",
+      "date": "2021-03-04T13:42:14+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rave: Defines can now reference defines declared later in the file",
+      "body": ""
+    },
+    {
+      "hash": "d769cee1104481ccb0e3d24917e9efdc8639fc9b",
+      "date": "2021-03-04T13:36:49+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rave: Make variable match regexp a global constant",
+      "body": ""
+    },
+    {
+      "hash": "7e9426c57ddcba8e8569592db844feec1238bd91",
+      "date": "2021-03-03T10:00:36+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rave: Treat all values with a ‘${dir}/’ or ‘${HOME}/’ prefix as files",
+      "body": "Previously we used a heuristic and if the value looked like a path, checked that it actually existed.\n\nThe new approach makes the rules simpler, avoids a file system check, and also ensures that non-existing files *will* become dependencies.\n\nThe latter is useful if they are generated by local.ninja, typos, or actually unmet dependencies."
+    },
+    {
+      "hash": "9075087fc7967a7628411acb24ebdbd9ae6f00c8",
+      "date": "2021-03-03T09:31:26+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rave: Slightly more generalized handling of Cap’n Proto headers",
+      "body": ""
+    },
+    {
+      "hash": "d71d049c357e9588c1b507236082a713cf59bab2",
+      "date": "2021-02-28T20:32:13+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use extracted changes for GitHub release",
+      "body": "These are also in the tag annotation, which GitHub uses by default, but in that case, GitHub will treat it as plain text rather than markdown."
+    },
+    {
+      "hash": "3d4c0428227cc0b1ac71a5907cf299590689932b",
+      "date": "2021-02-28T20:28:14+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Extract changes (for tag message) into file instead of using a pipe",
+      "body": ""
+    },
+    {
+      "hash": "9876e56b921045bbecdded1b1902e5e231bf14a2",
+      "date": "2021-02-28T20:25:08+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not strip comments (markdown headers) from git tag message",
+      "body": ""
+    },
+    {
+      "hash": "dbe67682bfab2607aca25af1c32426f483a1fdad",
+      "date": "2021-02-25T21:30:03+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for v2.0.19",
+      "body": ""
+    },
+    {
+      "hash": "4d7eeeb383d545988fbf21b42f86686da94aea9f",
+      "date": "2021-02-25T21:21:36+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ensure ⌘Z / ⇧⌘Z are not sent to file browser when it does not have focus",
+      "body": "Since the context menu is outside the normal view/responder hierarchy, it can receive key events even when file browser is not the active view."
+    },
+    {
+      "hash": "755e5ccad76431b3b2b6802bfd45c816ba3ed8f8",
+      "date": "2021-02-18T13:18:11+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Prevent tar from adding padding to the release archive",
+      "body": "See aonez/Keka#793"
+    },
+    {
+      "hash": "3c2d59058a3d076c2993a4ecea9e22aa3f2ecf2f",
+      "date": "2021-02-16T11:00:27+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update GitHub build action to use macOS-latest and checkout@v2",
+      "body": ""
+    },
+    {
+      "hash": "2bdf90c6068f353f544a2c21db082c7d37c92bb6",
+      "date": "2021-02-15T17:05:24+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Limit tab size settings (for Onigmo submodule) to C files",
+      "body": ""
+    },
+    {
+      "hash": "70d267158ef8a6edd3d28889af32564fc098a7a5",
+      "date": "2021-02-15T16:55:45+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let bin/gen_build call ./configure to switch to new build file generator",
+      "body": ""
+    },
+    {
+      "hash": "2a3cfebc981bea7768f9176f449a0c8107caf71b",
+      "date": "2021-02-15T16:42:59+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add release/deploy build rules to version control but disable by default",
+      "body": "To enable it, one can create a symbolic link from local.rave → local-orig.rave, though the file requires a few variables to be defined."
+    },
+    {
+      "hash": "c47ea0cfe4a05359409a05ef78356d62552fffe1",
+      "date": "2021-02-11T20:50:09+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Increase maximum number of open files if the current limit is below 2048",
+      "body": "The terminal has a default limit of 256, which can be too low for users with a lot of open files, as TextMate also keeps a file descriptor open for parent folders, in order to observe file system changes.\n\nOn my system though, launching TextMate via Finder has the maximum number of open files set to 8-12,000, also when launching via ‘mate’ (as that uses the Launch Services), but a user had problems with around 160 open files."
+    },
+    {
+      "hash": "b61252130f3cfe60f4386b876701d6040f443dca",
+      "date": "2021-02-11T20:43:15+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Show error dialog incase socket() fails",
+      "body": ""
+    },
+    {
+      "hash": "956d98dab76457805c6d7be41464940f62da0fd3",
+      "date": "2021-02-11T20:42:40+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Abort after 5 seconds of ‘mate’ failing to connect to TextMate’s socket",
+      "body": ""
+    },
+    {
+      "hash": "83d63659a633936bbaf3461281b2ae5392c73bb2",
+      "date": "2021-02-10T09:31:07+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add script to extract single section from release notes",
+      "body": ""
+    },
+    {
+      "hash": "bdef5e9256161aeef96527ba8977af488ecc11a0",
+      "date": "2021-02-10T00:04:35+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove ninja.deploy as this is no longer useful",
+      "body": ""
+    },
+    {
+      "hash": "8fa217cb1107946cec22f5cb154dc929d32799b5",
+      "date": "2021-02-09T23:57:36+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update CI for new build system",
+      "body": ""
+    },
+    {
+      "hash": "128d7ddca9707d973aea0dabe3a738ea32e8a52c",
+      "date": "2021-02-09T23:55:50+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update ./configure to use new build system",
+      "body": ""
+    },
+    {
+      "hash": "fa6256a42aa9d7bed5ae3ee0ee7b60ef3f57e0dd",
+      "date": "2021-02-09T23:55:18+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update README.md with info about new build procedure",
+      "body": ""
+    },
+    {
+      "hash": "877a0c7fd41446bd9e0e8fb5b36d2e5246a1fbf2",
+      "date": "2021-02-09T23:34:12+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update URLs in README.md",
+      "body": ""
+    },
+    {
+      "hash": "c1853602006f639e5a28891c80b57e84acd109b8",
+      "date": "2021-02-09T22:32:12+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update .tm_properties to reflect new build system",
+      "body": "The path to public headers has changed (relevant for TextMate’s header completion) and we no longer use target files."
+    },
+    {
+      "hash": "7f9d5b321696512a1debe3596efbd52fca830e8d",
+      "date": "2021-02-09T22:24:58+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update git ignore",
+      "body": ""
+    },
+    {
+      "hash": "94d3b9b670a25f39ef866d8c6e07de094ad3de98",
+      "date": "2021-02-09T22:11:38+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove old build files",
+      "body": ""
+    },
+    {
+      "hash": "5acdb25dc713999e631c092d9771e6067382b4d8",
+      "date": "2021-02-09T11:21:26+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update release notes script to no longer take new version as argument",
+      "body": "Instead we just add one to the last number of last version.\n\nWith the new build system, the version of the build is extracted from the release notes, so this is the only source for the version number."
+    },
+    {
+      "hash": "f7d765ba0efefb8e5ea613fd97b709a9987e0bdf",
+      "date": "2021-02-09T10:52:36+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add build files (for new build system)",
+      "body": ""
+    },
+    {
+      "hash": "e921af4e50fddab72c387a3f7585ceb4e901ba2f",
+      "date": "2021-01-25T22:50:54+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add new build system",
+      "body": ""
+    },
+    {
+      "hash": "e11848bb6ef13b2032d9b97d6c43735990646134",
+      "date": "2021-01-06T16:59:58-05:00",
+      "author": {
+        "name": "Zev Eisenberg",
+        "login": "ZevEisenberg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/464574?v=4"
+      },
+      "summary": "Add syntax highlighting to readme",
+      "body": ""
+    },
+    {
+      "hash": "5f5e8e168cc6e6b65e584895a98a734b30ff8618",
+      "date": "2021-02-09T11:38:16+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for v2.0.18",
+      "body": ""
+    },
+    {
+      "hash": "a3a6b2ac8845c2aff0b0e4b13edab6f90223f0b3",
+      "date": "2021-02-09T09:10:47+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "No longer use drawer for properties in bundle editor",
+      "body": "The drawer interface component is deprecated and does not fully support Dark Mode."
+    },
+    {
+      "hash": "0695ec5a5b3eb165412b6a1072bbeabae96d3871",
+      "date": "2021-02-09T09:04:38+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rename property from indent to labelWidth",
+      "body": "The latter is a more appropriate description of the property."
+    },
+    {
+      "hash": "8d63cfb5c8ae576149a09f64203595dfeb79dfdd",
+      "date": "2021-02-08T21:51:56+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Create bundle editor window in code",
+      "body": "When building on macOS 10.15, the split view will show the NSBrowser split as collapsed and not allow the user to resize it, though only when running the build on macOS 10.14 or earlier."
+    },
+    {
+      "hash": "c6a92b2407125ebe451b036d20d4671d682941c8",
+      "date": "2021-02-07T14:46:45+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Revert \"Fix truncated text in tool tips using Dark Mode on macOS 10.15\"",
+      "body": "The problem has disappeared. I have no idea what changed, though I did not notice the issue until 2-3 weeks ago, and the problem disappeared around the time of last macOS security update, though comparing my machine’s uptime with the time of the commit being reverted, there has been no reboot since that commit.\n\nThis reverts commit f74aa3fde8b108e5fef6503151010dfb4e495f12."
+    },
+    {
+      "hash": "1477e0f5a8d84c9896ecbf4211399abe82ba3d6c",
+      "date": "2021-02-05T08:01:52+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.17",
+      "body": ""
+    },
+    {
+      "hash": "b9abd14e3cd2ad827d976b1da8f84d6e839f2280",
+      "date": "2021-02-04T22:09:48+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.16",
+      "body": ""
+    },
+    {
+      "hash": "f74aa3fde8b108e5fef6503151010dfb4e495f12",
+      "date": "2021-02-04T22:32:39+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix truncated text in tool tips using Dark Mode on macOS 10.15",
+      "body": "We add a border to the NSTextField in Dark Mode to match the system tool tips, but it appears that the frame returned by “fittingSize” does not take that into account, so it returns a frame 1-2 points too small to fit the text, resulting in the last line missing.\n\nThis appears to be a fairly new problem, so might depend on the SDK that we link with."
+    },
+    {
+      "hash": "5a9fc8d20ce6f3209fb77c9020c7a61684c9c253",
+      "date": "2021-02-04T20:34:39+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Only use atomic save for remote volumes (by default)",
+      "body": "APFS does not support exchangedata(2) meaning that atomic save has to be done using a rename.\n\nThis means that the inode is not preserved and the date of the file’s directory is updated.\n\nThere are some disadvantages to this, and I have been running with atomic saving disabled shortly after switching to APFS, so I believe it is best to make this the default behavior."
+    },
+    {
+      "hash": "7e69f5bb2cfd19d46517dd426bfff1aeee632776",
+      "date": "2021-02-04T09:25:40+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix compiler warnings by initializing struct members in correct order",
+      "body": ""
+    },
+    {
+      "hash": "4972c104d12b7ae73b9108a35cf40ba784b135dd",
+      "date": "2021-01-30T15:31:45+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use ${YEAR} variable in NewApplication template’s InfoPlist.strings",
+      "body": ""
+    },
+    {
+      "hash": "a02b95ce7bf7b8921c3ed85912c74b5cc7f22ae5",
+      "date": "2021-01-30T15:30:34+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use public modifier when logging exception name/reason",
+      "body": ""
+    },
+    {
+      "hash": "9393ef61b57cf3793e007ed600693b4b837a4815",
+      "date": "2021-01-30T15:29:53+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "The encoding pop-up button could create an NSMenuItem with nil as title",
+      "body": "This would happen when the encoding property was nil (no selection).\n\nReworked code slightly while also fixing this issue."
+    },
+    {
+      "hash": "fa2077b3c8cad9d40f27f2fd96a53165fa7e5438",
+      "date": "2021-01-30T15:27:25+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove non-matching tests/resources definitions from build files",
+      "body": "The resources directory was removed when we introduced CP_InfoPlist. The tests were removed in fcee7b38ab13d85835f2ff63483a66821c066798."
+    },
+    {
+      "hash": "4d1aa7cba87543084b2a6800bfed881611f1ec5c",
+      "date": "2021-01-29T18:19:33+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Define missing BSTR macro in test source",
+      "body": ""
+    },
+    {
+      "hash": "0e27430e249b992442e4f3eafc6cc81e712cbf70",
+      "date": "2021-01-28T16:21:43+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove “GetoptLong” usage comment in ruby scripts",
+      "body": "This was used by GetoptLong but we switched to OptionParser in 2df7620b8d4ffd0117c0792ccbfdcc9e1cb6002b.\n\nAlso remove setting $KCODE (for ruby 1.8 compatibility)."
+    },
+    {
+      "hash": "03f8939ae901ea509ce2e1eaf1a5511daf1e9012",
+      "date": "2021-01-28T16:17:56+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove DefaultBundles.tbz from git ignore file",
+      "body": "This file is no longer built in the source directory."
+    },
+    {
+      "hash": "ba1c99f7bc3338755a3c41bb98125d16efbaaf50",
+      "date": "2021-01-24T10:31:11+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "build: Introduce CP_InfoPlist and move Info.plist files out of resources",
+      "body": "Previously we would automatically pick up an Info.plist file copied using any of the CP_* keys, and both move it to the correct location (when belonging to target built) or ignore it, if we were copying it from an imported target.\n\nTo simplify the logic in the build system, it is however better to be explicit about this, also because we could actually want an Info.plist file among our copied files."
+    },
+    {
+      "hash": "8e6c60d013810210331aedf4a03d067145783352",
+      "date": "2021-01-24T10:08:20+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "build: Remove Info.plist files from frameworks",
+      "body": "These were previously required when we built frameworks as dynamically linked, but the files are now explicitly ignored by our build system."
+    },
+    {
+      "hash": "edec8f1c679f5e483a085a98a3ebd573e22e19d0",
+      "date": "2021-01-22T23:20:31+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Merge Info.plist and InfoPlist.strings variable expansion build rules",
+      "body": ""
+    },
+    {
+      "hash": "5d77c2ad6afce8b9b6aef59285b2045d57fc4d62",
+      "date": "2021-01-22T23:08:36+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Call expand_variables with -o instead of redirecting stdout",
+      "body": "The advantage is that using -o we do not need to write to a temporary file and then only if expand_variables exits successfully, overwrite output with temporary file.\n\nThis is only possible because we know that expand_variables does not touch the output file unless it succeeds. Updating the output file and failing would cause a rebuild to continue, as if the output had been successfully built."
+    },
+    {
+      "hash": "a482cd71afc30245b222f0b991e862c7a2a57202",
+      "date": "2021-01-22T23:07:17+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add -o,--output option to bin/expand_variables",
+      "body": ""
+    },
+    {
+      "hash": "bf19be721df589b50a86b20c1525c2337da4ef1e",
+      "date": "2021-01-22T23:02:31+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "fixup! Rename process_plist as it makes no assumption about input format",
+      "body": ""
+    },
+    {
+      "hash": "5168278b2a2bb40bffe4615d9bfa2f1644c50c37",
+      "date": "2021-01-16T16:52:19-05:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Set Preferences window toolbar style to NSWindowToolbarStylePreference",
+      "body": "This is necessary when linking with the macOS 11.0 SDK."
+    },
+    {
+      "hash": "88481bdd127873aed24bcf045310a900d165b619",
+      "date": "2021-01-17T14:09:12+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add NSWindow’s new toolbarStyle property to sdk-compat.h",
+      "body": ""
+    },
+    {
+      "hash": "b42bbfc5fe56f78c6715b87c44a9c3bbb7ba96e9",
+      "date": "2021-01-17T14:08:24+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Organize the sdk-compat.h file",
+      "body": ""
+    },
+    {
+      "hash": "bbb16f5a99e529c0e5f13cabc0a675c845938332",
+      "date": "2021-01-17T11:34:38+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update dialog plug-ins (NSHumanReadableCopyright in InfoPlist.strings)",
+      "body": ""
+    },
+    {
+      "hash": "6d188e41e50e88e66118ffccdb7e6338150b0911",
+      "date": "2021-01-17T10:51:56+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "build: Bump file date after copying file to build directory",
+      "body": "Using /bin/cp with -p (preserve) appears to round down the modification date, so we can end up with a file in the build directory that appears older than the source.\n\nWe also remove -R since this command is never used with directories."
+    },
+    {
+      "hash": "978c5a32a207e92bca6e49d991a83b58373a0240",
+      "date": "2021-01-17T10:44:05+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "build: Expand variables in InfoPlist.strings files",
+      "body": "We previously did this for InfoPlist.vstrings files, but the changed extension was only a temporary workaround for not allowing multiple filters to run on a build input."
+    },
+    {
+      "hash": "918c4f3bb2a36efc215d410367ebfabfc7b4c863",
+      "date": "2021-01-17T10:41:10+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make bin/expand_variables work with UTF-8/16BE/16LE",
+      "body": "This is because we may want to use it with strings files, which must be in UTF-16 encoding."
+    },
+    {
+      "hash": "22918c50ef4b98924d5469fb5da52943e03ad489",
+      "date": "2021-01-17T09:45:02+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "build: Do not disable filters after first “generator”",
+      "body": "Previously we would only allow a filter when going from source to build directory, since the output base name is unchanged for a filter’s output, and would thus cause multiple targets with same output name.\n\nSince we now add the generator’s name to the output path, this is no longer a problem."
+    },
+    {
+      "hash": "a8a84d394a3a44048a41a81fcea2d1afb4a7945b",
+      "date": "2021-01-17T09:40:06+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "build: Add “generator” name to output path when extension is unchanged",
+      "body": "For example we have a “generator” that ensures our *.strings files are UTF-16, if this is applied to files already in the build directory, the output will now include the generator’s class name, to ensure we do not create a target with identical input and output paths."
+    },
+    {
+      "hash": "a55e557ae1f292f88bfadffeb4d0b159078027f3",
+      "date": "2021-01-17T09:34:01+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "build: Catch exception raised when failing to delete old target",
+      "body": "This can happen if the target is a directory, which should only be possible with the “tbz.bl” generator."
+    },
+    {
+      "hash": "6b6ff32e99628c8064e98be4dd719648b9cb9375",
+      "date": "2021-01-17T09:32:10+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Avoid compiler warning by typecasting anonymous enum",
+      "body": "The warning only appears when the anonymous enum is used in a conditional, hence why we do not need this change for all calls to NSFileTypeForHFSTypeCode."
+    },
+    {
+      "hash": "4606fdefff55f785503f2f82133dcb15ca614f5e",
+      "date": "2021-01-16T16:10:02+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Create default bundles archive in ninja file and store in build dir",
+      "body": "Previously we would download and archive the default bundles as part of ./configure and place the result in our source directory, this however both pollutes the source directory with generated files, but also had the ./configure step actually do a partial build, since we need to build the ‘bl’ executable to download bundles."
+    },
+    {
+      "hash": "c90a9bb3296f6cda21dfd627c578b42411e548c0",
+      "date": "2021-01-16T09:46:11-06:00",
+      "author": {
+        "name": "Michael Sheets",
+        "login": "infininight",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1974?v=4"
+      },
+      "summary": "Prevent UTTypeConformsTo self-reference",
+      "body": "Prevent public.shell-script from conforming to itself creating a loop, should conform to public.script.\n\nReported by Thomas Tempelmann."
+    },
+    {
+      "hash": "a7406b832dff52eea9637ac016e5e62595a39520",
+      "date": "2021-01-15T16:01:51+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use tertiary label color for shortcuts and tab triggers on macOS 10.16",
+      "body": "For bundle items we have to decorate the menu items ourselves with shortcut keys and tab triggers, which were previously rendered with the system text color, but starting with Big Sur, it appears to use the tertiary label color, which we now match."
+    },
+    {
+      "hash": "4468362b40c733764e5ab763037e60e376f0bad2",
+      "date": "2021-01-15T15:15:48+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add leading/trailing padding for the save dialog’s encoding options",
+      "body": "On Big Sur, using the compact view, these would extend to the left/right borders of the sheet."
+    },
+    {
+      "hash": "eb59a21ccdc4fa5680e846760575e02a180b881c",
+      "date": "2021-01-15T13:09:20+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not set NSWindowStyleMaskFullSizeContentView for clipboard history",
+      "body": "Setting this flag means the content view spans the full window size, thus is rendered “behind” the window chrome, which is how we have designed these windows, which hold a scroll view as the main content.\n\nHowever, starting with macOS 10.16 (Big Sur) the scroll view doesn’t automatically set the top inset to adjust for the title bar (and auxiliary view), at least it has not yet been set, when we adjust the bottom inset, and disable further (automatic) changes of the scroll view insets.\n\nBy not setting the full size flag, the content view’s size is limited to the “visible are” of the window, but there seems to be some special detection of full size scroll views, so this one still gets the “full size” effect with content behind window chrome."
+    },
+    {
+      "hash": "c0a211582d1c13f2bfaf3aaa7cfaa9b4ccb43b8a",
+      "date": "2021-01-13T22:58:16+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove mercurial build dependency",
+      "body": "This is only for running the SCM tests, which we currently omit."
+    },
+    {
+      "hash": "bc6623154a72d99f9b1ba6f012e07363ee237d1a",
+      "date": "2021-01-13T22:55:26+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove stuff about libressl from README",
+      "body": "We removed the libressl dependency in e06109a3b5e819928a67e0a5fb1d64c131e79ea3."
+    },
+    {
+      "hash": "bcd44a8d14816e7692ce844d20b8baff877bad31",
+      "date": "2021-01-13T22:52:35+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ensure we are running on the main thread when updating property",
+      "body": "Since we bind the disabled state of the “Check Now” button (in preferences) to this property, we cannot update the property in a background thread, as the UI can only be updated from the main thread."
+    },
+    {
+      "hash": "8ed4b43b63054ed29ad5e8f86607f8ffa43282fc",
+      "date": "2021-01-12T12:18:32+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove “Add License” button from window chrome",
+      "body": ""
+    },
+    {
+      "hash": "b24eea89a523aa5f63d5ccc2234f223b01f739bc",
+      "date": "2021-01-12T10:42:25+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Introduce ${YEAR} variable in our InfoPlist.strings",
+      "body": "This saves us from having to update the copyright each year."
+    },
+    {
+      "hash": "05ab01e857a070fcca885a6dabf20a60763b3140",
+      "date": "2021-01-12T10:39:00+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add build rule that expands variables in InfoPlist.vstrings files",
+      "body": "The extension is converted to from ‘vstrings’ to ‘strings’ and it is saved as UTF-16. Ideally this would not introduce a new extension (and rely on the existing ‘strings’ filter to convert to UTF-16), but see previous commit for the technical limitation preventing this.\n\nTARGET_NAME and YEAR are predefined variables."
+    },
+    {
+      "hash": "ae9bdf5d7b5070e9215be324d1c2bb612ea98ec3",
+      "date": "2021-01-12T10:14:11+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rename process_plist as it makes no assumption about input format",
+      "body": ""
+    },
+    {
+      "hash": "2c6a825a95f6a24f5f96c1c14079d73604b6c8f6",
+      "date": "2021-01-12T10:13:01+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix usage summary for process_plist",
+      "body": "Old text looks like copy/paste from somewhere else."
+    },
+    {
+      "hash": "4e922dde9914fef516ba4b44e088bc53d0ada00f",
+      "date": "2021-01-12T10:04:00+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Disable transformations with unchanged paths for assets in build dir",
+      "body": "This relates to the build system: Transformations that does not change file name are called filters, this could e.g. be converting UTF-8 to UTF-16 or converting a property list to binary representation (without changing extension).\n\nThis currently works when the filter is applied to a file in the source directory, as we write the result to the build directory, but if the input is already in the build directory, we would create a new output with the same path, which would result in a malformed build file (multiple targets generate the same file and/or cycles in the dependency graph).\n\nAs a workaround, we only allow filters to be applied to files in the source directory. But it would be nice to lift this limitation."
+    },
+    {
+      "hash": "418de673292c351b7f5be14b9c52291b18556322",
+      "date": "2021-01-11T16:32:10+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update dialog plug-ins (class property dot notation)",
+      "body": ""
+    },
+    {
+      "hash": "937b6e0401ce11fdbed5ffc6ac240063c4ee74a5",
+      "date": "2021-01-11T15:54:28+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use single quotes when using ‘notarize_pass’ and ‘notarize_user’",
+      "body": "These variables are passed as arguments to commands that go through a shell interpreter, therefore spaces would be a problem.\n\nPreviously we expected the variables themselves to include proper escaping (or quotes), but that is problematic if they are set in build.ninja, as we recreate this file via a rule that passes all variables as arguments, and this rule already uses single quotes for escaping, so it would cause a problem, if the variables contains single quotes."
+    },
+    {
+      "hash": "53897ce4d59a16da36f646e81eab7450193fe21f",
+      "date": "2021-01-11T12:09:02+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Improve “estimated time remaining” code for software update",
+      "body": "Use int64_t instead of NSUInteger, check against NSURLSessionTransferSizeUnknown, and ensure that completedUnitCount is the last thing we set on the NSProgress object, so that there is no potential race condition with a progress object being completed, but still having a non-zero estimated time remaining value."
+    }
+  ]
+}

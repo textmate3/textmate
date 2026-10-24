@@ -1,0 +1,4141 @@
+{
+  "year": 2020,
+  "commits": [
+    {
+      "hash": "f032db7aeb6735bfff6e1339c50f22da655fe9d1",
+      "date": "2020-12-29T15:39:42+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Set lineBreakMode for text fields in OakChooser windows",
+      "body": "We already setup proper line break mode for the strings displayed (via paragraph attributes), but having good defaults makes sense, so subclasses can forego setting it."
+    },
+    {
+      "hash": "2c528c31f3af5e0cf0bed9b0dbdd3e4a391c5ae1",
+      "date": "2020-12-29T15:37:58+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not use ‘new metadata only’ option with replaceItemAtURL:…",
+      "body": "We want to preserve the existing file’s metadata, although we manually take steps to do so, but no reason to disable the system’s functionality for this."
+    },
+    {
+      "hash": "a52383a099fdf71d43bcaacf00b73c20b00f982b",
+      "date": "2020-12-11T20:51:26-05:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": null,
+        "avatar_url": null
+      },
+      "summary": "Set the frame size via NSTitlebarAccessoryViewController's view property",
+      "body": "When linking against the macos 11.0 SDK, the view size fails to update."
+    },
+    {
+      "hash": "ea09ac026b9cd11766e3728fbd9786d191ea2daf",
+      "date": "2020-07-29T14:39:52-07:00",
+      "author": {
+        "name": "Jordan Rose",
+        "login": "belkadan",
+        "avatar_url": "https://avatars.githubusercontent.com/u/742857?v=4"
+      },
+      "summary": "Add \"Close Tabs to the Left\" as alternate of \"Close Tabs to the Right\"",
+      "body": "This is useful when working with one set of files in a project, then moving to another set without closing the original set first.\n\nAlternate menu items are pretty subtle, but there are already a lot of ways to close tabs, and I didn't want to clutter the menu further."
+    },
+    {
+      "hash": "e06109a3b5e819928a67e0a5fb1d64c131e79ea3",
+      "date": "2020-12-28T10:05:48+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove dependency on libressl",
+      "body": ""
+    },
+    {
+      "hash": "b5293ad1df919dc871db0a1ca247a82ba55e41a9",
+      "date": "2020-12-28T10:04:49+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use Security framework to decode license keys (instead of libressl)",
+      "body": "This avoids a third party dependency."
+    },
+    {
+      "hash": "e4e54440b509557b79b2bd6f7b54bca279a88358",
+      "date": "2020-09-27T13:55:22+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Selections from regexp searches would be “anchored”",
+      "body": "Normally a selection done via search or double-click will be unanchored, so that the first use of shift-left/right will always extend the selection, as opposed to a selection done with keyboard, where shift-left/right moves the ending of the selection."
+    },
+    {
+      "hash": "0f4a857fd7f39738af0aa1676552bf9768bb1f3e",
+      "date": "2020-09-27T13:50:11+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Leave out kCTUnderlinePatternSolid because of warning mixing enums",
+      "body": "The value of this constant is zero, so it is unnecessary to include."
+    },
+    {
+      "hash": "127f05f6cf26067a983f11ccfbdbd5a315d84363",
+      "date": "2020-09-27T13:48:44+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use os_log_error instead of custom debug output macro",
+      "body": ""
+    },
+    {
+      "hash": "cb5d81deef2f44384840946aae9db2db69e0aba6",
+      "date": "2020-09-27T13:39:41+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove commented debug output lines",
+      "body": ""
+    },
+    {
+      "hash": "0967e31696e016fa5f6825d894372b8010676f06",
+      "date": "2020-09-27T13:37:23+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Send ‘length’ to attributed string instead of via string property",
+      "body": ""
+    },
+    {
+      "hash": "746b9aba08ac4714d8d236b10afdbf910d4b055c",
+      "date": "2020-09-27T13:33:26+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not declare a few ‘auto’ loop variables as also being ‘const’",
+      "body": "This produces a warning with latest Xcode, stating that it produces a copy, as the variable is already const. This does seem a little strange, so it could be a problem with the analyzer, but not marking these variables const shouldn’t affect anything."
+    },
+    {
+      "hash": "3cf526fe34ed7332db2107c5b1b3759a1c893e11",
+      "date": "2020-09-18T09:26:10+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not make software update fixtures in ./configure file",
+      "body": "These fixtures were removed in cfb523e713a9685aec69e52cac849391f2f36cae"
+    },
+    {
+      "hash": "7baf2b1ba542e842c12b1272251013ea8d0a4ce4",
+      "date": "2020-06-18T12:30:32+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Improve how we add styles when syntax highlighting find/replace strings",
+      "body": "We only set underline and strikethrough when those are enabled, and use applyFontTraits:range: instead of explicitly setting the font.\n\nThe latter should avoid breaking font substitution, although to be safe, we still call fixFontAttributeInRange:."
+    },
+    {
+      "hash": "a25d240ad6391637d2817b141ba54896265a91a2",
+      "date": "2020-06-16T18:30:57+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "NewApplication template: Change perform{FindPanel → TextFinder}Action:",
+      "body": ""
+    },
+    {
+      "hash": "b3afd947cfeee43630acde57159af6cbd99afb04",
+      "date": "2020-06-16T18:29:00+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Copying search results are again stored on clipboard as a single string",
+      "body": "I have not found it advantageous to get multiple carets when pasting search results, on the contrary, if we have a significant number of results, the multiple carets may impact performance.\n\nThis reverts the change that was made in 82593c88240f63fdb3bd5453b94a1d415aa8b65a."
+    },
+    {
+      "hash": "4e4d8ff3523fa829d0f171403ac0894dd6a1c57f",
+      "date": "2020-06-12T21:34:01+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "File browser’s field editor (rename) would stay after pressing return",
+      "body": "This problem started after f1a1e1920f76687bd64095404deadbe8007ee134 (handling key equivalents in performKeyEquivalent: instead of keyDown:).\n\nIt does however not appear that it is necessary to manually handle the return key to activate editing, therefore we have removed handling of this key.\n\nMost likely it was required before view-based table views."
+    },
+    {
+      "hash": "a11625421a12c3b089064ea59ee41b21023c308e",
+      "date": "2020-06-09T16:48:09+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add “Create Link to Items” file browser context menu action",
+      "body": "This will create symbolic links to the files on the clipboard.\n\nIt is equivalent to holding down control (⌃) when dropping files on the file browser."
+    },
+    {
+      "hash": "621e275b5298de50e37cc2e8439d7a239cee88fc",
+      "date": "2020-06-09T13:05:20+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Begin-of-line zero-width search results would not show any content",
+      "body": "This would happen if searching for an anchor that would match at the beginning of a line, e.g. ‘\\A’ or ‘^’, with zero actual characters matched."
+    },
+    {
+      "hash": "fbc78d3b37ad2fc77cb201a4d57fbbbc6a012fcb",
+      "date": "2020-06-09T13:00:23+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove initialization of libcurl",
+      "body": "We no longer use libcurl anywhere in TextMate, so this line is no longer necessary."
+    },
+    {
+      "hash": "0f219bae4bc7cee997e2eb242d008a3cc84dd15c",
+      "date": "2020-06-09T12:50:30+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Set (visible) key equivalents for file browser context menu",
+      "body": "Some of the items require the key equivalent to be set as “inactive” as menu item keys are “global” and thus need to be unique, and can be triggered even when the view containing the context menu is not active."
+    },
+    {
+      "hash": "6e35cb98e182466e2a2c7cfcb9af7cb7a78cae3e",
+      "date": "2020-06-09T12:38:14+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Only update file browser menu item titles when it is the explicit target",
+      "body": "Previously “Paste Next” in the Edit → Paste submenu could have its title updated to “Move Item Here”, which would never be restored back to “Paste Next”, similarly for regular paste.\n\nThis commit also drops the wrappers for the cut:, copy:, paste:, and delete: methods, as these wrappers resulted in a bit of redundancy related to menu item validation."
+    },
+    {
+      "hash": "b0228b9affe03335515237f122ed0f304b89188a",
+      "date": "2020-06-09T12:17:31+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove redundant target setting from file browser context menu",
+      "body": "We set target for all items in the menu during post-processing."
+    },
+    {
+      "hash": "f97946244a6b657d74884a1f735d96d112c38105",
+      "date": "2020-06-09T11:25:04+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let file browser call copyAsPathname: when seeing ⌥⌘C",
+      "body": "We cannot do this via a menu item because this key equivalent is already used for Ignore Case in the Edit → Find → Find Options menu."
+    },
+    {
+      "hash": "f1a1e1920f76687bd64095404deadbe8007ee134",
+      "date": "2020-06-09T11:23:48+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Handle file browser shortcuts in performKeyEquivalent:",
+      "body": "This is called before the main menu acts on keys, and thus allows us to catch keys that are otherwise assigned to menu items.\n\nWe only do this when the file browser is first responder, so it should be acceptable to have a few menu keys change behavior in that case."
+    },
+    {
+      "hash": "75a08d141b4aba87f12265caec32fb88dccf701c",
+      "date": "2020-06-07T16:46:55+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use os_log_error when assertions fail",
+      "body": ""
+    },
+    {
+      "hash": "da04968f1793e173a301b6a3fdb8f2981222f3c3",
+      "date": "2020-06-05T18:19:37+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change target file for OakDebug to not link as a bundle",
+      "body": "This was from back when each framework was built independently."
+    },
+    {
+      "hash": "249f365e707d6ddb786e3cfd544ab360dbe3bcd7",
+      "date": "2020-06-05T18:18:38+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove majority of code from OakDebug framework",
+      "body": ""
+    },
+    {
+      "hash": "b2ace313148d4bcd92cb40bc55b78230ddbf1b1f",
+      "date": "2020-06-05T18:14:38+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove comment about _GLIBCXX_DEBUG",
+      "body": "Unsure if this has any meaning for libc++."
+    },
+    {
+      "hash": "e141a97d267a224bf555f080bfd4f6a3963493f7",
+      "date": "2020-06-05T18:12:00+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove include of <oak/debug/OakDebugLog.h>",
+      "body": ""
+    },
+    {
+      "hash": "066acad708ec1f64479231c737fbc322195956ed",
+      "date": "2020-06-05T18:01:39+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove use of WATCH_LEAKS (C++)",
+      "body": ""
+    },
+    {
+      "hash": "e80ef1d0b7a9979943c61e33e09f207bed6f2cb7",
+      "date": "2020-06-05T17:55:56+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove use of OBJC_WATCH_LEAKS",
+      "body": ""
+    },
+    {
+      "hash": "b63441b648c97e1d99ec468080a67a19822e3dc7",
+      "date": "2020-06-05T17:41:43+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove commented debug statements",
+      "body": ""
+    },
+    {
+      "hash": "95655fbe18927e7f67223b3ef91b98609c3773fa",
+      "date": "2020-06-05T17:39:53+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move BSTR macro to crash/info.h",
+      "body": ""
+    },
+    {
+      "hash": "44fbea7dc604bd37c84359d4b4d54ffb70632263",
+      "date": "2020-06-05T17:36:06+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Avoid using BSTR macro in OakDocument.mm",
+      "body": "This is a debug macro that shouldn’t be used by non-debug code."
+    },
+    {
+      "hash": "bfd1bcf3f08d2bdf699a7c46b21cb94344b49148",
+      "date": "2020-06-05T17:31:16+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove ‘to_s’ functions previously used by log statements",
+      "body": ""
+    },
+    {
+      "hash": "c93030b3850b494a0b9adeeef30c437494ef8d06",
+      "date": "2020-06-05T17:25:50+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove all debug output from custom log macros",
+      "body": "This provided value during early development, but has been unused for years, and it would generate too much noise if converted to os_log.\n\nSo better to just remove it all and add os_log statements as needed."
+    },
+    {
+      "hash": "5246f168a4d1d186a12e4270dde10a0162ec9dcc",
+      "date": "2020-06-05T17:12:09+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Call os_log_error if AESendMessage fails",
+      "body": ""
+    },
+    {
+      "hash": "f000204330a540d07d19c131a606bda5eba8353b",
+      "date": "2020-06-05T16:36:48+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove PUBLIC macro",
+      "body": ""
+    },
+    {
+      "hash": "4ec10c09234844b96fd829648b683562a3723134",
+      "date": "2020-06-05T16:35:32+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t annotate types and classes with PUBLIC",
+      "body": "This was required when we linked each framework as its own thing, which we do not do anymore, and if we do go back to this system, we can simply have symbols public by default."
+    },
+    {
+      "hash": "70988c684f50fd7dcb341460aa769cefcb97291d",
+      "date": "2020-06-03T16:28:24+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use a custom class for favorite items (instead of NSDictionary)",
+      "body": ""
+    },
+    {
+      "hash": "3d721f908c67727d5ae67a6abb8667d3b83b4315",
+      "date": "2020-06-03T16:03:41+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use ‘valueForKey:’ to get ‘path’ from items in didSelectFavorite:",
+      "body": "This allows path to be either stored in a dictionary (as currently done) or be a getter method of a custom subclass."
+    },
+    {
+      "hash": "312514665cfbacaf52a73b439e022444a8af55e8",
+      "date": "2020-06-01T18:15:01+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove find_t::match API",
+      "body": ""
+    },
+    {
+      "hash": "a69d4acace53dbf20c390f8884735fc95cbbf2cb",
+      "date": "2020-06-01T18:14:05+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update find tests to use find_t::each_match",
+      "body": "These tests are not exactly exhaustive and should probably be amended with more edge cases, especially now that the API has been simplified (so easier to add more tests)."
+    },
+    {
+      "hash": "906aea3cca569abc160ec76157115dabf87c2383",
+      "date": "2020-06-01T17:58:40+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use new find_t::each_match in folder search",
+      "body": ""
+    },
+    {
+      "hash": "1807339f9c519a276bc5960c5c461c0904a18e0c",
+      "date": "2020-06-01T17:48:00+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use new find_t::each_match in document search",
+      "body": ""
+    },
+    {
+      "hash": "18d2fd6f7fa33ad58d907fd6e64fd1f20cd050ae",
+      "date": "2020-06-01T17:34:35+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add simpler (low-level) API for performing a search",
+      "body": ""
+    },
+    {
+      "hash": "f700b8d9602670fb503f376867818ad2fe487fed",
+      "date": "2020-06-01T15:09:53+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove API to set skip offset when performing a search",
+      "body": ""
+    },
+    {
+      "hash": "b96bfad7b282b679477d0d9c4a8af4b45d533b9f",
+      "date": "2020-06-01T13:58:36+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Files with .mm.rl extension are now built as Objective-C++",
+      "body": "Previously all .rl files would be built as C++."
+    },
+    {
+      "hash": "4f8a3e3aa4d649140381042137f27d54f82c6aa6",
+      "date": "2020-06-01T13:49:37+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use longest suffix match when more than one build rule can build a file",
+      "body": "For example we may specify a transform for ‘.rl → .cc’ and another for ‘.mm.rl → .mm’. For a file named ‘fsm.mm.rl’ the build system would use the first rule seen, now it will always pick the latter, as it matches more of the suffix."
+    },
+    {
+      "hash": "b1e41a7f5f63c886384778568a19e3d57d8ecf67",
+      "date": "2020-05-30T09:54:07+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Abort iterating over parent URLs if the path string grows in length",
+      "body": "It appears that NSURL’s algorithm for “delete last path component” is to first append ‘../’ and then “normalize” the result, but the latter step can fail for some file URLs, for example with “file://localhost/path/to/https://macromates.com/” it will be stuck at the two slashes (continuing to append ‘../’).\n\nSuch malformed (file) URL can be created by running ‘mate https://macromates.com/’."
+    },
+    {
+      "hash": "eaad76f83d08165b7b9f16cef2e9e6909120236f",
+      "date": "2020-05-30T09:47:11+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Minor tweak of log message",
+      "body": ""
+    },
+    {
+      "hash": "9095325e682e92b63c0d960ba5e293d20b8c15c3",
+      "date": "2020-05-30T08:53:38+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Tweak layout constraints of footer in Select Bundle Item window",
+      "body": "I occasionally see the Edit or Select button stretched, i.e. the status bar text field hugs its content fully, this is despite its hugging priority being set to low.\n\nI did try to set it to NSLayoutPriorityDefaultLow-10 (assuming hugging priority of the buttons is NSLayoutPriorityDefaultLow), but I still saw the problem, so now we just allow space between the status bar and the buttons, rather than rely on the status bar to be stretched."
+    },
+    {
+      "hash": "a36bc310d07c53ebde9475fcdfe4d4f6b9e26b8c",
+      "date": "2020-05-30T08:43:21+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Usage text for the process_plist script was using a wrong program name",
+      "body": ""
+    },
+    {
+      "hash": "b663d0b5206eff945a34b259771ce397f02bc662",
+      "date": "2020-05-30T08:27:41+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Support passing arguments to ragel via RAGEL_FLAGS",
+      "body": "The default for ragel is to generate compact and flexible code, not an issue for our current use case (parsing only comments and strings in ASCII property lists) but in the future we may need to tweak the output as ragel will be used for other things."
+    },
+    {
+      "hash": "c41804c2676f7591d6591fe0687230c0eb25d607",
+      "date": "2020-05-30T08:06:39+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let ninja run tests in the console pool",
+      "body": "I think it will prevent multiple tests from being run in parallel, but when writing tests, we may produce a lot of output, that should not be buffered by ninja.\n\nA future improvement could be to only use the console pool for the tests of the current target, but that will require two different rules to run tests."
+    },
+    {
+      "hash": "e5dee676937467bb56d33f8f932b7ce0a06eb690",
+      "date": "2020-05-25T12:37:23+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Improve how we update key view loop in transition view controller",
+      "body": ""
+    },
+    {
+      "hash": "670f5ba756b2417ea5b67529df6076252fa76cb8",
+      "date": "2020-05-25T11:12:12+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let preferences window recalculate key view loop and set first responder",
+      "body": "None of our preference panes have custom key view loops, therefore it is safe to call recalculateKeyViewLoop, if however we do introduce custom key view loops, we will need to update this code to account for that."
+    },
+    {
+      "hash": "6aef0f069cb61e14c69714b2d88257263c4d0201",
+      "date": "2020-05-25T11:06:19+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not recalculate key view loop in OakTransitionViewController",
+      "body": "Also do not change first responder, as this belongs at a higher level, where we know which view would be a suitable first responder."
+    },
+    {
+      "hash": "70ad04d554e4c7aa0a81131f6590d71baf3b2b76",
+      "date": "2020-05-25T11:01:46+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Improve check for setting first responder for bundles preferences",
+      "body": "For example when opening the window for the first time, the first responder will already have been setup when reaching the viewDidAppear method."
+    },
+    {
+      "hash": "df3b4bb807d0163d4fa4f4c48267b5aa2bb47a64",
+      "date": "2020-05-25T09:22:14+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t call OakSetupKeyViewLoop with just a single view",
+      "body": "In this case, the function is a no-op."
+    },
+    {
+      "hash": "344ed58819a6d34994011f02204374787c7220c6",
+      "date": "2020-05-25T09:21:20+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t set autorecalculatesKeyViewLoop to NO (as it is the default value)",
+      "body": ""
+    },
+    {
+      "hash": "d500f6e53d827d83f06a797764b654a34f0456e6",
+      "date": "2020-05-25T08:45:20+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove support for initial first responder in OakSetupKeyViewLoop",
+      "body": ""
+    },
+    {
+      "hash": "58d1cce52708af23cb975a4d5db3210fe3420c66",
+      "date": "2020-05-25T08:39:54+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not rely on OakSetupKeyViewLoop to set initial first responder",
+      "body": "We either set it explicitly or rely on automatic key view loop calculations.\n\nAs for the latter: When auto-layout was initially introduced, the automatic key view loop calculation broke, as it used the view frames before layout. It should have been fixed several OS versions ago though, so we can use it again, as long as we are not working with view-based table views."
+    },
+    {
+      "hash": "3818da6410ab551f7844fc71cd31e2ec6f481b7d",
+      "date": "2020-05-25T08:09:46+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove support for NSNull in OakSetupKeyViewLoop",
+      "body": "Also specify the object type (NSView*) for the arrays passed to OakSetupKeyViewLoop and OakAddAutoLayoutViewsToSuperview."
+    },
+    {
+      "hash": "74e03499abcd6350b969a6c24778b6fc6c47a930",
+      "date": "2020-05-25T08:05:55+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not pass NSNull objects to OakSetupKeyViewLoop for non-existing views",
+      "body": "We only need this in one location, and it’s easy to handle at that call-site, rather than add complexity to something which is already a little opaque."
+    },
+    {
+      "hash": "7369f785c2697b7afa254114e2ec02880d3f222c",
+      "date": "2020-05-24T13:50:10+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Improve log message for a failed download",
+      "body": ""
+    },
+    {
+      "hash": "a3cd28370a5a4958c242c9263367b555b4ec1726",
+      "date": "2020-05-24T10:13:48+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move OakCompareVersionStrings function to SoftwareUpdate framework",
+      "body": ""
+    },
+    {
+      "hash": "fda314ef9b79226daf629844d37162a0688a0b9c",
+      "date": "2020-05-24T10:06:40+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move OakDownloadManager to SoftwareUpdate framework",
+      "body": ""
+    },
+    {
+      "hash": "e38dc44ab8d760b9f51e1459a5639029a7b9572d",
+      "date": "2020-05-24T09:56:57+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rewrite SoftwareUpdate singleton",
+      "body": "Changes:\n\n- Use NSURLSession and OakDownloadManager to download updates (instead of libcurl).\n- Use NSFileManager’s replaceItemAtURL:… to update the application bundle (instead of custom code).\n- Use NSTask to relaunch the application (instead of fork/exec).\n- Use the same window for the initial prompt, and for showing download progress.\n- Show estimated time remaining in download window (via NSProgress).\n- Allow retrying downloads on various forms of failures.\n- Don’t require xib file for download window.\n\nRegressions:\n\n- We no longer support updating the application as root: I tried using an authorized NSFileManager instance, but it did not work for me, and the previous code we used for this was using legacy APIs."
+    },
+    {
+      "hash": "2b6d0de95b9cefb6fa08196ae9088caa5293684f",
+      "date": "2020-05-23T12:50:36+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove version::less (C++) API",
+      "body": ""
+    },
+    {
+      "hash": "2de550b16c8635a190341a17ee25b2f015844d08",
+      "date": "2020-05-23T12:48:07+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Switch from using version::less → OakCompareVersionStrings",
+      "body": ""
+    },
+    {
+      "hash": "6349447f678a7657055c89a551424f4e9013dc4c",
+      "date": "2020-05-23T12:28:42+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Introduce OakCompareVersionStrings wrapper and use in tests",
+      "body": ""
+    },
+    {
+      "hash": "a40c840040b6b4ab2703bcb376dac347f35fdc93",
+      "date": "2020-05-23T12:08:56+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change version.cc from C++ to Objective-C++",
+      "body": ""
+    },
+    {
+      "hash": "caedb1130592695648136e8ef740a41651844d55",
+      "date": "2020-05-22T19:59:58+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add read/write subview property to OakTransitionViewController",
+      "body": "This feels like a better API than the previous transitionToView: method."
+    },
+    {
+      "hash": "7aed23f5add14089a85b6ef4484cd4bf218350bb",
+      "date": "2020-05-22T11:18:28+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Connect “Check Now” button directly to software update controller",
+      "body": ""
+    },
+    {
+      "hash": "0731c1cde170ae423d509d96f1ed64a7d847a5ce",
+      "date": "2020-05-22T10:45:17+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove log message when trying to update bundle index",
+      "body": "This already happens in an os_activity block which produce a similar log message."
+    },
+    {
+      "hash": "cfb523e713a9685aec69e52cac849391f2f36cae",
+      "date": "2020-05-22T10:41:08+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove tests for software update framework",
+      "body": "The code being tested is scheduled for replacement and it’ll be too cumbersome to update these tests."
+    },
+    {
+      "hash": "e9a873a5d08cab848228225325ff3a82a62d25a3",
+      "date": "2020-05-22T09:31:47+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rename OakNetworkManager files to OakDownloadManager",
+      "body": ""
+    },
+    {
+      "hash": "bafc8f0f3e0c72cd220439b7275fc425e6e58c2a",
+      "date": "2020-05-22T09:29:00+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rename OakNetworkManager class to OakDownloadManager",
+      "body": ""
+    },
+    {
+      "hash": "0a66805df59f123cf45c2caae69f456a4d9cc669",
+      "date": "2020-05-22T07:49:15+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let software update preferences bind directly to user defaults",
+      "body": "We would go through ‘self’ only to unify things in the xib file, as some values are stored via .tm_properties."
+    },
+    {
+      "hash": "3f21f65a4a99f60ea1be70ebe51a1855e3c985f2",
+      "date": "2020-05-22T07:04:06+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove ‘lastPoll’ property from software update controller",
+      "body": ""
+    },
+    {
+      "hash": "87667e04ae6cf96fc385f3c00574959b4cccb623",
+      "date": "2020-05-22T06:52:45+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Refactor software update preferences",
+      "body": "We now use kUserDefaultsLastSoftwareUpdateCheckKey to obtain “last check” and observe user defaults for changes.\n\nAlso eliminate local mirroring of software update controller properties and other minor tweaks."
+    },
+    {
+      "hash": "9a2eef2b50ff36de39c80a0eeb69f3ac0e34509e",
+      "date": "2020-05-22T06:51:17+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make kUserDefaultsLastSoftwareUpdateCheckKey public",
+      "body": ""
+    },
+    {
+      "hash": "2c407be15be71432f58ec2f4286e303b9503707c",
+      "date": "2020-05-21T20:49:22+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Obtain OS version via NSProcessInfo.processInfo.operatingSystemVersion",
+      "body": "The oak::os_major, oak::os_minor, and oak::os_patch functions are wrapping deprecated API."
+    },
+    {
+      "hash": "3ea2cd2423b18906609ac070fa7c3d44b76f41d9",
+      "date": "2020-05-21T20:48:15+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use compile-time string concatenation instead of %s",
+      "body": ""
+    },
+    {
+      "hash": "e98dd0ce321d0b2ae170955850eb9176e519f353",
+      "date": "2020-05-21T19:06:46+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change key (in session state) used to store file browser state",
+      "body": "We changed the type of file browser state from NSDictionary → NSData in 4a1e9113f38174404f1ca4a50f1b2a8b61007904.\n\nWhile we do check the type of the object read, previous versions did not, so if the user runs latest version of TextMate, and then downgrades, they will have state that cannot be read by the older version of TextMate (and will cause exception during launch, incase file browser state is restored)."
+    },
+    {
+      "hash": "dce26956e7aa205f6cd19b4be4f4b8a135388207",
+      "date": "2020-05-21T17:12:07+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rename methods and constants to use software update in singular form",
+      "body": "The program only checks for a single update."
+    },
+    {
+      "hash": "300624b20eaf734a48392443f47143e989ce820a",
+      "date": "2020-05-21T17:07:10+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t let software update framework expose DownloadWindowController",
+      "body": ""
+    },
+    {
+      "hash": "05cf51d42e03a3f3c339540dbf19ad033fc06345",
+      "date": "2020-05-21T17:03:29+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move software update signing key to Info.plist",
+      "body": "This simplifies usage of the software update singleton and still allows to use it in other projects that have different signing key(s)."
+    },
+    {
+      "hash": "733ab302e247b5d80262ada78cd1f09a5d5b078f",
+      "date": "2020-05-21T12:41:33+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change variable name: observerId → token",
+      "body": "Several places already used ‘token’ as the name for the result from NSNotificationCenter’s addObserver:… so this change is to be consistent.\n\nWhile ‘token’ is less meaningful than ‘observerId’, the variable is only used with NSNotificationCenter API where the context makes it clear."
+    },
+    {
+      "hash": "569dc9a198f22b76cc30018c2495f5e9704610be",
+      "date": "2020-05-21T12:35:24+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make token used in notification block weak as it retains the block",
+      "body": "This is not made clear from the documentation, however, the documentation does state that the token will be strongly held by the notification center, until the notification is removed, therefore it is safe to only keep a weak reference to the token (even if the implementation should change)."
+    },
+    {
+      "hash": "6d045e2fd7c867935186462f679ee435bc917bce",
+      "date": "2020-05-21T07:35:18+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update URL schemes (mainly in comments) to use https",
+      "body": ""
+    },
+    {
+      "hash": "dcd630e649d1b14ecc874d3d7cf3eff98e59c12b",
+      "date": "2020-05-21T07:20:50+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use constants for find panel and font manager tag values in main menu",
+      "body": ""
+    },
+    {
+      "hash": "43b6548d5e51021bd976a6c703dc1673b545de7d",
+      "date": "2020-05-21T07:19:51+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Close NSFileHandle instances obtained from NSPipe when done writing",
+      "body": "The documentation is not clear on whether or not file handles from an NSPipe will be automatically closed, so to be safe, we close them manually."
+    },
+    {
+      "hash": "b693db4fd193afe7c42411b2938650458d083d80",
+      "date": "2020-05-21T07:16:40+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSDictionary for SCM repository variables (instead of std::map)",
+      "body": ""
+    },
+    {
+      "hash": "6108a437c19fe0f701f868981192480616c8d893",
+      "date": "2020-05-21T07:15:05+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Check for NULL_STR when producing error message from uuid_t constructor",
+      "body": ""
+    },
+    {
+      "hash": "8200f445bcb6021cd9e24caa83554b927384bcf9",
+      "date": "2020-05-18T08:21:43+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use a dynamic name for the commit window’s service",
+      "body": ""
+    },
+    {
+      "hash": "43db695fd31d9198b5e17f3dc2c037106f485bdd",
+      "date": "2020-05-17T14:09:44+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update to use non-deprecated NSButtonType constant names",
+      "body": ""
+    },
+    {
+      "hash": "66c1bc7f78c96076d0e8148bd7cc9835cd8207cb",
+      "date": "2020-05-17T08:15:22+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Clear background when using a theme with transparent background",
+      "body": "This partially reverts 6ffd0f2e92466355de0e81ed915b8e32daa8a3de\n\nWhile we do not support transparent themes per se, we still use the alpha colors and thus would previously fill the background using alpha, into a layer that we hadn’t previously cleared."
+    },
+    {
+      "hash": "af8b51f62923890498aa6d3cd8b3ded2dfefa675",
+      "date": "2020-05-16T22:15:00+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use std::optional for variable lookup function used by format string",
+      "body": ""
+    },
+    {
+      "hash": "7b51a4fbeb5e177717ce48cec09d51ba55b48ce1",
+      "date": "2020-05-16T21:24:23+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use std::optional for the result of scope::selector_t::does_match",
+      "body": "This does change ranking of the wildcard scope selector, as incase of a wildcard match, the old code did not change the rank, so it would be up the caller, which was 1 for bundle item matching but 0 for settings and theme matching."
+    },
+    {
+      "hash": "a0087330fc885f228a4a9435581c51207d8ad3ac",
+      "date": "2020-05-16T20:42:28+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use std::optional for the result of item_t::does_match",
+      "body": "This avoids having to pass a pointer for the actual rank (incase of a match)."
+    },
+    {
+      "hash": "25ff20fbb4029e193955e8fa18e43f3ff4ec8c18",
+      "date": "2020-05-16T15:47:06+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Avoid accessing the find results view until we really need it",
+      "body": "This is to postpone constructing the view: It’s probably not costly to construct it before we need it, but everything adds up, and it just feels proper to avoid constructing the views of view controllers until as late as possible."
+    },
+    {
+      "hash": "d0fe8a0513766f284d3fa0271a8d2116383c9e88",
+      "date": "2020-05-16T15:35:11+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not create Find dialog until loadWindow is called",
+      "body": ""
+    },
+    {
+      "hash": "2216df2c9bfa171d1c28a52af445b2f9bb94a6c4",
+      "date": "2020-05-16T11:40:13+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix vertical truncation of checkbox labels in find dialog",
+      "body": "We now add some bottom padding to the containing grid view, as it may be oblivious to alignment rectangles, and would therefore snap to the bottom of the checkbox label’s alignment rectangle, clipping anything drawn outside of it."
+    },
+    {
+      "hash": "2e5d4d1d6bb48b02cd518f98cafd1562e186d6dd",
+      "date": "2020-05-16T07:24:33+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.15",
+      "body": ""
+    },
+    {
+      "hash": "d04c76b15b7ff5d1013d04a1704aba5b3c3c1489",
+      "date": "2020-05-16T07:11:25+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "QuickLook plug-in selects theme the same as TextMate (supporting auto)",
+      "body": ""
+    },
+    {
+      "hash": "6ffd0f2e92466355de0e81ed915b8e32daa8a3de",
+      "date": "2020-05-16T07:06:02+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Avoid potential crash by not updating window’s opaque property",
+      "body": "This does completely remove support for transparent themes, but any recent version of macOS would not support it anyway due to layer-backed views.\n\nThe crash resulting from setting opaque is because of recursion: After session restore, the window will calculate shadow, this triggers a “user defaults did change” notification, which updates theme of text view, which sets opaque, which re-calculates shadow and tries to recursively obtain a non-recursive mutex."
+    },
+    {
+      "hash": "c5d58c4ac85cd1c0a3f2860215b74a471879fc0b",
+      "date": "2020-05-15T12:20:01+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Improve API for adding a folder submenu",
+      "body": ""
+    },
+    {
+      "hash": "94022fb4f779d193ba198b1a34d28e40ff599c01",
+      "date": "2020-05-15T12:17:39+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Simplify implementation of parentMenuItem",
+      "body": ""
+    },
+    {
+      "hash": "21344807911579c144bdc7b5004183d0e98363a3",
+      "date": "2020-05-14T20:48:49+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.14",
+      "body": ""
+    },
+    {
+      "hash": "dde90fe4f596efc62dd21f14fb9005117a698e01",
+      "date": "2020-05-14T08:49:35-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Fix crash in AboutWindowController when license owner is nil",
+      "body": ""
+    },
+    {
+      "hash": "666d93db272d146ebb1bdb738086fc38df442581",
+      "date": "2020-05-14T15:52:43+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.13",
+      "body": ""
+    },
+    {
+      "hash": "0a04a77a8997bb84134d770304cf317edfc7ec48",
+      "date": "2020-05-14T15:47:01+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Allow building with the macOS 10.14 SDK",
+      "body": "This does mean that NSRelativeDateTimeFormatter is not used, even when running on macOS 10.15."
+    },
+    {
+      "hash": "fb165589c3174490e429ecade76deb8953f2ae7e",
+      "date": "2020-05-14T15:42:55+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change layout constraints to allow superview with zero width",
+      "body": "I occasionally see log entries saying that the constraints cannot be resolved, and it appears to be because the superview has a width of zero."
+    },
+    {
+      "hash": "a7e23d2722ebaa8995bf50bd06486ede62abfd05",
+      "date": "2020-05-14T15:38:31+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Expose automatic theme switching in View → Themes submenu",
+      "body": "Theme is now stored only with OakTextView (observed by OakDocumentView) and the “global” setting is stored in user defaults (not Global.tmProperties), though it is still possible to override theme on a file-by-file basis via .tm_properties files."
+    },
+    {
+      "hash": "e310724951b683a1be2b8058af6f2761568c40d7",
+      "date": "2020-05-14T11:08:44+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Pass theme to OakDocumentView instead of querying settings in the object",
+      "body": "This is because OakDocumentView is not in the view hierarchy and it obtains the theme via settings_t, so there is no way to notify about theme changes."
+    },
+    {
+      "hash": "6404eedaf7b096b5f82f4060fbc7449813b7b714",
+      "date": "2020-05-14T09:34:59+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add status bar to Bundles preferences showing when index was updated",
+      "body": "It also shows a progress spinner when installing bundles and potential errors."
+    },
+    {
+      "hash": "47b1d712f020bf4f41e38640a8e14942fd531e43",
+      "date": "2020-05-14T08:30:11+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change Nightly Builds to Prereleases in Software Update preferences",
+      "body": ""
+    },
+    {
+      "hash": "e62db9386ed1e9a3bff3d2338a692973cfb3184a",
+      "date": "2020-05-14T08:08:29+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Call NSMenu’s numberOfItems instead of itemArray.count",
+      "body": ""
+    },
+    {
+      "hash": "ad1cc8abd81b72c1dac2979fc6414b23b217a6b8",
+      "date": "2020-05-14T08:00:34+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Deliver all NSUserDefaultsDidChangeNotification in main queue",
+      "body": "This is easier than ensuring that we do not update user defaults from a background thread."
+    },
+    {
+      "hash": "c939c53f34c8ff79b2b1f71375d0ef1ded2599b3",
+      "date": "2020-05-13T08:50:29+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t let HTMLOutputWindowController handle toggleHTMLOutput:",
+      "body": "Now that the window is a panel, we can rely on the main window to close the window on toggle, even with the HTML window having key."
+    },
+    {
+      "hash": "8e6791324acfb61e98433114638b416d0a0199d7",
+      "date": "2020-05-13T08:25:08+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let app delegate handle workaround for “Move to Active Space” behavior",
+      "body": "I don’t think the default behavior ever makes sense, so we are applying the change to all windows instead of handling it on a one-by-one basis."
+    },
+    {
+      "hash": "6042041505c83c86d84571422d9bf019bf1f26d3",
+      "date": "2020-05-13T07:39:30+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSWindowController as superclass for HTMLOutputWindowController",
+      "body": ""
+    },
+    {
+      "hash": "0caa4eb12a1b48ccd61fb5a424007046a763b587",
+      "date": "2020-05-12T22:56:43+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Improve the folder pop-up submenu for Find in Folder",
+      "body": "The submenu now show the immediate children in the first submenu, with parents below these items, although without adding submenus to the parents.\n\nAlso show ⌘↑ for the first parent, to improve discoverability of this key equivalent."
+    },
+    {
+      "hash": "c2019e15a1aff94d74e7b2f187ceb0e170192acd",
+      "date": "2020-05-12T22:30:48+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use CGContext instead of graphicsPort",
+      "body": ""
+    },
+    {
+      "hash": "44847a61717cfd53e8cd5e74ac4ae1868bd20eed",
+      "date": "2020-05-12T15:39:54+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make sure we always return a document from documentWithPath:",
+      "body": "Based on crash reports, there appears to be a race condition where the weak pointer has been nilled."
+    },
+    {
+      "hash": "1ea8ad41e0cd0c63d18f5a211ac086fd7fb771bb",
+      "date": "2020-05-12T14:26:36+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove properties related to install progress from BundlesManager",
+      "body": ""
+    },
+    {
+      "hash": "6adb9a25895665f3289b12579905f1d59141e9fd",
+      "date": "2020-05-12T14:25:10+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Introduce singleton to store state about bundles being installed",
+      "body": ""
+    },
+    {
+      "hash": "c05c68698cb26723f69f8288193b36406b464265",
+      "date": "2020-05-12T09:49:40+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Show relative dates as “1 day ago” instead of “yesterday”",
+      "body": "Main reason I picked the named styles was that a time interval of zero would show as “in 0 seconds”, but we now check if check was less than 5 seconds ago and use “Just now” for that case."
+    },
+    {
+      "hash": "92953099e6230cd61c921039084185eab0aac7b7",
+      "date": "2020-05-12T08:24:16+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Allow escape to dismiss HTML output window (by using NSPanel)",
+      "body": ""
+    },
+    {
+      "hash": "0e1c51c0bd54e958ff0c8c16eb72af5d468ad8c9",
+      "date": "2020-05-12T07:49:50+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Eliminate redundant content view in About window",
+      "body": ""
+    },
+    {
+      "hash": "611431bd80e2876be7d3f6dcd15363394d82079f",
+      "date": "2020-05-12T07:36:29+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use WKWebView in the about window",
+      "body": "To get scroll content behind title/toolbar we need to set NSWindowStyleMaskFullSizeContentView which appears to have been inferred with the old (deprecated) WebView."
+    },
+    {
+      "hash": "16aa95a018e1cf3bdd15f557c2b7d5774051400a",
+      "date": "2020-05-12T07:05:44+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSPanel for the about window",
+      "body": "This is basically just so that we can close it with the escape key."
+    },
+    {
+      "hash": "2c04850b46806f05e78f866c6f8fe66b7efc91d7",
+      "date": "2020-05-12T06:55:32+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use a Dark Mode media query for the About window’s CSS colors",
+      "body": ""
+    },
+    {
+      "hash": "57336423cafa72957e835f37efca447417547c3a",
+      "date": "2020-05-11T13:25:29+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove unused user defaults key",
+      "body": ""
+    },
+    {
+      "hash": "927f2c7803fe086e230fb85b2d7fafd0036cee91",
+      "date": "2020-05-11T12:45:25+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSBackgroundActivityScheduler for updating bundle index",
+      "body": ""
+    },
+    {
+      "hash": "fe16803a72fc7cb3afb841c377d65ff92361c9fa",
+      "date": "2020-05-11T12:44:03+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add os/activity.h to list of headers to precompile",
+      "body": ""
+    },
+    {
+      "hash": "9da2d327c94754135ee3db884cf7c69e759f91fd",
+      "date": "2020-05-10T21:41:12+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Only use implicit animation to resize windows on 10.15 and later",
+      "body": "This causes lots of visual glitches on macOS 10.14."
+    },
+    {
+      "hash": "0c49db983884a5ae6df09df1f1cb901a2d94d481",
+      "date": "2020-05-10T21:38:27+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Prior to 10.15 a window’s screen property could be nil",
+      "body": ""
+    },
+    {
+      "hash": "4af8f47cdcd4049ead02912ef20926b476512835",
+      "date": "2020-05-10T20:19:18+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.12",
+      "body": ""
+    },
+    {
+      "hash": "f8dd2ebae72024f62bf1f9effd3dde1fc4adc359",
+      "date": "2020-05-10T20:05:05+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Find History: Change Find Next to “in Project” when holding down option",
+      "body": ""
+    },
+    {
+      "hash": "0d951dc113c46997e3680fc2c933999948888113",
+      "date": "2020-05-10T19:53:54+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Allow toggling chooser windows (⌘T, ⇧⌘T, ⌃⌘T, ⇧⌘O)",
+      "body": "If the window already has keyboard focus, sending it an “open” will instead close it, similar to pressing escape.\n\nThis might be useful for touch bar users."
+    },
+    {
+      "hash": "90a25176006ce3ebbff2321e25f08013920511be",
+      "date": "2020-05-10T19:40:03+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Allow opening “Find in Project” from pasteboard history chooser",
+      "body": "This is triggered by holding option when selecting Find Next. Improving discoverability is work in progress."
+    },
+    {
+      "hash": "c11828add967081076a36c94a0640fb092c7c7c5",
+      "date": "2020-05-10T19:37:57+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add an alternateAction property to OakPasteboardChooser",
+      "body": "This is sent when the action button is triggered while option (⌥) is down (if there is a valid responder for the message)."
+    },
+    {
+      "hash": "3bee6c728b96b4d559ef38b3d2e1802bbb963d10",
+      "date": "2020-05-10T19:35:01+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Log the localized string from NSError instead of the entire object",
+      "body": ""
+    },
+    {
+      "hash": "01bf8688321714dbc7f722c54efc96b0fa19a524",
+      "date": "2020-05-10T16:43:56+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Go back to visual formal language for laying out the Find dialog",
+      "body": "Now that we use OakTransitionViewController for toggling the results view, using a stack view provides no real benefits, and are in some ways a little bit more opaque, for example the hugging priority weirdness and what width constraints are setup by the view."
+    },
+    {
+      "hash": "e9c4ea57ddfc458953b0f4b7ba53faf7ad7431bb",
+      "date": "2020-05-10T16:32:47+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move initialization of view controllers from helper method to init",
+      "body": "These view controllers are used in other methods, so we were basically relying on the order of which methods were called, which is not good design."
+    },
+    {
+      "hash": "3d1f4c82df8730be980285156ef390294d3e771a",
+      "date": "2020-05-10T15:12:40+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Only install event monitor when results outline view is visible",
+      "body": ""
+    },
+    {
+      "hash": "407aed195e990dc3776dbcc9573658ebed09fc5d",
+      "date": "2020-05-10T13:10:02+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make sure window is within visible screen frame when resizing",
+      "body": ""
+    },
+    {
+      "hash": "bd7e306b912b4359c0d66862424d4f08037014a1",
+      "date": "2020-05-10T12:10:35+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use OakTransitionViewController to show/hide find results",
+      "body": ""
+    },
+    {
+      "hash": "3c609e33d917cb9ded7254c34074c0d52d811a8f",
+      "date": "2020-05-10T12:07:02+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move transitioning of view (animation) to stand-alone view controller",
+      "body": "Also make the code slightly more general, for example support transitions to nil."
+    },
+    {
+      "hash": "b57afafef989ede0f9549c2596165a2e061d5824",
+      "date": "2020-05-10T11:57:08+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Minor change in implementation of toolbar:itemForItemIdentifier:",
+      "body": "We now always return an NSToolbarItem instance, even when we don’t actually have a view controller for the identifier.\n\nThis should not arise in practice, but it makes it easier to test new items in the toolbar (by only adding the identifier)."
+    },
+    {
+      "hash": "d5ca34ceb7d9a25243e7543e2a4c25ea4a628d58",
+      "date": "2020-05-09T14:38:40+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Increase row spacing in preferences pane grid view",
+      "body": ""
+    },
+    {
+      "hash": "53da62f33de2b7d3c28590ef87f3207570c5002c",
+      "date": "2020-05-09T14:15:02+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix issue with ⌘F not bringing find dialog to active space",
+      "body": "The problem is that we use ⌘F and ⇧⌘F as key equivalents both in the Edit → Find submenu and in the “where” pop-up button’s menu, but as they previously had different action methods, the system would only allow the key to trigger one of these items (and remove the key from the other, as part of menu validation).\n\nNormally not an issue, but when the find dialog is in another space, it appears menu validation would not update the Find → Edit submenu items to get the key equivalents, even though these would be “first responders”.\n\nBy using same action method for both Find → Edit submenu items and the “where” pop-up menu items, we avoid the key equivalents being removed from any of the two menus."
+    },
+    {
+      "hash": "9bfae1aadacb3bf7052a761d1bdb834d612b07d8",
+      "date": "2020-05-09T13:52:45+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use FFSearchTarget instead of find_tags enumeration",
+      "body": "This avoids the need to map between the two enumeration constants, although we handle some of the constants before passing them to the find singleton, so the code has not yet been updated to remove the redundant mappings."
+    },
+    {
+      "hash": "46e350c3ecbd7b4e909ef0acdc189b119ecb7a92",
+      "date": "2020-05-09T13:32:30+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Include Move to Active Space in preferences window’s collection behavior",
+      "body": ""
+    },
+    {
+      "hash": "6b414283ed1eb3b0890c841083101bb8b81b0c84",
+      "date": "2020-05-09T13:30:27+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSPanel for preferences window to support dismissing with escape",
+      "body": ""
+    },
+    {
+      "hash": "09ee4d49a781f2d83c4970b7aca6dd661d571381",
+      "date": "2020-05-09T13:27:34+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use MBMenuBuilder to construct “where” pop-up menu in Find dialog",
+      "body": ""
+    },
+    {
+      "hash": "6e6893498a1351bddead0b6cadfbaead1032aef2",
+      "date": "2020-05-09T11:55:53+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove initialKeyView from PreferencesPaneProtocol",
+      "body": ""
+    },
+    {
+      "hash": "57e3411473829afe0e78c4e36f9b48a1fed1a04c",
+      "date": "2020-05-09T11:54:45+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Cross-fade when switching between preferences panes",
+      "body": ""
+    },
+    {
+      "hash": "56206b163d2a03c2b62f951d741806b034056c1e",
+      "date": "2020-05-09T11:36:41+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let the bundles preferences view controller set first responder itself",
+      "body": "This is instead of using the initialKeyView property. The latter is more declarative, and thus more abstracted / flexible, but we only need it for a single preferences pane, and the downside is that the generic code to “swap views” has to implement support for it, which I would like to avoid."
+    },
+    {
+      "hash": "d4b0b4b35ee4ac069ef3da1b534c79ebf4ff0802",
+      "date": "2020-05-08T18:40:27+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove MASPreferences submodule",
+      "body": ""
+    },
+    {
+      "hash": "040aeea7bbc05b65c50422db06ce751fb6697a0c",
+      "date": "2020-05-08T18:38:08+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove code required by MASPreferences",
+      "body": ""
+    },
+    {
+      "hash": "7d0f9cb5d7eee5c89fe988fc183fd235223b822d",
+      "date": "2020-05-08T18:29:57+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use custom code for preferences window",
+      "body": "Relying on “modern” APIs we can eliminate most of the MASPreferencesViewController protocol:\n\n- viewIdentifier → identifier\n- toolbarItemLabel → title\n- initialKeyView → call makeFirstResponder: in viewDidAppear\n- hasResizableWidth / hasResizableHeight → use auto layout constraints\n\nFurthermore, handling the preferences panes can be done by using child view controllers, and it might even be possible to use transitionFromViewController:toViewController:options:completionHandler: to switch between the views.\n\nThe last point is actually the motivation for this change, as I need a playground for animated view transitions."
+    },
+    {
+      "hash": "af6243ff173fc6fe1466655f7636a73f8a5627dc",
+      "date": "2020-05-08T16:26:25+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Implement preferredContentSize for terminal preferences",
+      "body": "This currently has no effect as the view uses autoresizing masks (which do not make the width/height sizable)."
+    },
+    {
+      "hash": "6bf5e9b7cb7c3322956916b8de0e96e2f56b5f54",
+      "date": "2020-05-08T16:07:15+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Set hugging priority for grid view instead of constraining width/height",
+      "body": "None of our grid views are actually sizable, but those containing text fields should probably have adjustable width."
+    },
+    {
+      "hash": "e1943cac3de0675445d0e7b4e6449bad9ee03429",
+      "date": "2020-05-08T16:00:37+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Set hugging priority for stack view in Software Update preferences",
+      "body": "This prevents the containing grid view to increase the height of the stack view (introducing whitespace in the layout)."
+    },
+    {
+      "hash": "83874a965c9e729c1be992f62f075399bedfe77e",
+      "date": "2020-05-08T15:45:20+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSLayoutPriorityDefaultHigh-1 as hugging priority for stack views",
+      "body": "When set to NSLayoutPriorityDefaultHigh then it is able to compress text fields. The text field does set content compression resistance to NSLayoutPriorityDefaultHigh, but for reasons I do not understand, this is not enough to keep it from being compressed by the stack view.\n\nThe reason I do not understand this is that even with a high hugging priority, we should not make views smaller than their fittingSize, but it appears the stack view will do that.\n\nOnly one stack view actually contained a text field, and we already used a priority lower than NSLayoutPriorityDefaultHigh, so this commit does not change anything, but to play it safe, we should probably avoid NSLayoutPriorityDefaultHigh for stack views."
+    },
+    {
+      "hash": "834a6006f8746d93279a298ab21a2f1078dd4774",
+      "date": "2020-05-08T12:16:34+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use selectControllerWithIdentifier: instead of selectControllerAtIndex:",
+      "body": ""
+    },
+    {
+      "hash": "ff1886a04b24b217b7b32c9ac794b7d9f9c9902e",
+      "date": "2020-05-08T12:12:17+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let toolbarItemLabel + viewIdentifier be wrappers for title + identifier",
+      "body": "We might as well use the standard properties to store label/title and identifier.\n\nIt indirectly fixes a bug, as the code that generates the ⌘1-n menu would look at identifier instead of viewIdentifier to find selected item (so no item was shown as selected)."
+    },
+    {
+      "hash": "e5dca9f72a448ca0a51ea34e56400f2a685fe5ee",
+      "date": "2020-05-06T18:45:51+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSNibName instead of NSString*",
+      "body": ""
+    },
+    {
+      "hash": "9103d32ed8ba0372d5a1e424fce573a607f75c84",
+      "date": "2020-05-06T10:15:59+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t associate real name with public signing keys",
+      "body": "They already have a unique identifier."
+    },
+    {
+      "hash": "94c1c8d4fcfbcdbffd8b3ab7ba0604dd5fb17ca6",
+      "date": "2020-05-05T10:14:25+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use OakNetworkManager for updating bundles",
+      "body": ""
+    },
+    {
+      "hash": "715e65ec511a540156e4faede97ef4e595d5ac39",
+      "date": "2020-05-05T10:08:33+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add OakNetworkManager",
+      "body": "This is destined to replace the existing network code based on libcurl."
+    },
+    {
+      "hash": "6fde32efacc9f64343c88120b46f92704fc8e768",
+      "date": "2020-05-04T17:41:47+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move can_reach_host out of network framework",
+      "body": "We only call this function from a single place, so no need to make it public API."
+    },
+    {
+      "hash": "caaa36161dac203ccfd76fcf6bc27b1182498db1",
+      "date": "2020-05-04T15:14:21+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change most fprintf log statements to using os_log",
+      "body": ""
+    },
+    {
+      "hash": "66c3e67e5be505ec9cc6b14cff768a97bc6a3704",
+      "date": "2020-05-04T10:56:21+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ensure empty string is used when find dialog text field is empty",
+      "body": "The system will return ‘nil’ for empty text field, which was causing the replace preview in the find dialog to not show any replacements, and if doing actual replacements, 0xFFFF would be inserted for replacements."
+    },
+    {
+      "hash": "cb4c12681eec7b7063cb09344d9ac8f8234f2d70",
+      "date": "2020-05-03T06:28:11+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSNotificationName as type of all our notification names",
+      "body": ""
+    },
+    {
+      "hash": "8a83d5141bcf5412b33b619d211786a2ee580ee9",
+      "date": "2020-05-01T21:21:13+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use UNUserNotificationCenter starting with macOS 10.14",
+      "body": "The advantage seems to be that we can delay asking for user permission until we actually have to post a notification, where the old API would immediately prompt the user, as we setup the NSUserNotificationCenter delegate in applicationDidFinishLaunching: (required to handle user clicking notifications)."
+    },
+    {
+      "hash": "0caa9fd6aa082eb54f3e994a02ed9a60c4130d12",
+      "date": "2020-05-01T19:27:03+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSBackgroundActivityScheduler to schedule crash reporting",
+      "body": ""
+    },
+    {
+      "hash": "8697e13e69532f77fcd448a2e118bd45e453fb26",
+      "date": "2020-05-01T18:25:39+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove ‘post_to_server’ API (based on libcurl)",
+      "body": ""
+    },
+    {
+      "hash": "1ebf35bcad7453d41dd86a76c2ab699f8393a365",
+      "date": "2020-05-01T18:24:12+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rewrite crash reporting to use NSURLSessionUploadTask",
+      "body": ""
+    },
+    {
+      "hash": "f0b48ba736c5bbdf4f235ecc994716027418d068",
+      "date": "2020-05-01T16:31:55+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix a few double trailing semi-colons",
+      "body": ""
+    },
+    {
+      "hash": "aa5edbba1f04bad80687ad278f3a9c958b1d7094",
+      "date": "2020-04-30T19:43:46+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Only use NSRelativeDateTimeFormatter when 10.15 SDK is available",
+      "body": "While we can copy the interface of this class to our sdk-compat.h header, we also need to setup weak linking for the class itself, so better just skip it for now, as it provides no benefits over the fallback code."
+    },
+    {
+      "hash": "fe6cc872f36af5707fead5afeead6d181335590e",
+      "date": "2020-04-30T19:40:50+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ensure build directory exists",
+      "body": ""
+    },
+    {
+      "hash": "f8c9ee079f9c4a0339ad5f25963a5e29941e71e5",
+      "date": "2020-04-30T13:42:18+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Copy callbacks array before enumerating it (and invoking the callbacks)",
+      "body": "This is incase a callback makes changes to the callback array, as that is not supported for fast enumerations."
+    },
+    {
+      "hash": "cafc884c616728be2959c4520d3b6e7787bf92e0",
+      "date": "2020-04-30T14:03:54+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.11",
+      "body": ""
+    },
+    {
+      "hash": "244da7a269d67e73b354a93906617b21e30c5675",
+      "date": "2020-04-30T12:06:37+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Find in Folder: Allow navigating Recent Places with ⌘[ / ⌘]",
+      "body": "The pop-up menu will show shortcut keys next to the items that the keys will trigger, although we are re-purposing File Browser → Back / Forward for these actions, so it is worth considering moving them to the View menu."
+    },
+    {
+      "hash": "a3c3296276cd3210ec4704e5747ac0c2c3c73659",
+      "date": "2020-04-30T11:14:41+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Find in Folder: Only add to “Recent Places” when a search is executed",
+      "body": "Also add “file browser items” to Recent Places when a single folder is selected."
+    },
+    {
+      "hash": "e541250309ef9de1406c24677a4bcb9c017a0954",
+      "date": "2020-04-30T10:26:18+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add object type information when using OakHistoryList",
+      "body": ""
+    },
+    {
+      "hash": "49bbb8296a72ce27df118f418e1a1285fd719920",
+      "date": "2020-04-30T10:19:21+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Turn OakHistortyList into a generic class",
+      "body": ""
+    },
+    {
+      "hash": "9f822f658083a3b5546ec440e224fcccd80cdac8",
+      "date": "2020-04-29T22:28:56+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove handling of SIGUSR1 (would previously cause a relaunch)",
+      "body": ""
+    },
+    {
+      "hash": "8aef07575c5780914d0eb8a5a249132160b132d1",
+      "date": "2020-04-29T17:31:00+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSByteCountFormatter instead of text::format_size",
+      "body": ""
+    },
+    {
+      "hash": "e4f61f12b7114e4d736c99bb85ea5e885c74f4bb",
+      "date": "2020-04-29T17:28:13+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change a few leading spaces to tabs",
+      "body": ""
+    },
+    {
+      "hash": "187522b6c4f93819c0e742f7dd2e99c7c21236d3",
+      "date": "2020-04-27T20:11:47+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add missing implementation of isVisible property",
+      "body": ""
+    },
+    {
+      "hash": "81553fc56516a241da024c196a281c8b30f41058",
+      "date": "2020-04-27T15:14:45+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t keep local copy of find/replace string in Find singleton",
+      "body": "Instead we access the FFTextFieldViewController’s stringValue directly."
+    },
+    {
+      "hash": "795876cba36143fd56997a26afa60e45a64004ce",
+      "date": "2020-04-27T15:12:29+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make FFTextFieldViewController’s stringValue a public property",
+      "body": ""
+    },
+    {
+      "hash": "8e4f595785023a5ab1f9b80a5753df3fbc9a5652",
+      "date": "2020-04-27T15:11:27+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Avoid setting nil as cell’s string value",
+      "body": ""
+    },
+    {
+      "hash": "2ee95e5ebab8de40d4f71d15d7e7c5b8c41c1524",
+      "date": "2020-04-27T14:38:17+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove booleans to track if find/replace strings have been updated",
+      "body": ""
+    },
+    {
+      "hash": "5f3fb0672ef6f9d415cb19c891a2c4c9220b33dc",
+      "date": "2020-04-27T14:25:33+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move handling of NSPopover to FFTextFieldViewController",
+      "body": ""
+    },
+    {
+      "hash": "395dea49ab0a3e551cae3971e55ed3a64cc6ae70",
+      "date": "2020-04-27T14:06:16+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let FFTextFieldViewController bind to NSTextField and update size",
+      "body": "Contrary to a previous finding, the NSTextField doesn’t always resize when the content changes, and controlTextDidChange: is only sent when the string is edited by the user (via the field editor), so we must use bindings to be notified about *all* changes."
+    },
+    {
+      "hash": "05f711d2569efff7ba82021f7205cd6658dff547",
+      "date": "2020-04-27T12:25:24+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change a few NSLayoutConstraint instances to instead use layout anchors",
+      "body": ""
+    },
+    {
+      "hash": "56f872432d7522b134ba3b9343b3bc3327a1f95a",
+      "date": "2020-04-27T10:01:56+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Merge Find singleton with FindWindowController",
+      "body": "Currently find window is created during initialization, we should delay that to be when first requested (loadWindow).\n\nFurthermore, some code might be moved out of the FindWindowController, for example more logic related to search results might be moved to the search results view controller."
+    },
+    {
+      "hash": "445765237c3b28745201db354cae7bfbb815b016",
+      "date": "2020-04-27T07:19:08+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Status string property wrappers no longer maintain their own copy",
+      "body": ""
+    },
+    {
+      "hash": "43f75ea713412d7c100a65348bba10b5114eb1d3",
+      "date": "2020-04-27T06:35:16+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Set y-placement to ‘none’ for labels in preferences window",
+      "body": "Rows are baseline aligned, and when that is the case, the grid view will use the y-placement of the first cell (which is not ‘none’) to place the row.\n\nHowever, since the non-label column is likely to contain taller views, we should use that for placing the row.\n\nThat said, this change has no effect on the resulting layout, possibly because there are constraints with higher priorities that prevent the labels from bleeding into neighboring rows."
+    },
+    {
+      "hash": "7a30a3ed53a7f692713fd7278501713636f3f9c9",
+      "date": "2020-04-27T05:55:04+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use layout anchors to set fixed width/height of various views",
+      "body": ""
+    },
+    {
+      "hash": "3f3277f7473c127879dfddebdb37c97bdbc3e820",
+      "date": "2020-04-26T23:50:45+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change how we setup grid view",
+      "body": ""
+    },
+    {
+      "hash": "5d60fe2d62a8879d937525c13c6a1e2332e2c225",
+      "date": "2020-04-26T14:42:35+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move FFTextFieldViewController to its own file",
+      "body": ""
+    },
+    {
+      "hash": "86681c36a0ef2a37e09fbba7515ad2ca2b60536d",
+      "date": "2020-04-26T14:36:33+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Introduce FFTextFieldViewController",
+      "body": "This encapsulates syntax highlight, history, and auto-resize behavior.\n\nWe currently do not call updateIntrinsicContentSizeToEncompassString: when changing the content, but it appears to be unnecessary. It might actually be that with auto-layout, there is no longer any need for repeatedly updating the intrinsic height of the control manually.\n\nBut leaving things (more or less) as-is for now."
+    },
+    {
+      "hash": "cf5bce8bf08d0a58df637950cae5fdd69b722cd4",
+      "date": "2020-04-26T11:36:27+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove outlineView property from FFResultsViewController",
+      "body": ""
+    },
+    {
+      "hash": "9980e9afda4a936a60914503090f59b1eb07c295",
+      "date": "2020-04-26T11:31:17+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Refactor FindWindowController: Remove a lot of properties",
+      "body": "The rule of thumb is that we only want to use a property for things that are set more than once (so we may want KVO), or part of public API."
+    },
+    {
+      "hash": "0ab5b064177bc2185caf7f1a55af85f57bfd0baa",
+      "date": "2020-04-26T11:18:50+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Set nextKeyView property for FFResultsViewController’s view",
+      "body": "This allows using the root view in a key view loop, rather than needing to know which subview is appropriate."
+    },
+    {
+      "hash": "2112a26116771950d7c60b84a0517f73885dcdf8",
+      "date": "2020-04-26T10:43:02+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let our table cell view observe all outline views for looser coupling",
+      "body": "The motivation is not having to know about the interface of the view controller that creates the instance.\n\nIt does have performance disadvantages in that collapsing or expanding items in *any* outline view will now trigger notification callbacks for our table header cell views.\n\nIn practice though expanding/collapsing is not a common action, and the chance of this being done, while the find window has so many results as to impact performance, is probably small (it’s only the header cells that register for this notification).\n\nThat said, it would be good to find a better solution."
+    },
+    {
+      "hash": "191a43538249c2b6495957503dcf4cff03c2117d",
+      "date": "2020-04-26T08:22:31+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move FindWindowController to Find singleton implementation file",
+      "body": "These two classes should be merged."
+    },
+    {
+      "hash": "b5008a9849e572d387ae95b1bc2cdbc17a63083f",
+      "date": "2020-04-25T23:34:42+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Manually set the canEditGlob and canReplaceInDocument properties",
+      "body": "This is so that properties bound to these will update immediately (before window resize)."
+    },
+    {
+      "hash": "0ba3c2da18abb77d4c2e17baed9f8761bd8b37d4",
+      "date": "2020-04-25T23:29:22+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update find window title and “where” pop-up before resizing window",
+      "body": "Ideally we would also change the enabled state of the “matching” text field, but this is currently handled via bindings, so we cannot fix that without either delaying resizing until next event loop cycle, or by manually updating the canEditGlob property."
+    },
+    {
+      "hash": "5d8c131a1ae73e848fa09ff2270ab9da3e0a1cd3",
+      "date": "2020-04-25T20:54:17+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Animate resize of find window (and switch to using NSStackView)",
+      "body": ""
+    },
+    {
+      "hash": "e3c3d6ecd17d31e5a15c90690d8f23dd615459e9",
+      "date": "2020-04-25T19:04:54+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use a NSStackView for action buttons in find window",
+      "body": ""
+    },
+    {
+      "hash": "f4e16da1980f861dc0e8751166ad942074e77a45",
+      "date": "2020-04-25T18:53:56+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSGridView to layout most controls in the find window",
+      "body": ""
+    },
+    {
+      "hash": "12de85b5c0409ccf2e55b054254c6e39f8445e43",
+      "date": "2020-04-25T14:01:47+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSStackView for find results",
+      "body": "The motivation here is simply to get a view that can resize down to zero height."
+    },
+    {
+      "hash": "e5bfaecdb58bb5497aa7a978c367ca426ff2b0ad",
+      "date": "2020-04-25T11:58:30+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSStackView for find window’s status bar and move to view controller",
+      "body": "The main advantage is that we can let the stack view handle showing and hiding of the stop button and progress indicator.\n\nThe height of the status bar (text field) is now fixed at 16 pt. The reason we have to fix it is that we are using a button for the status bar (so that the user can click toggle between showing number of files and number of bytes searched), but a button with an empty string reports a different fittingSize than one with a non-empty string.\n\nTherefore without a fixed height, we need to ensure status bar never gets set to an empty string, which we did before, but I think it is nicer to simply fix the height of the status bar.\n\nAlso because the progress indicator and stop buttons might actually be slightly taller than the status bar used to be."
+    },
+    {
+      "hash": "78f7fb9c6f85b9057fc5a271ed04c608d310dc40",
+      "date": "2020-04-24T23:43:16+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Observe the view frame instead of window frame, to learn about changes",
+      "body": "The window frame may change before the view has bene laid out to the new window size."
+    },
+    {
+      "hash": "decb7f96ee35ff51c5ebabf7b0abac176ea4f3a3",
+      "date": "2020-04-29T01:45:29+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Set wantsLayer to YES for file browser header view",
+      "body": "This is required on macOS 10.12."
+    },
+    {
+      "hash": "34bc5ea0fe310c4e7686e1094cf408451b117611",
+      "date": "2020-04-29T01:44:28+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Increase timeout for commands with HTML output from < 2 hours to FLT_MAX",
+      "body": ""
+    },
+    {
+      "hash": "7321369b76a9ea18aa7ec9d73c05c6a7507018cb",
+      "date": "2020-04-28T23:18:03+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Instead of checking utf8::is_valid(str) we check if to_ns(str) fails",
+      "body": "Since 2.0-rc.1 we have received 70 crash reports pointing to nil string being passed to the NSAttributedString initializer.\n\nI’m almost inclined to think that NSString construction fails for other reasons than the data not being valid UTF-8, since both excerpt and replace string, are already passed as an NSString.\n\nWhen to_ns fails we show a “Please file a bug report!” message on red background in the find window, since I would like to know why this situation arise."
+    },
+    {
+      "hash": "db2cbc306863e4c053ab02a6eb3e37dbae151c85",
+      "date": "2020-04-28T22:53:28+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Accept std::string instead of NSString in attributed string builder",
+      "body": "Since virtually all calls to ‘append’ wraps the std::string with ‘to_ns’, we might as well move the wrapping to the function, as this is not public API."
+    },
+    {
+      "hash": "71df4611ffd23e738a491dd87d35d91426ae187c",
+      "date": "2020-04-28T18:47:54+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "text: We no longer need to link with the ‘crash framework’",
+      "body": "This is since commit 82c4e272a4315923856597591877841835cfc364."
+    },
+    {
+      "hash": "1b09d05221e5c0b7c9042722e4a65c62623c27f8",
+      "date": "2020-04-28T18:47:04+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "mate: We no longer need to link with the ‘cf’ framework",
+      "body": "This is since commit a31dd336b42e0224e104be2a926fc673fd47773d."
+    },
+    {
+      "hash": "633d5e4b895323fe337d571420462a75994b5f26",
+      "date": "2020-04-28T17:17:51+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Play sound when starting/stopping macro recording",
+      "body": ""
+    },
+    {
+      "hash": "e39744219643ae52562d8fed91bd9acdab07325e",
+      "date": "2020-04-28T17:17:25+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add OakSound constants for begin/end recording",
+      "body": ""
+    },
+    {
+      "hash": "76e44830d8e7775a2e8f2883628b260f3b760028",
+      "date": "2020-04-28T16:57:20+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove OakImage",
+      "body": ""
+    },
+    {
+      "hash": "7723831d48f9ad017953defba6d01b2e8db35409",
+      "date": "2020-04-28T16:54:33+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use imageWithSize:flipped:drawingHandler: instead of OakImage",
+      "body": "Also increase size of the badge to one third of the app icon (instead of a quarter)."
+    },
+    {
+      "hash": "dedb18293205ff7549167a3012b0b36bacf84220",
+      "date": "2020-04-28T16:02:16+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove humanReadableTimeElapsed NSDate category extension method",
+      "body": "We still need this code when running on macOS before 10.15, but we only use the method in one place, so we have inlined the code."
+    },
+    {
+      "hash": "59ca4f35a42ea98f703ed0783f164a3fc921112b",
+      "date": "2020-04-28T16:01:34+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove unused include",
+      "body": ""
+    },
+    {
+      "hash": "e15798bac35fa875fdf3c48d85be2e28397c8e38",
+      "date": "2020-04-28T15:59:54+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSRelativeDateTimeFormatter when running on macOS 10.15",
+      "body": ""
+    },
+    {
+      "hash": "e6ceaf86b4406e584ec18cdd3fb724f310129949",
+      "date": "2020-04-28T12:11:01+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rework code that checks if ⌘[ / ⌘] should be text or navigation actions",
+      "body": "The property is renamed from ‘currentResponderIsOakTextView’ to the more appropriate ‘keyWindowHasBackAndForwardActions’.\n\nFurthermore, the menu items are found via indexOfItemWithTarget:andAction: instead of by title, although the title of the submenus for these menu items is still hardcoded."
+    },
+    {
+      "hash": "18c1c1dfeb2e2065fe11ce48b3dc791fa0dd8fda",
+      "date": "2020-04-26T18:45:51-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "login": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Fix Previous/Next Bookmark action in OakTextView touch bar",
+      "body": "performNavigateBookMarksSegmentAction → performNavigateBookmarksSegmentAction"
+    },
+    {
+      "hash": "02a6128571e28cd3d25e7c19f4715e05278524a7",
+      "date": "2020-04-27T19:26:23+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change check for when ⌘[ / ⌘] should be Shift Left/Right or Back/Forward",
+      "body": "The problem is that if shiftLeft:/shiftRight: exist after goBack:/goForward: in the responder chain, we would prefer the former. This can happen because main window is after the key window in the responder chain, so if the former contains an OakTextView, a potential responder in the key window would never be found."
+    },
+    {
+      "hash": "485e9f947da469be225cd32543ef8ac6ea39f4f7",
+      "date": "2020-04-27T17:38:09+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use slightly better frame color for shortcut recorder when in Dark Mode",
+      "body": ""
+    },
+    {
+      "hash": "f06161b39548e74271eca960236a2ae4a0a8ecc1",
+      "date": "2020-04-26T23:09:32+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not set content hugging and compression resistance for image button",
+      "body": ""
+    },
+    {
+      "hash": "6e6dbd4a1e38bc077a95db2428c2fb07557ad1ef",
+      "date": "2020-04-26T23:06:17+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ensure label colors are aligned between open and non-open files",
+      "body": ""
+    },
+    {
+      "hash": "ce651e8acb52aeec1a1c200b2754d05de2b58db9",
+      "date": "2020-04-26T22:53:41+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ensure labels are rendered as selected when table row is emphasized",
+      "body": ""
+    },
+    {
+      "hash": "17aada34714056d1dc5ab54c0a33e162379aaa92",
+      "date": "2020-04-26T16:29:04+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let FileItemTableCellView give access to its close button via a property",
+      "body": "This is simpler than having to proxy the action (and target) for the button.\n\nPreviously the button was created on demand, but now that we always create it (and hide it when not required), we might as well have users set action and target directly on the button instance."
+    },
+    {
+      "hash": "05a50a436bc5066b118e7119e21a663c89016a50",
+      "date": "2020-04-26T16:23:22+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSStackView for our file browser items",
+      "body": "Minor downside is that labels for open and closed files are no longer aligned.\n\nIt would be nice to find a solution for that, but without dropping the stack view, as it saves us > 100 lines of code."
+    },
+    {
+      "hash": "19624f0fd86c39398e34fcb566b521cbbcc0eb14",
+      "date": "2020-04-27T12:07:52+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSStackView for tag buttons in file browser menu",
+      "body": ""
+    },
+    {
+      "hash": "33424bfdf4cbdc60e55b3d6026e1a9b6d69d3f84",
+      "date": "2020-04-27T12:02:42+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Improve how we check if notification is sent from one of our tag buttons",
+      "body": ""
+    },
+    {
+      "hash": "d49ebcc6f8e021ca088ea69fc5962928f23f4ff3",
+      "date": "2020-04-25T23:10:52+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Improve performance when showing clipboard history",
+      "body": "Previously we fetched items row-by-row from the database, which could be slow even with only 500 entries.\n\nWe now fetch everything using a single query. Long-term though we may fetch the strings on-demand but with some prefetch, mainly just to avoid an issue if the user store hundred of megabytes in the clipboard history."
+    },
+    {
+      "hash": "499809260291c6d27f28cedb8852de2bd850a323",
+      "date": "2020-04-25T20:53:36+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Improve calculation of pasteboard history pop-up position",
+      "body": "The code did not handle nested views where frame coordinates must first be converted to the window’s coordinate system."
+    },
+    {
+      "hash": "d38688d0ff71b13c9ff7d7c8e6884101fa8f9520",
+      "date": "2020-04-24T20:56:22+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Revise some include statements",
+      "body": ""
+    },
+    {
+      "hash": "d3a14a4012c85de6742736360f88bd41c8f6c1b4",
+      "date": "2020-04-23T22:48:14+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.10",
+      "body": ""
+    },
+    {
+      "hash": "c7b4b097680fcf62ac2b5970aa2f2f5e3a9397ac",
+      "date": "2020-04-23T22:39:50+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Workaround for potentially running bundle items from nested run loop",
+      "body": ""
+    },
+    {
+      "hash": "6328ac68b5a88bb97fc42cadb565918cc7ab02b0",
+      "date": "2020-04-23T12:19:02+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove some migration code that should no longer be relevant",
+      "body": ""
+    },
+    {
+      "hash": "b514114ec7c4a8a1ae9b2fa0b1726a6b0318ba40",
+      "date": "2020-04-23T11:33:24+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Access most system singletons using dot syntax",
+      "body": "These are identified by having a prefix of shared, default, or standard in the class method."
+    },
+    {
+      "hash": "814a3c78b4f11fba46546a96b1fd660a4c6e4a4b",
+      "date": "2020-04-23T11:29:54+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Access sharedInstance using dot syntax",
+      "body": ""
+    },
+    {
+      "hash": "715d02367341a9106353fbae083f553c25fbe40c",
+      "date": "2020-04-23T11:20:46+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Declare “sharedInstance” as a class property",
+      "body": ""
+    },
+    {
+      "hash": "a426c140d17b2f729651d044ecbc0d44fdd6f90d",
+      "date": "2020-04-23T10:51:23+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ensure pasteboard is not updated (redundantly) from history dialog",
+      "body": ""
+    },
+    {
+      "hash": "14d5b68e1f596a897052a69bef3c2ac9a62048f2",
+      "date": "2020-04-23T10:29:02+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove OakPasteboard’s auxiliaryOptionsForCurrent property",
+      "body": ""
+    },
+    {
+      "hash": "3f8c6914afdf7e49de42fb616284e9d2a3b49d09",
+      "date": "2020-04-23T10:22:14+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move “documents with matches” property from OakPasteboard to Find class",
+      "body": "Originally the idea was to store it with the current pasteboard item, so that updating the pasteboard would automatically clear the matches.\n\nBut since there is currently only one use-case for this feature, the Find class can simply register for a “pasteboard did change” notification (which it already does for other reasons), and clear the matches if the clipboard changes.\n\nThe only downside is that the text view cannot depend on the find framework, as the latter already depends on the former, but we can just import the Find interface, and assert that the class will be present at run-time.\n\nLong-term though, we should refactor this, as we do need two-way communication between these frameworks, for example to make matches live or update the selected match in the Find window when advancing through them in the text view (with ⌘G)."
+    },
+    {
+      "hash": "f0784d599546966669d6315742a7ed36c776fe36",
+      "date": "2020-04-23T09:08:13+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Track if find/replace string changed and conditionally add to pasteboard",
+      "body": "The problem with adding an unchanged string to the pasteboard is that it generates a notification which may trigger other components to drop auxiliary data related to the current pasteboard item, for example the magnifying glass icons in the gutter are cleared each time the find clipboard changes."
+    },
+    {
+      "hash": "b06ba4e0d9cdc7e4e010dc1ea1e265fb25d45e30",
+      "date": "2020-04-23T06:48:47+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use “replacement” and “file” (singular) in UI text with one replacement",
+      "body": ""
+    },
+    {
+      "hash": "f66788f4a7c9dca1aae63f04dd1270734b262cf6",
+      "date": "2020-04-23T05:57:06+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use non-deprecated API to obtain socket from privileged launch daemon",
+      "body": ""
+    },
+    {
+      "hash": "811735356f9e312b3ea80cabb5638e54e9165464",
+      "date": "2020-04-22T23:31:19+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change LSCopyDisplayNameForURL → kCFURLLocalizedNameKey (deprecation)",
+      "body": "Also make the system_display_name function static, since it is not public API."
+    },
+    {
+      "hash": "57d384ab663ac28b026ea8f84f071278ab73f396",
+      "date": "2020-04-22T22:33:29+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.9",
+      "body": ""
+    },
+    {
+      "hash": "f4c863c6aa502bbc5309aac91c21835f388afad6",
+      "date": "2020-04-22T22:27:29+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use a GCD source for observing sockets instead of CFSocket",
+      "body": "This is motivated by having received several crash reports from CFSocketManager over the years, example crash log from TextMate 2.0.8:\n\n    Thread 5 Crashed:: com.apple.CFSocket.private\n    0  libsystem_kernel.dylib    os_fault_with_payload + 10\n    1  libsystem_kernel.dylib    __darwin_check_fd_set_overflow.cold.1 + 31\n    2  libsystem_kernel.dylib    __darwin_check_fd_set_overflow + 79\n    3  com.apple.CoreFoundation  __CFSocketManager + 939\n    4  libsystem_pthread.dylib   _pthread_start + 148\n    5  libsystem_pthread.dylib   thread_start + 15"
+    },
+    {
+      "hash": "34cdd4f8c1429ef6578d698f4938203f2d77f734",
+      "date": "2020-04-22T11:54:32+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add helper method to OakTabBarViewController to update the Show Tab menu",
+      "body": "Also added images property, since this menu supports an icon next to each menu item."
+    },
+    {
+      "hash": "e2296837490e2f5a431a31b8af23e65d935b1d15",
+      "date": "2020-04-22T12:28:25+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Introduce safe array accessor to guard against NSNull and out-of-bounds",
+      "body": "The arrays we get via bindings may contain NSNull and they may not match the length of the “identifiers” array, which we use to decide how many tabs we should show."
+    },
+    {
+      "hash": "91f7bae6d275581ca5be79fdf873917ab1532400",
+      "date": "2020-04-22T11:47:16+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Notify observers of OakTabBarViewController’s selectedIndex property",
+      "body": ""
+    },
+    {
+      "hash": "19d2c96034cc3f91bf516bd11b70b58959d7904c",
+      "date": "2020-04-22T11:27:26+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t update text field when dismissing find history pop-up with escape",
+      "body": ""
+    },
+    {
+      "hash": "f3a46a25d675c7c7522e466779fe06a79c2336f4",
+      "date": "2020-04-22T11:22:00+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move private instance variable to implementation file",
+      "body": ""
+    },
+    {
+      "hash": "a31dd336b42e0224e104be2a926fc673fd47773d",
+      "date": "2020-04-21T12:42:38+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change away from deprecated API",
+      "body": "Although one of the new API methods is deprecated starting with macOS 10.15, but that change is minor, and the replacement wasn’t introduced before macOS 10.15."
+    },
+    {
+      "hash": "b7c67200747115b38fb8608a61fc0b6f5398e550",
+      "date": "2020-04-21T12:38:40+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t go through wrappers for unlink, copyfile, and access",
+      "body": "The wrappers doesn’t add anything useful in this context."
+    },
+    {
+      "hash": "5bcb4ea4f9bba70bde295ffa1c9d4a42414d3b1e",
+      "date": "2020-04-21T11:51:54+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Enable Objective-C for mate executable",
+      "body": "This is so that we can move away from deprecated APIs."
+    },
+    {
+      "hash": "5e2a16902dcfa814ee5ee9b81a15a230e3cbe366",
+      "date": "2020-04-21T11:46:36+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Controls in the Terminal (mate) preferences pane could fail",
+      "body": "If full keyboard navigation is disabled (default) and “Accept rmate connections” is also disabled, no control in the on the preference pane would have keyboard focus, meaning that the view controller (implementing action methods for the pop-up and install/uninstall button) would not be in the responder chain (since first responder would be the window, which is after the view controller in the responder chain)."
+    },
+    {
+      "hash": "7ff507b90a990c61e7b37bda49788b68e812d86b",
+      "date": "2020-04-19T16:38:10+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.8",
+      "body": ""
+    },
+    {
+      "hash": "9e2156dda1424bf7b0d2faebbfa699feaeacc1ef",
+      "date": "2020-04-19T16:28:14+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Resize Terminal preferences pane",
+      "body": "It now matches the width of the other preference panes, so the preferences window will only change height when changing preferences panes (unless the user has manually resized any of the resizable preference panes)."
+    },
+    {
+      "hash": "fc0d4e32b46ff2da1b21429f0078547aa08f4f5d",
+      "date": "2020-04-19T16:15:13+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Save xib with Xcode 11.4.1 (11E503a)",
+      "body": ""
+    },
+    {
+      "hash": "df56c7b9ceb5a45a7dc8847396ee3a1ff41a59e3",
+      "date": "2020-04-19T16:11:06+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update MASPreferences submodule: Change default window position",
+      "body": ""
+    },
+    {
+      "hash": "a7ca1f0fb3e4d1d0a087d42841484d48298cf6b8",
+      "date": "2020-04-19T14:31:17+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove support for redirecting stderr to a file",
+      "body": ""
+    },
+    {
+      "hash": "355725cf36064f9aeaf0e2f10ee80e04fd55d999",
+      "date": "2020-04-19T14:25:49+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Create Variables preference pane with code",
+      "body": ""
+    },
+    {
+      "hash": "666ac738642a8de877e08a0e633f898d028a2379",
+      "date": "2020-04-19T13:10:37+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update default size of bundles preferences pane to match projects",
+      "body": "The goal is to have the window resize as little as possible when switching to another preference pane, therefore we aim for at least making the width the same for all panes."
+    },
+    {
+      "hash": "9e7d727792c2ebe9f5851e4fe3dbd9675ade0907",
+      "date": "2020-04-19T12:01:31+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Create Software Update preference pane with code (using NSGridView)",
+      "body": ""
+    },
+    {
+      "hash": "b938dce9147c41ffaf81b08ee6dcd04b43fae81c",
+      "date": "2020-04-19T00:03:44+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Create Projects preference pane with code (using NSGridView)",
+      "body": ""
+    },
+    {
+      "hash": "bdedf08bd705677ce553a07a647f0cf1a18ae95b",
+      "date": "2020-04-18T23:02:15+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Create Files preference pane with code (using NSGridView)",
+      "body": ""
+    },
+    {
+      "hash": "5aef1c5c8a94163cc945ab4e70ee12755476ab62",
+      "date": "2020-04-19T13:36:39+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add helper function to configure NSGridView for our preference panes",
+      "body": ""
+    },
+    {
+      "hash": "c8faa0fa91ab90770c5ebaec6e569f7e41f7ad01",
+      "date": "2020-04-19T13:02:58+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t opt-in to making the preferences window restorable",
+      "body": ""
+    },
+    {
+      "hash": "40379d8ab15a2552b229c43a17bc3cb72eaa3068",
+      "date": "2020-04-18T22:22:52+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove (unused) general preferences pane",
+      "body": "This was just a placeholder/template."
+    },
+    {
+      "hash": "4e0cb769855df099b4f70609b132df774ee038cf",
+      "date": "2020-04-18T15:21:04+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "fixup! Convert to reference URL for file browser’s “Select Current Document”",
+      "body": ""
+    },
+    {
+      "hash": "90b8d1ca5bf73975a3dff5d54bf136199035c74d",
+      "date": "2020-04-18T15:16:02+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update copyright for 2020",
+      "body": ""
+    },
+    {
+      "hash": "c297fd4bbc8d18883a5b894c56ba7ed9db48d6af",
+      "date": "2020-04-18T15:13:58+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove upload helper script as it was using a deprecated GitHub API",
+      "body": "As a replacement we can use `hub release create --attach …`."
+    },
+    {
+      "hash": "24335e20f1d3cca79220a64c87c96ab85ff1d9f6",
+      "date": "2020-04-18T13:29:16+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.7",
+      "body": ""
+    },
+    {
+      "hash": "7f94424b3941cb55af059815a33ce4f4f354ee46",
+      "date": "2020-04-17T19:30:00+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove MGScopeBar from about window (legal)",
+      "body": ""
+    },
+    {
+      "hash": "23d2de534b78b3b67d9506ab27788c58b98a1197",
+      "date": "2020-04-17T15:53:39+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSStackView to manage OakScopeBarViewController’s buttons",
+      "body": ""
+    },
+    {
+      "hash": "00856cbe30d1f71d34cf82e2a9744ea7ece1e476",
+      "date": "2020-04-17T14:28:55+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove MGScopeBar submodule",
+      "body": ""
+    },
+    {
+      "hash": "ca8075b5c42861f55d01fc2947a8a7d0ca9e8d5b",
+      "date": "2020-04-17T14:15:49+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update Bundles preferences pane to use OakScopeBarViewController",
+      "body": "The MGScopeBar class uses deprecated API, doesn’t support dark mode, and doesn’t seem to be maintained, therefore it’s better to switch to OakScopeBarViewController, although it doesn’t support “collapsing” into a pop-up menu.\n\nThis commit does change the category filter to work as a radio button, so if one category is selected, others will be deselected, which I do think makes more sense than the previous behavior of allowing multiple categories to be selected, and using the union of these when filtering.\n\nThis commit also retires the xib file. The long-term goal is to eliminate all xib files, as being explicit (in code) is preferred. The xib files only exist because in the past we did not have auto-layout."
+    },
+    {
+      "hash": "266fa8746c8106b1662639215a76e1d976c35e7d",
+      "date": "2020-04-17T13:15:03+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Refactoring of file pop-up menu: Use NSDesktopDirectory and NSURL APIs",
+      "body": ""
+    },
+    {
+      "hash": "1b061f0dfada0d9c55d3f6f04261a0d99642d21e",
+      "date": "2020-04-17T13:01:32+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change sourceIndex property to an unsigned integer",
+      "body": "This is to match the property that it is bound to."
+    },
+    {
+      "hash": "ff22bb58fa7299399c7fc65718e5e19a837833cb",
+      "date": "2020-04-17T13:01:02+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add allowsEmptySelection to ScopeBarViewController",
+      "body": "Also change selectedIndex to NSUInteger as it will be NSNotFound when there is no selection."
+    },
+    {
+      "hash": "36489aa0768e3c1f7fe6a391d72298101895618d",
+      "date": "2020-04-17T09:52:28+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rename (internal) API method",
+      "body": "This might be closer to Cocoa naming conventions."
+    },
+    {
+      "hash": "342e612505ae047a07196d25fec1643548621d77",
+      "date": "2020-04-17T09:38:46+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add controlSize to OakScopeBarViewController",
+      "body": "Ideally this would be a view property, but the view controller only expose the content view, which is an NSView instance that does not support the property by default, so we would have to introduce a subclass for this."
+    },
+    {
+      "hash": "f8203bccfa4bfa944a6f9831ccfc980bf653f400",
+      "date": "2020-04-16T23:19:23+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use columnWithIdentifier: instead of tableColumnWithIdentifier:",
+      "body": "This simplifies the code."
+    },
+    {
+      "hash": "744219d436c00e5b17b943afb1e0acdcc03af158",
+      "date": "2020-04-16T20:43:32+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Adjust font size of find window’s status bar to match NSControlSizeSmall",
+      "body": ""
+    },
+    {
+      "hash": "2bdce95293089180a6ee6aea02b87572a6d0a6a4",
+      "date": "2020-04-16T18:04:12+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Refactor OakScopeBarView to be a view controller subclass",
+      "body": ""
+    },
+    {
+      "hash": "e62bbea1828d8bd01679f6fd374c6951d67eabf5",
+      "date": "2020-04-07T15:53:35-07:00",
+      "author": {
+        "name": "Andreas",
+        "login": "schmidhauser",
+        "avatar_url": "https://avatars.githubusercontent.com/u/519178?v=4"
+      },
+      "summary": "Miscapitalization of Menu Items",
+      "body": "`Jump to Next/Previous Mark` should be capitalized like `Jump to Next/Previous Bookmark`. Prepositions are generally not capitalized in title case."
+    },
+    {
+      "hash": "3a21cbfd8550f3e843ac77bc6b4c0594fec83ea6",
+      "date": "2020-04-14T12:26:07+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move Go To… menu updating and next/previous actions to ScopeBarView",
+      "body": ""
+    },
+    {
+      "hash": "7d67bb7f80b6253fe42da614299d37e4cc97e947",
+      "date": "2020-04-14T11:48:11+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add preliminary UI for flagging clipboard history items",
+      "body": ""
+    },
+    {
+      "hash": "b06c34eb0fb0caf878f875ac7460e5b56689b286",
+      "date": "2020-04-14T10:53:37+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Refactor helper method to only have a single point of return",
+      "body": ""
+    },
+    {
+      "hash": "7e5daad0ad1805791e2c2acd5c5689c381b24221",
+      "date": "2020-04-13T22:54:47+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add “flagged” property to OakPasteboardEntry",
+      "body": "Flagged items will not be implicitly deleted when pruning history or removing all items."
+    },
+    {
+      "hash": "d6ce2e3abf7d0308b920786e083bc3de357bbc70",
+      "date": "2020-04-13T17:23:58+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use tertiaryLabelColor for “replacement characters” in strings",
+      "body": "This is instead of lightGrayColor which is not sensitive to light/dark mode."
+    },
+    {
+      "hash": "36682451639dea4846357c78e316eb2f9fa51e2b",
+      "date": "2020-04-13T12:50:50+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Convert to reference URL for file browser’s “Select Current Document”",
+      "body": "This fixes problems with symbolic links, for example file browser may show contents of /private/tmp when we ask to select /tmp/foo.txt. Comparing file path URLs will fail even though /tmp is a symbolic link for /private/tmp.\n\nNote that this fix only works for when the current document is already part of the items in the file browser, as we still store pending URLs to select as file path URLs."
+    },
+    {
+      "hash": "3eaaff7f4705c924397ec4120435b7e5a5d99842",
+      "date": "2020-04-13T11:17:14+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Support selecting multiple items in pasteboard history dialogs",
+      "body": "This can either be used to more easily delete multiple items, or for inserting/searching for multiple items."
+    },
+    {
+      "hash": "e0db2f5ec1e797bae953197b6b94d9e64ec62db2",
+      "date": "2020-04-13T11:14:39+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make OakPasteboardEntry’s historyId public",
+      "body": ""
+    },
+    {
+      "hash": "babb989288514b503d4da5018f8a3addd45ed182",
+      "date": "2020-04-13T10:40:16+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add pasteboard method to store multiple items",
+      "body": "This is for multi-selecting items in the pasteboard chooser and they are stored as auto-generated items and with their history identifiers, so that we can treat them as multiple items."
+    },
+    {
+      "hash": "7c78e8316c0b14bf653f0b45023408fce954d171",
+      "date": "2020-04-12T21:54:57+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Support copy/paste of discontinuous selections that contain newlines",
+      "body": "Previously we stored discontinuous selections as a newline-delimited string, and therefore the individual fragments could not contain any newlines.\n\nNow that we use NSPasteboard’s multi-string support, we no longer have this limitation."
+    },
+    {
+      "hash": "f2efe71aff6cbacdf04e5f20d3712b36baeed5a4",
+      "date": "2020-04-12T21:32:16+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Store discontinuous selections as multiple strings on clipboard",
+      "body": ""
+    },
+    {
+      "hash": "34eb6967c8854b5ba8c34cb9d08a754b6923b1a4",
+      "date": "2020-04-12T18:05:07+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use sqlite3 for clipboard history instead of CoreData",
+      "body": "I was using the clipboard history as a testbed for CoreData but my conclusion is that it was not a good fit, and with the API we used now being deprecated, and the clipboard history needing various improvements, it’s easier just to replace the CoreData backend with sqlite3 and offers us more flexibility going forward.\n\nWith this re-implementation there is now support for storing multiple strings on the clipboard and the check to see if other applications changed the clipboard should work better (it appears that if an application is changing the clipboard while TextMate is active, sometimes the NSPasteboard’s changeCount is not updated).\n\nIt now also stores the history item’s row ID on the pasteboard, so if we select the non-latest history item and relaunch TextMate, it will no longer treat the current item on the pasteboard as a new item."
+    },
+    {
+      "hash": "d63f12993fcbcf6558cf5d9d19d600797eac0383",
+      "date": "2020-04-11T18:04:22+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use class properties for general, find, and replace pasteboard instances",
+      "body": ""
+    },
+    {
+      "hash": "c682655d4a1eba18358bd8d15fd3781aa51cd151",
+      "date": "2020-04-11T13:45:06+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use readObjectsForClasses: with NSURL instead of NSFilenamesPboardType",
+      "body": ""
+    },
+    {
+      "hash": "e1fdc852e46633fe93b49e876d68dab076a206fb",
+      "date": "2020-04-11T13:43:04+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make sure URLs placed on the undo stack are file path URLs",
+      "body": "Incase of a file reference URL, moving an item will have the URL resolve to the new file path, therefore such URL cannot be used for storing the old location/path of the item.\n\nThis is currently not a problem with TextMate, as all URLs are file path URLs, but as we are moving to using readObjectsForClasses: with NSURL, we will be receiving file reference URLs from Finder."
+    },
+    {
+      "hash": "969c5412025a42828b6653397021849764715fe2",
+      "date": "2020-04-11T11:59:31+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix copying files from file browser and pasting in Terminal.app",
+      "body": "Terminal.app is peculiar about what it expects to be on the clipboard. If we only write URLs like this:\n\n\t[pboard clearContents];\n\t[pboard writeObjects:urls];\n\nThen it will not paste anything. There *must* be string fallbacks for it to support paste. But if we also write an array of strings like this:\n\n\t[pboard clearContents];\n\t[pboard writeObjects:urls];\n\t[pboard writeObjects:[urls valueForKeyPath:@\"path.lastPathComponent\"]];\n\nThen it will paste both the URLs and the strings, but where the URLs will be space-separated, the strings will not. If instead we write a single string fallback only for the first item, like this:\n\n\t[pboard clearContents];\n\t[pboard writeObjects:urls];\n\t[pboard setString:@\"whatever\" forType:NSPasteboardTypeString];\n\nThen it will paste the URLs and ignore the string fallback for the first URL."
+    },
+    {
+      "hash": "fec16ec203a93d66287565df1ab6dd634ad8d56c",
+      "date": "2020-04-10T15:01:18+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t use virtual member functions for clipboard_t::entry_t",
+      "body": "There are no subclasses of this type, so no need to make them virtual, and going forward, we will be refactoring how this API works and subclassing will not be supported."
+    },
+    {
+      "hash": "93033c0f47f3bc6f8efc58c959f011b467cc03b9",
+      "date": "2020-04-10T14:47:02+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add clipboard_t::entry_t constructor taking multiple strings and options",
+      "body": "Currently this just moves constructing the options and LF-separating the strings into the clipboard_t::entry_t, but going forward, we will be able to utilize NSPasteboard’s native support for multiple strings (and avoid storing the “fragments” count)."
+    },
+    {
+      "hash": "a6258bb625adf3a26ae72f06a0336705cb852c38",
+      "date": "2020-04-10T11:45:22+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Snippet pop-up menu would scroll horizontally opposite of the document",
+      "body": ""
+    },
+    {
+      "hash": "31bd361131d0a1cf672d86160df9cda481aa3599",
+      "date": "2020-04-10T10:29:08+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t use CommonAncestor to find parent of single file browser item",
+      "body": "When CommonAncestor is called with only a single directory then it returns that directory, which meant that searching a selected folder and selecting File Browser → Enclosing Folder would not go up a level (only on second use of this action, would it ascend to the parent folder).\n\nAs the CommonAncestor function is used in several places, I didn’t want to change its behavior, but it appears that there are multiple checks in the code to see if “file browser items” only contain a single item, and we just added a new one, so grounds for refactoring."
+    },
+    {
+      "hash": "2e1ed018d46f986561f5f15796eff7ce128065c8",
+      "date": "2020-04-07T17:25:36+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Query array controller directly for count of objects",
+      "body": "The reason we were doing a fetch was because it may provide better performance, furthermore, the count returned by the array controller is count of filtered objects, so this change is a slight regression, should be addressed later."
+    },
+    {
+      "hash": "29f43d23858be9af88f0e044d7ffaf479172325c",
+      "date": "2020-04-07T17:18:10+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let OakPasteboard create NSArrayController used by clipboard history",
+      "body": "Again to hide that we are backed by CoreData storage."
+    },
+    {
+      "hash": "de9c7811dea5e54d54b2d4d1d107c8c8930e1656",
+      "date": "2020-04-07T17:16:49+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use filter predicate instead of fetch predicate for clipboard history",
+      "body": "This is in anticipation of dropping the CoreData backend."
+    },
+    {
+      "hash": "883a45568f38fdd6ef3809e27590d0b61bb1631f",
+      "date": "2020-04-07T17:12:48+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix clipboard history predicate string used for filtering",
+      "body": ""
+    },
+    {
+      "hash": "623267ba987e52bd3da045339a9d4faa156b7dc0",
+      "date": "2020-04-07T16:34:01+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add API to remove all entries from OakPasteboard",
+      "body": "This is one of several steps toward making CoreData an implementation details of OakPasteboard (which it is currently not)."
+    },
+    {
+      "hash": "d0c43840c69ffebad48b7e3b7fa48790324f953a",
+      "date": "2020-04-07T06:56:20+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove code that was migrating settings from beta release of TextMate",
+      "body": ""
+    },
+    {
+      "hash": "5166b6bfedfeec76546df854be1db08cdf4dd229",
+      "date": "2020-04-06T22:24:33+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Introduce constants for clipboard option names",
+      "body": ""
+    },
+    {
+      "hash": "47d0345d5a15fa212bd44e5f2f7219086ec913ac",
+      "date": "2020-04-06T22:19:35+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Omit “default” options argument for clipboard_t::entry_t constructor",
+      "body": ""
+    },
+    {
+      "hash": "a3aa7f32251001f2145d1ffb0d16b278f64ffb99",
+      "date": "2020-04-06T22:17:04+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make ‘options’ argument of clipboard_t::entry_t constructor be optional",
+      "body": ""
+    },
+    {
+      "hash": "38305e7fc4b35f6f6ae34f6f4a725151f495a47c",
+      "date": "2020-04-06T11:06:02+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix code that should return NO when bundle install is in progress",
+      "body": ""
+    },
+    {
+      "hash": "4a1e9113f38174404f1ca4a50f1b2a8b61007904",
+      "date": "2020-04-06T10:48:00+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make file browser state API wrap the system UI restoration methods",
+      "body": "This avoids duplicating code, although for compatibility with old saved state, we still can restore state from a dictionary."
+    },
+    {
+      "hash": "61ec959b373ab4c9062a21582406f378797231e7",
+      "date": "2020-04-06T10:38:16+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change data type of file browser state from dictionary to opaque object",
+      "body": "This gives us more flexibility in how we wish to represent the state, although the state should be a property list object."
+    },
+    {
+      "hash": "65a379ce71adb139eabaa0f4c8cfa9a70aa378ad",
+      "date": "2020-04-04T22:39:33+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let Open With menu delegate respond to menuHasKeyEquivalent:forEvent:…",
+      "body": "By implementing this, we avoid potentially updating the menu when pressing “menu keys”, which can be slow due to collecting information about system applications, such as supported file types, icon, and display name.\n\nThis would happen when opening the menu via the file browser’s action menu, and then using arrow keys in the text view. On my setup, moving the insertion point was slowed down noticeably."
+    },
+    {
+      "hash": "1e065153d6d0a2e28dc7841d5c9a5bf4fe03cc98",
+      "date": "2020-04-04T17:04:19+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove legacy API for observing changes to a single file",
+      "body": "New code should use KEventManager instead of document::watch_server_t."
+    },
+    {
+      "hash": "386c1f53db1d41d32a7801a25d619577051c8852",
+      "date": "2020-04-04T16:56:41+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use KEventManager to observe the file backed by OakDocument",
+      "body": "This should handle more edge-cases than the previous API, specifically renaming ancestors or moving files to trash (now treated as a delete)."
+    },
+    {
+      "hash": "ac903a1fa8180695aaba0b80fbbfac8f70ec5cbf",
+      "date": "2020-04-04T14:58:44+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add API to observe changes to a single file",
+      "body": "While in theory just a wrapper for VNODE events, there are some edge cases:\n\n- Observe missing file: Report when created (observe all ancestors to know).\n- Rename ancestor: Treat as rename (observe all ancestors to know).\n- Move observed file to trash: Treat as delete (reported as rename).\n- Rename file with symbolic link in path (e.g. /tmp): Preserve symbolic path.\n- Delete observed file and write new one: Treat as a write (reported as delete).\n- Rename observed file and write new one: Treat as a write (reported as rename).\n- Change case of file: Tricky on case-insensitive but preserving file systems because newPath != oldPath but both exist, so it looks the same as “rename and write new file” (previous case) that should be reported as write.\n\nThere is also an issue observing a symbolic link, here we should really observe both the link itself (does it get renamed or deleted) but also the resolved path (does this file get updated).\n\nCurrently though this is NOT implemented."
+    },
+    {
+      "hash": "4013020b146e4582d6b8683f2b9b35e87a763b26",
+      "date": "2020-04-02T12:00:09+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use dot syntax for NSNumber’s boolValue property",
+      "body": ""
+    },
+    {
+      "hash": "4f43bf497cd413848572b8e9f59a0d5640349dee",
+      "date": "2020-04-01T13:03:11+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use the ‘console’ pool to run executables",
+      "body": "This avoids output buffering so is necessary for executables that produce output without immediately terminating."
+    },
+    {
+      "hash": "9782343576a21bc77aa565d59880c49cbf74e11e",
+      "date": "2020-03-31T13:53:45+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make completion and quick open work out of the box for TextMate headers",
+      "body": "Since we no longer have a shared directory for all the framework headers, we need to either explicitly list each header directory in the compiler flags (or TM_SYS_HEADER_PATH) for header completion and quick open to work, or we need to create a dummy directory with symbolic links.\n\nPreviously I was using the previous method, but include folder has to be created when building on a new system, and it doesn’t avoid having to update the symbolic links if we add/remove frameworks to the project, so listing them all in the .tm_properties, while not ideal, is a better solution."
+    },
+    {
+      "hash": "be29a7711aeadbad5652e5713ab27e6ef0f7a9c5",
+      "date": "2020-03-31T13:29:45+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Export the SCMManager from FileBrowser framework",
+      "body": "This should probably be its own framework, but nothing beyond the file browser is currently using the SCMManager."
+    },
+    {
+      "hash": "c7548d0bb45a96f11c77521ef670a64968d07f4d",
+      "date": "2020-03-30T16:42:08+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ensure we have a default include glob for file chooser",
+      "body": "We setup a default in default.tmProperties but incase file chooser code is used outside of TextMate then no such default is found, and the file chooser defaults to excluding everything."
+    },
+    {
+      "hash": "e083ed4ce13c0848032130200c06d1ecd1f8eb7d",
+      "date": "2020-03-30T14:49:52+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add OakTabBarViewController to simplify using OakTabBarView",
+      "body": "This is a subclass of NSTitlebarAccessoryViewController so it can be added directly to windows as an accessory view controller.\n\nIt is key/value bindings-compliant for its properties, which should be bound directly to an NSArrayController, which will make the tab bar view reflect the objects managed by this array controller, including updating the tab bar view when object properties such as title or modified state changes."
+    },
+    {
+      "hash": "43934ab9ed0f37430922812b9b1cd8f2294e5a53",
+      "date": "2020-03-31T13:56:32+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not export non-existing OakTabBarStyle.h header",
+      "body": ""
+    },
+    {
+      "hash": "58c3c6957d37337e98cd574705000ba9b55f9576",
+      "date": "2020-03-30T13:54:06+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove selectedTabItem and tabItems properties from OakTabBarView",
+      "body": "Also make the OakTabItem interface private (implementation detail)."
+    },
+    {
+      "hash": "6c692099fffbea248f8d5250584920c26db75d82",
+      "date": "2020-03-30T13:47:48+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change OakTabBarView to use tab item’s identifier in drag’n’drop API",
+      "body": "This is instead of passing instances of the “internal” OakTabItem class."
+    },
+    {
+      "hash": "3cde9654154daea94105f6140c742a4ed4396ff4",
+      "date": "2020-03-30T13:42:41+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make OakTabBarView’s selectedTabIndex a r/w property but no KVO support",
+      "body": "The property returns NSNotFound when there is no selection. This seems to be consistent with NSArrayController’s selectionIndex (but inconsistent with many other views, like NSTableView, which return -1 when there is no selection)."
+    },
+    {
+      "hash": "e3bd910e8c0aed586b78cd18fa8c85c5bedf4b33",
+      "date": "2020-03-30T13:24:36+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change type of tab identifier from NSString to NSUUID",
+      "body": "While AppKit identifiers are generally strings, which have more flexibility, I think this is mainly because NSUUID was introduced later, and for tab items, identifiers must be unique, which is not enforced (or implied) when using strings."
+    },
+    {
+      "hash": "aa0c4af1eb80d9cc2b8d9a1c50c68e32be8a24a6",
+      "date": "2020-03-16T09:52:39+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove support for OakBackgroundFillViewStyleDarkDivider",
+      "body": ""
+    },
+    {
+      "hash": "67694d1b5ad6587559b0c5ad6b97db61c4f013c1",
+      "date": "2020-03-16T09:46:45+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use OakCreateNSBoxSeparator() in main (document) window",
+      "body": ""
+    },
+    {
+      "hash": "8548b7538d910a3b19d10b2eb9e98fa9961aba9c",
+      "date": "2020-03-16T00:01:03+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove support for OakBackgroundFillViewStyleDivider",
+      "body": ""
+    },
+    {
+      "hash": "eccbb81e8a0dff8a667cf8db6be3057963bb6793",
+      "date": "2020-04-14T12:55:42+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Constrain height of vertical dividers and remove intrinsic height",
+      "body": "Previously some status bars could be compressed vertically because the dividers did not have a fixed height, so they were sized based on their intrinsic height.\n\nWith a fixed height the intrinsic height is redundant and previously it was simply hiding an issue with an under-constrained layout, so better just remove them."
+    },
+    {
+      "hash": "e490b86c47f0494731f4f809adbaf46765f48bd6",
+      "date": "2020-03-15T23:56:56+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make horizontal dividers subviews of status bar (NSVisualEffectView)",
+      "body": "This makes the color of the separator bar better adapt to the color of the status bar and should make things more consistent, as we already have separators inside visual effect views in various places.\n\nAlso adjust height of the vertical separators in status bars to only be 15 pixels so that we have equal padding above and below."
+    },
+    {
+      "hash": "07c8a76abdbb557523b0523cc172f3c8dda50e50",
+      "date": "2020-03-15T22:14:16+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use OakCreateNSBoxSeparator() for file browser’s actions view",
+      "body": "This is instead of the more opaque OakCreateHorizontalLine(OakBackgroundFillViewStyleDivider)."
+    },
+    {
+      "hash": "de5d1b5239ca391eb46044ba59fa6f1b8b30b2cc",
+      "date": "2020-03-15T21:49:03+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use OakCreateNSBoxSeparator() for HTML output window",
+      "body": "This is instead of the more opaque OakCreateHorizontalLine(OakBackgroundFillViewStyleDivider)."
+    },
+    {
+      "hash": "7d0a1dea749509b4c03d7dfe5a9a87700d410890",
+      "date": "2020-03-15T21:47:23+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use OakCreateNSBoxSeparator() for file browser view",
+      "body": "This is instead of the more opaque OakCreateHorizontalLine(OakBackgroundFillViewStyleDivider)."
+    },
+    {
+      "hash": "d7ec9e66907b64bd50cfea21936f73903d32e1dd",
+      "date": "2020-03-15T21:45:01+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use OakCreateNSBoxSeparator() for live search and grammar installation",
+      "body": "This is instead of the more opaque OakCreateHorizontalLine(OakBackgroundFillViewStyleDivider)."
+    },
+    {
+      "hash": "ac36f84c4dbf2081b93519b1aacfb5b5070da353",
+      "date": "2020-03-15T21:43:22+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use OakCreateNSBoxSeparator() for search results",
+      "body": "This is instead of the more opaque OakCreateHorizontalLine(OakBackgroundFillViewStyleDivider)."
+    },
+    {
+      "hash": "be408c04cd96537ca1afbd91fbef0c19e5e7858a",
+      "date": "2020-03-15T21:42:43+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use OakCreateNSBoxSeparator() for commit window",
+      "body": "This is instead of the more opaque OakCreateHorizontalLine(OakBackgroundFillViewStyleDivider).\n\nAlso use NSLayoutFormatAlignAllLeading with the visual format language instead of manually creating constraints for the dividers."
+    },
+    {
+      "hash": "33b615fd14585f6d78789c3671ff36176fb3e7ce",
+      "date": "2020-03-15T18:25:32+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let OFBHeaderView be NSVisualEffectView subclass with titlebar material",
+      "body": "Previously it was a subclass of OakBackgroundFillView which adds the NSVisualEffectView as a subview, but this messes up compositing in some cases where an ancestor view is also an NSVisualEffectView, for example when placing the file browser in a “source list” split view item (using NSSplitViewController).\n\nAlso change the material to NSVisualEffectMaterialTitlebar. I think this looks better, as the previously used NSVisualEffectMaterialHeaderView does not look identical to other table view headers and only have very faint bottom border but very noticeable “within window” compositing.\n\nA further advantage of changing to title bar material is that NSVisualEffectMaterialHeaderView requires macOS 10.14, so by using title bar material, we avoid having a different code path for users using older versions of macOS."
+    },
+    {
+      "hash": "ac58ed4588f75af46a2b06e7193f9cbbea306a34",
+      "date": "2020-03-15T22:40:28+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove OakCreateDividerImageView",
+      "body": ""
+    },
+    {
+      "hash": "e7ea79cffef0a9a665d422e6f73e2de8effff8e9",
+      "date": "2020-03-15T22:30:00+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use OakCreateNSBoxSeparator() instead of OakCreateDividerImageView()",
+      "body": "The latter is a wrapper around an NSBoxSeparator, only adding some size constraints."
+    },
+    {
+      "hash": "8059ca1fc14ad3da322656ad865384acb6701a51",
+      "date": "2020-03-15T21:34:22+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add helper to create NSBoxSeparator view",
+      "body": ""
+    },
+    {
+      "hash": "7adf66877380bb7211dd9bb30b048b68ee0fa5c2",
+      "date": "2020-03-15T18:39:43+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Always setup file browser scroll view to inset content based on header",
+      "body": "Previously we would only do this on macOS 10.14 and later, but as we now also use “within window” compositing for the header view prior to macOS 10.14, we should always inset the scroll view.\n\nFurthermore, even without “within window” compositing, insetting the scroll view should not cause any issues, so the code was actually not required previously."
+    },
+    {
+      "hash": "3428c5cdfbae36dd14c548ae4069b905913c7510",
+      "date": "2020-03-20T14:38:30+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix missing default folder location for new file browser windows",
+      "body": ""
+    },
+    {
+      "hash": "0545f02620f3afc947494596cd551b734a3d211f",
+      "date": "2020-03-13T16:32:03+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add support for NSRestorableState to FileBrowserViewController",
+      "body": ""
+    },
+    {
+      "hash": "2410ba345fed730fa214a6eecf0b1349dc988fee",
+      "date": "2020-03-11T21:20:03+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Refactoring: Move logic from FileBrowserView → FileBrowserViewController",
+      "body": "This is to make it easier to support Cocoa’s native resume feature, as for this, we should keep all state in the controller, but also, the controller should be able to know if view state changes, for example expanded/selected items in the outline view, which require our controller to be the delegate."
+    },
+    {
+      "hash": "fa9e69030917fda0756ddb2aea5c11e4cdce7eac",
+      "date": "2020-03-11T14:08:53+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Formatting: Align closing braces",
+      "body": ""
+    },
+    {
+      "hash": "3ca83220bbe30da8a2c611737864a8ac5052f4e0",
+      "date": "2020-03-11T13:35:04+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add URL property to FileBrowserViewController",
+      "body": "This should be used instead of path, as we may display non-file URLs."
+    },
+    {
+      "hash": "66bfb817d6d945f6f71e3f860a9699d6f516c8dc",
+      "date": "2020-02-29T13:18:55+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Set NSWindowAnimationBehaviorDocumentWindow for our document window",
+      "body": ""
+    },
+    {
+      "hash": "3d4b72c0ff07edaf6c8b0b56e04bd331a015d1f7",
+      "date": "2020-02-28T12:53:34+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "login": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add own framework header paths to include path before third party",
+      "body": "This is because third party framework headers are likely to be installed in directories with many other headers that can clash with some of our custom frameworks.\n\nCloses #1441."
+    },
+    {
+      "hash": "5a58f05a1a880d431b7712d3c8696d8b8dd9cce0",
+      "date": "2020-02-20T12:09:35-08:00",
+      "author": {
+        "name": "Andreas",
+        "login": "schmidhauser",
+        "avatar_url": "https://avatars.githubusercontent.com/u/519178?v=4"
+      },
+      "summary": "Syntactic Typo",
+      "body": ""
+    }
+  ]
+}
