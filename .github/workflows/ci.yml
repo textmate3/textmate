@@ -29,9 +29,11 @@ jobs:
           # would report as one.
           fetch-depth: 0
 
+      # The Ruby configure checks for, down to the patch, read from the one
+      # file that names it, so this never restates the pin.
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "4.0"
+          ruby-version: .ruby-version
 
       - name: Install dependencies
         run: brew bundle
