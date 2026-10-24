@@ -128,6 +128,25 @@ std::string oak_format_bad_relation (char const* lhs, char const* op, char const
 
 static double const AppVersion = 1.0;
 
+// The test running on this thread, for the crash handler to name. Thread
+// local, since the tests run in parallel.
+static thread_local char const* current_test_name = nullptr;
+
+// A crash names the test it happened in, then crashes as it would have. Without
+// this a segmentation fault exits with 139 and not one other word, and which
+// test it was stays unknown. Only async signal safe calls here.
+static void name_the_crashing_test (int signalNumber)
+{
+  char const* program = getprogname();
+  char const* name    = current_test_name ?: "no test running";
+  write(STDERR_FILENO, program, strlen(program));
+  write(STDERR_FILENO, ": crashed in ", 13);
+  write(STDERR_FILENO, name, strlen(name));
+  write(STDERR_FILENO, "\n", 1);
+  signal(signalNumber, SIG_DFL);
+  raise(signalNumber);
+}
+
 static void write_version (FILE* io)
 {
   fprintf(io, "%s %.1f (<%= Time.now %>)\n", getprogname(), AppVersion);
@@ -188,14 +207,20 @@ int main (int argc, char const* argv[])
     }
   }
 
+  for(int signalNumber : { SIGSEGV, SIGBUS, SIGILL, SIGFPE, SIGABRT })
+    signal(signalNumber, name_the_crashing_test);
+
   <%= setup.map { |fun| "#{fun}();" }.join("\n  ") %>
 
   struct function_t
   {
     function_t (void (*f)(), std::string const& n) : run(f), name(n) { }
 
-    void execute (bool measure, size_t repeat)
+    void execute (bool measure, size_t repeat, bool verbose)
     {
+      if(verbose)
+        fprintf(stdout, "%s\n", name.c_str());
+      current_test_name = name.c_str();
       try {
         auto start = std::chrono::high_resolution_clock::now();
         for(size_t i = 0; i < repeat; ++i)
@@ -211,6 +236,7 @@ int main (int argc, char const* argv[])
       catch(std::exception const& e) {
         message = e.what();
       }
+      current_test_name = nullptr;
     }
 
     void (*run)();
@@ -230,13 +256,13 @@ int main (int argc, char const* argv[])
       if(parallel)
       {
         dispatch_apply(tests.size(), DISPATCH_APPLY_AUTO, ^(size_t n){
-          tests[n].execute(measure, repeat);
+          tests[n].execute(measure, repeat, verbose);
         });
       }
       else
       {
         for(auto& test : tests)
-          test.execute(measure, repeat);
+          test.execute(measure, repeat, verbose);
       }
     });
   }
@@ -259,7 +285,7 @@ int main (int argc, char const* argv[])
     {
       for(auto& benchmark : benchmarks)
       {
-        benchmark.execute(true, repeat);
+        benchmark.execute(true, repeat, verbose);
         if(!benchmark.message.empty())
         {
           fprintf(stderr, "%s\n", benchmark.message.c_str());
@@ -270,8 +296,10 @@ int main (int argc, char const* argv[])
       if(benchmarks.empty())
         fprintf(stderr, "%s: warning: no benchmarks found\n", getprogname());
     }
-    else if(verbose)
+    else
     {
+      // One line on success, so a run that printed nothing is known to have
+      // crashed rather than passed.
       fprintf(stdout, "%s: %zu %s passed\n", getprogname(), tests.size(), tests.size() == 1 ? "test" : "tests");
     }
     hasMoreTests = false;
