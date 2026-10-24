@@ -1,5 +1,6 @@
 #include <io/ruby_runtime.h>
 #include <io/path.h>
+#include <text/trim.h>
 
 // The fixtures are stand-in resolvers: shell scripts that print one answer each.
 static std::string fixture (std::string const& name)
@@ -69,7 +70,12 @@ void test_the_system_ruby_is_known_by_every_name ()
 
 void test_the_pinned_version ()
 {
-	OAK_ASSERT_EQ(ruby_runtime::kPinnedVersion, "4.0.6");
+	// The pin is .ruby-version at the top of the tree, carried in by the build.
+	// Reading the file here means a build that carried a stale value would show,
+	// and moving the version is a one line diff of that file.
+	std::string const file = path::join(__FILE__, "../../../../.ruby-version");
+	OAK_ASSERT_EQ(ruby_runtime::kPinnedVersion, text::trim(path::content(file)));
+	OAK_ASSERT_EQ(std::count(ruby_runtime::kPinnedVersion.begin(), ruby_runtime::kPinnedVersion.end(), '.'), 2);
 }
 
 void test_the_minimum_version_and_what_is_below_it ()

@@ -5,6 +5,15 @@
 set     MACOS_VERSION_FILE "${dir}/.macos-version"
 capture APP_MIN_OS         "tr -d '[:space:]' < '${MACOS_VERSION_FILE}'"
 
+# The Ruby and the Python that bundle commands run on live in .ruby-version and .python-version,
+# the files rv and uv read, so the application asks its runtime bundles for the same version a
+# developer's shell gets, and a version moves in one place. Named through ${dir} paths for the same
+# reason as the macOS file: editing one regenerates the build and recompiles what carries it.
+set     RUBY_VERSION_FILE      "${dir}/.ruby-version"
+set     PYTHON_VERSION_FILE    "${dir}/.python-version"
+capture RUBY_RUNTIME_VERSION   "tr -d '[:space:]' < '${RUBY_VERSION_FILE}'"
+capture PYTHON_RUNTIME_VERSION "tr -d '[:space:]' < '${PYTHON_VERSION_FILE}'"
+
 # A prerelease suffix for the version people read, empty for a plain build. The release scripts set
 # it for one build through release.rave, applied after local.rave.
 set APP_PRERELEASE ""
@@ -28,6 +37,7 @@ add FLAGS         "-funsigned-char"
 add FLAGS         "-Wall -Wwrite-strings -Wformat -Winit-self -Wmissing-include-dirs"
 add FLAGS         "-Wno-parentheses -Wno-sign-compare -Wno-switch -Wno-c99-designator"
 add FLAGS         "-D'NULL_STR=\"\\uFFFF\"' -D'REST_API=\"https://api.textmate3.com\"'"
+add FLAGS         "-D'RUBY_RUNTIME_VERSION=\"${RUBY_RUNTIME_VERSION}\"' -D'PYTHON_RUNTIME_VERSION=\"${PYTHON_RUNTIME_VERSION}\"'"
 
 # The Ed25519 public key that the bundle catalog index and tarballs must be signed with, base64 of
 # the raw 32 byte key, the same format Sparkle uses for SUPublicEDKey. Local development overrides
