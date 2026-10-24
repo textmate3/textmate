@@ -9,8 +9,13 @@ on:
 
 jobs:
   build-and-test:
-    # The application targets macOS 26, so the build needs the macOS 26 SDK,
-    # which only the macOS 26 image carries. That image is Apple Silicon.
+    # The application targets macOS 27. GitHub offers no macOS 27 image yet, and
+    # this one builds against the macOS 26 SDK on a macOS 26 system. That works
+    # for a 27 floor: the loader does not refuse a binary whose minimum is newer
+    # than the running system, so the tests build and run. What it cannot do is
+    # see anything new in the 27 SDK, so an interface added in 27 compiles on a
+    # developer's machine and fails here until a macOS 27 image exists.
+    # The image is Apple Silicon.
     runs-on: macos-26
 
     # Uploading gtm to the release needs write access to repository contents.
