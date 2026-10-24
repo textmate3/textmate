@@ -16,6 +16,10 @@ struct ini_file_t
 
 		std::vector<std::string> names;
 		std::vector<value_t> values;
+
+		// A header that could not be read. The values under it are kept here so
+		// that they apply nowhere, rather than to whatever section came before.
+		bool malformed = false;
 	};
 
 	ini_file_t (std::string const& path) : path(path) { }
@@ -23,6 +27,12 @@ struct ini_file_t
 	void new_section (std::vector<std::string> const& names)
 	{
 		sections.emplace_back(names);
+	}
+
+	void new_malformed_section ()
+	{
+		sections.emplace_back(std::vector<std::string>());
+		sections.back().malformed = true;
 	}
 
 	void insert_value (std::string const& name, std::string const& value, size_t lineNumber)
