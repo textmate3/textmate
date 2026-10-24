@@ -2,7 +2,7 @@
 
 brew 'boost'          # crc, string algorithms, and other headers used across the frameworks
 brew 'gh'             # asks GitHub which account made each commit, for script/update_contributions
-brew 'multimarkdown'  # renders the in-app release notes and other Markdown at build time
+brew 'multimarkdown'  # renders the Help pages to HTML at build time, through bin/gen_html, for the Help Book
 brew 'ninja'          # the build runner that consumes the build.ninja rave generates
 brew 'rv'             # provides the Ruby in .ruby-version, which the scripts find through `#!/usr/bin/env ruby` or `rv run`
 brew 'swiftlint'      # the style check in script/lint, beside swift format
