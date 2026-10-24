@@ -25,15 +25,15 @@ static NSURL* ReleaseNotesURL ()
 	return [NSBundle.mainBundle URLForResource:@"Changes" withExtension:@"md" subdirectory:@"About"];
 }
 
-@interface AboutWindowController () <NSWindowDelegate, NSToolbarDelegate, WKNavigationDelegate, WKScriptMessageHandler>
+@interface AboutWindowController () <NSWindowDelegate, NSToolbarDelegate>
 @property (nonatomic, readonly) NSArray<NSString*>* segmentLabels;
 @property (nonatomic) NSToolbar* toolbar;
 @property (nonatomic) NSSegmentedControl* segmentedControl;
-@property (nonatomic) WKWebView* webView;
 @property (nonatomic) TMAboutViewController* aboutViewController;
 @property (nonatomic) OakMarkdownPageViewController* changesViewController;
 @property (nonatomic) OakMarkdownPageViewController* legalViewController;
 @property (nonatomic) BundleChangesViewController* bundlesViewController;
+@property (nonatomic) TMContributionsViewController* contributionsViewController;
 @property (nonatomic) NSString* selectedPage;
 @end
 
@@ -89,48 +89,11 @@ static NSURL* ReleaseNotesURL ()
 		[win setHidesOnDeactivate:NO];
 		[win setTitleVisibility:NSWindowTitleHidden];
 
-		// The web view shows Contributions, the one page still rendered to
-		// HTML. The bridge script carries its errors to the log.
-		WKWebViewConfiguration* webConfig = [[WKWebViewConfiguration alloc] init];
-		[webConfig.userContentController addScriptMessageHandler:self name:@"textmate"];
-
-		self.webView = [[WKWebView alloc] initWithFrame:NSZeroRect configuration:webConfig];
-		self.webView.navigationDelegate = self;
-		[self.webView setValue:@NO forKey:@"drawsBackground"];
-
-		if(NSURL* url = [NSBundle.mainBundle URLForResource:@"WKWebView" withExtension:@"js"])
-		{
-			NSError* error;
-			if(NSString* jsBridge = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error])
-			{
-				WKUserScript* script = [[WKUserScript alloc] initWithSource:jsBridge injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
-				[self.webView.configuration.userContentController addUserScript:script];
-			}
-			else if(error)
-			{
-				os_log_error(OS_LOG_DEFAULT, "Failed to load WKWebView.js: %{public}@", error.localizedDescription);
-			}
-		}
-		else
-		{
-			os_log_error(OS_LOG_DEFAULT, "Failed to locate WKWebView.js in application bundle");
-		}
-
 		// The window takes its minimum size from whichever content view is in
-		// it, so this and every native page declare the same 560 by 200.
-		[self.webView.widthAnchor constraintGreaterThanOrEqualToConstant:560].active = YES;
-		[self.webView.heightAnchor constraintGreaterThanOrEqualToConstant:200].active = YES;
-
-		[win setContentView:self.webView];
+		// it, so every page declares the same 560 by 200.
+		self.selectedPage = @"About";
 	}
 	return self;
-}
-
-- (void)dealloc
-{
-	[_webView.configuration.userContentController removeAllUserScripts];
-	_webView.navigationDelegate = nil;
-	[_webView stopLoading];
 }
 
 - (void)showAboutWindow:(id)sender
@@ -176,8 +139,8 @@ static NSURL* ReleaseNotesURL ()
 		return;
 	_selectedPage = pageName;
 
-	// Every page but Contributions is native. The Markdown pages are built
-	// once, since their files do not change while the application runs. The
+	// Every page is native. The pages over files shipped with the application
+	// are built once, since those files do not change while it runs. The
 	// Bundles page is built each time it is shown, so that a bundle installed
 	// since the last look is in the list.
 	if([pageName isEqualToString:@"About"])
@@ -205,11 +168,9 @@ static NSURL* ReleaseNotesURL ()
 	}
 	else if([pageName isEqualToString:@"Contributions"])
 	{
-		if(self.window.contentView != self.webView)
-			self.window.contentView = self.webView;
-
-		if(NSURL* url = [NSBundle.mainBundle URLForResource:@"About/Contributions" withExtension:@"html"])
-			[self.webView loadRequest:[NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60]];
+		if(!self.contributionsViewController)
+			self.contributionsViewController = [[TMContributionsViewController alloc] init];
+		self.window.contentView = self.contributionsViewController.view;
 	}
 	else
 	{
@@ -266,43 +227,6 @@ static NSURL* ReleaseNotesURL ()
 		[item setRepresentedObject:label];
 		[item setTarget:self];
 		[item setState:i == _segmentedControl.selectedSegment ? NSControlStateValueOn : NSControlStateValueOff];
-	}
-}
-
-// =============
-// = WKWebView =
-// =============
-
-- (void)webView:(WKWebView*)webView decidePolicyForNavigationAction:(WKNavigationAction*)navigationAction decisionHandler:(void(^)(WKNavigationActionPolicy))decisionHandler
-{
-	if(![navigationAction.request.URL.scheme isEqualToString:@"file"] && [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL])
-			decisionHandler(WKNavigationActionPolicyCancel);
-	else	decisionHandler(WKNavigationActionPolicyAllow);
-}
-
-- (void)userContentController:(WKUserContentController*)userContentController didReceiveScriptMessage:(WKScriptMessage*)message
-{
-	if(![message.name isEqualToString:@"textmate"])
-	{
-		os_log_error(OS_LOG_DEFAULT, "Message received for unknown message handler: %{public}@", message.name);
-		return;
-	}
-
-	NSString* command     = message.body[@"command"];
-	NSDictionary* payload = message.body[@"payload"];
-
-	if([command isEqualToString:@"log"])
-	{
-		if([payload[@"level"] isEqualToString:@"error"])
-		{
-			static os_log_t log = os_log_create("com.textmate3.JavaScript", "error");
-			os_log_error(log, "%{public}@:%{public}@: %{public}@", payload[@"filename"], payload[@"lineno"], payload[@"message"]);
-		}
-		else
-		{
-			static os_log_t log = os_log_create("com.textmate3.JavaScript", "log");
-			os_log(log, "%{public}@: %{public}@", self.webView.title, payload[@"message"]);
-		}
 	}
 }
 @end
