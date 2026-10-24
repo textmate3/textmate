@@ -55,7 +55,7 @@
     para.appendChild(nameBox);
 
     // summary
-    para.innerHTML += commit.summary + ' ';
+    para.appendChild(document.createTextNode(commit.summary + ' '));
 
     // author
     var by = document.createElement('span');
@@ -76,7 +76,7 @@
       // the body text
       var more = document.createElement('p');
       more.className = 'commit_body';
-      more.innerHTML = commit.body;
+      more.appendChild(document.createTextNode(commit.body));
       para.appendChild(more);
       more.style.display = 'none';
 
