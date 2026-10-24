@@ -6,14 +6,23 @@ import SwiftUI
 struct NoticeStrip: View {
   var board: NoticeBoard
 
+  @Environment(\.colorScheme) private var colorScheme
+
+  /// The system yellow as it is in dark, where it stands out on the tint, and mixed toward black in light, where it did not.
+  private var iconColor: Color {
+    let yellow = Color(nsColor: .systemYellow)
+    return colorScheme == .dark ? yellow : yellow.mix(with: .black, by: 0.4)
+  }
+
   var body: some View {
     VStack(spacing: 0) {
       ForEach(board.notices) { notice in
         HStack(alignment: .firstTextBaseline, spacing: 8) {
+          // The icon takes the strip's color. The button stays the window's own, so it reads as a control and not as part of the warning.
           Image(systemName: "info.circle")
-            .foregroundStyle(.secondary)
+            .foregroundStyle(iconColor)
           Text(notice.text)
-            .font(.system(size: NSFont.smallSystemFontSize))
+            .font(.body)
             .textSelection(.enabled)
           Spacer(minLength: 8)
           Button("Dismiss") {
@@ -26,7 +35,8 @@ struct NoticeStrip: View {
         Divider()
       }
     }
-    .background(.bar)
+    // Tinted, unlike the find bar beside it, because this is the application speaking up rather than a tool the person summoned.
+    .background(Color(nsColor: .systemYellow).opacity(0.18))
   }
 }
 
