@@ -17,7 +17,7 @@ The first release from the TextMate 3 project, carrying the 2.0 lineage forward.
 ## 2021-03-08 (v2.0.21)
 
 - When selecting an item in the file browser for which TextMate is not the default application configured to open this item, the “Open With” submenu item (in the context menu) now show the default application and can be selected directly (without having to go into the submenu).
-- Ensure ⌘⌫ / [⌥]⌘V are not sent to the file browser when it does not have focus (same issue as with ⌘Z / ⇧⌘Z fixed in v2.0.19).
+- Ensure `⌘⌫` / [⌥]`⌘V` are not sent to the file browser when it does not have focus (same issue as with `⌘Z` / `⇧⌘Z` fixed in v2.0.19).
 - See [all changes since v2.0.20](https://github.com/textmate/textmate/compare/v2.0.20...v2.0.21)
 
 ## 2021-03-07 (v2.0.20)
@@ -29,7 +29,7 @@ The first release from the TextMate 3 project, carrying the 2.0 lineage forward.
 
 ## 2021-02-25 (v2.0.19)
 
-- Ensure ⌘Z / ⇧⌘Z are not sent to file browser when it does not have focus.
+- Ensure `⌘Z` / `⇧⌘Z` are not sent to file browser when it does not have focus.
 - Increase maximum number of open files if the current limit is below 2048.
 - See [all changes since v2.0.18](https://github.com/textmate/textmate/compare/v2.0.18...v2.0.19)
 
@@ -48,8 +48,8 @@ The first release from the TextMate 3 project, carrying the 2.0 lineage forward.
 
 - TextMate is now a universal build.
 - A few tweaks to improve appearance on Big Sur.
-- With focus in the file browser: ⌥⌘C will copy selection as path name.
-- File browser’s context menu now show shortcut keys for most items, though most only work with focus in the file browser. Hint: ⌥⌘⇥ switches focus between file browser and text editor.
+- With focus in the file browser: `⌥⌘C` will copy selection as path name.
+- File browser’s context menu now show shortcut keys for most items, though most only work with focus in the file browser. Hint: `⌥⌘⇥` switches focus between file browser and text editor.
 - With a file copied to the clipboard, it is now possible to “Create Link” in the file browser (via context menu): This creates a symbolic link to the file.
 - Atomic saving is now disabled by default (except for remote volumes). This is because APFS is prevalent, and it does not provide a way to do atomic save without creating a new inode and thereby updating the date of the file’s directory (which I consider bad). You can change the default by setting `atomicSave` in `~/.tm_properties`, see further down in these release notes for potential values.
 - See [all changes since v2.0.15](https://github.com/textmate/textmate/compare/v2.0.15...v2.0.16)
@@ -66,20 +66,20 @@ The first release from the TextMate 3 project, carrying the 2.0 lineage forward.
 ## 2020-05-14 (v2.0.13)
 
 - The View → Theme submenu now allows to set appearance to “auto” (follow system settings) and to configure light/dark themes separately. Note that prior to macOS 10.14 setting appearance to “auto” is the same as setting it to “light”.
-- Improve the folder pop-up submenu in the Find in Folder: We now show direct descendents in the first submenu and ancestors below these, with the first ancestor showing ⌘↑ as shortcut key (improved discoverability of this shortcut).
+- Improve the folder pop-up submenu in the Find in Folder: We now show direct descendents in the first submenu and ancestors below these, with the first ancestor showing `⌘↑` as shortcut key (improved discoverability of this shortcut).
 - It’s now possible to see when bundle index was last updated in Preferences → Bundles.
 - See [all changes since v2.0.12](https://github.com/textmate/textmate/compare/v2.0.12...v2.0.13)
 
 ## 2020-05-10 (v2.0.12)
 
-- In the Find History window it is now possible to hold down option (⌥) to change the “Find Next” button to “Find in Project”.
+- In the Find History window it is now possible to hold down option (`⌥`) to change the “Find Next” button to “Find in Project”.
 - See [all changes since v2.0.11](https://github.com/textmate/textmate/compare/v2.0.11...v2.0.12)
 
 ## 2020-04-30 (v2.0.11)
 
 - It is now possible to use ⌘[ in the Find dialog to go back to previously searched folders. The pop-up menu will show ⌘[ and ⌘] shortcuts next to the folders that the respective keys will select.
-- A sound is now played when starting/stopping macro recording (⌥⌘M).
-- Commands with output shown in the HTML output window (such as ⌘R for scripts) would timeout (and kill the script) after 1 hour and 40 minutes. This timeout has now been set to aeons (`FLT_MAX`).
+- A sound is now played when starting/stopping macro recording (`⌥⌘M`).
+- Commands with output shown in the HTML output window (such as `⌘R` for scripts) would timeout (and kill the script) after 1 hour and 40 minutes. This timeout has now been set to aeons (`FLT_MAX`).
 - Next/previous bookmark actions in the touch bar now work again. _[Ronald Wampler]_
 - Improved performance for showing clipboard history (only an issue since v2.0.8).
 - See [all changes since v2.0.10](https://github.com/textmate/textmate/compare/v2.0.10...v2.0.11)
@@ -88,13 +88,13 @@ The first release from the TextMate 3 project, carrying the 2.0 lineage forward.
 
 ### Clipboard and Clipboard History
 
-The Clipboard History dialogs (Edit → Paste → Show History and Edit → Find → Show Find History) now allow you to flag entries. This can be done either by clicking the flag button or using ⌘F2 (the shortcut normally used to toggle bookmarks).
+The Clipboard History dialogs (Edit → Paste → Show History and Edit → Find → Show Find History) now allow you to flag entries. This can be done either by clicking the flag button or using `⌘F2` (the shortcut normally used to toggle bookmarks).
 
-Flagged entries will not be removed from history neither automatically nor when using “Clear History”. All flagged entries can be seen by selecting the Flagged source (note: dialogs with a “source selector” support normal tab navigation keys such as ⌘{ / ⌘} for previous/next and ⌘1-⌘n to select the nth source).
+Flagged entries will not be removed from history neither automatically nor when using “Clear History”. All flagged entries can be seen by selecting the Flagged source (note: dialogs with a “source selector” support normal tab navigation keys such as `⌘{` / `⌘}` for previous/next and `⌘1`-`⌘n` to select the nth source).
 
 It is now possible to select multiple entires in the clipboard history dialogs. If you paste with multiple entries selected then it will insert the items with newlines in between. If you search, it will construct a regular expression matching any of the selected items.
 
-Note that the latter can also be achieved by using ⌘E (Edit → Find → Use Selection for Find) when there are multiple selections. It may sound like a novelty, but I use this feature close to daily.
+Note that the latter can also be achieved by using `⌘E` (Edit → Find → Use Selection for Find) when there are multiple selections. It may sound like a novelty, but I use this feature close to daily.
 
 Multiple selections are now stored on the clipboard as multiple strings, this may improve compatibility with other applications that also support multiple selections. Previously they were stored as a single newline-delimited string. This also means that copy/paste of multiple selections work even when the selections include newlines (this would previously lead to newlines being lost due to how we stored a single combined string on the clipboard).
 
@@ -106,7 +106,7 @@ TextMate should now always pick up clipboard changes: Previously it could miss u
 
 ### Other Changes
 
-- If you copy items from the file browser (⌘C) and paste in Apple’s Terminal.app then proper (full) paths should now be inserted. Previously this only worked for iTerm2.app (as Terminal.app is peculiar in how it interprets the clipboard).
+- If you copy items from the file browser (`⌘C`) and paste in Apple’s Terminal.app then proper (full) paths should now be inserted. Previously this only worked for iTerm2.app (as Terminal.app is peculiar in how it interprets the clipboard).
 - If you rename an ancestor folder of an open document, TextMate should now notice this and will update the path accordingly. It will also treat moving a file to trash as that file being deleted (instead of simply renamed).
 - The filter bar in Bundles preferences now support dark mode and acts like a set of radio buttons (so clicking one category will unselect other categories).
 - See [all changes since v2.0.6](https://github.com/textmate/textmate/compare/v2.0.6...v2.0.10)
@@ -250,10 +250,10 @@ For this reason, there is a new setting to control when and how TextMate should 
 
 ## 2018-11-01 (v2.0-rc.14)
 
-- Holding down option (⌥) when opening a file will ensure it opens in a new window (instead of existing project).
+- Holding down option (`⌥`) when opening a file will ensure it opens in a new window (instead of existing project).
 - File browser now supports setting multiple tags on items instead of the previous single label system. _[Ronald Wampler]_
 - It is possible to set `excludeSCMDeleted = true` in a `.tm_properties` file to hide the “ghost” items that appear after deleting a file on disk which is still tracked by your version control system. _[Ian Gregory]_
-- To have file packages expandable in the file browser (like directories) run: `defaults write com.macromates.TextMate allowExpandingPackages -bool YES`. If you do work with a lot of file packages be aware that it is also possible to hold option (⌥) when you either double-click the item’s label or single click the icon, to descend into the file package.
+- To have file packages expandable in the file browser (like directories) run: `defaults write com.macromates.TextMate allowExpandingPackages -bool YES`. If you do work with a lot of file packages be aware that it is also possible to hold option (`⌥`) when you either double-click the item’s label or single click the icon, to descend into the file package.
 - The list of default file globs used when searching folders can be set, for example `defaults write com.macromates.TextMate defaultFindInFolderGlobs '( "{*,.tm_properties}", "*" )'`. Be aware that unique history is kept per folder, to clear your existing history run: `defaults delete com.macromates.TextMate 'Find in Folder Globs'`.
 - The behavior of control up/down has changed slightly: Previously these keys would (also) “skip” the current paired sequence when next to an opening/closing character, for example pressing control down with `foo‸(bar);` would move the insertion point past the braces, i.e.: `foo(bar)‸;`. This is no longer the case, and the keys will always move to the opening/closing character of the current pair that the insertion point is inside.
 - File browser has seen major overhaul: Little difference from the user’s POV but the performance characteristics may have changed slightly, please report any issues to the [mailing list or support](https://macromates.com/support). Furthermore, we no longer support saved searches, alias files, inline-expansion of recursive symbolic link (beyond the first), and setting the file browser to render as a “source list” has also been dropped. If you miss any of these things, please let us know.
@@ -264,7 +264,7 @@ For this reason, there is a new setting to control when and how TextMate should 
 
 - It is now possible to scroll project/folder search results horizontally.
 - Fixed misclassification of file encoding for documents saved with TextEdit. _[Ronald Wampler]_
-- Fixed potential deadlock when using ⇧⌘T just after loading a new document.
+- Fixed potential deadlock when using `⇧⌘T` just after loading a new document.
 - Fixed an issue where setting a mark (in the gutter) via `mate` could cause TextMate to crash.
 - See [all changes since v2.0-rc.9](https://github.com/textmate/textmate/compare/v2.0-rc.9...v2.0-rc.10)
 
@@ -276,7 +276,7 @@ For this reason, there is a new setting to control when and how TextMate should 
 ## 2018-03-08 (v2.0-rc.8)
 
 - You can now set `tabTitle` in `.tm_properties` to change the title of tabs (defaults to `$TM_DISPLAYNAME`) _[Jake Kirshner]_
-- Holding option (⌥) when showing the file browser’s context menu will change “Copy «file»” to “Copy «file» as Pathname”. _[Ronald Wampler]_
+- Holding option (`⌥`) when showing the file browser’s context menu will change “Copy «file»” to “Copy «file» as Pathname”. _[Ronald Wampler]_
 - Bundle commands that show untrusted content in the HTML output window can now set `disableJavaScriptAPI` to `true` in their `tmCommand` property list to disable the JavaScript API normally exposed in the HTML output window. This is set for _HTML → Show Preview_.
 - Added some new format string transformations, [see this commit for details](https://github.com/textmate/textmate/commit/107a56e12dcd074ae62898548dd22e7487f7e859). Though this build does not support `dirname` nor `basename`.
 - See [all changes since v2.0-rc.5](https://github.com/textmate/textmate/compare/v2.0-rc.5...v2.0-rc.8)
@@ -391,7 +391,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 - Inserting type identifiable information on first line of a document will now change the document’s type to match. For example in a new plain text document you can use `py⇥`, `rb⇥`, `pl⇥`, `php⇥` or similar (at the top) to insert a “shebang” line, and now TextMate will update the document’s type to reflect it.
 
-- Copying multiple selections to the find clipboard (⌘E) will construct a regular expression that matches any of the items copied. For example if you select both “foo” and “bar” then using ⌘E will put `foo|bar` on the find clipboard.
+- Copying multiple selections to the find clipboard (`⌘E`) will construct a regular expression that matches any of the items copied. For example if you select both “foo” and “bar” then using `⌘E` will put `foo|bar` on the find clipboard.
 
 - Bundle items can now use `callback.document.did-open` as semantic class to run when a document is loaded (e.g. to set initial gutter marks).
 
@@ -399,9 +399,9 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 - You can change the font used for line numbers by setting `lineNumberFontName` via the `defaults` command. _[Mike Meyer]_
 
-- Only bundle items with ⌘ in their key equivalent will be executed when the window’s text view is not active.
+- Only bundle items with `⌘` in their key equivalent will be executed when the window’s text view is not active.
 
-- When opening a file with unknown type we no longer present a sheet forcing you to select what type to use. Instead, if the type of the document can be handled by a remote bundle, we suggest installing this bundle using a non-modal dialog above your document. Here you can hold down option (⌥) to change the “Not Now” button to “Never”.
+- When opening a file with unknown type we no longer present a sheet forcing you to select what type to use. Instead, if the type of the document can be handled by a remote bundle, we suggest installing this bundle using a non-modal dialog above your document. Here you can hold down option (`⌥`) to change the “Not Now” button to “Never”.
 
 - The “Add byte order mark” checkbox has been removed from the save panel and so has the `useBOM` setting. Instead byte order mark (BOM) is now part of the encoding name, so via the save panel you need to select “Unicode — UTF-8 (BOM)” to include a BOM or set `encoding = "UTF-8//BOM"` in `.tm_properties`. For UTF-16/32 you also need to append `//BOM` to the encoding name (if you set this via `.tm_properties`).
 
@@ -442,9 +442,9 @@ I normally do not mention fixes in the release notes but since this is a regular
         [ source ]
         Foo = "source code"
 
-  If you press ⌃R on a line containing `echo $foo` it should show either _“This is a text file”_ or _“This is source code”_.
+  If you press `⌃R` on a line containing `echo $foo` it should show either _“This is a text file”_ or _“This is source code”_.
 
-  Hint: To see the value of all settings for your current document you can either press ⌃R on a line containing `"$TM_QUERY"` or you can use _Bundles → Select Bundle Item…_ (⌃⌘T) and switch to _Settings_ (⌘}). The latter will show how the settings are ordered.
+  Hint: To see the value of all settings for your current document you can either press `⌃R` on a line containing `"$TM_QUERY"` or you can use _Bundles → Select Bundle Item…_ (`⌃⌘T`) and switch to _Settings_ (`⌘}`). The latter will show how the settings are ordered.
 
 - Improve folder search performance for large documents with few newlines and lots of matches.
 
@@ -475,7 +475,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 - It was previously possible to open a document in a new project by supplying a project UUID not in use, e.g.: `mate --project $(uuidgen) file.txt`. Now only a zero-UUID will trigger this behavior, e.g.: `mate --project $(uuidgen|tr -C $'\n-' 0) file.txt`.
 - Heuristic to detect line terminators has been changed: If a file contains any LF character (not part of a CRLF sequence) then the file is treated as LF delimited. This only affect files with mixed line terminators.
 - Searching files on disk (Find in Folder) and selecting results from files with mixed line terminators could in rare situations bring you to the wrong line in the document. This should now be fixed.
-- The Jump to Next/Previous Mark shortcuts have been changed to F3/⇧F3 so as to not conflict with some keyboard layouts.
+- The Jump to Next/Previous Mark shortcuts have been changed to F3/`⇧F3` so as to not conflict with some keyboard layouts.
 - See [all changes since v2.0-beta.9](https://github.com/textmate/textmate/compare/v2.0-beta.9...v2.0-beta.9.2)
 
 ## 2016-03-05 (v2.0-beta.9)
@@ -494,7 +494,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 ## 2015-10-23 (v2.0-beta.8.1)
 
-- Add _View → Font → Default Size_ menu action bound to ⌘0 which works for both text and HTML output.. The _Last Tab_ action has been moved to ⌘9.
+- Add _View → Font → Default Size_ menu action bound to `⌘0` which works for both text and HTML output.. The _Last Tab_ action has been moved to `⌘9`.
 - TextMate’s QuickLook plug-in can now show compiled AppleScript files.
 - New project scope for Cargo (Rust) projects (`attr.project.cargo`).
 - Miscellaneous fixes.
@@ -505,7 +505,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 - You can now export a bundle (merging potential delta files) by right-clicking the bundle in the bundle editor and selecting _Export Bundle…_.
 - Improved support for multiple carets/selections and commands, for example fallback units are now respected when there are multiple carets (and none have a selection).
 - The file browser is now view-based (instead of cell-based). The main “feature” is that renaming an item should no longer be involuntarily aborted (when there are disk changes), though there are also some minor interaction changes and more animations plus labels are rendered closer to how Finder has shown them since 10.9.
-- You can now use ⌥⌘V in the file browser to “move” the item on the clipboard to the current folder. This makes it possible to copy files from Finder and “move” to the location in TextMate’s file browser and thus the old way of moving files via keyboard (⌘X + ⌘V) is deprecated and will be removed.
+- You can now use `⌥⌘V` in the file browser to “move” the item on the clipboard to the current folder. This makes it possible to copy files from Finder and “move” to the location in TextMate’s file browser and thus the old way of moving files via keyboard (`⌘X` + `⌘V`) is deprecated and will be removed.
 - Double-tapping shift will now also leave “freehanded mode”.
 - Support spell checking being “automatic by language”. This is set via the spelling panel.
 - The line number scale factor can be set via the `lineNumberScaleFactor` user defaults key. It defaults to 0.8. If you want line numbers to be same size as main text, run the following in a terminal: `defaults write com.macromates.TextMate.preview lineNumberScaleFactor -float 1`.
@@ -514,19 +514,19 @@ I normally do not mention fixes in the release notes but since this is a regular
 ## 2015-06-13 (v2.0-beta.7.2)
 
 - If you do not want to be told that TextMate is outdated then go to _About TextMate → Registration_ and add your license key.
-- It is now possible to double-tap the shift key (⇧) to either deselect the last discontinuous selection made, e.g. if you use ⌃W to “find and select next” and hit it once too many. Additionally, when there are multiple carets, double-tapping shift will remove all but the first caret.
+- It is now possible to double-tap the shift key (`⇧`) to either deselect the last discontinuous selection made, e.g. if you use `⌃W` to “find and select next” and hit it once too many. Additionally, when there are multiple carets, double-tapping shift will remove all but the first caret.
 - When playing a macro that uses the `findWithOptions:` command and there are no find or replace string (among its arguments), TextMate will now use values from the find/replace clipboards (i.e. current string). This is useful if your macro copies content to the find or replace clipboard.
-- Using _Check Spelling_ (⌘;) would previously find the next misspelled word (to the right of the caret). Now it will start with the word touched by the caret. This way, it is possible to type a word and immediately check it, without first moving to the beginning of the word. Alternatively one can press ⌥F2 to show the context menu for the word at the caret, which includes spelling suggestions, incase the word is misspelled.
+- Using _Check Spelling_ (`⌘;`) would previously find the next misspelled word (to the right of the caret). Now it will start with the word touched by the caret. This way, it is possible to type a word and immediately check it, without first moving to the beginning of the word. Alternatively one can press `⌥F2` to show the context menu for the word at the caret, which includes spelling suggestions, incase the word is misspelled.
 - See [all changes since v2.0-beta.7](https://github.com/textmate/textmate/compare/v2.0-beta.7...v2.0-beta.7.2)
 
 ## 2015-03-25 (v2.0-beta.7)
 
-- Running a command that takes “selection” as input when there are discontinuous selections will now join the selections with LF and provide it all to the command. Furthermore, the result from the command will be split on LF and replace the respective selections. Most commands are not suited for this, but a useful scenario is enumerating items, for example use _Find All_ or similar to obtain multiple carets/selections, then use _Filter Through Command…_ (⌘|) and run `seq 100` (assuming there are less than 100 carets/selections). Feature prompted by this [mailing list post](http://lists.macromates.com/textmate/2015-February/038465.html).
-- When duplicating an item in the file browser (⌘D) we check if it contains a date string (`YYYY-MM-DD`), and if so, update that to today’s date instead of adding “copy” to the name.
-- When holding down command (⌘) and clicking an existing selection, we now undo that selection. This is useful when creating discontinuous selections with the mouse.
+- Running a command that takes “selection” as input when there are discontinuous selections will now join the selections with LF and provide it all to the command. Furthermore, the result from the command will be split on LF and replace the respective selections. Most commands are not suited for this, but a useful scenario is enumerating items, for example use _Find All_ or similar to obtain multiple carets/selections, then use _Filter Through Command…_ (`⌘|`) and run `seq 100` (assuming there are less than 100 carets/selections). Feature prompted by this [mailing list post](http://lists.macromates.com/textmate/2015-February/038465.html).
+- When duplicating an item in the file browser (`⌘D`) we check if it contains a date string (`YYYY-MM-DD`), and if so, update that to today’s date instead of adding “copy” to the name.
+- When holding down command (`⌘`) and clicking an existing selection, we now undo that selection. This is useful when creating discontinuous selections with the mouse.
 - Clicking middle mouse button on a tab is now shorthand for closing the tab. _[Koen Punt]_
 - Visual improvements for tabs and file browser on Yosemite. _[Adam Strzelecki]_
-- Increasing and decreasing font size (⌘+ / ⌘-) now shows the current scale factor to make it easy to get back to 100%.
+- Increasing and decreasing font size (`⌘+` / `⌘-`) now shows the current scale factor to make it easy to get back to 100%.
 - See [all changes since v2.0-beta.6.8](https://github.com/textmate/textmate/compare/v2.0-beta.6.8...v2.0-beta.7)
 
 ## 2015-02-03 (v2.0-beta.6.8)
@@ -547,13 +547,13 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 ## 2014-11-11 (v2.0-beta.6.1)
 
-- The bundle item chooser (⌃⌘T) now show the value of settings and variables (inline) and includes actions from key binding dictionaries (like `~/Library/KeyBindings/DefaultKeyBinding.dict`).
+- The bundle item chooser (`⌃⌘T`) now show the value of settings and variables (inline) and includes actions from key binding dictionaries (like `~/Library/KeyBindings/DefaultKeyBinding.dict`).
 - See [all changes since v2.0-beta.5.4](https://github.com/textmate/textmate/compare/v2.0-beta.5.4...v2.0-beta.6.1).
 
 ## 2014-11-05 (v2.0-beta.5.4)
 
 - Improve stability on Yosemite.
-- The chooser windows (⌘T, ⇧⌘O, etc.) are now view-based and thus a bit more fancy. Consider it work-in-progress.
+- The chooser windows (`⌘T`, `⇧⌘O`, etc.) are now view-based and thus a bit more fancy. Consider it work-in-progress.
 - See [all changes since v2.0-beta.5](https://github.com/textmate/textmate/compare/v2.0-beta.5...v2.0-beta.5.4).
 
 ## 2014-10-29 (v2.0-beta.5)
@@ -590,9 +590,9 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 ## 2014-09-17 ([v2.0-alpha.9565](https://github.com/textmate/textmate/compare/v2.0-alpha.9563...v2.0-alpha.9565))
 
-- If you typeset TeX from TextMate (⌘R) and have the resulting PDF show in TextMate’s (HTML) output window (default) you can use ⌘P to bring up the print dialog to print the PDF. This used to work, but presumably broke during the update to 10.9, after which one had to first click the PDF to give it focus, before ⌘P would work.
+- If you typeset TeX from TextMate (`⌘R`) and have the resulting PDF show in TextMate’s (HTML) output window (default) you can use `⌘P` to bring up the print dialog to print the PDF. This used to work, but presumably broke during the update to 10.9, after which one had to first click the PDF to give it focus, before `⌘P` would work.
 - Items from `.tm_properties` are now shown in the bundle item chooser (under settings). Eclipsed settings/variables are shown with an overstrike, although in practice the effective value may be derived from multiple eclipsed ones, e.g. in the case of updating `PATH` to `$HOME/bin:$PATH`. Long-term the expanded and non-expanded values should also be shown in this window.
-- If you hold option (⌥) when using the (new) remove button to prune folder search results then the glob will be extended to exclude the undesired path, so that future searches exclude it by default.
+- If you hold option (`⌥`) when using the (new) remove button to prune folder search results then the glob will be extended to exclude the undesired path, so that future searches exclude it by default.
 - Some new folder search options added to the gear menu in the folder search window.
 - The `${«var»:/asciify}` format string/snippet transformation now does a better job at stripping diacritics and combining marks.
 - Fixes and improvements.
@@ -600,24 +600,24 @@ I normally do not mention fixes in the release notes but since this is a regular
 ## 2014-09-02 ([v2.0-alpha.9563](https://github.com/textmate/textmate/compare/v2.0-alpha.9559...v2.0-alpha.9563))
 
 - Folder search results can be pruned using the new remove button shown per file in the list. You can also see how many bytes were searched by clicking the status bar (after a folder search).
-- The bundle item chooser now use a scope bar for the 3 item types it can show. You can move between sources via ⌘{ and ⌘}. The _Settings_ source currently shows settings from bundle items but long-term it should also show settings set via `.tm_properties` or from the settings window. The _Other_ source is currently language grammars and themes but might become _Styles_ with a more fine-grained view of what rules/themes are responsible for the current context.
-- The commit window is now a document modal sheet with the list of items to commit hidden by default. The intent is that one should select the items to commit in the file browser, here the Go → SCM Status (⇧⌘Y) is highly recommended. _[Ronald Wampler]_
+- The bundle item chooser now use a scope bar for the 3 item types it can show. You can move between sources via `⌘{` and `⌘}`. The _Settings_ source currently shows settings from bundle items but long-term it should also show settings set via `.tm_properties` or from the settings window. The _Other_ source is currently language grammars and themes but might become _Styles_ with a more fine-grained view of what rules/themes are responsible for the current context.
+- The commit window is now a document modal sheet with the list of items to commit hidden by default. The intent is that one should select the items to commit in the file browser, here the Go → SCM Status (`⇧⌘Y`) is highly recommended. _[Ronald Wampler]_
 - Files opened via `mate` are now added to the recent menu by default unless the file is a dot-file (hidden), `--wait` or `--no-recent` is specified, or the file is in the system’s temporary folder. Also cleaned up the command options a bit, e.g. `--async` is now `--no-wait`, run `mate -h` for more info.
 - Improved _Text → Titlecase Line / Selection_: Words with mixed case will not be changed and any prefix/suffix that is not a word, will be ignored so that the actual first/last word gets titlecased.
 - When a key equivalent field has focus (and is not recording), escape will now clear the field.
 
 ## 2014-08-17 ([v2.0-alpha.9559](https://github.com/textmate/textmate/compare/v2.0-alpha.9555...v2.0-alpha.9559))
 
-- The bundle item chooser (⌃⌘T) now include menu items. This also works with key equivalent searching.
+- The bundle item chooser (`⌃⌘T`) now include menu items. This also works with key equivalent searching.
 - In the chooser lists (fuzzy file finder, bundle item chooser, and symbol list) it is now possible to make the selection loop around, that is, move from first to last item with arrow up, etc. This is enabled by running: `defaults write com.macromates.TextMate.preview enableLoopFilterList -bool YES` _[Zete Lui]_
 
 ## 2014-07-31 ([v2.0-alpha.9555](https://github.com/textmate/textmate/compare/v2.0-alpha.9551...v2.0-alpha.9555))
 
 - Showing invisible characters will (again) show spaces. As mentioned previously the way to control which glyphs are used are done using the `invisiblesMap` option in `.tm_properties`. Add either `\n`, `\t`, or a space to the string, followed by the glyph that should be used to render the character, or prefix it with `~` to disable rendering of that character. For example to disable rendering of spaces and render tabs as `┊` add this to `.tm_properties`: `invisiblesMap = "~ \t┊"`. _[Steven Clukey]_
 - QuickLook generator will now handle thumbnail generation. _[Nyx0uf]_
-- The bundle item chooser (⌃⌘T) have some new search capabilities, look in its drop-down menu, though still work in progress.
+- The bundle item chooser (`⌃⌘T`) have some new search capabilities, look in its drop-down menu, though still work in progress.
 - Accessibility improvements for the bundle item chooser and key equivalent recorder. _[Boris Dušek]_
-- Previously using ⌘F with a multiline selection would set the _in_ pop-up to _Document_ (unless `findInSelectionByDefault` was set). This is no longer the case, but can be brought back by running: `defaults write alwaysFindInDocument -bool YES`. _[Jeremy Whitlock]_
+- Previously using `⌘F` with a multiline selection would set the _in_ pop-up to _Document_ (unless `findInSelectionByDefault` was set). This is no longer the case, but can be brought back by running: `defaults write alwaysFindInDocument -bool YES`. _[Jeremy Whitlock]_
 - Fixed issue where having the find or HTML output window open in another space and switching focus to TextMate, would bring the window to the active space, rather than switch to TextMate’s space. _[Etienne Samson]_
 
 ## 2014-07-12 ([v2.0-alpha.9551](https://github.com/textmate/textmate/compare/v2.0-alpha.9549...v2.0-alpha.9551))
@@ -627,7 +627,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 ## 2014-07-06 ([v2.0-alpha.9549](https://github.com/textmate/textmate/compare/v2.0-alpha.9547...v2.0-alpha.9549))
 
 - TextMate now works with the [Haskell Ligature font](https://github.com/i-tu/Hasklig). If you are using the Mensch font and see `fi` drawn as `ﬁ` then update to [Mensch version 2.0](http://robey.lag.net/2012/08/22/mensch-2.html).
-- You can now use ⌘{ and ⌘} in the file and favorites chooser to cycle between sources. These keys can also be used in Preferences, the About window, and the Find in Folder (to cycle through files with matches). In these windows you can also use ⌘1-⌘n for the n’th “source” (but this is not new).
+- You can now use `⌘{` and `⌘}` in the file and favorites chooser to cycle between sources. These keys can also be used in Preferences, the About window, and the Find in Folder (to cycle through files with matches). In these windows you can also use `⌘1`-`⌘n` for the n’th “source” (but this is not new).
 - Draw properly rounded corners for tabs on retina displays. _[Adam Strzelecki]_
 - Improve VoiceOver feedback for file and favorite choosers when running on 10.10. _[Boris Dušek]_
 - Visual changes/improvements: tab overflow menu has document icons, the icon for it has multiple states (retina), the variables and bundles list in Preferences now use a smaller font and the latter has a search field to filter the list. _[Ronald Wampler]_
@@ -664,17 +664,17 @@ I normally do not mention fixes in the release notes but since this is a regular
 ## 2014-04-12 ([v2.0-alpha.9533](https://github.com/textmate/textmate/compare/v2.0-alpha.9531...v2.0-alpha.9533))
 
 - You can disable the status bar using `defaults write com.macromates.TextMate.preview hideStatusBar -bool YES`. Be aware that currently not all of the status bar actions have menu equivalents.
-- _Text → Filter Through Command…_ (⌘|) now has a _“New Document”_ (⌘3) output option.
+- _Text → Filter Through Command…_ (`⌘|`) now has a _“New Document”_ (`⌘3`) output option.
 - _View → Wrap Column_ now remember the last 5 values used.
 
 ## 2014-04-05 ([v2.0-alpha.9531](https://github.com/textmate/textmate/compare/v2.0-alpha.9529...v2.0-alpha.9531))
 
-- Rework the commit window (shown e.g. when using ⌘Y and selecting “Commit”) to run as part of TextMate and use its text editing features. _[Ronald Wampler]_
-- Improve accessibility support in find window. Notifications like “no more occurrences” when pressing ⌘G are now broadcast. _[Boris Dušek]_
+- Rework the commit window (shown e.g. when using `⌘Y` and selecting “Commit”) to run as part of TextMate and use its text editing features. _[Ronald Wampler]_
+- Improve accessibility support in find window. Notifications like “no more occurrences” when pressing `⌘G` are now broadcast. _[Boris Dušek]_
 
 ## 2014-03-31 ([v2.0-alpha.9529](https://github.com/textmate/textmate/compare/v2.0-alpha.9515...v2.0-alpha.9529))
 
-- With VoiceOver the current item will be announced in the various item choosers: File → Open Favorites… (⇧⌘O), Go → Go to File… (⌘T), and Navigate → Go to Symbol… (⇧⌘T). If you want to hear the first result (which is not automatically spoken), first press arrow up to hear it, then you can use arrows down/up as usual. If you want to browse the results without entering a search string, quickly type any letter and delete it to suppress VoiceOver information about menu command and current window. _[Boris Dušek]_
+- With VoiceOver the current item will be announced in the various item choosers: File → Open Favorites… (`⇧⌘O`), Go → Go to File… (`⌘T`), and Navigate → Go to Symbol… (`⇧⌘T`). If you want to hear the first result (which is not automatically spoken), first press arrow up to hear it, then you can use arrows down/up as usual. If you want to browse the results without entering a search string, quickly type any letter and delete it to suppress VoiceOver information about menu command and current window. _[Boris Dušek]_
 
 - Commands with HTML output can decide how TextMate should act if the same command was previously run and its output window is still showing. This is done by setting the `reuseOutput` key in the `tmCommand` property list. Possible values are:
 
@@ -685,7 +685,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 
   The third option is suited for something like a build command where you are unlikely to want multiple simultaneous instances running.
 
-- The browser used for clipboard and search history, available using _Edit → Paste → Show History_ (⌃⌥⌘V) and _Edit → Find → Show History_ (⌃⌥⌘F), now support “type to filter”.
+- The browser used for clipboard and search history, available using _Edit → Paste → Show History_ (`⌃⌥⌘V`) and _Edit → Find → Show History_ (`⌃⌥⌘F`), now support “type to filter”.
 
 - It is now possible to set the `disableIndentCorrections` to `emptyLines`. This will disable the indent corrections only when typing on empty lines, which has been made default for HTML.
 
@@ -701,13 +701,13 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 - TextMate will now remember open tabs for “project folders”. This means that if you run `mate «folder»`, open a few tabs and close the window, then if you later open the same folder, TextMate will restore the open tabs (and file browser state).
 
-  You can see which folders TextMate has stored state for via _File → Open Favorites…_ (⇧⌘O) — probably soon to be renamed “Open Project…”.
+  You can see which folders TextMate has stored state for via _File → Open Favorites…_ (`⇧⌘O`) — probably soon to be renamed “Open Project…”.
 
   The feature can be disabled using:
 
       defaults write com.macromates.TextMate.preview disableFolderStateRestore -bool YES
 
-- Commands executed by TextMate can now be interrupted by pressing ⌘. or ⌃C.
+- Commands executed by TextMate can now be interrupted by pressing `⌘.` or `⌃C`.
 
 - Added an `--uuid` option to the `mate` shell command which allows referencing untitled documents. If `mate` is called from a TextMate command without any file argument then the UUID defaults to that of the current document, meaning a command can use something like `"$TM_MATE" -l10-10:5` to select the first four characters on line 10.
 
@@ -733,14 +733,14 @@ I normally do not mention fixes in the release notes but since this is a regular
 
         defaults write com.macromates.TextMate.preview fileBrowserSingleClickToOpen -bool true
 
-  If you wish to select items you either need to click to the left of the text, or hold down command (⌘) when clicking the item’s text.
+  If you wish to select items you either need to click to the left of the text, or hold down command (`⌘`) when clicking the item’s text.
 
 - Fix missing transparent backgrounds on 10.9.
 
 ## 2013-10-23 ([v2.0-alpha.9489](https://github.com/textmate/textmate/compare/v2.0-alpha.9487...v2.0-alpha.9489))
 
-- Using a “filtering” command with a column selection now has defined behavior: The command’s output will replace the subset selected on each line in the selection. The output is truncated if it has more lines than what’s selected and otherwise padded with blank lines. This isn’t identical to how TextMate 1.x dealt with this, but I find the new behavior slightly more useful, for example make a (zero-width) column selection and use _Text → Filter Through Command…_ (⌘|) to insert sequence numbers by running `seq 100` (no need to count how many lines are actually selected).
-- Add _Go → Go to Tab → Last Tab_ bound to ⌘0 (this is similar to iTerm and Chrome, although they use ⌘9, so perhaps TM should do the same).
+- Using a “filtering” command with a column selection now has defined behavior: The command’s output will replace the subset selected on each line in the selection. The output is truncated if it has more lines than what’s selected and otherwise padded with blank lines. This isn’t identical to how TextMate 1.x dealt with this, but I find the new behavior slightly more useful, for example make a (zero-width) column selection and use _Text → Filter Through Command…_ (`⌘|`) to insert sequence numbers by running `seq 100` (no need to count how many lines are actually selected).
+- Add _Go → Go to Tab → Last Tab_ bound to `⌘0` (this is similar to iTerm and Chrome, although they use `⌘9`, so perhaps TM should do the same).
 - Allow sorting by the “installed” state in Preferences → Bundles. _[Ryan Goulden]_
 - Show Invisibles will no longer treat space as an invisible (which was added in previous build) as it was causing issues with right-to-left rendering and combining marks used after spaces. The feature might be back, but needs to be implemented differently.
 
@@ -754,7 +754,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 ## 2013-09-06 ([v2.0-alpha.9477](https://github.com/textmate/textmate/compare/v2.0-alpha.9475...v2.0-alpha.9477))
 
-- Edit → Spelling → Check Spelling (⌘;) has been implemented. This will select the next misspelled word and, if the spelling panel is not showing, open a context menu with guesses, otherwise, it’ll update the spelling panel. _[Adam Strzelecki]_
+- Edit → Spelling → Check Spelling (`⌘;`) has been implemented. This will select the next misspelled word and, if the spelling panel is not showing, open a context menu with guesses, otherwise, it’ll update the spelling panel. _[Adam Strzelecki]_
 - When all of the open documents don’t fit in the tab bar, the last visible tab is used as a proxy tab with an attached menu to select between non-visible documents. _[Ronald Wampler]_
 - The format string syntax now supports `\x{HHHH}` for unicode code points and `\xHH` for raw byte values (normally you would only use the former syntax).
 
@@ -766,7 +766,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 
   The example makes use of two constructs, the outer being `${var:?«if set»:«if not set»}` and the inner being the regexp substitution. I used `.` to match the trailing slash that we also want to remove, mainly to avoid having to use escapes (if we wanted to use a literal slash).
 
-- Using ⌃T has been improved for the case where two “things” are selected delimited by some operator. It will now swap the two “things” rather than reverse the characters. You can see [examples in the test file](https://github.com/textmate/textmate/blob/master/Frameworks/editor/tests/t_transform.cc).
+- Using `⌃T` has been improved for the case where two “things” are selected delimited by some operator. It will now swap the two “things” rather than reverse the characters. You can see [examples in the test file](https://github.com/textmate/textmate/blob/master/Frameworks/editor/tests/t_transform.cc).
 - Miscellaneous fixes and improvements — as usual, click the link above for full commit history.
 
 ## 2013-08-02 ([v2.0-alpha.9459](https://github.com/textmate/textmate/compare/a9455...v2.0-alpha.9459))
@@ -783,9 +783,9 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 - If a tab is sticky (settable via its context menu) then it will not close when using the batch close actions like holding option when opening a file via file chooser or file browser, etc.
 
-- The `highlightPairs` setting now support regular expressions. To indicate a value is a regular expression, surround it with slashes, e.g. `/<\w+.*?>/`. This setting is used for highlighting counterparts when caret moves over characters but you can also jump to the next/previous paired character (with same nesting level) via ⌃↓/⌃↑ and you can select the content with ⇧⌘B. The HTML bundle has been updated to declare start/end tags as pairs (_HTML → Settings → Miscellaneous_).
+- The `highlightPairs` setting now support regular expressions. To indicate a value is a regular expression, surround it with slashes, e.g. `/<\w+.*?>/`. This setting is used for highlighting counterparts when caret moves over characters but you can also jump to the next/previous paired character (with same nesting level) via `⌃↓`/`⌃↑` and you can select the content with `⇧⌘B`. The HTML bundle has been updated to declare start/end tags as pairs (_HTML → Settings → Miscellaneous_).
 
-- The file used for _Go → Go to Related File_ (⌥⌘↑) can be set using a `relatedFilePath` setting in `.tm_properties`. If the file does not exist, TextMate will try its built-in search (which looks for files with same base name) and if nothing is found, it will create a new tab using the path specified via `relatedFilePath`. The default properties have added the following settings to allow switching between test and regular `*.go` files:
+- The file used for _Go → Go to Related File_ (`⌥⌘↑`) can be set using a `relatedFilePath` setting in `.tm_properties`. If the file does not exist, TextMate will try its built-in search (which looks for files with same base name) and if nothing is found, it will create a new tab using the path specified via `relatedFilePath`. The default properties have added the following settings to allow switching between test and regular `*.go` files:
 
         [ *.go ]
         relatedFilePath = "${TM_FILEPATH/(?=\.go$)/_test/}"
@@ -793,24 +793,24 @@ I normally do not mention fixes in the release notes but since this is a regular
         [ *_test.go ]
         relatedFilePath = "${TM_FILEPATH/_test(?=\.go$)//}"
 
-- A folder search can now be stopped via the stop button next to the status text or by pressing ⌘.. _[David Howden]_
+- A folder search can now be stopped via the stop button next to the status text or by pressing `⌘.`. _[David Howden]_
 
 ## 2013-06-28 ([a9439](https://github.com/textmate/textmate/compare/a9437...a9439))
 
 - Add support for printing. You can set the theme to use in the print dialog. The font used for printing is the document font settable via _View → Font_ though hardcoded to 11 points. If you want to increase the size then adjust the scale factor.
-- If you want the file chooser (⌘T) to follow symbolic links then you can add `followSymbolicLinks = true` to `.tm_properties`.
+- If you want the file chooser (`⌘T`) to follow symbolic links then you can add `followSymbolicLinks = true` to `.tm_properties`.
 - Miscellaneous fixes.
 
 ## 2013-06-24 ([a9437](https://github.com/textmate/textmate/compare/a9435...a9437))
 
-- With the find dialog showing for a document, it is now possible to use ⌥⌘F to activate “Find All”. Be aware that Edit → Find → Find All without the dialog showing is really “select all matches” (possibly limited to a selection).
-- To aid in discovery, I’ve added Edit → Select → Toggle Column Selection which shows just the option modifier key (⌥) as key equivalent, since a single-tap of option is how you switch from stream selection to column selection. This is the same as TextMate 1.x, but many still seem unfamiliar with just how easy it is to create column selections with TextMate, and subsequently, break it into multiple carets. For the latter there now is a [short screencast](http://www.youtube.com/watch?v=Jqc5EdZmpmQ "YouTube » Multiple Carets with TextMate 2") in addition to the [blog post about multiple carets](http://blog.macromates.com/2011/multiple-carets/ "TextMate Blog » Multiple Carets").
+- With the find dialog showing for a document, it is now possible to use `⌥⌘F` to activate “Find All”. Be aware that Edit → Find → Find All without the dialog showing is really “select all matches” (possibly limited to a selection).
+- To aid in discovery, I’ve added Edit → Select → Toggle Column Selection which shows just the option modifier key (`⌥`) as key equivalent, since a single-tap of option is how you switch from stream selection to column selection. This is the same as TextMate 1.x, but many still seem unfamiliar with just how easy it is to create column selections with TextMate, and subsequently, break it into multiple carets. For the latter there now is a [short screencast](http://www.youtube.com/watch?v=Jqc5EdZmpmQ "YouTube » Multiple Carets with TextMate 2") in addition to the [blog post about multiple carets](http://blog.macromates.com/2011/multiple-carets/ "TextMate Blog » Multiple Carets").
 
 ## 2013-06-21 ([a9435](https://github.com/textmate/textmate/compare/a9433...a9435))
 
 - You can now [add your TextMate (1.x) license](<javascript:TextMate.addLicense()>) in About → Registration.
-- Using arrow up/down with multiple carets all on same line will no longer leave the multiple carets editing mode. Instead use ⌘←/⌘→ or ⌃A/⌃E to move all carets to the beginning or end of the line (which collapses them into a single caret).
-- Previously using ⌘F with a multiline selection would automatically set the “in” pop-up to “selection”. This is no longer the case, but can be brought back by running: `defaults write findInSelectionByDefault -bool YES`
+- Using arrow up/down with multiple carets all on same line will no longer leave the multiple carets editing mode. Instead use `⌘←`/`⌘→` or `⌃A`/`⌃E` to move all carets to the beginning or end of the line (which collapses them into a single caret).
+- Previously using `⌘F` with a multiline selection would automatically set the “in” pop-up to “selection”. This is no longer the case, but can be brought back by running: `defaults write findInSelectionByDefault -bool YES`
 - Miscellaneous fixes.
 
 ## 2013-06-15 ([a9433](https://github.com/textmate/textmate/compare/a9427...a9433))
@@ -837,7 +837,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 ## 2013-05-02 ([a9419](https://github.com/textmate/textmate/compare/a9417...a9419))
 
-- _Full Screen_ is now assigned to ⌃⌘F to follow Apple’s recommendations. Previously this key was used for _Replace All_ which is now instead ⌃⌘G and _Replace All in Selection_ is ⌃⇧⌘G. This is somewhat consistent with _Replace & Find_ bound to ⌥⌘G.
+- _Full Screen_ is now assigned to `⌃⌘F` to follow Apple’s recommendations. Previously this key was used for _Replace All_ which is now instead `⌃⌘G` and _Replace All in Selection_ is `⌃⇧⌘G`. This is somewhat consistent with _Replace & Find_ bound to `⌥⌘G`.
 - The scope selector used to inject grammar rules can now match against the left scope to make the injected rule rank higher than the rules from the context it gets injected into. _[Joachim Mårtensson]_
 - Swipe gestures (in file browser and HTML windows) to go back/forward in history is now detected differently. Some users have reported that scrolling up/down in the file browser was sometimes triggering an undesired swipe action, hopefully the new code works better. If not, you can let me know via IRC or the mailing list.
 - The bundles in Preferences → Bundles now show link arrows to go to the bundle’s (GitHub) page where you can find its issue tracker, detailed version history, instructions on how to clone the bundle, and it’s the origin for which you can submit pull requests.
@@ -865,8 +865,8 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 ## 2013-03-27 ([a9407](https://github.com/textmate/textmate/compare/a9405...a9407))
 
-- Macros can now be saved via Edit → Macros → Save Macro… (⌃⌘M). Actions invoked via Find dialog are also correctly recorded, though replaying “Replace and Find” is still unimplemented (although the action itself works when called outside macros).
-- Revert "Space can be used instead of slash in file chooser (⌘T)". See [issue #893](https://github.com/textmate/textmate/issues/893) for discussion.
+- Macros can now be saved via Edit → Macros → Save Macro… (`⌃⌘M`). Actions invoked via Find dialog are also correctly recorded, though replaying “Replace and Find” is still unimplemented (although the action itself works when called outside macros).
+- Revert "Space can be used instead of slash in file chooser (`⌘T`)". See [issue #893](https://github.com/textmate/textmate/issues/893) for discussion.
 
 ## 2013-03-26 ([a9405](https://github.com/textmate/textmate/compare/a9403...a9405))
 
@@ -875,7 +875,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 ## 2013-03-21 ([a9403](https://github.com/textmate/textmate/compare/a9401...a9403))
 
-- Add _Filter Through Command_ bound to ⌘|. I am aware that this keybinding might not work for all users. For now you will have to rebind manually via _System Preferences → Keyboard → Keyboard Shortcuts_.
+- Add _Filter Through Command_ bound to `⌘|`. I am aware that this keybinding might not work for all users. For now you will have to rebind manually via _System Preferences → Keyboard → Keyboard Shortcuts_.
 
   The dialog doesn’t include all the options of 1.x, but I think most of that wasn’t being used, and by keeping the choices limited, we can improve keyboard usability. A few options are however likely going to appear, like indication of the input unit (which presently is selection and falling back on document) and outputting to a new window. _[Jacob Bandes-Storch + Allan Odgaard]_
 
@@ -889,10 +889,10 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 ## 2013-03-17 ([a9397](https://github.com/textmate/textmate/compare/r9395...a9397))
 
-- You can now set the current window’s project folder via the file browser. Click the folder in the top bar and there should be an option to use the current folder as project folder. Project folder is the default location for project searches (⇧⌘F), file chooser (⌘T), and many commands will fallback on project folder (e.g. build commands).
-- The file chooser (⌘T) will now treat space the same as slash, i.e. enable full path filtering.
+- You can now set the current window’s project folder via the file browser. Click the folder in the top bar and there should be an option to use the current folder as project folder. Project folder is the default location for project searches (`⇧⌘F`), file chooser (`⌘T`), and many commands will fallback on project folder (e.g. build commands).
+- The file chooser (`⌘T`) will now treat space the same as slash, i.e. enable full path filtering.
 - `rmate` has been turned into a ruby gem and can be installed with `gem install rmate` on servers that have `gem` available.
-- The bundle history in this window (which you can get to by pressing ⌘3, ⌘}, or ⌥⌘→) now only list history for 2012 and 2013, which should make showing the history much faster.
+- The bundle history in this window (which you can get to by pressing `⌘3`, `⌘}`, or `⌥⌘→`) now only list history for 2012 and 2013, which should make showing the history much faster.
 - Don’t use `POSIX_SPAWN_CLOEXEC_DEFAULT` on 10.7 to avoid kernel panic. Thanks to [squatch](https://github.com/squatch) for debugging this.
 - Fix type of `rmate` listen port in _Preferences → Terminal_. If this value shows with a thousand separator you need to manually remove the separator character and press return to get rid of the old (bad) value.
 - I changed the `r` prefix on the build number to `a`. Previously it was short for “revision”, but since I may reset the counter once we go from alpha → beta → release, it should use the build’s status as prefix.
@@ -903,7 +903,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 - New scoped setting: `zeroIndentPattern`. Lines matches by this pattern get zero indent but does not affect the indent of following lines. Probably only useful for C preprocessor lines, maybe also code lines in template languages that support a “begin of line” character as an alternative to wrapping the code in special syntax.
 - Window resize when toggling file browser can now be disabled in _Preferences → Projects_. The behavior has however seen a few improvements (accounting for browser on left side of window and reusing old frame on second toggle, instead of calculating a new frame).
 - Introduce `TM_MATE` environment variable which bundle commands should use when they wish to call `mate` (previously the convention was to use `"$TM_SUPPORT_PATH/bin/mate"`).
-- The _Edit → Select → None_ (⇧⌘A) menu item has been moved to the file browser’s action menu, as the key is always sent to the file browser.
+- The _Edit → Select → None_ (`⇧⌘A`) menu item has been moved to the file browser’s action menu, as the key is always sent to the file browser.
 
 ## 2013-03-07 ([a9393](https://github.com/textmate/textmate/compare/r9391...r9393))
 
@@ -911,18 +911,18 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 ## 2013-03-07 ([a9391](https://github.com/textmate/textmate/compare/r9389...r9391))
 
-- Assign ⌃⌘↩ to View → Enter / Exit Full Screen.
+- Assign `⌃⌘↩` to View → Enter / Exit Full Screen.
 
 - Rework find dialog: This is work in progress but I don’t think any functionality is missing compared to previous build, although some functionality might be less polished, e.g. the action buttons don’t properly enable/disable and the height of the results list gets lost when hiding it.
 
   Some of the stuff that has changed / improved:
 
   - The find/replace text fields adjust their height to encompass the content. Presently though the initial height of the controls is one line regardless of content (but they should adjust on first edit).
-  - You can use Save All (⌥⌘S) to save affected files after Replace All.
+  - You can use Save All (`⌥⌘S`) to save affected files after Replace All.
   - The key equivalents / actions available in the Find dialog is now easier to find via the action pop-up, which also improves accessibility.
-  - Using Find Next (⌘G) or Previous (⇧⌘G) with search results will move selection up/down.
+  - Using Find Next (`⌘G`) or Previous (`⇧⌘G`) with search results will move selection up/down.
   - Using Find All with ‘in’ set to ‘Selection’ will find and select all matches in the current document, though it might be more desirable to show the results in the find dialog (like Find All does for a document or folder).
-  - Replace and Find has been implemented and is bound to ⌥⌘G.
+  - Replace and Find has been implemented and is bound to `⌥⌘G`.
 
 ## 2013-03-04 ([a9389](https://github.com/textmate/textmate/compare/r9387...r9389))
 
@@ -965,7 +965,7 @@ I normally do not mention fixes in the release notes but since this is a regular
       [ attr.untitled ]
       fileType = 'source.objc++'
 
-- The _Edit → Select → None_ action bound to ⇧⌘A can now be used to deselect all in the file browser. It does not require focus to be in the file browser.
+- The _Edit → Select → None_ action bound to `⇧⌘A` can now be used to deselect all in the file browser. It does not require focus to be in the file browser.
 - When focus is not in the text view then the _Go → Back/Forward_ menu items get ⌘[ and ⌘] as key equivalents. Additionally 10.8 users should now (also) be able to use the two-finger swipe gesture for back/forward in file browser and command output (HTML).
 - `file` links in HTML output that link to directories will now open the potentially contained `index.html` (this is mainly for documentation commands).
 - Introduce `TM_PROPERTIES_PATH`. This variable contains a colon-separated list of `.tm_properties` files that have been read (to create the current “environment”). This is mainly meant as a debug aid.
@@ -988,7 +988,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 ## 2013-02-08 (a9375)
 
-- When moving focus to file browser via _Navigate → Move Focus to File Browser_ (⌥⌘⇥) and there is no selection, we now select the first item (mainly to give an indication of successfully having moved focus, as there is no focus ring for this view).
+- When moving focus to file browser via _Navigate → Move Focus to File Browser_ (`⌥⌘⇥`) and there is no selection, we now select the first item (mainly to give an indication of successfully having moved focus, as there is no focus ring for this view).
 - On 10.8 TextMate will now show a notification when posting a crash report to `macromates.com`. This way the notification center provides a list of recent crashes that can be clicked to view the online version.
 - When closing other tabs (either right-clicking a tab and selecting that action or option-clicking a tab’s close button) documents which are modified but untitled are left open (rather than asking you about what to do).
 - When TextMate run commands it creates a “clean” environment, only inheriting a select few variables from its parent process. You can now alter the whitelist via the `environmentWhitelist` defaults key. This is a colon-separated list of variables to inherit. If an item in the list contains an asterisk, then it is treated as a glob.
@@ -1004,7 +1004,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 - TextMate now respect setting `disableAutoIndent` and `disableOutputAutoIndent` in snippet and command bundle items.
 - When inserting identical paired characters (like straight quotes), we now check the entire line to see if it’s unbalanced, rather than only what’s to the left of the caret.
 - If you check “keep bundles updated” in _Preferences → Software Update_ then we no longer update the installed bundles. The index is however still kept up-to-date and it’s not recommended to disable bundle updates.
-- Fix issue where entering a file suffix in the file chooser (⌘T) would get a too high rank.
+- Fix issue where entering a file suffix in the file chooser (`⌘T`) would get a too high rank.
 - Fix searching for case-sensitive regular expressions. Previously the search would always be case insensitive.
 
 ## 2013-02-06 (a9371)
@@ -1036,7 +1036,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 ## 2013-01-30 (a9359)
 
-- A (square) column selection is now broken into multiple carets (discontinuous selections) when selecting to begin/end of typing pairs (⌃⇧↑/⌃⇧↓) or to end of line/paragraph. Previously only left/right movement or “unit selection” would show this behavior.
+- A (square) column selection is now broken into multiple carets (discontinuous selections) when selecting to begin/end of typing pairs (`⌃⇧↑`/`⌃⇧↓`) or to end of line/paragraph. Previously only left/right movement or “unit selection” would show this behavior.
 - The “Go to Symbol…” panel now open with the current symbol selected and will reflect movement in the document or switching to another document (if you keep the panel open). _[Steven Clukey]_
 - Fix crash when pasting in file browser (introduced in last build).
 - Tab bar labels now have a shadow. _[Adam Strzelecki]_
@@ -1053,13 +1053,13 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 ### File browser
 
-- Added _Navigate → Move Focus_ (⌥⌘⇥). This moves focus between file browser and document.
-- With focus in file browser _View → Show Invisibles_ (⌥⌘I) toggles the include/exclude patterns (and thus show everything when enabled).
+- Added _Navigate → Move Focus_ (`⌥⌘⇥`). This moves focus between file browser and document.
+- With focus in file browser _View → Show Invisibles_ (`⌥⌘I`) toggles the include/exclude patterns (and thus show everything when enabled).
 - By holding option when opening a file, it will now open in TextMate, even if TextMate is not the default application for this type. _[Steven Clukey]_
 - Deleting items in file browser will select the succeeding item (rather than leave you with no selection).
 - Going to SCM status will now have the _Uncommitted Changes_ and _Untracked Items_ groups expanded by default.
 - When toggling the QuickLook preview panel (using space when focus is in file browser) will now do a zoom in/out transition.
-- When using _Go → Current Document_ (⌃⌘R) we drop other (non-visible) expanded folders.
+- When using _Go → Current Document_ (`⌃⌘R`) we drop other (non-visible) expanded folders.
 - No longer plays sounds on file renames.
 - Fix “Go to Favorites” (it went to a wrong location).
 
@@ -1074,7 +1074,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 ### Text editing
 
-- Incremental search (⌃S) now remember last string used.
+- Incremental search (`⌃S`) now remember last string used.
 - Dropping files on the text view, which caused a command execution, would not update the buffer (until text view was activated).
 - Fix crash related to using undo while a snippet was active. Presently the snippet is dropped if you use undo. Long-term it should be improved.
 - Improve autoscroll when using mouse to select text.
@@ -1092,26 +1092,26 @@ I normally do not mention fixes in the release notes but since this is a regular
 - You can now delete items on network drives but will get a warning dialog informing you that the items will be permanently deleted.
 - When you open files without extension nor identifying content (like a shebang) then they now open as plain text (instead of asking you to pick a type).
 - When you select units, e.g. via the _Edit → Select_ submenu, TextMate does a more intelligent job of making the selection visible, and if only a subset can be shown, it no longer scrolls to the bottom of the selection.
-- Add scope bar to file chooser (⌘T) and do various visual improvements. The _Uncommitted Documents_ source is currently unavailable.
+- Add scope bar to file chooser (`⌘T`) and do various visual improvements. The _Uncommitted Documents_ source is currently unavailable.
 - Improve speed of rendering styled text. _[Joachim Mårtensson]_
 - If your clipboard data contains `<NUL>` characters then these can now be pasted into TextMate.
 - Default theme has been changed to Twilight, default location for (HTML) command output is set to new window, and the position of the file browser now defaults to the right side. As for the latter, it takes some getting used to, but give it a chance, as it means your text doesn’t “move” depending on wether or not the file browser is visible.
 
 ## 2013-01-21 (a9349)
 
-- Rework file chooser (⌘T):
-  It now show document icons (with potential SCM status) and close buttons for open documents. Filtering has also seen some minor improvements, mainly related to “full path” filtering (which you activate by putting a slash in the filter string). Performance should be better when dealing with large directories (try e.g. ⌘↑ to move to the parent of your current folder), this mainly relates to not stalling the application (the scanning itself could likely be a little faster).
+- Rework file chooser (`⌘T`):
+  It now show document icons (with potential SCM status) and close buttons for open documents. Filtering has also seen some minor improvements, mainly related to “full path” filtering (which you activate by putting a slash in the filter string). Performance should be better when dealing with large directories (try e.g. `⌘↑` to move to the parent of your current folder), this mainly relates to not stalling the application (the scanning itself could likely be a little faster).
   Presently though a few things are missing:
   - You can no longer use `@` to descend into a file and see its symbols (will be added back).
   - The close buttons are not yet hooked up.
-  - There is no UI for switching “source” but you can use ⌘1 and ⌘2 to switch between all files and open files, where the latter now actually works.
+  - There is no UI for switching “source” but you can use `⌘1` and `⌘2` to switch between all files and open files, where the latter now actually works.
   - The look is provisional.
 
-- Opening multiple documents at once will now select the last one so that ⌘W can be used to go through them. Try e.g. holding down shift when using arrow keys in the file chooser.
+- Opening multiple documents at once will now select the last one so that `⌘W` can be used to go through them. Try e.g. holding down shift when using arrow keys in the file chooser.
 
-- When you open documents and select to “close other” then it leaves modified documents open rather than ask about saving them. Try e.g. holding down option (⌥) when you hit ↩ in the file chooser.
+- When you open documents and select to “close other” then it leaves modified documents open rather than ask about saving them. Try e.g. holding down option (`⌥`) when you hit `↩` in the file chooser.
 
-- When you open the file chooser, we look at the find clipboard to see if it contains something of the form `«file»:«line»` and if so, uses that as the default filter string. This “matching” now also works if the file contains slashes. The idea is that when you have “error output” e.g. in your terminal, you can select it, hit ⌘E and switch to TextMate where you hit ⌘T + ↩ to go directly to the file + line. If you find yourself doing it a lot, you may like the automator workflow described in [issue #665](https://github.com/textmate/textmate/issues/665).
+- When you open the file chooser, we look at the find clipboard to see if it contains something of the form `«file»:«line»` and if so, uses that as the default filter string. This “matching” now also works if the file contains slashes. The idea is that when you have “error output” e.g. in your terminal, you can select it, hit `⌘E` and switch to TextMate where you hit `⌘T` + `↩` to go directly to the file + line. If you find yourself doing it a lot, you may like the automator workflow described in [issue #665](https://github.com/textmate/textmate/issues/665).
 
 - Restyle navigation bar to be more in line with Lion. _[Michael Sheets]_
 
@@ -1139,9 +1139,9 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 - Improve full screen support: If you quit with windows in full screen mode, these are restored in that mode. Opening windows while a window is in full screen mode no longer re-uses the (huge) dimensions of the full screen window, likewise windows opened directly in full screen mode will have a more useful size when leaving full screen mode.
 
-- Fixed file chooser’s abbreviation matcher (⌘T): If you had multiple “corrections” stored for an abbreviation, all but the first of these would actually go to the bottom of the list, the opposite of what was desired.
+- Fixed file chooser’s abbreviation matcher (`⌘T`): If you had multiple “corrections” stored for an abbreviation, all but the first of these would actually go to the bottom of the list, the opposite of what was desired.
 
-- Using _Go → Current Document_ (⌃⌘R) will no longer have the file browser switch away from your project folder but instead expand folders to make the current document visible. _[Jacob Bandes-Storch]_
+- Using _Go → Current Document_ (`⌃⌘R`) will no longer have the file browser switch away from your project folder but instead expand folders to make the current document visible. _[Jacob Bandes-Storch]_
 
 - Using _Go → Enclosing Folder_ will select the item we came from (like Finder).
 
@@ -1164,8 +1164,8 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 ## 2013-01-10 (a9341)
 
-- When you open a folder or some document(s), a default project folder will be based on the path(s) opened. This means that as long as you always open the root of your project (via `mate`, `open -a TextMate`, dragging the folder to TextMate, using the favorites (⇧⌘O), open dialog, `txmt:` URL scheme, or what have you), your project no longer requires a `.tm_properties` file setting `projectDirectory` for Find in Folder (⇧⌘F), Go to File (⌘T), and similar to work as desired. Additionally the default properties now set a window title that includes the project folder’s name (and SCM branch when available), so most projects can now also drop setting `windowTitle`. Note that windows restored from a session created prior to r9339 will not have a default project folder, so you should close and re-open the project folder, after this, the project folder will be preserved in the session save data.
-- The file browser now defaults to the project folder rather than the folder set in Preferences (the latter is still used if there is no document, e.g. after ⌘N or ⌃⌘N).
+- When you open a folder or some document(s), a default project folder will be based on the path(s) opened. This means that as long as you always open the root of your project (via `mate`, `open -a TextMate`, dragging the folder to TextMate, using the favorites (`⇧⌘O`), open dialog, `txmt:` URL scheme, or what have you), your project no longer requires a `.tm_properties` file setting `projectDirectory` for Find in Folder (`⇧⌘F`), Go to File (`⌘T`), and similar to work as desired. Additionally the default properties now set a window title that includes the project folder’s name (and SCM branch when available), so most projects can now also drop setting `windowTitle`. Note that windows restored from a session created prior to r9339 will not have a default project folder, so you should close and re-open the project folder, after this, the project folder will be preserved in the session save data.
+- The file browser now defaults to the project folder rather than the folder set in Preferences (the latter is still used if there is no document, e.g. after `⌘N` or `⌃⌘N`).
 - Since opening a single document now assigns a project folder to the window, opening more documents from the same folder (or descendent folders) will have the documents open as tabs in the existing window. I _think_ this takes care of the common request of having all documents opened appear in new tabs of the frontmost window.
 - The ‘Merge All Windows’ action now ignores minimized windows. This means that if you wish to only merge a few windows then you can minimize all but those you wish to merge and then perform the action.
 - Closing last tab via file browser or similar no longer close the entire window. Likewise with canceling a file open, though there’s still some work to do in this department (actually backtracking to previous state, which could mean closing the window if the window was opened only to show this document).
@@ -1175,7 +1175,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 - Fix some unsupported edge-cases with percent-escaping the `url` parameter used with the `txmt` URL scheme. Also allow tilde to be used in the URL (mainly to be 100% compatible with TextMate 1.x).
 - Clicking a ‘find all’ result would be handled twice, meaning it would open two document windows, if the project window had been closed.
 - Fix potential crash when activating the OS dictionary on an empty document.
-- The file chooser window (⌘T) was leaking in r9337 and wouldn’t terminate its scanner thread if the window was closed w/o making a selection (although it would terminate when scanning had finished). It would also throw an exception about a key/value observer not having been removed.
+- The file chooser window (`⌘T`) was leaking in r9337 and wouldn’t terminate its scanner thread if the window was closed w/o making a selection (although it would terminate when scanning had finished). It would also throw an exception about a key/value observer not having been removed.
 
 ## 2013-01-03 (a9337)
 
@@ -1183,9 +1183,9 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 ## 2013-01-03 (a9335)
 
-- Assign ⇧⌘P to the _Go → Project Folder_ menu item.
+- Assign `⇧⌘P` to the _Go → Project Folder_ menu item.
 - Support HTML output placed on right side (again). This can be set in Preferences → Project.
-- Opening a `*.tmPlugIn` file will now install it (hold down ⌥ to open as folder). It’s no longer required that the bundle identifier of the plug-in starts with `com.macromates` but instead the plug-in’s `Info.plist` **must** have `TMPlugInAPIVersion` set to `2`. Despite this change, there is still no formal support for plug-ins and the internal API hasn’t stabilized, if you wish to extend TextMate (beyond what can be done via bundles) then the current way is to dig into the source.
+- Opening a `*.tmPlugIn` file will now install it (hold down `⌥` to open as folder). It’s no longer required that the bundle identifier of the plug-in starts with `com.macromates` but instead the plug-in’s `Info.plist` **must** have `TMPlugInAPIVersion` set to `2`. Despite this change, there is still no formal support for plug-ins and the internal API hasn’t stabilized, if you wish to extend TextMate (beyond what can be done via bundles) then the current way is to dig into the source.
 - Support “Select Output” as caret placement for commands.
 - When activating an already open _Find_ or _Go to Line_ window, it will move the window to the current space (instead of switching to the space containing the window).
 - When restoring session (after relaunch), file browser width and HTML output size is now restored individually for each window (previously there were just a global value).
@@ -1221,7 +1221,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 ## 2012-11-12 (a9321)
 
-- Add `filepanel` dialog command. For details use ⌃R (execute current line) on a line containing: `"$DIALOG" help filepanel`. _[Hans-Jörg Bibiko]_
+- Add `filepanel` dialog command. For details use `⌃R` (execute current line) on a line containing: `"$DIALOG" help filepanel`. _[Hans-Jörg Bibiko]_
 
 - The contributions page in the About window now list the commits from contributors. _[Brad Choate]_
 
@@ -1239,7 +1239,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 ## 2012-10-01 (a9319)
 
-- Using “Transpose” (⌃T) with a discontinuous selection will now swap the selected strings. If pressed repeatedly, and more than two strings are selected, it will cycle through all possible permutations.
+- Using “Transpose” (`⌃T`) with a discontinuous selection will now swap the selected strings. If pressed repeatedly, and more than two strings are selected, it will cycle through all possible permutations.
 
 - The scope now contains `dyn.selection` and/or `dyn.caret.*` based on the following rules:
 
@@ -1263,7 +1263,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 ## 2012-09-24 (a9315)
 
 - Files which use CRLF no longer cause problems for Find in Folder. _[Rasmus Abrahamsen]_
-- One can now use ⌃S and ⌃⇧S for Find Next/Previous when incremental search is active. Also improved the look of the incremental search control. _[Mads Hartmann Jensen]_
+- One can now use `⌃S` and `⌃⇧S` for Find Next/Previous when incremental search is active. Also improved the look of the incremental search control. _[Mads Hartmann Jensen]_
 - It’s now possible to use “replace selected” after Find All for a single document (previously the selection was not respected). _[Rasmus Abrahamsen]_
 - Added a `TM_QUERY` command that can be used to query (project specific) settings for bundle commands. For example if a bundle command wish to use the current document’s font settings it can be obtained via these two (shell) commands:
 
@@ -1280,7 +1280,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 
   The “end of indented line” methods work similarly.
 
-  If you want (⇧)⌘⇠/⌘⇢ and ⌘⌫/⌘⌦ to use this behavior, you can add the following to your key bindings file:
+  If you want (`⇧`)`⌘⇠`/`⌘⇢` and `⌘⌫`/`⌘⌦` to use this behavior, you can add the following to your key bindings file:
 
         "@\UF702"  = "moveToBeginningOfIndentedLine:";
         "$@\UF702" = "moveToBeginningOfIndentedLineAndModifySelection:";
@@ -1297,7 +1297,7 @@ I normally do not mention fixes in the release notes but since this is a regular
         /Library/KeyBindings/DefaultKeyBinding.dict
         /System/Library/Frameworks/AppKit.framework/Resources/StandardKeyBinding.dict
 
-  If you edit any of the above files you will need to relaunch TextMate (⌃⌘Q) before the changes take effect.
+  If you edit any of the above files you will need to relaunch TextMate (`⌃⌘Q`) before the changes take effect.
 
 - The gear icon in the Find in Folder status bar (above the results view) now have four flavors of copying the results to the clipboard. These work on the selected items falling back to all matches, if there is no selection (here selection means actual list view selection, not “checked” via the check boxes).
 - Launching commands from TextMate now only inherit a few whitelisted variables from the process that launched TextMate. This should fix inconsistencies between running TextMate from the shell versus Finder, and in the former case, avoid problems if you set `RUBYOPT` or similar.
@@ -1308,20 +1308,20 @@ I normally do not mention fixes in the release notes but since this is a regular
 - If more than 256 KB of text was selected, running commands would fail, as the `TM_SELECTED_TEXT` variable exceeded `ARG_MAX` which would cause `execve` to fail. If more than 256 KB of text is selected we now set the `TM_SELECTED_TEXT` variable to a placeholder.
 - Add some checks that should prevent a crash when system ask about text metrics (with a bogus text index). Unsure exactly under which circumstance the crash happens, but likely related to the system-wide dictionary service or multi-lingual input.
 - Update `rmate`: Saving would fail if editing `file` and `file~` already existed.
-- If ⌘-clicking a single caret two times, TextMate would crash, as ⌘-clicking an existing caret normally removes that caret, except when there is only a single one, in that case, it would (wrongly) add a caret leaving two carets at the same position, and make the second click remove both of these two carets, leaving the editor with no carets.
+- If `⌘`-clicking a single caret two times, TextMate would crash, as `⌘`-clicking an existing caret normally removes that caret, except when there is only a single one, in that case, it would (wrongly) add a caret leaving two carets at the same position, and make the second click remove both of these two carets, leaving the editor with no carets.
 - Fix crash when clicking exactly on the split view dividers.
 - Fix potential crash when quitting TextMate (in `network::launch_tbz`).
 
 ## 2012-09-18 (a9311)
 
-- Untitled documents now base their scope attributes on the file browser’s location. This mean things like ⌘B or ⌘Y will call the proper build / SCM action(s) when used in untitled documents (e.g. the initial document showing after opening a project folder via ⇧⌘O or `mate .`).
+- Untitled documents now base their scope attributes on the file browser’s location. This mean things like `⌘B` or `⌘Y` will call the proper build / SCM action(s) when used in untitled documents (e.g. the initial document showing after opening a project folder via `⇧⌘O` or `mate .`).
 - Previous build changed the semantics of the include/exclude patterns for the file browser: Now a file **must** be matched by the include pattern in order to be shown. The default patterns have been updated, but if you have edited them, or have your own include pattern in a `.tm_properties` file, then you should add the asterisk to your set of included files, e.g. `{*,.tm_properties,.htaccess,.gitignore}`.
-- I also forgot to mention that previous build is WIP with respect to the main window, presently you can size splits larger than the window, which trigger a resize, and the HTML output view can only go at the bottom. If you wish to “downgrade” an easy way is to hold down shift (⇧) when clicking “Check Now” (with the type set to “Normal Releases”).
+- I also forgot to mention that previous build is WIP with respect to the main window, presently you can size splits larger than the window, which trigger a resize, and the HTML output view can only go at the bottom. If you wish to “downgrade” an easy way is to hold down shift (`⇧`) when clicking “Check Now” (with the type set to “Normal Releases”).
 - The start/stop fold marker patterns are still used for a line even if that line is also matched by the fold indented block ignore pattern.
 - Fix crash which would often happen when closing document while a tool tip was showing.
 - Fix wrong document (sometimes) showing after session restore and in theory if quickly cycling through tabs of documents that hasn’t been loaded yet.
 - Previous build introduced a bug that affected bundle items with “empty” strings as values for their property list keys.
-- Column selection cursor (crosshair) should be less likely to stick (e.g. after ⌥F2).
+- Column selection cursor (crosshair) should be less likely to stick (e.g. after `⌥F2`).
 - Fix `x-insert` dialog command to work even when the text view doesn’t have focus. _[Hans-Jörg Bibiko]_
 - Fix missing curly quotes in a few dialog texts. _[Ryan Maxwell]_
 
@@ -1344,7 +1344,7 @@ I normally do not mention fixes in the release notes but since this is a regular
   2.  `*` and `**` now match leading dot when they are not followed by `/` or at the beginning of the glob, e.g. `main*` will match `main.cc`.
   3.  Negating a glob (by prefixing with `!`) now also rejects dot files, e.g. `!cache/**` will exclude `cache/.DS_Store` even though `cache/**` (non-negated) would not have matched that path.
 
-- Find in Folder (⇧⌘F) and File Chooser (⌘T) now exclude files matched by the “Non-text files” glob setup in _Preferences → Projects_.
+- Find in Folder (`⇧⌘F`) and File Chooser (`⌘T`) now exclude files matched by the “Non-text files” glob setup in _Preferences → Projects_.
 
 - The various include/exclude globs you can set in `.tm_properties` are now aggregated. So setting `exclude` and `excludeDirectories` will exclude directories matched by either of the two globs (rather than the “most specific”).
 
@@ -1369,7 +1369,7 @@ I normally do not mention fixes in the release notes but since this is a regular
 
 - Removed Chinese translation. Since the translated interface files contain more than just strings, outdated translations affect program behavior. We’ll soon move fully to constraint-based layout which should allow translations to be purely string-based (on 10.8).
 
-- r9307 accidentally included a “Select Next” macro bound to ⌃W for when there was a selection. This interfered with using ⌃W with multiple carets (as presently multiple carets trigger the `dyn.selection.discontinuous` scope even if they are all zero-width).
+- r9307 accidentally included a “Select Next” macro bound to `⌃W` for when there was a selection. This interfered with using `⌃W` with multiple carets (as presently multiple carets trigger the `dyn.selection.discontinuous` scope even if they are all zero-width).
 
 ## TextMate Hackathon
 
@@ -1409,8 +1409,8 @@ We also welcome people who just want to drop by and say hello, share a pizza, or
 
 ## 2012-09-09 (a9303)
 
-- When toggling _Check Spelling as You Type_ (⌥⌘;) or changing spelling language, we now recheck/refresh the document.
-- Remove overwrite and freehanded toggles from the UI (_Edit_ → _Mode_ and status bar). If you wish to edit “freehanded” you can ⌥-click to get a caret that moves unrestrained.
+- When toggling _Check Spelling as You Type_ (`⌥⌘;`) or changing spelling language, we now recheck/refresh the document.
+- Remove overwrite and freehanded toggles from the UI (_Edit_ → _Mode_ and status bar). If you wish to edit “freehanded” you can `⌥`-click to get a caret that moves unrestrained.
 - An image is now used as placeholder for folded text. It defaults to the color of the text’s color but you can add a theme style scoped to `deco.folding` to change it.
 - A few updates to gutter theming, the colors now need to go in their own dictionary in the theme with a key of `gutterSettings`, e.g.:
 
@@ -1442,16 +1442,16 @@ Proxy items are bundle items with a regular scope selector, key equivalent and/o
 
 Until now we have only used this for the SCM items. None of the actions (in Git, Mercurial, Subversion, and other SCM bundles) actually have a key binding, but they all have a semantic class which start with `action.scm`.
 
-There is an SCM bundle with a single proxy item bound to ⌘Y which does a query for `action.scm` so if the user press ⌘Y, it will map to the SCM actions valid in the current scope (e.g. `attr.scm.git`).
+There is an SCM bundle with a single proxy item bound to `⌘Y` which does a query for `action.scm` so if the user press `⌘Y`, it will map to the SCM actions valid in the current scope (e.g. `attr.scm.git`).
 
 A few improvements has been done with respect to how proxy items appear in the interface:
 
 - Proxy items in the menu now show the items matched by the query. E.g. if you look in _Bundles_ → _SCM_ you will see the SCM actions available. Previously you saw the proxy item. If no items are matched by the query, the proxy item itself is shown but as disabled. The idea is that we can have _Run_, _Documentation for Word_, _Validate Syntax_, and similar common actions appear in e.g. the Source bundle or (in the future) a toolbar/palette, and the user can go via these actions to run the action relevant for the current context.
-- In the bundle item chooser (⌃⌘T) duplicates no longer appear (items matched would appear as a duplicate for each proxy item matching that item).
-- Items without a key equivalent but matched by a proxy item will now show the key equivalent of the proxy item. E.g. looking in the Git menu you will now see that (most of) the actions can be triggered with ⌘Y.
+- In the bundle item chooser (`⌃⌘T`) duplicates no longer appear (items matched would appear as a duplicate for each proxy item matching that item).
+- Items without a key equivalent but matched by a proxy item will now show the key equivalent of the proxy item. E.g. looking in the Git menu you will now see that (most of) the actions can be triggered with `⌘Y`.
 - The query string in proxy items now support the `||` operator for “fallback”, e.g. we can make a proxy item with a query like: `action.build || format.strong` which will find a build action for the current context (scope) and if none is found, it will instead search for a `format.strong` (bold) action.
 
-I plan to expand the query string to also support unions, so that we can e.g. bind ⌘D to a query on `diff + scm.diff` (to show Diff actions including those for the current version control system) and additionally put a scope assertion on the class query, for example my ideal ⌘B binding would likely be a query for:
+I plan to expand the query string to also support unions, so that we can e.g. bind `⌘D` to a query on `diff + scm.diff` (to show Diff actions including those for the current version control system) and additionally put a scope assertion on the class query, for example my ideal `⌘B` binding would likely be a query for:
 
     action.build[-dyn.selection] || format.strong || action.build || action.run
 
@@ -1470,12 +1470,12 @@ If you have any comments on the above, please share on the [mailing list](http:/
 
         "@d" = ( "copySelectionToFindPboard:", "findNextAndModifySelection:" );
 
-  This binding will likely be default in an upcoming build, but bound to ⌃W (Select Word) and scoped to `dyn.selection` (so only when a word is already selected).
+  This binding will likely be default in an upcoming build, but bound to `⌃W` (Select Word) and scoped to `dyn.selection` (so only when a word is already selected).
 
 - During save, the potential dialogs asking to unlock files or change encoding would not accept the user’s choice (bug recently introduced).
 - Fix out of range assertion in some cases when switching files (gutter was querying the new document using the selection used in the old one).
-- When extending a selection we now only highlight the new ranges selected rather than all of them (e.g. Find All (⌥⌘F) when there already is one instance selected or the new `find{Next,Previous}AndModifySelection:`).
-- Jumping files with ⌘G (after a Find in Folder) would lead to an anchored selection, a few other cases would also cause the selection to be anchored. This is no longer the case (the subtle difference here is that unanchored selections will always extend for the initial shift (⇧) + movement action).
+- When extending a selection we now only highlight the new ranges selected rather than all of them (e.g. Find All (`⌥⌘F`) when there already is one instance selected or the new `find{Next,Previous}AndModifySelection:`).
+- Jumping files with `⌘G` (after a Find in Folder) would lead to an anchored selection, a few other cases would also cause the selection to be anchored. This is no longer the case (the subtle difference here is that unanchored selections will always extend for the initial shift (`⇧`) + movement action).
 - Add revision numbers to release notes. _[Elia Schito]_
 
 ## 2012-09-05 (a9301)
@@ -1488,12 +1488,12 @@ If you have any comments on the above, please share on the [mailing list](http:/
 - The underline drawn for misspelled words now use high-DPI artwork on retina macs.
 - Bundle item names using “«unit» / Selection” in their title now display either “«unit»” or “Selection” depending on whether or not there is a selection.
 - The pop-up menu used for multiple choices (in snippets) now filter items based on the prefix typed (rather than just changing selection). It also no longer pin the selected item at the first visible row.
-- The various filter lists (⌘T, ⇧⌘T, and ⌃⌘T) are now positioned relative to the current document window.
+- The various filter lists (`⌘T`, `⇧⌘T`, and `⌃⌘T`) are now positioned relative to the current document window.
 
 ## 2012-09-03 (a9298)
 
 - Wrap Column → Other… now show a sheet where you can enter wrap column.
-- We now search the menus “right to left” when searching for a key equivalent. The problem is that on some key maps the keys used to Toggle Foldings at Level (⌥⌘1-n) clash with modifier + bracket used in the Text menu for shift left/right.
+- We now search the menus “right to left” when searching for a key equivalent. The problem is that on some key maps the keys used to Toggle Foldings at Level (`⌥⌘1`-n) clash with modifier + bracket used in the Text menu for shift left/right.
 - When editing property lists in the bundle editor, the dictionary keys are now ordered more naturally.
 - Drag-selecting beyond visible document no longer leaves tears in the selection.
 - When viewing a saved search (spotlight query) in the file browser, going to parent now correctly goes to the folder containing the saved search.
@@ -1528,7 +1528,7 @@ If you have any comments on the above, please share on the [mailing list](http:/
 
 - Fix random crash mainly when bringing focus back to TextMate or opening a new window.
 - If TextMate fails to read a link (`readlink`) it will show an alert with some diagnostics that you should submit to us (more info in the dialog). This is an attempt to track down another random crash that has been frequent (but has been in decline in recent versions, though not because it is fixed).
-- The Go to File window (⌘T) would lack the last path separator for the path shown in the status bar.
+- The Go to File window (`⌘T`) would lack the last path separator for the path shown in the status bar.
 - Key equivalent field now use the normal system font (instead of Menlo and previously Monaco).
 - Fix missing svn status for long committer names. _[Jeremy Whitlock]_
 - WIP: Updated gutter images, presently not aligned/sized optimally. _[Dennis Vennink]_
@@ -1545,11 +1545,11 @@ If you have any comments on the above, please share on the [mailing list](http:/
 ## 2012-08-27 (a9291)
 
 - While recording a macro, several actions would cause TM to misbehave/freeze (uncaught exception).
-- Using projects outside user’s home folder with symbolic links into the user’s home folder could cause a crash from the file chooser (⌘T) if doing full path search.
+- Using projects outside user’s home folder with symbolic links into the user’s home folder could cause a crash from the file chooser (`⌘T`) if doing full path search.
 - Hopefully fix crash (for some people) related to file browser actions like New Folder.
 - If `mate` was installed in `~/bin` then TextMate wouldn’t properly update it, but prompt for admin password on each launch (until manually updated).
 - The bundle disambiguation menu now use Cocoa API with the small system font _[Jacob Bandes-Storch]_
-- ⌘-clicking file browser icons (to show in Finder) now only acts on actual files _[Jacob Bandes-Storch]_
+- `⌘`-clicking file browser icons (to show in Finder) now only acts on actual files _[Jacob Bandes-Storch]_
 - Add New File and Open… actions to the dock menu _[Jacob Bandes-Storch]_
 
 ## 2012-08-26 (a9290)
@@ -1593,7 +1593,7 @@ If you have any comments on the above, please share on the [mailing list](http:/
 
 ## 2012-08-22 (a9289)
 
-- You can now ⌘-click icons in the file browser for “Show in Finder” _[Jacob Bandes-Storch]_
+- You can now `⌘`-click icons in the file browser for “Show in Finder” _[Jacob Bandes-Storch]_
 - Bundle editor now remember column widths and item titles are truncated with ellipsis _[Gerd Knops]_
 - File browser now remember its width _[Gerd Knops]_
 - You can now also set `gutterSelectionBackground` in a theme (or as a global style) to affect gutter rendering _[David Howden]_
@@ -1606,9 +1606,9 @@ If you have any comments on the above, please share on the [mailing list](http:/
 
 - Save dialogs now have controls for setting encoding, line endings, and whether or not to use a byte order mark (for unicode encodings).
 
-- When the find window is active (with find in folder results) one can use one of the View → Toggle Foldings At Level actions to collapse/expand the results. This was done to allow collapsing using the keyboard (e.g. use ⌥⌘1).
+- When the find window is active (with find in folder results) one can use one of the View → Toggle Foldings At Level actions to collapse/expand the results. This was done to allow collapsing using the keyboard (e.g. use `⌥⌘1`).
 
-- When in a snippet placeholder field, deleting the content and pressing tab will advance to next field even if the word to the left of the caret is a tab trigger. An example of this is `div⇥` in HTML mode, if pressing ⌫ after expanding it, pressing ⇥ would expand another `div` snippet. When at the end of a snippet, it will allow the word to the left of the caret to trigger a tab expansion, as this is used to chain snippets.
+- When in a snippet placeholder field, deleting the content and pressing tab will advance to next field even if the word to the left of the caret is a tab trigger. An example of this is `div⇥` in HTML mode, if pressing `⌫` after expanding it, pressing `⇥` would expand another `div` snippet. When at the end of a snippet, it will allow the word to the left of the caret to trigger a tab expansion, as this is used to chain snippets.
 
 - Colors used in the gutter can now be set in the theme using the following 3 keys:
 
@@ -1631,16 +1631,16 @@ If you have any comments on the above, please share on the [mailing list](http:/
 - Various improvements in paragraph definition and wrapping:
 
   - A paragraph (the input for reformat/justify and select paragraph) is now extended up and down until there are blank lines (previously only the current (hard) line was considered part of the paragraph).
-  - Paragraphs can now be selected with ⌃⌥P
-  - Reformat/justify a paragraph (⌃Q or ⌃J) no longer leave trailing whitespace after the lines.
+  - Paragraphs can now be selected with `⌃⌥P`
+  - Reformat/justify a paragraph (`⌃Q` or `⌃J`) no longer leave trailing whitespace after the lines.
   - Wrap column is no longer hardcoded to 80 characters.
   - Characters with the _East Asian Width_ (unicode) property set now count as two columns wide.
 
 - Selecting _Use Selection for Find/Replace_ with a discontinuous or column selection now use just the first range/row.
-- Go to Current Document (⌃⌘R) is now a toggle.
-- Go to SCM Status (⇧⌘Y) is now a toggle.
-- When showing SCM Status (⇧⌘Y), we no longer show folders in the _Uncommitted Changes_ if items from these are also shown. In the _Untracked Items_ we don’t show items as untracked if an ancestor folder is also included.
-- Find in Folder: Pressing ⌘1-⌘9 will select first match of the n’th file in the results list. Previously it only selected the n’th file (and you had to use arrow down to actually get to the match).
+- Go to Current Document (`⌃⌘R`) is now a toggle.
+- Go to SCM Status (`⇧⌘Y`) is now a toggle.
+- When showing SCM Status (`⇧⌘Y`), we no longer show folders in the _Uncommitted Changes_ if items from these are also shown. In the _Untracked Items_ we don’t show items as untracked if an ancestor folder is also included.
+- Find in Folder: Pressing `⌘1`-`⌘9` will select first match of the n’th file in the results list. Previously it only selected the n’th file (and you had to use arrow down to actually get to the match).
 - Favorites prefixed with ‘[DIR]’ show folders within.
 
   For example if you have all your projects under `~/Projects` then you can do:
@@ -1649,7 +1649,7 @@ If you have any comments on the above, please share on the [mailing list](http:/
         cd ~/Library/Application\ Support/TextMate/Favorites
         ln -s ~/Projects "[DIR] My Projects"
 
-  This will then have all the folders inside `~/Projects` show when you choose Open Favorites… (⇧⌘O).
+  This will then have all the folders inside `~/Projects` show when you choose Open Favorites… (`⇧⌘O`).
 
 - When TextMate launches it creates a socket for `mate` to connect to. There have been [a few reports][1] of TextMate reporting a problem creating this socket. We now also show an error if an old socket exist and we are unable to delete this old socket. If you are seeing an issue, please don’t just add “it fails for me too”. Instead provide as much information as possible, and if e.g. it says it failed to delete the socket, fire up Terminal and check the file flags (`ls -l`) and try to delete it from Terminal.
 - Fixed: Keys on the numeric keypad can be used to trigger bundle actions (not explicitly bound to the numeric keypad). This fix removes the distinction between regular keys and the numeric keypad so it is no longer possible to bind (only) to numeric keypad keys.
@@ -1691,13 +1691,13 @@ If you have any comments on the above, please share on the [mailing list](http:/
 
 ## 2012-08-14 (a9281)
 
-- Pressing ⌥F2 with focus in the file browser now show the context menu.
+- Pressing `⌥F2` with focus in the file browser now show the context menu.
 - The `TM_DROPPED_FILE` variable had a path relative to project directory instead of current file. This would make some drop commands insert wrong path.
-- Dropping binary files onto the text view for which there is no drop command will now insert the path for the file dropped. Hint: You can hold down control (⌃) when dropping text files to get the “insert path” behavior.
+- Dropping binary files onto the text view for which there is no drop command will now insert the path for the file dropped. Hint: You can hold down control (`⌃`) when dropping text files to get the “insert path” behavior.
 - The `--host=auto` option to `rmate` didn’t work. _[Timothy Andrew]_
 - Added simplified Chinese localization for interface files. _[Bo Xiao]_
 - Bundle items with both a tab trigger and key equivalent now show both. _[Adam Strzelecki]_
-- The bundle menu in the status bar can now be opened via ⌥F1 and will default to select the bundle for the current language. _[Adam Strzelecki]_
+- The bundle menu in the status bar can now be opened via `⌥F1` and will default to select the bundle for the current language. _[Adam Strzelecki]_
 - Further fixes to handling of txmt: URLs without a file argument.
 
 ## 2012-08-13 (a9278)
@@ -1717,11 +1717,11 @@ If you have any comments on the above, please share on the [mailing list](http:/
 
 ## 2012-08-11 (a9270)
 
-- Implement ⌃Y for yanking last deletion. _[Nathaniel Tagg]_
+- Implement `⌃Y` for yanking last deletion. _[Nathaniel Tagg]_
 - Added fullscreen behavior to document window and View → Enter/Exit Full Screen menu item. _[Jesse B. Hannah]_
 - When closing last document (except empty untitled ones) for a window with a visible file browser, we now keep the window around _[Mads Hartmann Jensen]_
 - If TextMate was launched via `git commit` then the Git bundle would have issues (since it would inherit a wrong `GIT_DIR` environment variables)
-- Preliminary support for installing bundles and bundle items (including themes) via double-click (from Finder). You can hold down option (⌥) if you wish to open them as folders/property lists.
+- Preliminary support for installing bundles and bundle items (including themes) via double-click (from Finder). You can hold down option (`⌥`) if you wish to open them as folders/property lists.
 
 ## 2012-08-10 (a9269)
 
@@ -1750,8 +1750,8 @@ The source for TextMate 2 is now [available at GitHub][1] under a GPL 3 license.
 ## 2012-07-09
 
 - Signed for Gatekeeper.
-- Using ⌃K at the end of a line now deletes the newline.
-- Implement `moveToBeginning/EndOfParagraphAndModifySelection:` selectors. The default key bindings have ⌃⇧E extend selection to end of paragraph (so was previously a no-op in TM).
+- Using `⌃K` at the end of a line now deletes the newline.
+- Implement `moveToBeginning/EndOfParagraphAndModifySelection:` selectors. The default key bindings have `⌃⇧E` extend selection to end of paragraph (so was previously a no-op in TM).
 - The `.tm_properties` parser no longer require spaces around the equal character nor is there a need to quote section names when they contain special characters, etc. The full grammar can be found in the help book.
 - Disable font ligatures. Using the Mensch font on Lion (but not Snow Leopard) would previously render ‘fi’ using the ‘fi’ ligature.
 - Fix drawing issues for Retina Mac Books (horizontal lines would appear while scrolling).
@@ -1775,7 +1775,7 @@ The source for TextMate 2 is now [available at GitHub][1] under a GPL 3 license.
 
 - Restore UI sounds for 10.7.
 - Bundle editor now use a key equivalent recorder (instead of text field).
-- Fixed issue with involuntary folder expansion when using ⌥⌘N with focus in file browser (missed by previous “fix”).
+- Fixed issue with involuntary folder expansion when using `⌥⌘N` with focus in file browser (missed by previous “fix”).
 - Dropped support for Mac OS X 10.5.
 
 ## 2012-02-18
@@ -1808,7 +1808,7 @@ The source for TextMate 2 is now [available at GitHub][1] under a GPL 3 license.
 - Added _View → Show Wrap Column_ setting and corresponding `showWrapColumn` `.tm_properties` setting.
 - Introduced `fontLeadingDelta` and `fontAscentDelta` defaults keys. These must be set as floats or integers (not strings), e.g.: `defaults write com.macromates.TextMate.preview fontLeadingDelta -float 0`. The default value for both keys is `1`.
 - Use of extended attributes can now be disabled. The defaults key is `volumeSettings` and the value is an associative array with path prefix and another associative array with settings for that path (presently only `extendedAttributes` is supported, but SCM badges, display names, and more is likely to appear). So if for example we wish to disable extended attributes for files under `/net/` we can do: `defaults write com.macromates.TextMate.preview volumeSettings '{ "/net/" = { extendedAttributes = 0; }; }'`.
-- Some improvements to file chooser (⌘T):
+- Some improvements to file chooser (`⌘T`):
   - Current document is now included in list, and if typed exactly, will rank at top.
   - Filter string is now down-cased with spaces removed before matching to cater to the habits of some users.
     <!-- - Typing `:` or `@` without a filter string will go to line/symbol in current file (rather than currently selected file). -->
@@ -1845,8 +1845,8 @@ The source for TextMate 2 is now [available at GitHub][1] under a GPL 3 license.
 
 - Tab bar can be made always visible: `defaults write com.macromates.TextMate.preview disableTabBarCollapsing -bool YES`.
 - Fix issue with indented soft wrap having the prefix string wider than the wrap column.
-- Fix issue with selection sent to commands needing entire document (e.g. ⌘R for Ruby, Python, etc.).
-- Fix issue with ⌃⇥ not always working to move focus to file browser.
+- Fix issue with selection sent to commands needing entire document (e.g. `⌘R` for Ruby, Python, etc.).
+- Fix issue with `⌃⇥` not always working to move focus to file browser.
 - Remove folding patterns from grammar template.
 
 ## 2011-12-16
@@ -1854,7 +1854,7 @@ The source for TextMate 2 is now [available at GitHub][1] under a GPL 3 license.
 - HTML output can open in its own window: `defaults write com.macromates.TextMate.preview htmlOutputPlacement window`.
 - Anti-alias can be disabled: `defaults write com.macromates.TextMate.preview disableAntiAlias -bool YES`.
 - File browser can be placed on the right side: `defaults write com.macromates.TextMate.preview fileBrowserPlacement right`.
-- With multiple carets, ⌘-clicking one of them removes it (i.e. it’s a toggle).
+- With multiple carets, `⌘`-clicking one of them removes it (i.e. it’s a toggle).
 - Carriage returns (`<CR>`) on the general clipboard are converted to regular newlines when pasting.
 - Rename help book to “TextMate 2” which fixes issues where _Help → TextMate Help_ showed TextMate 1.5’s help book.
 - TextMate 1.x and 2.0 can now both run at the same time.
@@ -1869,7 +1869,7 @@ Notable changes since to TextMate 1.5.10:
 
 - **Multiple carets / discontinuous selection**
 
-  The easiest way to get multiple carets is by doing a left or right movement command (like arrow left/right) with a column selection. You can also ⌘-click to place new carets or use _Edit → Find All_ (⌥⌘F).
+  The easiest way to get multiple carets is by doing a left or right movement command (like arrow left/right) with a column selection. You can also `⌘`-click to place new carets or use _Edit → Find All_ (`⌥⌘F`).
 
 - **Snippets**
 
@@ -1879,11 +1879,11 @@ Notable changes since to TextMate 1.5.10:
 
 - **Movement / Selection**
 
-  Text is classified into units which you can change with the `characterClass` (scope) setting. For example a C string with `%1$ld\n` has only two units (`%1$ld` and `\n`) for the purpose of selection (_Select → Word_ or double click), word movement (⌥⇠/⌥⇢), and other functions that rely on character types.
+  Text is classified into units which you can change with the `characterClass` (scope) setting. For example a C string with `%1$ld\n` has only two units (`%1$ld` and `\n`) for the purpose of selection (_Select → Word_ or double click), word movement (`⌥⇠`/`⌥⇢`), and other functions that rely on character types.
 
-  TextMate 1.x has _Select → Block_ (⇧⌘B) where a block is found using scope-defined paired characters such as braces, brackets, etc. In 2.0 you can move to begin/end of such block with ⌃⇡/⌃⇣ and the paired characters can be strings (planned to be patterns).
+  TextMate 1.x has _Select → Block_ (`⇧⌘B`) where a block is found using scope-defined paired characters such as braces, brackets, etc. In 2.0 you can move to begin/end of such block with `⌃⇡`/`⌃⇣` and the paired characters can be strings (planned to be patterns).
 
-  Whenever you select a unit (like anything in the _Edit → Select_ submenu) the selection is “unanchored”, meaning it can be extended to either the left or right side. A minor thing but I find it surprisingly useful, e.g. to select `foo(bar‸)` we first select the parenthesis with ⇧⌘B and then extend left by one unit with ⌥⇧⇠, previously you couldn’t be sure the last step would extend or simply move the selection end point.
+  Whenever you select a unit (like anything in the _Edit → Select_ submenu) the selection is “unanchored”, meaning it can be extended to either the left or right side. A minor thing but I find it surprisingly useful, e.g. to select `foo(bar‸)` we first select the parenthesis with `⇧⌘B` and then extend left by one unit with `⌥⇧⇠`, previously you couldn’t be sure the last step would extend or simply move the selection end point.
 
 - **Themes**
 
@@ -1931,7 +1931,7 @@ Notable changes since to TextMate 1.5.10:
 
   The `dyn` scopes give info such as “is there a selection” (allowing to change key bindings only when there is or isn’t a selection), an example of this is overloading `{` to “wrap selection” (nicely), but leave the key alone when there is no selection. Another use-case could be to change tab to shift the text right (indent) only when there is a selection (common user request that I don’t plan to make native behavior).
 
-  You can also add your own stuff to the scope via the file and folder specific settings which allows e.g. adding `attr.test` to your unit tests and overload ⌘R for that scope or have certain snippets only fire in that scope (e.g. we have a `main⇥` snippet for C which inserts the venerable main function — makes sense to overload this for (C) unit tests, which generally would be regular C files).
+  You can also add your own stuff to the scope via the file and folder specific settings which allows e.g. adding `attr.test` to your unit tests and overload `⌘R` for that scope or have certain snippets only fire in that scope (e.g. we have a `main⇥` snippet for C which inserts the venerable main function — makes sense to overload this for (C) unit tests, which generally would be regular C files).
 
 - **Scope selectors**
 
@@ -1949,7 +1949,7 @@ Notable changes since to TextMate 1.5.10:
 
 - **Semantic classes**
 
-  Bundle items can now be assigned a semantic class. This allows us to query for e.g. `action.build || action.run` (for current scope) to find an appropriate build command (with a run command as fallback). The advantage of this is manyfold: ability to do tool bars, palettes, and unified key bindings, for example we have a single _proxy item_ bound to ⌘Y which does a query for `action.scm` finding all the SCM actions relevant for the current scope (remember scope now include SCM info, making it pick the proper SCM system).
+  Bundle items can now be assigned a semantic class. This allows us to query for e.g. `action.build || action.run` (for current scope) to find an appropriate build command (with a run command as fallback). The advantage of this is manyfold: ability to do tool bars, palettes, and unified key bindings, for example we have a single _proxy item_ bound to `⌘Y` which does a query for `action.scm` finding all the SCM actions relevant for the current scope (remember scope now include SCM info, making it pick the proper SCM system).
 
   Proxy items are a new construct but still at the proof-of-concept level, so more about this later.
 
@@ -1963,7 +1963,7 @@ Notable changes since to TextMate 1.5.10:
 
 - **Session restore**
 
-  TextMate restores the full session which includes unsaved changes incase of abnormal exit. Hold shift (⇧) during launch to bypass.
+  TextMate restores the full session which includes unsaved changes incase of abnormal exit. Hold shift (`⇧`) during launch to bypass.
 
 - **Foreign Input Modes**
 
