@@ -7,7 +7,9 @@
 
 namespace ruby_runtime
 {
-	std::string const kPinnedVersion = "4.0.6";
+	// From .ruby-version at the top of the tree, through the build, so the Ruby
+	// bundle commands run on is the one the file names and moves when it does.
+	std::string const kPinnedVersion = RUBY_RUNTIME_VERSION;
 
 	// Reading the answer is the same work for every language, so it lives in
 	// runtime_resolver. What stays here is the word this resolver answers with

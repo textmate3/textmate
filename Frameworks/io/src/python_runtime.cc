@@ -4,7 +4,9 @@
 
 namespace python_runtime
 {
-	std::string const kPinnedVersion = "3.14.7";
+	// From .python-version at the top of the tree, through the build, the file uv
+	// itself reads, so the Python bundle commands run on moves when it does.
+	std::string const kPinnedVersion = PYTHON_RUNTIME_VERSION;
 
 	answer_t parse (std::string const& output)
 	{

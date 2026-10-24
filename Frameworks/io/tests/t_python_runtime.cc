@@ -1,5 +1,6 @@
 #include <io/python_runtime.h>
 #include <io/path.h>
+#include <text/trim.h>
 
 // The fixtures are stand-in resolvers: shell scripts that print one answer each.
 static std::string fixture (std::string const& name)
@@ -82,7 +83,10 @@ void test_the_system_python_is_known_by_every_name ()
 
 void test_the_pinned_python_version ()
 {
-	// Exact, the way Ruby's is. Moving it is a decision, and this line is what
-	// makes the decision show up in a diff.
-	OAK_ASSERT_EQ(python_runtime::kPinnedVersion, "3.14.7");
+	// Exact, the way Ruby's is: .python-version at the top of the tree, carried
+	// in by the build. Moving it is a decision, and the diff of that file is
+	// what shows it.
+	std::string const file = path::join(__FILE__, "../../../../.python-version");
+	OAK_ASSERT_EQ(python_runtime::kPinnedVersion, text::trim(path::content(file)));
+	OAK_ASSERT_EQ(std::count(python_runtime::kPinnedVersion.begin(), python_runtime::kPinnedVersion.end(), '.'), 2);
 }
