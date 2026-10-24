@@ -10,6 +10,17 @@ for dep in ninja multimarkdown pgrep pkill; do
 	which -s "$dep" || error "*** dependency missing: ‘${dep}’."
 done
 
+# The Swift the build needs, named in .swift-version. It follows from the
+# deployment target rather than from the language: the SDK for the macOS the
+# application targets ships only with the Xcode of that year, and that Xcode
+# carries this Swift. An older toolchain fails later, on a missing SDK, with
+# an error that never mentions Swift, so it is caught here by name instead.
+swift_needed=$(tr -d '[:space:]' < .swift-version)
+swift_have=$(xcrun --sdk macosx swiftc --version 2>/dev/null | sed -n 's/.*Apple Swift version \([0-9][0-9.]*\).*/\1/p' | head -1)
+test -n "$swift_have" || error "*** no Swift compiler: ‘xcrun --sdk macosx swiftc --version’ answered nothing. Install Xcode and select it with xcode-select."
+awk -v have="$swift_have" -v need="$swift_needed" 'BEGIN { split(have, h, "."); split(need, n, "."); exit !((h[1] + 0 > n[1] + 0) || (h[1] + 0 == n[1] + 0 && h[2] + 0 >= n[2] + 0)) }' \
+	|| error "*** Swift ${swift_have} is older than the ${swift_needed} this build needs, see .swift-version. The Xcode that carries the SDK for the macOS this application targets provides it."
+
 if [[ -e local.rave ]]; then
 	echo >&2 "Skipping writing ‘local.rave’: File already exists"
 else
