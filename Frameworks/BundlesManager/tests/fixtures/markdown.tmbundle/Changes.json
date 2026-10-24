@@ -1,0 +1,29 @@
+{
+  "name": "Markdown",
+  "commits": [
+    {
+      "date": "2026-09-15T04:01:54-07:00",
+      "author": "Shane Becker",
+      "summary": "Replace the 2008 html2text with the maintained one, and run it on the resolved Python (#1)",
+      "body": ""
+    },
+    {
+      "date": "2026-09-02T15:54:56-07:00",
+      "author": "Shane Becker",
+      "summary": "Base the preview on TextMate's scheme, so images next to the document load in a page that scheme serves",
+      "body": ""
+    },
+    {
+      "date": "2026-08-20T23:55:24-07:00",
+      "author": "Shane Becker",
+      "summary": "Markdown preview command: File.exists? -> File.exist? and URI.escape -> URI::DEFAULT_PARSER.escape in the embedded command body — command plist bodies were invisible to the standalone-file compatibility sweeps",
+      "body": ""
+    },
+    {
+      "date": "2026-05-31T23:42:33-07:00",
+      "author": "Shane Becker",
+      "summary": "shebangs: ruby18/ruby20 -> ruby; drop 1.8-only flags (-K*, -rjcode)",
+      "body": ""
+    }
+  ]
+}
