@@ -5,7 +5,7 @@ CSS: css/sample.css
 
 ## 2026-10-23 (v2.1.0)
 
-A paragraph with a [link](https://example.com) and `code span` and *emphasis*.
+A paragraph with a [link](https://example.com) and a [reference][gpl] and `code span` and *emphasis*.
 
 - First bullet with `code`
 - Second bullet
@@ -25,3 +25,5 @@ A paragraph with a [link](https://example.com) and `code span` and *emphasis*.
 ### Smaller heading
 
 Trailing paragraph.
+
+[gpl]: https://gnu.org/licenses/gpl-3.0.html
