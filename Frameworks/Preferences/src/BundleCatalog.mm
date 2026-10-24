@@ -1,6 +1,8 @@
 #import "BundleCatalog.h"
 #import <BundlesManager/BundlesManager.h>
 
+NSString* const BundleCatalogDidChangeNotification = @"BundleCatalogDidChangeNotification";
+
 // Declared in Bundle.mm without a place in its header.
 @interface Bundle (Summary)
 - (NSString*)textSummary;
@@ -109,6 +111,10 @@ static void* kInstalledContext = &kInstalledContext;
 				_changeHandler();
 		else	dispatch_async(dispatch_get_main_queue(), _changeHandler);
 	}
+
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[NSNotificationCenter.defaultCenter postNotificationName:BundleCatalogDidChangeNotification object:self];
+	});
 }
 
 - (BOOL)isBusy

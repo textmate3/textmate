@@ -11,6 +11,8 @@ namespace ruby_runtime
 	// bundle commands run on is the one the file names and moves when it does.
 	std::string const kPinnedVersion = RUBY_RUNTIME_VERSION;
 
+	std::string const kBundleIdentifier = "0273983B-D121-4A7F-91CA-12C06A6CDE2A";
+
 	// Reading the answer is the same work for every language, so it lives in
 	// runtime_resolver. What stays here is the word this resolver answers with
 	// and the field callers have always read it from.

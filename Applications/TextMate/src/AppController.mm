@@ -26,6 +26,7 @@
 #import <Preferences/Keys.h>
 #import <Preferences/Preferences.h>
 #import <Preferences/MateInstaller.h>
+#import <Preferences/RuntimeInfo.h>
 #import <Sparkle/Sparkle.h>
 #import <document/OakDocument.h>
 #import <document/OakDocumentController.h>
@@ -606,20 +607,27 @@ BOOL HasDocumentWindow (NSArray* windows)
 // the way, an install, a fallback, an error, is logged here and put on the
 // notice board, which every document window shows as a strip above its text
 // until the person dismisses it.
-static NSString* const kRuntimesRubyBundleUUID = @"0273983B-D121-4A7F-91CA-12C06A6CDE2A";
+// Tells the Runtimes pane, and anyone else listening, that a runtime has
+// settled one way or the other, so what it shows can be read again.
+static void RuntimeDidActivate (NSString* language)
+{
+	[NSNotificationCenter.defaultCenter postNotificationName:TMRuntimeDidActivateNotification object:nil userInfo:@{ @"language": language }];
+}
 
 // Python lives in a bundle of its own, and that bundle is optional. Not being
 // installed is the ordinary state of a machine whose owner writes no Python,
 // so it is not an error and nothing is said about it here. A Python command
 // that actually runs is what asks for it, through
 // OakRuntimeMissingNotification.
-static NSString* const kRuntimesPythonBundleUUID = @"5CA339D1-FDBB-4F83-BFDC-7069F626FCA8";
 
 - (void)activateApplicationPython
 {
-	bundles::item_ptr runtimes = bundles::lookup(oak::uuid_t(to_s(kRuntimesPythonBundleUUID)));
+	bundles::item_ptr runtimes = bundles::lookup(oak::uuid_t(python_runtime::kBundleIdentifier));
 	if(!runtimes)
+	{
+		RuntimeDidActivate(@"Python");
 		return;
+	}
 
 	std::string const resolver = path::join(runtimes->support_path(), "bin/python_runtime");
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -639,11 +647,13 @@ static NSString* const kRuntimesPythonBundleUUID = @"5CA339D1-FDBB-4F83-BFDC-706
 			{
 				os_log_error(OS_LOG_DEFAULT, "No Python for bundle commands: %{public}s", answer.error.c_str());
 				[OakNoticeBoard.shared post:[NSString stringWithFormat:@"Python bundle commands will not run. %s.", answer.error.c_str()]];
+				RuntimeDidActivate(@"Python");
 				return;
 			}
 			oak::set_application_python(answer.path);
 			oak::set_basic_environment(oak::setup_basic_environment());
 			os_log(OS_LOG_DEFAULT, "Bundle commands run on the Python at %{public}s", answer.path.c_str());
+			RuntimeDidActivate(@"Python");
 		});
 	});
 }
@@ -692,13 +702,25 @@ static NSString* const kRuntimesPythonBundleUUID = @"5CA339D1-FDBB-4F83-BFDC-706
 	});
 }
 
+// The Runtimes pane asks for a runtime to be resolved again, after installing
+// its bundle or asking for the version the application wants.
+- (void)runtimeActivationRequested:(NSNotification*)aNotification
+{
+	NSString* language = aNotification.userInfo[@"language"];
+	if([language isEqualToString:@"Ruby"])
+		[self activateApplicationRuby];
+	else if([language isEqualToString:@"Python"])
+		[self activateApplicationPython];
+}
+
 - (void)activateApplicationRuby
 {
-	bundles::item_ptr runtimes = bundles::lookup(oak::uuid_t(to_s(kRuntimesRubyBundleUUID)));
+	bundles::item_ptr runtimes = bundles::lookup(oak::uuid_t(ruby_runtime::kBundleIdentifier));
 	if(!runtimes)
 	{
 		os_log_error(OS_LOG_DEFAULT, "No Ruby for bundle commands: the Runtimes Ruby bundle is not installed");
 		[OakNoticeBoard.shared post:@"Ruby bundle commands will not run. The Runtimes Ruby bundle is not installed."];
+		RuntimeDidActivate(@"Ruby");
 		return;
 	}
 
@@ -720,11 +742,13 @@ static NSString* const kRuntimesPythonBundleUUID = @"5CA339D1-FDBB-4F83-BFDC-706
 			{
 				os_log_error(OS_LOG_DEFAULT, "No Ruby for bundle commands: %{public}s", answer.error.c_str());
 				[OakNoticeBoard.shared post:[NSString stringWithFormat:@"Ruby bundle commands will not run. %s.", answer.error.c_str()]];
+				RuntimeDidActivate(@"Ruby");
 				return;
 			}
 			oak::set_application_ruby_directory(answer.ruby);
 			oak::set_basic_environment(oak::setup_basic_environment());
 			os_log(OS_LOG_DEFAULT, "Bundle commands run on the Ruby at %{public}s", answer.ruby.c_str());
+			RuntimeDidActivate(@"Ruby");
 		});
 	});
 }
@@ -755,6 +779,7 @@ static NSString* const kRuntimesPythonBundleUUID = @"5CA339D1-FDBB-4F83-BFDC-706
 	[self activateApplicationRuby];
 	[self activateApplicationPython];
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(runtimeMissing:) name:OakRuntimeMissingNotification object:nil];
+	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(runtimeActivationRequested:) name:TMRuntimeActivationRequestedNotification object:nil];
 
 	[CrashReporter.sharedInstance logNewCrashReports];
 
