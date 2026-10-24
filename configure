@@ -10,15 +10,20 @@ for dep in ninja multimarkdown pgrep pkill; do
   which -s "$dep" || error "*** dependency missing: ‘${dep}’."
 done
 
-# The toolchain the build needs, named in two files at the top of the tree.
+# The toolchain the build needs, named in three files at the top of the tree.
 #
 # .macos-version is the deployment target, which the rave files read, and which
 # needs an SDK at least that new. .swift-version is the Swift that ships with the
 # Xcode carrying that SDK. An older Xcode fails later, deep in the build, with an
 # error about a missing SDK that never names either, so both are checked here by
-# name. Versions compare as numbers, major then minor, so 6.10 is newer than 6.4.
+# name. .ruby-version is the Ruby that bin/rave and the scripts run on. rv reads
+# it and provides that Ruby, but bin/rave runs on whatever ruby the PATH finds,
+# so that one is checked too. Versions compare as numbers, major, then minor,
+# then patch, with a missing part as zero, so 6.10 is newer than 6.4, 27.0 is
+# 27.0.0, and a 4.0.7 does not pass a 4.0.9 pin. A patch release can be the one
+# that closes a vulnerability, so the pin means what it says all the way down.
 at_least () {
-  awk -v have="$1" -v need="$2" 'BEGIN { split(have, h, "."); split(need, n, "."); exit !((h[1] + 0 > n[1] + 0) || (h[1] + 0 == n[1] + 0 && h[2] + 0 >= n[2] + 0)) }'
+  awk -v have="$1" -v need="$2" 'BEGIN { split(have, h, "."); split(need, n, "."); for (i = 1; i <= 3; i++) { if (h[i] + 0 != n[i] + 0) exit !(h[i] + 0 > n[i] + 0) }; exit 0 }'
 }
 
 macos_needed=$(tr -d '[:space:]' < .macos-version)
@@ -32,6 +37,12 @@ swift_have=$(xcrun --sdk macosx swiftc --version 2>/dev/null | sed -n 's/.*Apple
 test -n "$swift_have" || error "*** no Swift compiler: ‘xcrun --sdk macosx swiftc --version’ answered nothing. Install Xcode and select it with xcode-select."
 at_least "$swift_have" "$swift_needed" \
   || error "*** Swift ${swift_have} is older than the ${swift_needed} this build needs, see .swift-version. The Xcode for macOS ${macos_needed} provides it."
+
+ruby_needed=$(tr -d '[:space:]' < .ruby-version)
+ruby_have=$(ruby -e 'print RUBY_VERSION' 2>/dev/null)
+test -n "$ruby_have" || error "*** no Ruby: ‘ruby’ is not on the PATH. bin/rave and the scripts run on the Ruby in .ruby-version, which rv provides, see the Brewfile."
+at_least "$ruby_have" "$ruby_needed" \
+  || error "*** Ruby ${ruby_have} is older than the ${ruby_needed} this build needs, see .ruby-version. rv provides it: ‘rv run sh ./configure’ for this once, or ‘rv shell zsh’ to put it on the PATH for good."
 
 if [[ -e local.rave ]]; then
   echo >&2 "Skipping writing ‘local.rave’: File already exists"
