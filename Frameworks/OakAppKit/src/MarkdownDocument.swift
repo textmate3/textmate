@@ -14,25 +14,11 @@ public struct MarkdownDocument: Equatable, Sendable {
   public init(markdown: String) throws {
     var options = AttributedString.MarkdownParsingOptions()
     options.interpretedSyntax = .full
-    let parsed = try AttributedString(markdown: Self.withoutMetadata(markdown), options: options)
+    let parsed = try AttributedString(markdown: markdown, options: options)
     let runs = parsed.runs.map { run in
       Run(text: AttributedString(parsed[run.range]), components: (run.presentationIntent?.components ?? []).reversed())
     }
     blocks = Self.blocks(of: runs[...], depth: 0)
-  }
-
-  /// The Markdown without a MultiMarkdown metadata block.
-  /// The About pages open with `Title:`, and Contributions with `CSS:` and `JS:` as well, for the multimarkdown build that renders them to HTML.
-  /// Foundation knows nothing of that block and reads it as a paragraph, so it is taken off first.
-  /// The rule is MultiMarkdown's: the block is there when the first line is `Key: value`, and it runs to the first blank line.
-  private static func withoutMetadata(_ markdown: String) -> String {
-    let key = /^[A-Za-z][A-Za-z0-9 _-]*:\s/
-    var lines = markdown.split(separator: "\n", omittingEmptySubsequences: false)[...]
-    guard let first = lines.first, first.prefixMatch(of: key) != nil else { return markdown }
-    while let line = lines.first, !line.isEmpty {
-      lines.removeFirst()
-    }
-    return lines.joined(separator: "\n")
   }
 
   /// One run of the parsed string with its intents outermost first.

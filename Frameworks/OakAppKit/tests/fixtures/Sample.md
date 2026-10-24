@@ -1,6 +1,3 @@
-Title: Sample
-CSS: css/sample.css
-
 # Title
 
 ## 2026-10-23 (v2.1.0)

@@ -121,13 +121,6 @@ extension MarkdownBlock {
     #expect(!code.hasSuffix("\n"))
   }
 
-  @Test func aLeadingMetadataBlockIsNotAParagraph() throws {
-    let document = try MarkdownDocument(markdown: "Title: Legal\nCSS: css/legal.css\n\nThe text.")
-    #expect(document.blocks.count == 1)
-    let text = try #require(document.blocks[0].paragraph)
-    #expect(plain(text) == "The text.")
-  }
-
   @Test func emptyMarkdownHasNoBlocks() throws {
     let document = try MarkdownDocument(markdown: "")
     #expect(document.blocks.isEmpty)
