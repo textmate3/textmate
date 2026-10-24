@@ -139,13 +139,21 @@ class Release
         bundle_key:    text[/BUNDLE_PUBLIC_ED_KEY=\\"([^"\\]+)\\"/, 1],
         feed_key:      text[/^set SU_PUBLIC_ED_KEY\s+"([^"]+)"/, 1],
         feed_url:      text[/^set SU_FEED_URL\s+"([^"]+)"/, 1],
-        minimum_macos: text[/^set APP_MIN_OS\s+"([^"]+)"/, 1],
+        minimum_macos: minimum_macos,
         rest_api:      text[/REST_API=\\"([^"\\]+)\\"/, 1],
       }
       missing = values.select { |_, value| value.nil? }.keys
       abort "release: default.rave no longer declares #{missing.join(", ")}" unless missing.empty?
       values
     end
+  end
+
+  # The deployment target, from the file the rave files read it from, so the feed cannot name a
+  # different floor from the application it points at.
+  def minimum_macos
+    path = File.join(ROOT, ".macos-version")
+    abort "release: #{path} is missing, and the update feed needs the minimum macOS" unless File.exist?(path)
+    File.read(path).strip
   end
 
   # What the built application carries must be production, and must not be
