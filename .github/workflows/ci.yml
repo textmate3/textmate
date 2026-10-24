@@ -9,14 +9,13 @@ on:
 
 jobs:
   build-and-test:
-    # The application targets macOS 27. GitHub offers no macOS 27 image yet, and
-    # this one builds against the macOS 26 SDK on a macOS 26 system. That works
-    # for a 27 floor: the loader does not refuse a binary whose minimum is newer
-    # than the running system, so the tests build and run. What it cannot do is
-    # see anything new in the 27 SDK, so an interface added in 27 compiles on a
-    # developer's machine and fails here until a macOS 27 image exists.
+    # The application targets macOS 27, and this is the macOS 27 image: 27.0.1
+    # with Xcode 27 and the 27 SDK. GitHub names its macOS images by Xcode once
+    # a release is new, so this is `xcode-27` rather than `macos-27`, and it is
+    # in preview. When a `macos-27` label appears it is the same system and
+    # this should move to it.
     # The image is Apple Silicon.
-    runs-on: macos-26
+    runs-on: xcode-27
 
     # Uploading gtm to the release needs write access to repository contents.
     permissions:
