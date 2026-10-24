@@ -1,0 +1,1798 @@
+{
+  "year": 2019,
+  "commits": [
+    {
+      "hash": "2cb43a6ef331be0956c11bec9b2377a1e5bf466d",
+      "date": "2019-12-28T13:34:19+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.6",
+      "body": ""
+    },
+    {
+      "hash": "dc185a42a3c0ed9533b375521c97e06aa2674014",
+      "date": "2019-12-28T10:22:53+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.5",
+      "body": ""
+    },
+    {
+      "hash": "a9c668ba39f427279d32411e47b335eb04b5280e",
+      "date": "2019-12-28T09:54:18+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Simplify NSAttributedString subclass used for menu titles",
+      "body": "We now do all the work in NSMenuItem’s setActivationString: and no longer require subclassing the mutable versions of NSAttributedString.\n\nIt should now be more transparent what the code does and why it does it."
+    },
+    {
+      "hash": "464fdbfba423a593caa670c216417883a7640125",
+      "date": "2019-12-28T09:24:30+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix double height of menu items with custom shortcuts",
+      "body": "Starting with macOS 10.15 the system will use new NSAttributedString API to obtain bounding rect, so we need to (also) overload this to return our fixed bounding rectangle."
+    },
+    {
+      "hash": "aeec0874b388f29d8585e680a3ec07451d813087",
+      "date": "2019-12-26T23:14:52+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix warning about invalid ERB trim mode",
+      "body": "We don’t care about the trim mode as nobody is reading the generated HTML, but we have to supply something, previously we enabled everything, which is now giving an error despite the documentation saying that trim mode can be “one or more of the following modifiers”:\n\n\t%  enables Ruby code processing for lines beginning with %\n\t<> omit newline for lines starting with <% and ending in %>\n\t>  omit newline for lines ending in %>\n\t-  omit blank lines ending in -%>\n\nIt would seem that ‘<>’ is mutually exclusive with ‘-’ so now we pass ‘%-’ for trim mode."
+    },
+    {
+      "hash": "2a1553fbd76462d628d603a282449ca9981224e2",
+      "date": "2019-12-15T13:01:20+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rename custom property to support building with the macOS 10.15 SDK",
+      "body": ""
+    },
+    {
+      "hash": "3a214f631159a1e98013ee9d6124fb1e4288a2e5",
+      "date": "2019-12-15T12:10:51+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.4",
+      "body": ""
+    },
+    {
+      "hash": "afe008e0286b633a7f319d914f38659823dee8de",
+      "date": "2019-12-15T12:06:56+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Allow invalid ranges to be passed to nsRangeForRange:",
+      "body": "Since this is internal API it should not be necessary to sanitize the range, but based on textmate/bugs#34 it is causing a lot of crashes on macOS 10.15."
+    },
+    {
+      "hash": "504a42307ed2da5213d9299631a3d5bdbfbbeff7",
+      "date": "2019-11-01T08:46:20+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Passing ‘-deep’ to code sign should no longer be necessary",
+      "body": "This is because we ensure that each target copied to another target, gets signed before we copy it.\n\nWe initially used ‘-deep’ but that actually never worked fully, as it didn’t find all executables in our bundle, presumably only embedded bundles like frameworks and plug-ins were found and signed."
+    },
+    {
+      "hash": "4f39295aefe8ff1f088c1606fb032952b7d03ac1",
+      "date": "2019-10-28T10:25:33+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.3",
+      "body": ""
+    },
+    {
+      "hash": "362d8705631d4e9127c5bbd12db0851874ce2148",
+      "date": "2019-10-28T10:15:13+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "fixup! Fix issue with FSEvents wrapper when dealing with multiple volumes",
+      "body": "The updated code was leaving a trailing slash on directory paths which would make cache lookups fail."
+    },
+    {
+      "hash": "1903a2edec1b09df300de9411950e7bae5e3821a",
+      "date": "2019-10-27T15:39:50+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.2",
+      "body": ""
+    },
+    {
+      "hash": "9565bb4910c6322dfb48ceaf1d1b49b734e24bd0",
+      "date": "2019-10-27T15:27:03+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add NSStandardKeyBindingResponding to OakTextView’s interface",
+      "body": ""
+    },
+    {
+      "hash": "0f66772bdb2a2f5cf2bc6f6fe65077c23c163be5",
+      "date": "2019-10-27T15:25:53+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove whitespace.",
+      "body": ""
+    },
+    {
+      "hash": "9f339bfcf63a4e46dc80862be055302f0e18b457",
+      "date": "2019-10-27T15:25:35+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not hardcode the type of utf8::iterator_t",
+      "body": "This is to allow it to be used with both const and non-const character buffers (the latter being returned from std::string’s data member function)."
+    },
+    {
+      "hash": "d5440d86e83bf5494c001f5ef8b24099eef066ad",
+      "date": "2019-10-27T15:24:08+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "For bundle commands we now write the script to ~/Library/Caches",
+      "body": "Previously we used the system’s temporary directory and removed the script after use.\n\nThis is because macOS 10.15 will “call home” (notarization?) when executing a new script (that it has not seen before), so with an unstable network connection, running commands could take several seconds."
+    },
+    {
+      "hash": "aff1273d533466d84834df4c1c394b40bf436a4f",
+      "date": "2019-10-27T15:20:14+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Context menu items for tabs would be disabled in full screen mode",
+      "body": "Apparently the window’s delegate is not used for context menu actions in full screen mode, although NSApp’s targetForAction: does find the receiver, so this appears to be a framework bug."
+    },
+    {
+      "hash": "82c4e272a4315923856597591877841835cfc364",
+      "date": "2019-10-27T15:18:20+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove unnecessary crash reporting diagnostics",
+      "body": ""
+    },
+    {
+      "hash": "5a6cf83e2d27bd36b63dc4fe8dcf83581b5c4b39",
+      "date": "2019-10-27T15:17:03+01:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix issue with FSEvents wrapper when dealing with multiple volumes",
+      "body": "The specific issue being addressed is macOS 10.15 where the mount point for ~/Library/Application Support is under /System/Volumes/Data so our assertion that the relative path received in our callback can be appended to the mount point, to match the path being observed, is false.\n\nAs a workaround we call realpath() on the path we wish to observe, observe that path, and in our callback we calculate the relative path from the real observed path, and append that to the requested path.\n\nIn theory the caller could be made responsible for expanding paths to their real path, but the current abstraction allows observing non-existing paths, which is why it needs to handle this path rewriting."
+    },
+    {
+      "hash": "6f68ea73039261298ff1f9153747e7dd73e9a81e",
+      "date": "2019-10-14T14:47:38+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not use custom white I-beam cursor on macOS 10.14",
+      "body": "The I-beam cursor on macOS 10.14 has a white outline that makes it visible when used with dark themes."
+    },
+    {
+      "hash": "2560ce697d9156b0a399d7d8ee925267e0f95f4f",
+      "date": "2019-10-14T08:56:48+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change placeholder text for license key",
+      "body": "The old text (example key) was easily mistaken for having entered a license key into the dialog."
+    },
+    {
+      "hash": "a08987b097499362cac014bbe01d1fd3cfde6b53",
+      "date": "2019-10-14T08:38:52+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Explicitly zero weak pointer to tab bar view when removed from superview",
+      "body": "If one event cycle triggered multiple re-layouts, we could end up reusing a tab bar view that had been removed from its superview because the weak pointer had not yet been cleared (as the view hadn’t yet been fully released).\n\nThis could happen during window construction in a scenario like this:\n\n1. Window gets created at some size, tab bar views are created\n2. Window size gets restored causing some tab bar views to be removed\n3. Active tab gets restored bringing an overflow tab into the visible area, re-using a removed view"
+    },
+    {
+      "hash": "4c7b98d0bf2625081ff68dbea2deb31eb25f1d13",
+      "date": "2019-10-07T21:26:17+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove superfluous spacing for aligned assignments",
+      "body": ""
+    },
+    {
+      "hash": "079377ed49afc7285a725ab4589d87207012db8c",
+      "date": "2019-10-07T21:20:09+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Require macOS 10.12 and remove compatibility checks",
+      "body": ""
+    },
+    {
+      "hash": "4b4e5fca8b7043820b9c829f4414515e29c5f019",
+      "date": "2019-10-07T21:12:18+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove code required for compatibility with 10.10 and earlier",
+      "body": ""
+    },
+    {
+      "hash": "f83d3b2e14ebb53aa87397ff6cc1941da6dfe28a",
+      "date": "2019-10-07T12:37:35+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0.1",
+      "body": ""
+    },
+    {
+      "hash": "990672d1f715a63abe48ff4f7f753bde760dc7b4",
+      "date": "2019-10-07T12:32:01+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Support macOS 10.11",
+      "body": "We don’t yet rely on any 10.12 specific API other than os_log which can be skipped without user impact.\n\nUnfortunately when trying to build for 10.10 using latest Xcode/SDK the linker gives an error for missing symbol: _objc_loadClassref.\n\nGoing forward we will require 10.12 but as there is no non-beta build for 10.11 users yet, I wanted to make one."
+    },
+    {
+      "hash": "07e9e1c65e1af3d1e007fad124ec5fe971f72cba",
+      "date": "2019-10-06T11:06:57+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make signing depend on the (potential) entitlements file",
+      "body": ""
+    },
+    {
+      "hash": "fee760cf3d5aee8824ee2bf8705038bd340519ab",
+      "date": "2019-10-06T10:54:23+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Disable the library validation entitlement",
+      "body": "This should allow TextMate to load plug-ins that are not signed by Apple or signed with the same team ID as TextMate."
+    },
+    {
+      "hash": "da2a7aa290b8bb8ca792e3eca25de9c7cf25cd1f",
+      "date": "2019-10-06T10:50:16+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update dialog plug-in (Explicitly close window when disposing a nib)",
+      "body": ""
+    },
+    {
+      "hash": "ce4a1f392ff9d04be7ae223193c6b700be7104c3",
+      "date": "2019-10-06T10:49:10+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Preserve meta data when saving using NSFileManager’s replaceItemAtURL:",
+      "body": "We skip extended attributes and file access control lists on non-local file systems since this has caused problems int he past."
+    },
+    {
+      "hash": "3c7895f578914c50051556592091082c450b46b5",
+      "date": "2019-10-06T10:35:55+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Simplify code by using NSOffsetRect",
+      "body": ""
+    },
+    {
+      "hash": "ad9229b59122af0eee738a636dd095f73f434217",
+      "date": "2019-09-19T09:02:34-07:00",
+      "author": {
+        "name": "Sam Oldak",
+        "username": "snoldak924",
+        "avatar_url": "https://avatars.githubusercontent.com/u/340238?v=4"
+      },
+      "summary": "Update Changes.md",
+      "body": "typo"
+    },
+    {
+      "hash": "54b232f6b1fa4257d512987248265acfd567cc13",
+      "date": "2019-09-15T17:18:12+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0",
+      "body": ""
+    },
+    {
+      "hash": "c4aed6990f0accf814b5702688a7b7a5d668b47d",
+      "date": "2019-09-15T16:23:56+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ignore ninja state files (git)",
+      "body": ""
+    },
+    {
+      "hash": "d5d017ea88bf3d6dc5bef4a319393974b24f0a3d",
+      "date": "2019-09-15T16:20:40+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use git’s ‘--reverse’ option instead of ‘tail -r’",
+      "body": "This avoids an extra process but also removes a dependency on BSD’s tail command, as support for ‘-r’ is not a POSIX requirement."
+    },
+    {
+      "hash": "d9ac41d7900370b85bcf1d0c25ef58c4fbc44a60",
+      "date": "2019-09-15T11:26:41+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add checkbox in Preferences for the disableTabAutoClose setting",
+      "body": ""
+    },
+    {
+      "hash": "d2979e29178631975ee348b4fddc0664464b165d",
+      "date": "2019-09-12T17:03:08+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add GitHub build workflow",
+      "body": ""
+    },
+    {
+      "hash": "360af637e209c262e4150bdffe1a4c57cc7719f1",
+      "date": "2019-09-09T13:00:32+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Call /bin/cp directly instead of going via PATH",
+      "body": "This is because we rely on `-X` (skip extended attributes / resource forks) which is only available with Apple’s version of `cp`, and it is not unlikely that the user has GNU’s version of `cp` available via PATH."
+    },
+    {
+      "hash": "4fbc9ee6eac6b0f9a733a8580fe7b669a9d6f2fd",
+      "date": "2019-09-05T10:01:10+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix indentation (spaces → tabs)",
+      "body": ""
+    },
+    {
+      "hash": "77df3c2618ccbbcbd433df9527d37bca0ab46238",
+      "date": "2019-09-05T09:52:16+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove the decompile_as target as it is no longer used",
+      "body": "See https://github.com/textmate/applescript.tmbundle/commit/b05fe06abe4abdc6e1e0ead9217e4cb5f2b0a465"
+    },
+    {
+      "hash": "4820e876d2fdcab10c8759645f04ed5f6f20e007",
+      "date": "2019-09-01T12:50:41-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Only allow navigating bookmarks in the touch bar",
+      "body": "See https://lists.macromates.com/textmate/2019-August/041082.html"
+    },
+    {
+      "hash": "ecca53d796748f7355ad6a22a393e4e709c0a289",
+      "date": "2019-08-26T15:39:28-07:00",
+      "author": {
+        "name": "Max Brunsfeld",
+        "username": null,
+        "avatar_url": null
+      },
+      "summary": "Don't push to the parse stack for rules without while or end patterns",
+      "body": ""
+    },
+    {
+      "hash": "aa10cd1e5784ba143bb2e38fde8f88d83802ca5c",
+      "date": "2019-08-26T21:49:58+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0-rc.31",
+      "body": ""
+    },
+    {
+      "hash": "562c6f519bde7e79ca1b58664bd086a1aa1c999c",
+      "date": "2019-08-26T21:45:25+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add missing boundary check when accessing undo/redo stack",
+      "body": ""
+    },
+    {
+      "hash": "7116dd777f07a65a675fe8944bc2fc2f05cada72",
+      "date": "2019-08-26T21:34:52+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Workaround for potential stall when calling mate with inactive TextMate",
+      "body": "The issue appears to be that accessing the clipboard, as part of setting up a normal document window, will stall when trying to connect to the system’s clipboard server.\n\nHere’s the relevant stack trace:\n\n    -[OakPasteboard checkForExternalPasteboardChanges]\n      -[NSPasteboard stringForType:]\n        -[NSPasteboard _dataForType:securityScoped:]\n          -[NSPasteboard _dataForType:index:usesPboardTypes:combinesItems:securityScoped:]\n            -[NSPasteboard _dataWithoutConversionForTypeIdentifier:securityScoped:]\n              CFPasteboardCopyData  (in CoreFoundation)\n                ___onqueue_CFPasteboardRequestDataFromDaemon_block_invoke.341\n                  usleep  (in libsystem_c.dylib)\n                    nanosleep  (in libsystem_c.dylib)\n                      __semwait_signal  (in libsystem_kernel.dylib)"
+    },
+    {
+      "hash": "36dc1374f93be4078bb96814a91387f9a13fd923",
+      "date": "2019-08-26T21:09:52+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Revert \"Add debug output when TextMate is activated via mate\"",
+      "body": "This reverts the following 3 commits:\n\n- commit 306d46ec712ffa67df6483b18afcc9bba23f30d0\n- commit eecfe6e6197c70e161d5a76ae571a2f857f3d120\n- commit 2ffc74ad8b282aa8db0bf31e9a707a8565494ffc"
+    },
+    {
+      "hash": "a6ac1b9bf73f11a9509f252b4aa352f9300c5afa",
+      "date": "2019-08-25T14:13:16+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make commands used during build relative to __FILE__",
+      "body": ""
+    },
+    {
+      "hash": "cf3fe7c575270496ac650c1c4fe1d3fac9692b80",
+      "date": "2019-08-25T13:16:10+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix buffer overflow bug",
+      "body": "Without the boundary check we would write one byte beyond the end of the stack-allocated ‘first’ array."
+    },
+    {
+      "hash": "88e5f1cd3c96dba2101eaca2d9c80dba3782a4b3",
+      "date": "2019-08-21T11:56:45+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0-rc.30",
+      "body": ""
+    },
+    {
+      "hash": "306d46ec712ffa67df6483b18afcc9bba23f30d0",
+      "date": "2019-08-21T11:51:26+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add even more debug output for when TextMate is activated via mate",
+      "body": ""
+    },
+    {
+      "hash": "5e96d41a3d624bb8f3e73294c225b84f3da40e5d",
+      "date": "2019-08-08T21:27:59+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Look for numeric prefix when duplicating a file and increase it if found",
+      "body": "For example if we have a directory with files named 001-foo.txt, 002-bar.txt, and 003-fud.txt, duplicating one of these will result in the duplicate starting with 004.\n\nAlso improve support for finding dates in file names being duplicated. Previously we only looked for YYYY-MM-DD but now we also support YYYY_MM_DD and YYYYMMDD. If a date is found in the file name being duplicated, it is replaced with the current date in the duplicate."
+    },
+    {
+      "hash": "f33ba968a831fe1a8991cbdeb9e9d44288d12011",
+      "date": "2019-08-02T21:07:04+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t ignore result from writeObjects:",
+      "body": ""
+    },
+    {
+      "hash": "454b1b464486e412aa6ceac38ad9fd1272503575",
+      "date": "2019-08-02T21:06:21+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use availableTypeFromArray: instead of checking types array directly",
+      "body": ""
+    },
+    {
+      "hash": "774e66c009a671b1ebf62519c0b68a899d63d59e",
+      "date": "2019-08-02T21:02:38+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ignore ‘types’ in implementation of writeSelectionToPasteboard:types:",
+      "body": "The issue is that the types requested may be ‘NSStringPboardType’ but that symbol is deprecated (starting with 10.14), yet the replacement (‘NSPasteboardTypeString’) is not string-equivalent, therefore our simple string comparison would fail.\n\nThis effectively broke services starting with 1ef78b3af7d2aa189695badaf7c3c9bbb2b4bc03 (where we adopted the new symbols).\n\nImplementation of validRequestorForSendType:returnType: does not appear to be a problem, as that method is called with both ‘NSStringPboardType’ and ‘NSPasteboardTypeString’.\n\nAlso switched to using NSPasteboard’s writeObjects: so we don’t have to explicitly deal with the type of the data we write to the pasteboard (presumably NSString will declare it using both the old and new type)."
+    },
+    {
+      "hash": "16c423939392857406a68e9caaa5274a6bf07b6f",
+      "date": "2019-08-01T10:49:55+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not pass builddir/ninja_required_version as variables to generator",
+      "body": "This is to avoid redundancy as ninja_required_version is hardcoded in the generator script and builddir is already passed via the --build-directory/-C option (and explicitly exported as a variable in the generator script)."
+    },
+    {
+      "hash": "328c5bdca71676b88407b18c150e28af2940bee2",
+      "date": "2019-08-01T10:46:05+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Revert \"No need to explicitly set builddir as it’s already among our variables\"",
+      "body": "There may be situations in which the user already have (generated) ninja build files which do not match our assertions.\n\nThis reverts commit b42cbb1f7e56ebf2b30df48bcc26dab18685aa89."
+    },
+    {
+      "hash": "e59f9fcfa6a08e73a8d58955cd38a89d6280d60d",
+      "date": "2019-08-01T10:28:35+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove oak::cap from algorithm.h",
+      "body": ""
+    },
+    {
+      "hash": "8f685ff25ce28ab6d609a95417054808341da823",
+      "date": "2019-08-01T10:23:55+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use std::clamp instead of oak::cap (C++17)",
+      "body": ""
+    },
+    {
+      "hash": "4c318529ab819a1ed1f132612c9740292cd24b06",
+      "date": "2019-08-01T10:17:51+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Build as C++20 (up from C++14)",
+      "body": "The C++20 feature list has been frozen although clang (and libc++) doesn’t yet have full support and the clang option we are using is -std=c++2a to indicate that things may still change."
+    },
+    {
+      "hash": "253fc9044833802d9fbe085863dc259c2a9a374f",
+      "date": "2019-08-01T10:17:20+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove ‘requires’ member function since it clashes with a C++20 keyword",
+      "body": "This member function was never called by anyone."
+    },
+    {
+      "hash": "acfee9901c1e4ccf1a5fe924cae6b1e36c06065c",
+      "date": "2019-08-01T10:11:24+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use ‘NSInteger’ for result of selectedRow (instead of legacy ‘int’ type)",
+      "body": ""
+    },
+    {
+      "hash": "caefacb9112fd07cbcfacd383da5ed820a7306da",
+      "date": "2019-08-01T10:05:58+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add missing space (according to syntax style guide)",
+      "body": ""
+    },
+    {
+      "hash": "e155e6810afc1ebf795d410f9c9696b37c708ffc",
+      "date": "2019-08-01T10:02:55+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Re-add target to (build and) run non-bundled executables",
+      "body": ""
+    },
+    {
+      "hash": "75be599e482e9d0dc4aeb69d6ffcc43d8ba05fc9",
+      "date": "2019-07-19T16:45:18+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not set any targets as default in the generated build file",
+      "body": ""
+    },
+    {
+      "hash": "9c51080d1582401d86aba56caafcd5121d905091",
+      "date": "2019-07-19T16:42:44+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add «target»/tests to run all tests for «target» or its dependencies",
+      "body": ""
+    },
+    {
+      "hash": "af91d39be5d0cab354bd5d66b39633fd482daea2",
+      "date": "2019-07-16T20:27:21+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Generate build rules for tests but do not depend on the tests passing",
+      "body": ""
+    },
+    {
+      "hash": "2bc982dfd852aa660f5871671f07f4e5d7606bbe",
+      "date": "2019-07-16T20:24:07+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Refactor bin/gen_build",
+      "body": ""
+    },
+    {
+      "hash": "77bc9f7a6f399c363ba57d62eb8f3367533438c6",
+      "date": "2019-07-16T20:02:42+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove test for localized folder names as it does not work (10.14)",
+      "body": "I cannot find any information online about Apple dropping support for this, but I also cannot make it work, and it wouldn’t surprise me if they view localized folder names as a security problem."
+    },
+    {
+      "hash": "b42cbb1f7e56ebf2b30df48bcc26dab18685aa89",
+      "date": "2019-07-16T19:40:46+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "No need to explicitly set builddir as it’s already among our variables",
+      "body": ""
+    },
+    {
+      "hash": "4e6e765e5f32611cd1282f62bb1d79590bc85812",
+      "date": "2019-07-16T18:41:08+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update CxxTest",
+      "body": ""
+    },
+    {
+      "hash": "dae110372891aa9740afe3f89186d4a56dd35b87",
+      "date": "2019-07-16T15:25:16+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update LINK declarations",
+      "body": ""
+    },
+    {
+      "hash": "36f414dbead7bc4c1f530b2682c88732630225f0",
+      "date": "2019-07-16T14:30:18+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add missing include in test file",
+      "body": ""
+    },
+    {
+      "hash": "f21d570b731263aaef5b59148c87086793d4c1dc",
+      "date": "2019-07-16T14:29:20+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove test for VOL_CAP_INT_EXCHANGEDATA",
+      "body": "This is no longer supported (with APFS) so there is no reason to keep this code around."
+    },
+    {
+      "hash": "eb4e0bfcd0de8ecc5f41d5f24756e10ae9dc13b8",
+      "date": "2019-07-16T14:27:28+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update tests to reflect how the code works",
+      "body": "The “matching pair” move behavior was changed in 7f99c4cbc743097938b87a510ac259cc7dfffa40"
+    },
+    {
+      "hash": "f47a7b5f536237b61eafdb60520d25f44e403f9b",
+      "date": "2019-07-16T14:23:04+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Code to bump date in filename is no longer a testable separate function",
+      "body": ""
+    },
+    {
+      "hash": "c920035f9910a27eab42038929816d40232e9e5e",
+      "date": "2019-07-16T12:05:11+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Variables from ./configure are now in the “local” (bootstrap) build file",
+      "body": "This seems like a logical separation, as the build directory now contains things 100% generated, whereas the “local” build file has variables that came from the original ./configure step and may be edited."
+    },
+    {
+      "hash": "608c53a423b757588bd1ff79cf0ec7a738cbdb26",
+      "date": "2019-07-16T11:57:23+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Refactor bin/gen_build",
+      "body": ""
+    },
+    {
+      "hash": "d8fcf27cb5f798acaffa864112dd0b2a82c78993",
+      "date": "2019-07-16T11:53:48+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix test for whether or not we have default targets",
+      "body": ""
+    },
+    {
+      "hash": "72bf77c2e50327caed2e2afe187c86a0e0b359a8",
+      "date": "2019-07-16T09:16:26+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Handle a failing ‘xcrun altool --notarization-info’ gracefully",
+      "body": "We now write the captured output to stderr and retry after 10 seconds."
+    },
+    {
+      "hash": "c4cec82869037dd03ef8e86254d0ed0c6d9abe24",
+      "date": "2019-07-16T08:35:13+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0-rc.29",
+      "body": ""
+    },
+    {
+      "hash": "eecfe6e6197c70e161d5a76ae571a2f857f3d120",
+      "date": "2019-07-16T08:33:05+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add more debug output for when TextMate is activated via mate",
+      "body": "Related to 2ffc74ad8b282aa8db0bf31e9a707a8565494ffc"
+    },
+    {
+      "hash": "ad74df78242c39d906e5b0f6e69e6115d4f201c6",
+      "date": "2019-07-15T21:41:30+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Include explanation in the log message for when a plug-in fails to load",
+      "body": "Credit: https://lists.macromates.com/textmate/2019-July/041047.html"
+    },
+    {
+      "hash": "b176bf8f9aa687f3467c77cb932a3ef5313cac22",
+      "date": "2019-07-14T11:07:39+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use number formatter for count in Find All / Replace All status text",
+      "body": "The Find dialog was already using number formatters, but the tool tips shown in the text view (when doing searches or replacements without going through the find dialog) were not.\n\nThis makes a difference when the count is > 999, as it will then format the number with thousand separators."
+    },
+    {
+      "hash": "dfd5f85fb5d619148f716b39aec0cb9557531d89",
+      "date": "2019-07-14T10:59:30+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove unnecessary Info.plist file from Find framework",
+      "body": ""
+    },
+    {
+      "hash": "63e82b9bc0a3e44c543a2a167ece67d891e899dd",
+      "date": "2019-07-14T10:57:27+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Drop localization support in Find dialog",
+      "body": "This was unnecessary indirection as we don’t generally lookup strings for the UI (so TextMate is not actually localizable) and the catalog for the strings we did look up was actually out of date."
+    },
+    {
+      "hash": "6b3c8747e79f3ad5dec307da6a5d49934d9df3fd",
+      "date": "2019-07-14T10:45:46+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove unused localization strings",
+      "body": ""
+    },
+    {
+      "hash": "a7542c7ea1f777e574a6e99e18072d95337a5bf8",
+      "date": "2019-07-13T11:43:24+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Retain current thread’s run loop",
+      "body": ""
+    },
+    {
+      "hash": "f5d0f38cc7c4f36023d85694f923c3386305e9f7",
+      "date": "2019-07-13T11:15:08+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t update NSUSerDefaults in OakTabBarView’s initialize",
+      "body": "The use of an animator proxy is causing the initialize method to be called during animation, and when registering user defaults in initialize, we may trigger key/value observers to be notified, which for this code can result in a crash in OS code with the message: “Trying to recursively lock an os_unfair_lock”."
+    },
+    {
+      "hash": "066e020265e45e407f2d3fdf2a8ca1df79b628c0",
+      "date": "2019-07-13T11:02:25+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ensure temporary std::string stays in scope when using its data",
+      "body": ""
+    },
+    {
+      "hash": "027038aaeda582c0a3eec2d275a5b12258dcd006",
+      "date": "2019-07-13T10:21:44+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0-rc.28",
+      "body": ""
+    },
+    {
+      "hash": "57c2e25af1c6eecd5f070aff8d21b5c2c651b6fd",
+      "date": "2019-07-13T10:05:19+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update dialog plug-in (Rename symbols for the 10.14 SDK)",
+      "body": ""
+    },
+    {
+      "hash": "2ffc74ad8b282aa8db0bf31e9a707a8565494ffc",
+      "date": "2019-07-13T09:51:33+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add debug output when TextMate is activated via mate",
+      "body": "Some users report a significant delay from executing mate until the TextMate window is brought to front.\n\nThe debug information can be extracted by running the following in a terminal:\n\n    log show --predicate 'subsystem = \"com.macromates.TextMate\" && category = \"BringToFront\"'\n\nAlternatively use `stream` instead of `log` to get a live stream of debug output.\n\nSee `man log` for options such as `--start date/time` (to limit the query to e.g. the last 10 minutes)"
+    },
+    {
+      "hash": "72f4b7447e33155d08b8286007f166de9a8b23d4",
+      "date": "2019-07-13T08:49:45+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not hardcode code signing flags in bin/gen_build",
+      "body": ""
+    },
+    {
+      "hash": "168915307d49bedd2fb91ee9328fe9f09e3f3d2b",
+      "date": "2019-07-13T08:23:06+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Assign small icon to sieve scripts (file browser etc.)",
+      "body": ""
+    },
+    {
+      "hash": "087e0ce0a7fc0df02537ea9b3b1049a7b7b489af",
+      "date": "2019-07-13T08:22:00+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Import os/log.h when deployment target is macOS 10.12 or later",
+      "body": ""
+    },
+    {
+      "hash": "ba60e7091df163c529cc7fa61c3601e7eb8a71d6",
+      "date": "2019-07-10T20:32:40+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use `flat_map` instead of `map { … }.flatten`",
+      "body": ""
+    },
+    {
+      "hash": "be677cb0b4022ad3733d5d05a55cf0a7db6e136d",
+      "date": "2019-07-08T13:10:18+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0-rc.27",
+      "body": ""
+    },
+    {
+      "hash": "a9b5925f57b325bc8db62b41483621331193768c",
+      "date": "2019-07-08T13:07:28+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Saving a file would lose existing file permission flags",
+      "body": ""
+    },
+    {
+      "hash": "f36efa747e3a6a8babe27f10fd7ef33a50125fcc",
+      "date": "2019-07-08T12:50:27+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Prefix variables related to notarization rules with notarize",
+      "body": ""
+    },
+    {
+      "hash": "e9033911f0b469b558c782557428da8ed0e652b7",
+      "date": "2019-07-08T11:48:41+02:00",
+      "author": {
+        "name": "Elia Schito",
+        "username": "elia",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1051?v=4"
+      },
+      "summary": "Fix the background-size of the about window",
+      "body": "Using background-size: 50% results in really bad scrolling performance and \r\ndoesn't not achieve the effect of scaling the image to double the pixel density,\r\nit rather sets the image width to 50% of the element.\r\n\r\nUsing the non-retina image size solves both the problems.\r\n\r\nA similar issue was found in this SO page: https://stackoverflow.com/a/7034772"
+    },
+    {
+      "hash": "74029c758422c21865c920de31ec347bfa011b93",
+      "date": "2019-07-08T09:54:44+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use ‘bash -c’ when calling openssl",
+      "body": "This is to provide more flexibility when providing the private key.\n\nIt would be preferably to allow setting the shell (globally) but such feature was not desired by the maintainer of ninja: https://github.com/ninja-build/ninja/pull/827"
+    },
+    {
+      "hash": "7f703d29532d82cc5f59ae8ec73322a23c706bd3",
+      "date": "2019-07-08T08:05:44+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add ninja rule for pushing the git release tag",
+      "body": ""
+    },
+    {
+      "hash": "7f9f29587051648c45ccf6ca684a8402dd061ca5",
+      "date": "2019-07-08T07:35:33+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0-rc.26",
+      "body": ""
+    },
+    {
+      "hash": "58414e9def0a2759a6eda6660cbcd2c10132c9a3",
+      "date": "2019-07-08T07:27:36+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Resolve potential symbolic link in path to save",
+      "body": "Trying to save a file as /path/to/symlink will fail with “file does not exist” using the new NSFileManager API, even when the symbolic link does point to an existing file."
+    },
+    {
+      "hash": "9cc10e7b72e130e86656c9e3d03a5de4a120e84a",
+      "date": "2019-07-07T23:11:52+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0-rc.25",
+      "body": ""
+    },
+    {
+      "hash": "824981eaa27c869eedbf241325f6d218c5b58e09",
+      "date": "2019-07-07T22:10:11+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Produce error string for any failure from saving with NSFileManager",
+      "body": ""
+    },
+    {
+      "hash": "3f8c2d0bbdc7d154c142590fea7c5ca078f03728",
+      "date": "2019-07-07T18:33:27+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "No need for visibility setting when all objects are linked together",
+      "body": "I’m keeping it in the sources though as it provides semantic value and may be required if the build system is updated, e.g. we may want to create static libraries for some targets and would thus need to know which symbols to export."
+    },
+    {
+      "hash": "116e5e9a6c859af6b2c4a29fb391ac1618fcabeb",
+      "date": "2019-07-07T18:32:05+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Check that build files do not reference unknown targets",
+      "body": ""
+    },
+    {
+      "hash": "a1c969174a47e86435ce149f6febfe7f928bd5e8",
+      "date": "2019-07-07T18:28:15+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Instructions for creating a combined include directory",
+      "body": "This is to allow finding TextMate’s include files when using Quick Open (⇧⌘D) or completion (escape) in include/import lines."
+    },
+    {
+      "hash": "423e8e9a4348731dce4fd083c38c3bcd0629faa3",
+      "date": "2019-07-07T18:22:08+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Allow disabling atomic save via .tm_properties",
+      "body": "This is done by setting `atomicSave` to one of the following values:\n\n    always           Always use atomic saving (default)\n    externalVolumes  Use for non-internal volumes (e.g. USB drives)\n    remoteVolumes    Use for non-local volumes (e.g. network mounts)\n    never            Never use atomic saving\n    legacy           Always enabled, but do not use NSFileManager\n\nSetting it to `externalVolumes` also includes `remoteVolumes`."
+    },
+    {
+      "hash": "538283cc67626c6403ac133fbfbf4b9c6168f49b",
+      "date": "2019-07-07T18:15:53+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSFileManager’s replaceItemAtURL:… as default way to save atomically",
+      "body": "NSFileManager’s approach is inferior to exchangedata(), but as this feature is no longer supported with Apple’s default file system (APFS), there is little reason to maintain our own implementation of the fallback code required when we cannot use exchangedata(), especially as the OS know more about file references (aliases), metadata, and other stuff that should be preserved when writing a new (replacement) file.\n\nIn theory the NSFileManager strategy can fail to create the temporary destination, in which case we will pass NULL to open() and crash.\n\nWill fix this in a later commit."
+    },
+    {
+      "hash": "8f3f3d9d16827fff42d997a87e7fad6961d203bb",
+      "date": "2019-07-07T18:03:30+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update deployment version for xibs to 10.12",
+      "body": "This was done using search and replace. Presumably it should be done in Xcode so that it can adjust the xib for the new deployment target, otherwise what is the point of storing deployment version in the xib and provide it as a command line argument to the xib compiler as well (only to get a warning if the versions do not match)?"
+    },
+    {
+      "hash": "63724e67a4ef3462483f1372c13370c4264b73a5",
+      "date": "2019-07-07T17:57:50+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Bump required OS version to 10.12",
+      "body": "This is so that we can use the new logging infrastructure."
+    },
+    {
+      "hash": "997e70059a1c76aba6cf81b851e31c2fb9f1a9ad",
+      "date": "2019-07-07T11:37:59+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Switch to Objective-C for the implementation of atomic saving",
+      "body": "The most appropriate API for dealing with temporary files and atomic saving seems to be NSFileManager."
+    },
+    {
+      "hash": "4c4822e1ca637d177c04ac7d62757c4922ecd825",
+      "date": "2019-07-07T11:10:36+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make it easier to change (atomic) saving strategy",
+      "body": "The intermediate_t type now wraps the actual saving strategy to make it easier to change strategy based on the destination file system, user preferences, or other factors."
+    },
+    {
+      "hash": "ba43f2ec5e1a794e8abec6cd9d2775b3744b7324",
+      "date": "2019-07-06T19:35:51+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "The $1-n variables in nested replacements weren’t cleared properly",
+      "body": "When searching for a regular expression with captures, we have $1-n available in the replacement (format) string.\n\nIf this format string does further replacements with optional captures (e.g. /^(_)?foo/) then $1 would be inherited from the parent match, when the optional capture did not match anything.\n\nThis bug was introduced in 0b1496011ffd1accd36c74843b485e47b375be98."
+    },
+    {
+      "hash": "0c66614fa5ddc1ce81e29699d82ef33839fe3263",
+      "date": "2019-07-06T18:21:45+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Sign with openssl may require terminal access for private key passphrase",
+      "body": ""
+    },
+    {
+      "hash": "1c1358bcce27408a6e0bb4d9715e701dca662923",
+      "date": "2019-07-06T18:14:46+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Workaround for missing content when expanding file browser items",
+      "body": "The workaround is untested, as I have not found a way to reproduce the issue, but there is some debug output that can be reviewed and hopefully give some idea as to what is causing the issue.\n\nThe debug information can be collected by running the following in a terminal:\n\n    log show --predicate 'process = \"TextMate\" AND eventMessage CONTAINS \"loadChildrenForItem:expandChildren:\"'"
+    },
+    {
+      "hash": "f7aef9b2b04f5b13f6a2635378a3aa830c9aa5ce",
+      "date": "2019-07-06T17:28:40+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix syntax error in (ninja) relaunch app build rule",
+      "body": ""
+    },
+    {
+      "hash": "0d18d5b88f30727f81c751b9cc26ffaf681747c3",
+      "date": "2019-07-04T10:58:54+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Bump modification date of files copied to build directory",
+      "body": "This is required because copying an executable to the build directory now depends on its signature, but the signature’s date is always newer (or same) as the executable being copied, which leads to the target being considered out-of-date and thus rebuilt (copied again)."
+    },
+    {
+      "hash": "d5cae626212d7d7450cd63c46233b24815337e80",
+      "date": "2019-07-04T10:54:30+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rework small part of build script to be less redundant",
+      "body": "It’s the same number of lines, but it feels better to me, as the logic/processing is not repeated for each type of compiler argument."
+    },
+    {
+      "hash": "91d7aecf1b95c080ce031abdd0f00eb555a0cc42",
+      "date": "2019-07-04T10:50:31+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Changing BundleItemChooser’s hasSelection property now update item names",
+      "body": "The items can be named “Do something with «unit» / Selection” and TextMate will show the proper title based on whether or not there is a selection, e.g. “Diff ▸ Document With Clipboard” versus “Diff ▸ Selection With Clipboard”.\n\nPreviously though, the item titles were not re-generated when changing the hasSelection property, so the user could be presented with stale titles until some other action triggered re-generation, e.g. indicating that an adaptive item works on current line when there is a selection."
+    },
+    {
+      "hash": "dc472068296ff479488c629c2086a727a8850689",
+      "date": "2019-07-04T10:36:53+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "fixup! Make OakChooser windows inherit from NSWindowController",
+      "body": ""
+    },
+    {
+      "hash": "bb772913c9c231009822747352fe4fde4a1071cd",
+      "date": "2019-06-30T10:00:13+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Variables from target file take precedence over command arguments (-D)",
+      "body": "This may seem non-standard but since presence of a variable in our target file will drop a potential -D when, it does not make sense to have -D take precedence over what is in the target file."
+    },
+    {
+      "hash": "91b67f36c1beca4b742ba287711b0c45b0e34bdd",
+      "date": "2019-06-30T09:53:00+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Skip passing variables to gen_build that are declared in our target file",
+      "body": "This is to automatically drop variables that are moved from ./configure to our main target, e.g. APP_MIN_OS."
+    },
+    {
+      "hash": "b71efb006501a39ecf7c7db2ffab336c09ec7a76",
+      "date": "2019-06-29T19:14:33-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Add support for \"Customize Touch Bar…\" in MenuBuilder",
+      "body": ""
+    },
+    {
+      "hash": "11d67f3a2257d34a129abb00ada882cffaa4e150",
+      "date": "2019-06-29T23:52:16+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Avoid NSString’s deprecated percent encoding methods",
+      "body": ""
+    },
+    {
+      "hash": "1ef78b3af7d2aa189695badaf7c3c9bbb2b4bc03",
+      "date": "2019-06-29T17:05:12+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rename symbols to what’s expected by the 10.14 SDK",
+      "body": ""
+    },
+    {
+      "hash": "e5855292d668c11366e2f559bfc285527aa3e2e5",
+      "date": "2019-06-29T16:41:21+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update dialog plug-ins (Use ${TARGET_NAME} instead of other variables)",
+      "body": ""
+    },
+    {
+      "hash": "68ec5e42a1e61d0ccdb49f27d95aea46952686f6",
+      "date": "2019-06-29T16:36:25+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Cycles in our build dependencies could result in an incorrect build file",
+      "body": ""
+    },
+    {
+      "hash": "0829884a4b1143f067b5d3a2ca1e4020d332f7a8",
+      "date": "2019-06-29T15:23:24+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use ${TARGET_NAME} instead of $(PRODUCT_NAME) in Info.plist",
+      "body": "The latter was not valid variable syntax and was used as a literal string in the Info.plist."
+    },
+    {
+      "hash": "260fad0c3fe33d10624aeec0dfd394b74dc57096",
+      "date": "2019-06-29T15:05:48+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make all variables in root target file available to ninja commands",
+      "body": "Ideally we would have a section with “public” variables, but that will require making the format more complex, so for now, everything gets declared as a variable in the ninja build file, even though for now, we really just need to export APP_MIN_OS."
+    },
+    {
+      "hash": "6a8eb992fc32c0aa0157d8a134c05b37b34db0b3",
+      "date": "2019-06-29T15:01:20+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add to_h method to Context",
+      "body": "This converts the context object to a hash with all (merged) values."
+    },
+    {
+      "hash": "9511926afce741db8a3cb70ee137c0095bdb949b",
+      "date": "2019-06-29T15:00:05+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use $args instead of $FLAGS in ninja commands",
+      "body": "This is to avoid confusion with the compiler $FLAGS variable."
+    },
+    {
+      "hash": "27a7dd8815fa7073acf5014fb3274f3714c12405",
+      "date": "2019-06-29T14:12:29+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add some optional build rules for notarization/release notes",
+      "body": "These can be included from a potential $USER.ninja file."
+    },
+    {
+      "hash": "e92d6aaac20501d10fa32285d6a170affd95dba6",
+      "date": "2019-06-29T07:24:21+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Broaden regex to match version strings in release notes",
+      "body": ""
+    },
+    {
+      "hash": "04c3ce2d7335956e3818b908aca9ed35e8d86930",
+      "date": "2019-06-27T22:32:57+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Filter string was not cleared when closing pasteboard history",
+      "body": "This was because our windowWillClose: delegate method was never called, as our object was no longer a window delegate, an issue introduced in 709570049fd664fd55ea01661406c6ed0149152f when the superclass was changed to NSWindowController and I erroneously assumed that the superclass would set itself as delegate."
+    },
+    {
+      "hash": "4ccae3c23b14ceeb7ab42c434ba26f5c34e480b9",
+      "date": "2019-06-27T22:10:19+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update dialog plug-ins (make use of TARGET_NAME and __DATE__ defines)",
+      "body": ""
+    },
+    {
+      "hash": "224554f6a26ad9c1166719b505741f77f5e7de06",
+      "date": "2019-06-27T11:20:48+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let built bundles be phony targets in build file",
+      "body": "The signature step takes the bundle as input and therefore depends on this, but if the bundle does not already exist, ninja will (correctly) complain that there is no rule to create it.\n\nFor bundles the sequence is now the following:\n\n- Copy/run depends on signature\n- Signature depends on bundle\n- Bundle depends on linked executable and all resources"
+    },
+    {
+      "hash": "e1e746f74f7ac3beeefcf61708acf1c2705163d1",
+      "date": "2019-06-26T23:38:21+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove obsolete build system information from README.md",
+      "body": ""
+    },
+    {
+      "hash": "079643119696eebfae1a2d5aeeb09be53e6a104e",
+      "date": "2019-06-26T15:03:13+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove COMPILE_DATE definition from build file",
+      "body": ""
+    },
+    {
+      "hash": "9078ae7771f6c9d28b436397d86e3f74d7d70491",
+      "date": "2019-06-26T15:02:04+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use __DATE__ instead of (custom) COMPILE_DATE macro",
+      "body": "I prefer the YYYY-MM-DD format of our custom macro, but it has a problem with precompiled headers in that the macro changes value daily, and so, if specified when precompiling headers, they become invalid the next day.\n\nPreviously we solved it by declaring the macro only for application targets, but the new build system is not hierarchical in the same way and does not currently support this."
+    },
+    {
+      "hash": "8e2de26529bfa57785e324ca0272bfed3274eaed",
+      "date": "2019-06-26T14:30:49+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move PLIST_FLAGS to TextMate’s target specification",
+      "body": ""
+    },
+    {
+      "hash": "51b5c992bd7d219d8d81a0bda1a04bec9b2d5fe8",
+      "date": "2019-06-26T14:24:02+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove unused test flags from configure script",
+      "body": ""
+    },
+    {
+      "hash": "92f4a91cca588b6640ec06fd5db4505d9e102155",
+      "date": "2019-06-26T14:23:09+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove required OS version as a ./configure option",
+      "body": "The code is written with a certain OS target in mind, so it makes sense to have this explicitly stated."
+    },
+    {
+      "hash": "9f6781ec3f0bc833c1b0b5e3e5e00f6879d383a8",
+      "date": "2019-06-26T14:17:54+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Get rid of the APP_NAME variable",
+      "body": ""
+    },
+    {
+      "hash": "1c5fc62f86b61fb54a39770dcd3049cf661b5a03",
+      "date": "2019-06-26T14:03:24+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not include $APP_NAME in QuickLook generator’s bundle identifier",
+      "body": "This was redundant as the final component is TextMateQL ($TARGET_NAME)."
+    },
+    {
+      "hash": "5aa58e5543cf03f7531025dddd6804410643e9e8",
+      "date": "2019-06-26T13:55:18+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not include $APP_NAME in framework’s bundle identifier",
+      "body": "Since we have multiple application targets, it doesn’t make sense with a global APP_NAME variable.\n\nThough if building the frameworks as standalone bundles and embedding them in different applications, we may need some sort of unique component in the bundle identifier, but we currently do not do this (they are all statically linked, so the Info.plist is currently unused)."
+    },
+    {
+      "hash": "1bc285270e6123f2c5dca89b361da4336287f2ae",
+      "date": "2019-06-26T10:26:51+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make OakCommand link with BundleEditor",
+      "body": "We previously avoided this link dependency because it would cause a cyclic dependency. The build system does however not error on cycles in the dependency graph as they are all statically linked together (rather than dynamically linking with each other).\n\nOnly cycles between root targets would cause a problem."
+    },
+    {
+      "hash": "412e6798ca206b15cdc8f86a1387835a3f4f82e7",
+      "date": "2019-06-26T10:10:58+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update build generator script",
+      "body": "This changes a bunch of things:\n\n1. Each framework now creates its own include directory for exported headers, and any target linking with this framework, gets that directory added to its include search path. This ensures deterministic behavior, unlike previously where a single shared directory was used, so even if target A did not explicitly link with target B, there was a reasonable chance that target B’s headers would be available when target A was built.\n\n2. There is a new IMPORT keyword to indicate that a target depends on the headers of another framework but does not want to link with it. For example the `commit` shell command imports headers from the CommitWindow framework (related to their communications protocol) but linking with the CommitWindow framework would not be practical (as that would bring in all the resources of the CommitWindow).\n\n3. All embedded targets are signed before being copied to their destination.\n\n4. A new CS_ENTITLEMENTS keyword allows specifying `codesign` entitlements. Currently the hardened runtime is enabled, although this does make development problematic, as modifying files of a running instance (as done during rebuild) can cause TextMate to crash with EXC_BAD_ACCESS (Code Signature Invalid). Worse though, it seems the system has a cache of blacklisted executables indexed by inode. So if e.g. the embedded `mate` executable gets blacklisted, one has to manually remove and rebuild it, before it gets possible to use it again (by default, rebuilding causes the inode to be re-used, but I may change the build system to unlink before copy).\n\n5. The build file no longer contains rules related to deployment. Instead variables are declared that a user build file can reference to extend the build with notarization/deployment rules (without having to hardcode build directory paths).\n\n6. The code has been made modular with a Compiler super class that is subclassed to add support for file transformations (xib, ragel, asset catalogs, etc.) and a transformed file can have its own settings.\n\n7. If target A links with target B, the linker flags of target B will now be included when linking target A.\n\n8. Currently no indexing of help books. Unsure if this is actually useful.\n\n9. Previously it was possible to have umbrella targets that would not generate any output, but just change settings for their sub-targets. This is no longer supported, as the implementation was arcane. I would like to introduce a different system for managing sectioned settings. Related to this; settings in target files are now always merged, regardless of whether using ‘=’ or ‘+=’."
+    },
+    {
+      "hash": "bb44795ae1f61b4d8228db9df2cb4466a4af2437",
+      "date": "2019-06-24T18:37:05+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Avoid ‘+=’ with “local” variables in build file",
+      "body": "By eliminating this operator we can treat the build files as plain dictionaries (no merging of re-declared values). While we still use the append operator in most of the files, it is appending to externally defined variables, so this can be changed to simple assignment, as long as the tree of build files is available to the processor."
+    },
+    {
+      "hash": "9dbc4b378100d89273ab65050cbaf1f0cdc52168",
+      "date": "2019-06-24T18:25:55+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add codesign entitlements (unused by current build system)",
+      "body": ""
+    },
+    {
+      "hash": "db706b8e99296ec5ada2ce0b340cc143b51f7a4f",
+      "date": "2019-06-24T18:16:07+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add NSAppleEventsUsageDescription",
+      "body": ""
+    },
+    {
+      "hash": "b5b36a558b32f4e46cbbef8b63807a41fbcd0d3a",
+      "date": "2019-06-24T18:15:24+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add missing framework dependencies",
+      "body": ""
+    },
+    {
+      "hash": "da996b654204f584bcc6664d57199ef81a3b6f1c",
+      "date": "2019-06-24T18:08:43+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use “quote” include statements for framework’s own headers",
+      "body": ""
+    },
+    {
+      "hash": "66c96b8393dcd79f1e4a773acaf8af5e8c1a963d",
+      "date": "2019-06-16T00:34:59+09:00",
+      "author": {
+        "name": "DaeHyun Sung",
+        "username": "studioego",
+        "avatar_url": "https://avatars.githubusercontent.com/u/20002?v=4"
+      },
+      "summary": "Fix typo in character set name: ‘Korean – {ISO-2022-JP → ISO-2022-KR}’",
+      "body": ""
+    },
+    {
+      "hash": "694877aad17238e509ef73db45f32d5377cc955d",
+      "date": "2019-03-19T12:16:21+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes for 2.0-rc.23",
+      "body": ""
+    },
+    {
+      "hash": "5202dc34bd6e7d2840b71051669e5ee3d4cee7a6",
+      "date": "2019-03-19T12:08:11+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Revert \"Let NSScrollView draw border above/below search results\"",
+      "body": "The scroll view’s border is black on 10.13.6 (and possibly earlier) which is undesired.\n\nSee https://lists.macromates.com/textmate/2018-December/040858.html\n\nThis reverts commit a0ac9c9a921c85910110fe795b95342e0e06f0df."
+    },
+    {
+      "hash": "d3bce0e5eadd43e6735e77ce8273ce86ace0376f",
+      "date": "2019-02-21T13:33:06+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Bump copyright year to 2019",
+      "body": ""
+    },
+    {
+      "hash": "fc0ada2500944118589bbd89c7e0843a65f25fcf",
+      "date": "2019-02-13T19:17:51+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix (or update?) type of argument passed to CFPropertyListWrite",
+      "body": ""
+    },
+    {
+      "hash": "97fb1f07cdd42be99b46048031345a4b7af323b1",
+      "date": "2019-02-13T18:57:44+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Only use checkbox convenience constructor on 10.14 or later",
+      "body": "The button created on 10.12 or 10.13 has a “Button” label next to it when used in table views (as used in the Find in Project results and Commit sheet)."
+    },
+    {
+      "hash": "e0ddc617945f521264380fea55452a734708d2d3",
+      "date": "2019-01-10T10:58:59-05:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "OakSyntaxFormatter: Clean up font attributes",
+      "body": "See https://lists.macromates.com/textmate/2019-January/040883.html.\n\nThe issue is caused by commit f850dbdbc772814372ad84f8740ea8234950cc5d, which added support for font style changes. It did so by applying a single font across the entire string. But, in some cases not all characters (e.g., Chinese or Japanese characters) may be available for that font so these characters would not be rendered correctly while editing."
+    }
+  ]
+}

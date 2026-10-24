@@ -1,0 +1,136 @@
+#!/usr/bin/env ruby
+# script/update_contributions — regenerate the data behind the About window's Contributions page.
+#
+# The page lists every commit to this repository, by everyone. Its data is one
+# JSON file per year in Applications/TextMate/resources/Contributions, committed
+# to the repository, so a build needs neither the network nor a GitHub token.
+# Run this after merging, and before a release, then commit the result. The
+# commit that adds the files is itself not in them, which is the nature of it.
+#
+# git supplies the commits. GitHub supplies, for each commit, the account it
+# resolves the author to, login and avatar, which is the one thing git does not
+# know and the only reason this script talks to the network, through gh, which
+# the Brewfile installs and `gh auth login` signs in. Commits already in the
+# files keep what they have, so a run asks GitHub about the commits since the
+# last run and no others.
+
+require "json"
+require "open3"
+require "set"
+require "time"
+
+REPOSITORY  = "textmate3/textmate"
+ROOT        = File.expand_path("..", __dir__)
+DESTINATION = File.join(ROOT, "Applications/TextMate/resources/Contributions")
+
+# The commits GitHub knows, newest first, one hundred a page, each with the
+# account it resolved the author to or nil. Stops at the page where the last
+# wanted commit was found, so a routine run reads one page.
+def github_accounts(wanted)
+  found  = {}
+  wanted = wanted.to_set
+  return found if wanted.empty?
+
+  abort "update_contributions: gh is not installed. It is in the Brewfile, so `brew bundle` installs it." if system("gh", "--version", out: File::NULL, err: File::NULL).nil?
+  abort "update_contributions: gh is not signed in to GitHub. `gh auth login` signs it in." unless system("gh", "auth", "status", out: File::NULL, err: File::NULL)
+
+  page = 1
+  until wanted.empty?
+    output, status = Open3.capture2("gh", "api", "repos/#{REPOSITORY}/commits?per_page=100&page=#{page}")
+    abort "update_contributions: gh api failed on page #{page}, so nothing was written" unless status.success?
+
+    commits = JSON.parse(output)
+    break if commits.empty?
+
+    commits.each do |commit|
+      next unless wanted.delete?(commit.fetch("sha"))
+
+      # A commit with no author email comes back with an empty object here rather than nil.
+      account = commit["author"]
+      found[commit.fetch("sha")] = account && account["login"] ? { "username" => account["login"], "avatar_url" => account["avatar_url"] } : nil
+    end
+    page += 1
+  end
+
+  warn "update_contributions: #{wanted.size} commits are not on GitHub yet and are written with their name alone" unless wanted.empty?
+  found
+end
+
+existing = {}
+Dir.glob(File.join(DESTINATION, "*.json")).each do |path|
+  JSON.parse(File.read(path)).fetch("commits").each { existing[it.fetch("hash")] = it }
+end
+
+# Hash, author date, author name, author email, summary and body, each field
+# ended by a NUL and each commit by a record separator, neither of which a
+# message can hold. The email is not written out. It is what the account is
+# matched on, and git already has it.
+format = "%H%x00%aI%x00%an%x00%ae%x00%s%x00%b%x1e"
+log, status = Open3.capture2("git", "-C", ROOT, "log", "--format=#{format}")
+abort "update_contributions: git log failed" unless status.success?
+
+commits = log.split("\x1e").filter_map do |record|
+  hash, date, name, email, summary, body = record.sub(/\A\n/, "").split("\x00", 6)
+  next if hash.nil? || hash.empty?
+
+  { hash: hash, date: date, name: name, email: email, summary: summary, body: body.to_s.strip }
+end
+
+# A record without an account is asked about again while it is recent, since a
+# commit run from a branch is not on GitHub's main until it merges. The old
+# ones without an account stay that way, which keeps a routine run to one page.
+RECENT = Time.now - 90 * 24 * 60 * 60
+
+def settled?(record)
+  record && (record.fetch("author")["username"] || Time.iso8601(record.fetch("date")) < RECENT)
+end
+
+accounts = github_accounts(commits.map { it[:hash] }.reject { settled?(existing[it]) })
+
+# An author is one account, so a commit GitHub has not seen, one on a branch
+# that has not merged, takes the account of another commit by the same email.
+def account_of(record)
+  author = record.fetch("author")
+  author["username"] && { "username" => author["username"], "avatar_url" => author["avatar_url"] }
+end
+
+by_email = {}
+commits.each do |commit|
+  account = accounts[commit[:hash]] || (existing[commit[:hash]] && account_of(existing[commit[:hash]]))
+  by_email[commit[:email]] ||= account if account && !commit[:email].empty?
+end
+
+records = commits.map do |commit|
+  if settled?(record = existing[commit[:hash]])
+    record
+  else
+    account = accounts[commit[:hash]] || by_email[commit[:email]]
+    {
+      "hash"    => commit[:hash],
+      "date"    => commit[:date],
+      "author"  => {
+        "name"       => commit[:name],
+        "username"   => account && account["username"],
+        "avatar_url" => account && account["avatar_url"],
+      },
+      "summary" => commit[:summary],
+      "body"    => commit[:body],
+    }
+  end
+end
+
+# One file per year of the author date, newest author date first within it,
+# since that is the order the page shows and git log's own order is by commit
+# date and parentage, which a rebase or a cherry pick puts out of step with
+# it. A year that is over never changes again, so its file does not either.
+Dir.mkdir(DESTINATION) unless File.directory?(DESTINATION)
+by_year = records.group_by { it.fetch("date")[0, 4].to_i }
+by_year.sort.each do |year, year_records|
+  year_records = year_records.sort_by.with_index { |record, index| [-Time.iso8601(record.fetch("date")).to_f, index] }
+  path = File.join(DESTINATION, "#{year}.json")
+  File.write(path, JSON.pretty_generate({ "year" => year, "commits" => year_records }) + "\n")
+  puts "  #{year}  #{year_records.size} commits"
+end
+
+without_account = records.count { it.fetch("author")["username"].nil? }
+puts "#{records.size} commits in #{by_year.size} files, #{without_account} without a GitHub account"

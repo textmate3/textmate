@@ -1,0 +1,3118 @@
+{
+  "year": 2015,
+  "commits": [
+    {
+      "hash": "2dd825515e343a036172859492e25abfc22de3da",
+      "date": "2015-12-30T01:04:19-08:00",
+      "author": {
+        "name": "Brian T. Kelley",
+        "username": "briantkelley",
+        "avatar_url": "https://avatars.githubusercontent.com/u/624840?v=4"
+      },
+      "summary": "Double Click to Select Typing Pairs",
+      "body": "TextMate highlights certain character pairs (e.g. { }) when the caret passes over either of the characters. It can be useful to double click to select the text in between and including the character pairs for deleting code, copying code, for visually differentiating the affected code, etc. Add a select_unit_type, kSelectionExtendToWordOrTypingPair, to select the inclusive bounds of a typing pair if a match is found, or otherwise select a word as normal.\n\nThis patch is free and released into the public domain."
+    },
+    {
+      "hash": "e59db8375f33c8374385dec581bf9dadfcd43d96",
+      "date": "2015-12-28T13:40:17+01:00",
+      "author": {
+        "name": "Adam Strzelecki",
+        "username": "nanoant",
+        "avatar_url": "https://avatars.githubusercontent.com/u/103067?v=4"
+      },
+      "summary": "Use panel language unless spellingLanguage is specified",
+      "body": "This partially reverts changes of 3fdc72b93af0167e234c48314658d702f65a8a5f:\nSupport spell checking being “automatic by language”.\n\nBefore 3fdc72b spellingLanguage .tm_properties setting (default \"en\") was the\nonly way to set spelling language for file (buffer). English was default\nlanguage for all files. 3fdc72b introduced change that when “automatic by\nlanguage” was selected in system's spelling panel then TextMate was ignoring\nspellingLanguage setting and was using automatic by language.\n\nHowever because “automatic by language” is default on OS X, effectively 3fdc72b\nmakes spellingLanguage setting no longer effective. To make it work one needs\nto set explicit spelling language either in System Preferences or in spelling\npanel upon each TextMate run (since this is getting reset after application\nrestart) - which is counter-intuitive, can be treated as regression and it is\nvaguely described in ChangeLog:\n\n * Support spell checking being “automatic by language”. This is set via the\n   spelling panel.\n\nThis change presents alternative approach, introducing new empty\nspellingLanguage setting \"\" (which is now default), which makes use system\npanel language setting, including “automatic by language”.\n\nFrom now on all files will be checked against system panel selected language\n(or automatic), unless .tm_properties project specifies explicitly language for\ngiven file using, eg.:\n\n    [ locale-en_US.ini ]\n    spellingLanguage = en_US\n\n    [ locale-pl_PL.ini ]\n    spellingLanguage = pl_PL\n\nOr automatically depending on file name:\n\n    [ locale-*.ini ]\n    spellingLanguage = '${TM_FILEPATH/^.*locale-([a-z]+_[A-Z]+).*$/$1/}'"
+    },
+    {
+      "hash": "ac08ce04f789914af2c8ae82976a4b80c6d38644",
+      "date": "2015-12-07T07:19:38+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Disable app transport security",
+      "body": "This is only required for the WebView which many bundle commands use to show online documentation and similar.\n\nIt’s impractical to maintain a whitelist of allowed domains."
+    },
+    {
+      "hash": "ce4572ef2b153d8bf5bc3eb160d6db13223cece6",
+      "date": "2015-12-07T07:15:43+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Convert TextMate’s Info.plist from old-style to XML",
+      "body": "This is required for storing boolean values which the new NSAppTransportSecurity setting must use. It does not work using `YES` or `1` to represent `<true/>`."
+    },
+    {
+      "hash": "33f945eb02e187da218a3a0a3b62865ea42dfdc0",
+      "date": "2015-12-06T20:12:23+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes",
+      "body": ""
+    },
+    {
+      "hash": "78da1357fd2d9354546378e320b9e37cf8759fd1",
+      "date": "2015-12-06T19:52:37+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "File browser no longer refuses first responder on mouse clicks",
+      "body": "Previously we would only accept first responder if clicking an already selected item, this was so that the user could select items in the file browser without losing focus from the text editor.\n\nUnfortunately after switching to a view-based file browser, clicking an already selected item (even when the file browser does not have focus) brings up an edit-in-place text field which is undesired.\n\nWorse is that it is brought up after a delay, so a user may for example click the file browser (to give it focus) and instantly initiates an action like duplicate, which brings up the edit-in-place text field for the new copy, but then after a short delay, will move the edit-in-place text field to the originally clicked item."
+    },
+    {
+      "hash": "b83f312e53b1e26c43bc4eedafd8fab38ad6ac67",
+      "date": "2015-11-20T13:33:01+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove dummy initializer method",
+      "body": "With the 10.11 SDK we get a warning about this initializer not calling super, however, we do not intend for instances of this class to be created, which is why we had the dummy initializer.\n\nWe should remove this class entirely, as it’s a workaround for a problem that was fixed a long time ago, but I haven’t yet tested if there are still bundles using the (legacy) tm-file: URL scheme."
+    },
+    {
+      "hash": "edb38b056854b6021a3b855b5bdd27db2a78dd93",
+      "date": "2015-11-20T13:30:05+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Refactor code to avoid overloading a system method",
+      "body": "We were getting a warning because our method was called with nil, but the system method should be called with a non-nil argument."
+    },
+    {
+      "hash": "5af24f2c5ecbbb1060c78ea33dc057888b5860d5",
+      "date": "2015-11-20T13:25:02+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Call super’s init in designated initializer",
+      "body": "This is to silence new warnings."
+    },
+    {
+      "hash": "bdbf82837f2485bed85683f6c1b1ff553f3671b7",
+      "date": "2015-11-20T13:13:47+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add typecast to suppress warning with 10.11 SDK",
+      "body": ""
+    },
+    {
+      "hash": "34784570983e0979f0180b5dc7e7d61e0f54fc11",
+      "date": "2015-11-20T13:09:29+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Pass non-null arguments where the 10.11 SDK requires it",
+      "body": ""
+    },
+    {
+      "hash": "bef024c73c16505a25f032b685f12b18a309530b",
+      "date": "2015-11-19T22:34:54+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Support using “force click” to look up words",
+      "body": "This must be set in System Preferences → Trackpad → Look up & data detectors."
+    },
+    {
+      "hash": "edf2923f3a90d1d589b837f144ced954693ed96e",
+      "date": "2015-11-19T22:29:27+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Allow obtaining character rectangle placed on the baseline",
+      "body": ""
+    },
+    {
+      "hash": "8c19532531b85539e998472ad3c502013e5351e4",
+      "date": "2015-11-18T09:29:56+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t change user defaults in background queue",
+      "body": "The problem is that when we change user defaults a notification is posted, and this runs on the thread that did the change, so our own “user defaults did change” notification callbacks are executed on a background thread."
+    },
+    {
+      "hash": "1e10ef8ac287b98dcaf7e4fc735628d84b9757e6",
+      "date": "2015-11-13T15:24:52+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Workaround for 10.11 regression",
+      "body": ""
+    },
+    {
+      "hash": "bdcba4d66e36a848da41810506af9806b0200e07",
+      "date": "2015-10-29T09:30:23+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change --amend option to --commit-button-title Amend",
+      "body": "This allows us to set arbitrary titles, should we need it in the future.\n\nIt also changes the code slightly so that there is only one method to create the full button title."
+    },
+    {
+      "hash": "e1bbc9f35828ae0c4bc4ede6c236f62aeab6a13b",
+      "date": "2015-10-29T09:03:16+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Change --rebase-in-progress option to --show-continue-button",
+      "body": "Also change the property accordingly."
+    },
+    {
+      "hash": "8d8c5393134b5893a7631ee4154e0555906a1baa",
+      "date": "2015-10-28T15:38:18+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Truncate environment variables that exceed ARG_MAX",
+      "body": "Previously we only logged an error when this happened, but (recently?) exceeding the limit will cause execve()."
+    },
+    {
+      "hash": "57d0f29cdc5ddbf0d68cf7468589390fb3d19f7b",
+      "date": "2015-10-28T15:37:04+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Replace in folder would lose byte-order-mark for UTF-8 documents",
+      "body": "This would only happen for documents not already open when performing the search and replace (in folder)."
+    },
+    {
+      "hash": "d988cf18c2a5016f4e6585b57053877150b29799",
+      "date": "2015-10-27T09:58:30+01:00",
+      "author": {
+        "name": "Jacob Carlborg",
+        "username": "jacob-carlborg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/306980?v=4"
+      },
+      "summary": "Support \"Amend\" as button title in the commit window",
+      "body": "When the --amend flag is passed to the \"commit\" command, the commit\nwindow will used \"Amend\" instead of \"Commit\" as the title for the\ncommit button."
+    },
+    {
+      "hash": "cc7e2e8322e170cb3ab41959f345f925afe9623e",
+      "date": "2015-10-25T20:26:17+01:00",
+      "author": {
+        "name": "Jacob Carlborg",
+        "username": "jacob-carlborg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/306980?v=4"
+      },
+      "summary": "Add support for commit and continue in the commit window",
+      "body": "The use case for this feature is when an interactive rebase is in\nprogress and be able to, in one command, amend the current commit\nand continue with rebase.\n\nBy default, if the --rebase-in-progress flag is passed when the\n\"commit\" command is invoked the commit button will be in a\n\"commit and continue\" state. This is indicated by the title of the\ncommit button now being \"Commit & Continue\". If the option (⌥) key\nis being hold down the state will revert back to the standard \"commit\"\nstate and the title will change to \"Continue\".\n\nIf the butten was clicked when it was in the \"commit and continue\"\nstate the \"commit\" command will print \"TM_SCM_COMMIT_CONTINUE=1\"\n(without the quotes) to stdout as the last line. If the button was\nclicked when it was in the standard \"commit\" state the output may\ncontain \"TM_SCM_COMMIT_CONTINUE=0\", or the \"TM_SCM_COMMIT_CONTINUE\"\nstring will be absent."
+    },
+    {
+      "hash": "b55ef5b09a395663baa676fb2e0f02ba828aa7f9",
+      "date": "2015-10-23T18:01:48+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Save all xibs with Xcode 7.1 (7B91b)",
+      "body": "This was done in an attempt to prevent the warning saying “This file is set to build for a version older than the project deployment target.”\n\nUnfortunately saving all the xibs did not get rid of the warning, even though tehy are all set to have 10.7 as their build target.\n\nThe latest xib format does however remove about 10.000 lines of XML."
+    },
+    {
+      "hash": "3dbdd0cf329b9085967a246d4e9d85ba71494d75",
+      "date": "2015-10-23T17:35:15+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes",
+      "body": ""
+    },
+    {
+      "hash": "9490ff8967ec1a7de8625d3f8e698b76ca370a02",
+      "date": "2015-10-23T17:21:41+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t re-use FSItems for expanded folders during reload",
+      "body": "The problem is that the URL property for all descendents of this item are pointing to the old path.\n\nIdeally we should recursively update the descendents, because the current workaround loses the expanded state of the folder."
+    },
+    {
+      "hash": "1cdf087e963cce798d6579f0d75aa35101f50db8",
+      "date": "2015-10-23T17:20:54+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Reset target property when re-using file system item",
+      "body": ""
+    },
+    {
+      "hash": "c8fce64ad6a95c997236224c194caa8c8a1849de",
+      "date": "2015-10-17T20:50:27+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Account for NSOutlineView expand animations when revealing item",
+      "body": "To reveal an item we need to expand all parents, but after switching to a view-based outline view, expanding items will be done animated, and updating the outline view’s bounds won’t happen until after all animation has completed.\n\nI tried adding a completion handler to the current animation context, but this ran before the bounds had been updated.\n\nI also tried to disable expansion animation (when we have an item to reveal), but I was unable to make that work. What I did was group the expandItem:expandChildren: call in a new animation context for which the duration had been set to zero."
+    },
+    {
+      "hash": "cb75d41db3dbc483e9301b2709e1d9e6f61b7f40",
+      "date": "2015-10-17T17:42:19+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Prevent opening two tabs for the same file",
+      "body": "This could previously be done by creating a symbolic link and then selecting both the symbolic link and the original file, and selecting to open both at once.\n\nSince the two tabs would have same identifier, the NSView for one of the two tabs could be left behind in the tab bar when manipulating the tabs."
+    },
+    {
+      "hash": "1597e687147cca41c1bfefcbdc4c2d9baef01c4e",
+      "date": "2015-10-16T20:02:24+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not show ‘0’ when holding command (⌘) in search results",
+      "body": "The numbers indicate the key equivalent that can be used to jump to the document, but since cb1c516 we no longer support ⌘0."
+    },
+    {
+      "hash": "7719097bdda2fdac92cf9b7eee648b6d1d7d4703",
+      "date": "2015-10-16T19:25:39+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add View → Font → Default Size menu action",
+      "body": "This also works for the HTML output."
+    },
+    {
+      "hash": "e621685fc123c2ace1c0f3efbe37ad3f002a6b97",
+      "date": "2015-10-16T19:21:07+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add makeTextStandardSize: action method",
+      "body": ""
+    },
+    {
+      "hash": "cb1c51692c3ed5a2e53542988aa0a974fa80aecc",
+      "date": "2015-10-16T19:17:05+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Bind Go to Tab → Last Tab to ⌘9 instead of ⌘0",
+      "body": "Also avoid binding to ⌘0 in all other ⌘1-n contexts.\n\nThis frees up ⌘0 to “Reset Font Size”."
+    },
+    {
+      "hash": "9a1e05f48977eadb6380c988178adeffec56cc0c",
+      "date": "2015-10-16T19:14:36+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Showing bundle menu with no status bar would cause infinite loop",
+      "body": "This is because we were forwarding the message to ‘nil’ rather than the status bar, and ‘nil’ here would be first responder, i.e. ourself.\n\nFixes textmate/bugs#17"
+    },
+    {
+      "hash": "00a20aefb6afe1535176d9a778baeee5ee78905d",
+      "date": "2015-10-14T11:26:48-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Revert \"Disable unused-local-typedef warning for `sparsehash`\"",
+      "body": "This reverts commit 2c6ad9b391a82e5334feb139eb53bea8b21e92b9.\n\nUpstream released a new version, which resolved the warnings this commit meant to suppress."
+    },
+    {
+      "hash": "b06f20ca72844a84ba58644d2f5241489e59a428",
+      "date": "2015-10-10T19:30:22-05:00",
+      "author": {
+        "name": "Michael Sheets",
+        "username": "infininight",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1974?v=4"
+      },
+      "summary": "Add project scope for Cargo (Rust) projects (attr.project.cargo)",
+      "body": ""
+    },
+    {
+      "hash": "720f9eac98ddc3abdf3791704363c2912558fd2c",
+      "date": "2015-10-03T17:00:52+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Expect more than just {?name} in GitHub’s URI template",
+      "body": "Currently GitHub supports both name and label parameters."
+    },
+    {
+      "hash": "26d4ebf3022b41b568f2d0ba9d2bbaedbe673ed3",
+      "date": "2015-10-02T23:15:33+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Decompile .scpt files when generating QuickLook preview/thumbnail",
+      "body": ""
+    },
+    {
+      "hash": "5738792b364bd2c0d3bcd61fcb4089be657da83c",
+      "date": "2015-10-02T23:13:13+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Refactor QuickLook generator",
+      "body": "Generating a preview and a thumbnail now share the same code for loading the file and creating an attributed string from its content."
+    },
+    {
+      "hash": "054747974b62068193230893021bbb4f7d2fe04c",
+      "date": "2015-10-02T12:04:32-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Refresh when unfolding on mouse down event",
+      "body": "This seems to be necessary when the document occupies less space than the visible document window."
+    },
+    {
+      "hash": "a23b5225b17da7ebd2561b7e23aafa3f30932d52",
+      "date": "2015-10-01T11:13:45-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Don't undefine/redefine \"DEPRECATED\" macro",
+      "body": "We no longer use Apple's headers for `openssl` so this isn't necessary."
+    },
+    {
+      "hash": "5bbcf424874917d4f021a3f33379c6b530dae0f3",
+      "date": "2015-10-01T10:53:30-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Require LibreSSL instead of relying on the system provided openssl",
+      "body": "Apple deprecated `openssl` in 10.7 and the headers are now removed in 10.11. Since we use some low level functions that are not provided in Apple's crypto frameworks, we now require are own version."
+    },
+    {
+      "hash": "acd4497f5e505bcf56acf1ca572ffce2ad5a55f8",
+      "date": "2015-09-24T21:56:43-04:00",
+      "author": {
+        "name": "Ram Nadella",
+        "username": "ram-nadella",
+        "avatar_url": "https://avatars.githubusercontent.com/u/583956?v=4"
+      },
+      "summary": "Fix typo in 2015-09-16 (v2.0-beta.8) section of release notes",
+      "body": ""
+    },
+    {
+      "hash": "cd016be29489eba5f3c09b7b70b06da134dda550",
+      "date": "2015-09-24T18:33:40+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update dialog plug-in (declare new protocols from 10.11 SDK)",
+      "body": ""
+    },
+    {
+      "hash": "3f5575cfe4016f2d8a34c6e506146b962f7aa083",
+      "date": "2015-09-19T10:14:07-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Directly convert the URL received from NSOpenPanel to a path",
+      "body": "We call `fileURL` here but the method doesn't actually exists (it's actually a property with the getter `isFileURL`). The URLs we obtain from NSOpenPanel are paths so it's probably safe to get the path without checking if it's a proper file URL."
+    },
+    {
+      "hash": "75d3c74f05c1260df71e5852dab5d7f0c8c4bf85",
+      "date": "2015-09-19T10:14:03-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "OFBOutlineView: Rename draggedItems → draggedOFBItems",
+      "body": "This property's name was conflicting with a private instance variable in our superclass (NSOutlineView) for the 10.11 SDK."
+    },
+    {
+      "hash": "f29ddf6500b9cdf6a4b18b6394f7ceccebe79b4f",
+      "date": "2015-09-19T10:14:00-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Declare new protocols when building for 10.11",
+      "body": "These were informal protocols prior to 10.11."
+    },
+    {
+      "hash": "9e4e88ce76a334abe01f79e9d355623beac75831",
+      "date": "2015-09-19T10:13:51-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Explicitly cast back to the CGEventFlags typedef",
+      "body": "The SDK for 10.11 (Xcode 7 GM and Xcode 7.1 beta) declares this enum using CF_ENUM instead of CF_OPTIONS, which forces us to explicitly cast back to the typedef type. <rdar://22743357>\n\nHopefully, we can revert this after OS 10.11 is officially released."
+    },
+    {
+      "hash": "64b03394e9463559696df09e34ede85aba2a4f05",
+      "date": "2015-09-16T08:35:15+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes",
+      "body": ""
+    },
+    {
+      "hash": "10b1f3bfea01c72c7f7fda126d4ee687379f6ec1",
+      "date": "2015-09-10T14:23:19+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Always clear SCM info when changing document",
+      "body": "For a project window where only some tabs are under version control, switching from one tab with version control info, to one without, would use the info from the previous tab with the new one (proxy icon badge and scope attributes)."
+    },
+    {
+      "hash": "b6a7529d972f1c4345eb6abb326c2e2dca603bc4",
+      "date": "2015-09-10T14:20:51+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Bind tab size dialog to OakDocumentView instead of OakTextView",
+      "body": "This ensures the setting is saved and also (sort of) follows the principle of least knowledge."
+    },
+    {
+      "hash": "871e013ed97395909aefc5253b41f0461f57ec1c",
+      "date": "2015-09-10T14:19:10+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add tabSize property to OakDocumentView",
+      "body": "Going via this property ensures that the setting is saved."
+    },
+    {
+      "hash": "b1fa6524cb0cbb119873e97c960aa18b8c59f06a",
+      "date": "2015-09-10T13:06:36+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Save with Xcode Version 6.4 (6E35b)",
+      "body": ""
+    },
+    {
+      "hash": "a99acf85322b0ab0490fa45a2287a9ef407574b5",
+      "date": "2015-09-07T20:15:10+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "fixup! Ensure we re-use file browser items that are unchanged",
+      "body": ""
+    },
+    {
+      "hash": "98571f90ee67ff3b4a6322bfb2277594cfda5746",
+      "date": "2015-09-07T18:27:16+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update Onigmo submodule",
+      "body": ""
+    },
+    {
+      "hash": "c038bbe7bc9bad843bd42333d1444c7bf79887b0",
+      "date": "2015-09-07T18:15:49+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ensure we re-use file browser items that are unchanged",
+      "body": "The data sources should already re-use items, as they are passed the old items, but since data sources are multi threaded, there might perhaps be a situation where the items passed gets updated out-of-order and re-use isn’t perfect (I haven’t been able to confirm this).\n\nRe-using the items, when we use the animation methods of the outline view, does however seem to be very important, because the outline view will neither copy nor retain the items returned from our data source, so we must ensure they stay retained until we have told the outline view that the item no longer exist, so replacing an item with one that is equal but not pointer identical, without notifying the outline view, will cause random crashes.\n\nAt least that is my theory."
+    },
+    {
+      "hash": "7e396fae6f955ab9c00896290260f249997701a6",
+      "date": "2015-09-06T20:36:30+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Open all selected items on double click and Open menu action",
+      "body": ""
+    },
+    {
+      "hash": "51edc48beae2611bc28adf2045cecbfebaa76c3e",
+      "date": "2015-08-30T14:17:38+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes",
+      "body": ""
+    },
+    {
+      "hash": "4484eb0de3e468fc108f0d7c0d525cd244f1598f",
+      "date": "2015-08-30T10:55:18+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove unused method",
+      "body": ""
+    },
+    {
+      "hash": "975fd707797e2dc77d8cb0e715066c4aeb5b671a",
+      "date": "2015-08-30T10:53:24+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Re-encode redundantly encoded multi-byte sequences",
+      "body": "If our buffer contained such sequences then an exception could be thrown when creating an NSString representation, for example copying to the system clipboard or displaying search results in the UI."
+    },
+    {
+      "hash": "09294626fe62b693a29630420c0bd2e20c0eac31",
+      "date": "2015-08-30T10:52:56+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use stringWithCxxString: instead of calling c_str",
+      "body": "The problem with the latter is that a C string is null terminated, but we might have null characters in our string.\n\nFurthermore, the stringWithCxxString: can do a little extra work, like check if the string is NULL_STR or (after next commit) fix redundantly encoded multi-byte sequences."
+    },
+    {
+      "hash": "7400fb63ade912878c8fcc61dc4dc47f2ff1d57b",
+      "date": "2015-08-27T23:02:17+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "fixup! Use empty last line from commands working on multiple selections",
+      "body": "We only use the last empty line when there are more than a single line break in the string to be inserted.\n\nThe use-case here is having multiple carets and then running a command like “echo foo”. Here we receive “foo\\n” which is split into (“foo”, “”), so every second caret would get the empty string inserted."
+    },
+    {
+      "hash": "c603b83050ad293ffe9d68f00feeba6f7b2467be",
+      "date": "2015-08-27T22:58:56+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t use “entire document” fallback input with multiple carets",
+      "body": ""
+    },
+    {
+      "hash": "d02421670fdeca331ee8b995f1be5f1e9405f843",
+      "date": "2015-08-27T22:55:03+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t skip sanitizing ranges when input is “entire document”",
+      "body": "Incase there are multiple carets, we’ll get multiple “entire documents” ranges."
+    },
+    {
+      "hash": "f06f447ede92b433ca48412dd7993cfcad542204",
+      "date": "2015-08-24T13:31:05+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Avoid referencing private types by using std::remove_pointer",
+      "body": ""
+    },
+    {
+      "hash": "60050cf026fd1bec97cde532e8ffe29f0087d10a",
+      "date": "2015-08-08T11:35:23+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add Export Bundle… to bundle editor’s context menu",
+      "body": ""
+    },
+    {
+      "hash": "c259dd582bd7824ddf3c2c5ca85dd1d8db7be384",
+      "date": "2015-08-08T11:34:55+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add API to save bundle item to arbitrary location",
+      "body": ""
+    },
+    {
+      "hash": "3acd714402f99250d0610953677ebdc4f9567c8a",
+      "date": "2015-08-08T11:34:35+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Refactor",
+      "body": ""
+    },
+    {
+      "hash": "70b830b557c65c246c9c6b3643e7cddae156a3f3",
+      "date": "2015-08-08T11:34:06+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add API to skip resolving proxy items when querying bundle items",
+      "body": "This is useful for obtaining a list of “physical” bundle items in a bundle."
+    },
+    {
+      "hash": "05e087f0873397eb4ac01f4a4a1bec3497f68613",
+      "date": "2015-08-08T11:34:06+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use view-based table view in pop-up menu usable from snippets",
+      "body": "Starting with 10.10 (I think) the text was no longer drawn in the proper highlight color. Switching to a view-based table view fixed that issue."
+    },
+    {
+      "hash": "2c6ad9b391a82e5334feb139eb53bea8b21e92b9",
+      "date": "2015-08-06T13:27:12-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Disable unused-local-typedef warning for `sparsehash`",
+      "body": "Also, disable unknown-pragmas warning for older version of clang."
+    },
+    {
+      "hash": "ac56d6e896523293d6663eff15e55dd73c9e5593",
+      "date": "2015-08-06T13:24:28-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Move OakFlagState enum declaration out of method",
+      "body": "Also, changed the `newFlagState` property to use the enum type."
+    },
+    {
+      "hash": "14c6a70b859bff43bea60f8b62071c0269b85abb",
+      "date": "2015-08-06T11:38:49-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Use our own lightweight wrapper for thread local storage",
+      "body": "With the boost thread helper we have to statically link to the boost libraries, which on most system is built against the latest version of the OS (instead of our current target 10.7). This doesn't seem to be an actual problem, but newer versions of clang issue warnings about it."
+    },
+    {
+      "hash": "f3d1abaeca098359edbc24a01f6fb1607f699326",
+      "date": "2015-08-06T10:51:46-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Introduce tls_ptr_t",
+      "body": "This is a lightweight wrapper around the pthread methods to access thread local memory."
+    },
+    {
+      "hash": "6b387eea6e044b3957fbd1513b1d3352d4a591db",
+      "date": "2015-08-05T12:32:40+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Implement setNilValueForKey:",
+      "body": "When running a debug build we get an exception due to lacking this method and the documentation does seem to indicate this is required for scalar keys."
+    },
+    {
+      "hash": "068855b4e075eff6cff015cd52930f8eb83b3c24",
+      "date": "2015-08-05T12:32:06+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Disable deprecation warning for API working on resource forks",
+      "body": "There doesn’t seem to be any replacement API for this so while the warning (when building with the 10.8 SDK) may serve as a reminder to update the code, the only possible update I can see is to drop support for reading text clippings."
+    },
+    {
+      "hash": "8fe7681ebdb0d7c0ec5c74322b59917257f7c698",
+      "date": "2015-08-05T12:31:20+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove unnecessary include of oak/compat.h",
+      "body": ""
+    },
+    {
+      "hash": "d1ed42fef17c8615696ad617ef4f3f952008368c",
+      "date": "2015-08-05T12:29:33+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use isOperatingSystemAtLeastVersion: to check for 10.10",
+      "body": "The method wasn’t public before 10.10 but since we need to check for 10.10 we can simply conclude that lack of this method means that we are not running on 10.10."
+    },
+    {
+      "hash": "c75b89c048c528fbb8e1cab39570324c0bf0168c",
+      "date": "2015-08-05T12:29:24+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Avoid temporary CFStringRef when creating file system CFURLRef",
+      "body": ""
+    },
+    {
+      "hash": "6ffd12e805d3ab546b1c1d267abcba79187fc408",
+      "date": "2015-08-05T12:29:12+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Improve algorithm to find root when using reveal in file browser",
+      "body": "The algorithm will avoid changing root when possible. If root has to be changed, we favor the current project folder, if that is not possible, we use the parent for the item being selected, unless the item is in a file package below the project folder, in that case, we use the root of the file package."
+    },
+    {
+      "hash": "d550eae4a0683bea109a5b2298b61cc9882cec12",
+      "date": "2015-08-05T12:28:07+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove legacy code for relaunching already running instance",
+      "body": ""
+    },
+    {
+      "hash": "b2c76df2da227688aca96164bfb301927dd3bba4",
+      "date": "2015-08-05T12:27:06+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix incorrect type declaration",
+      "body": ""
+    },
+    {
+      "hash": "82e5e14ae131d285ddfede0134f2f87d8a3fe2cb",
+      "date": "2015-08-05T12:26:17+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove unused function: is_trashed",
+      "body": "The intent was to use this to decide if the proxy icon should be hidden but the API used by the function is deprecated on 10.8."
+    },
+    {
+      "hash": "7d9b2d54703ac2e6351c9a3ce0c89fdb2a4dd214",
+      "date": "2015-08-05T12:25:12+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Unbind properties when disposing our view",
+      "body": "Since we dispose the subviews that the bindings are hooked up to, this shouldn’t be necessary, but it’s good for symmetri."
+    },
+    {
+      "hash": "9efde6d41bba6a5ed2492f53f565240069034ddc",
+      "date": "2015-08-05T12:24:39+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t place a caret when ⌘-clicking a selection",
+      "body": ""
+    },
+    {
+      "hash": "b3478a2628e4bc1eece78585b3c28e4fef02c8f2",
+      "date": "2015-08-05T12:23:35+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use “modern” API to examine and resolve alias files",
+      "body": ""
+    },
+    {
+      "hash": "34b374c1856c44fefc4c2a89e24f7a146832ba71",
+      "date": "2015-08-05T12:23:29+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Avoid two uses of FSRef (which is deprecated from 10.8)",
+      "body": ""
+    },
+    {
+      "hash": "35e78feafcc263e2f4e8a15273a11005b9b8280c",
+      "date": "2015-08-05T12:23:06+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Check if we have an editor instance in input client methods",
+      "body": "I’m seeing a few crashes where the most likely explanation is that input client methods are called either before setting up an editor instance, or after disposing it."
+    },
+    {
+      "hash": "0b70563c73c68406ede4318315ba9259a5aefbfa",
+      "date": "2015-08-05T12:22:50+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add crash log info to track down a bug",
+      "body": "Crash is in CFStringGetLength called from _CFURLCreateWithFileSystemPath, so it appears that some sort of malformed string can find its way to this call."
+    },
+    {
+      "hash": "669928f4de8a4457afdbebd8d6a6139e8f05771b",
+      "date": "2015-08-04T20:48:54+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove use of @synthesize in miscellaneous files",
+      "body": ""
+    },
+    {
+      "hash": "990f972a046bc283b9745f93270eedd00ff9f279",
+      "date": "2015-08-04T20:48:03+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove use of @synthesize in bundle editor code",
+      "body": ""
+    },
+    {
+      "hash": "48e3a65681301ece81bea95fdf2060bd16503217",
+      "date": "2015-08-04T20:47:28+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove use of @synthesize in OakTextView related files",
+      "body": ""
+    },
+    {
+      "hash": "0d0e8505dd6fc9c81c43af664a9f01eeada98303",
+      "date": "2015-08-04T20:03:23+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove use of @synthesize in preferences window code",
+      "body": ""
+    },
+    {
+      "hash": "fdaf7ca732d23219c4d421a0070d1caf2d52df93",
+      "date": "2015-08-04T13:22:32+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove workaround for OS bug (10.8)",
+      "body": ""
+    },
+    {
+      "hash": "ef2d50606fe462833dcbfc00d8a75802a183bd69",
+      "date": "2015-08-04T13:21:35+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use non-deprecated version of weak NSMapTable (10.8)",
+      "body": ""
+    },
+    {
+      "hash": "469fd74a7b6784c3eaec6618b002330c242eb26a",
+      "date": "2015-08-04T13:19:55+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rely on ARC to manage GCD types (10.8)",
+      "body": ""
+    },
+    {
+      "hash": "96508d81c3f5c41c779be4460ffce722f460234a",
+      "date": "2015-08-04T13:18:58+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove unused function (os_tuple)",
+      "body": ""
+    },
+    {
+      "hash": "15d57f7aed2d3be98b714293eae5e24713aa5386",
+      "date": "2015-07-31T12:49:32+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes",
+      "body": ""
+    },
+    {
+      "hash": "98206004dca29dcdd563113bbf59d1914fe06eca",
+      "date": "2015-07-31T12:37:29+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Support fallback units for multiple carets",
+      "body": "For example a command that works on selection but falls back to current word will now also work with multiple carets."
+    },
+    {
+      "hash": "755a9e1f7e280eb5a86db27f575071ab6f6df1c2",
+      "date": "2015-07-31T12:18:37+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Look at all carets to decide if there is a selection",
+      "body": "Previously we only looked at the last caret, and if this one was not a selection then we would treat the multiple carets (selection ranges) as nothing being selected, and thus, a command replacing the carets, would not leave anything selected."
+    },
+    {
+      "hash": "3047212ed2b00ca41ba843b4106c2159bff07d47",
+      "date": "2015-07-31T12:01:46+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use empty last line from commands working on multiple selections",
+      "body": "When pasting or using Filter Through Command with multiple carets, we ignore a potential final empty line, this is because our text will be something like “foo\\nbar\\n” and we split on the newline, so we end up with (“foo”, “bar”, “”) and if we have more than two carets, then we insert the empty string for every third caret.\n\nFor a command though we expect there is a 1:1 between number of carets and newlines in the result, so we should never skip the last element."
+    },
+    {
+      "hash": "58bacfb763643aa87757d95efb0f0659569ad1e2",
+      "date": "2015-07-31T11:48:56+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Command with multiple selections would never select output",
+      "body": "This now uses the same logic as with a single selection."
+    },
+    {
+      "hash": "0aa9cd8166a842519271af8e8306f984d0fc86a2",
+      "date": "2015-07-31T11:28:20+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t skip binary files when using Find All with open documents",
+      "body": ""
+    },
+    {
+      "hash": "b440a8681f7c79073180c656388b28592ff86e5d",
+      "date": "2015-07-30T22:18:39+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove OakImageAndTextCell class",
+      "body": ""
+    },
+    {
+      "hash": "2a9220c570a675da60f2c78dbe71451ad15cd5ed",
+      "date": "2015-07-30T22:18:07+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update dialog plug-in (add own image and text cell)",
+      "body": ""
+    },
+    {
+      "hash": "f2387c9bc3c99657e77e6c6fbad0c250689546d0",
+      "date": "2015-07-30T22:00:06+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ensure that the outline view’s clicked row is valid",
+      "body": "The problem is if we right-click an item that causes content to be changed (e.g. Show Enclosing Folder) then later in the same run loop cycle ask for selected items, we prefer the clicked row, but this one might now no longer exist."
+    },
+    {
+      "hash": "14a1110199cc32e76c776d64638b94a3069da742",
+      "date": "2015-07-30T21:56:00+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t pass NSTableCellView to OakFileManager",
+      "body": "The view passed to the file manager is used to request the undo manager. The problem with using an NSTableCellView instance is that this view may be taken out of the view hierarchy (and thus responder chain) which makes it lose its undo manager.\n\nThis isn’t an immediate problem but if we later use undo/redo, it might be."
+    },
+    {
+      "hash": "a92b34fcaaec82938137c49ab28c01910c6acd54",
+      "date": "2015-07-29T23:26:29+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Prefer insert/removeItemsAtIndexes: over reloadItem:",
+      "body": "This way we only have to abort editing if the item being edited is going away.\n\nView-based table views do not supported editedRow so this commit also change the way to figure out if a row is being edited."
+    },
+    {
+      "hash": "8abf5f2c9ac3fc19c129063cd7c44d8f5e70dfbc",
+      "date": "2015-07-29T23:25:52+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Improve selection in file browser after deleting items",
+      "body": "Previously if we deleted an expanded folder it would select the first child of this item which would then be removed and leave nothing selected.\n\nThere are still a few edge-cases left though where what’s selected after deleting items is not ideal."
+    },
+    {
+      "hash": "f0f056318d42bcfea3696231c7449da70eb4fb48",
+      "date": "2015-07-29T23:25:06+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update scmStatus and missing FSItem properties in SCM data source",
+      "body": ""
+    },
+    {
+      "hash": "ecf8cbc0bf8ab878ec91c6d21675a7f42e9329bb",
+      "date": "2015-07-29T23:24:28+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Never update OakFileIconImage states that are not marked dirty",
+      "body": ""
+    },
+    {
+      "hash": "9cb059fa7bcc2b51d2409ee385d36cec8483876a",
+      "date": "2015-07-29T23:23:24+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move FSFileItem’s missing property to superclass",
+      "body": ""
+    },
+    {
+      "hash": "16363f3aa0f82924ba679f3ec234df82c6aab707",
+      "date": "2015-07-29T23:21:33+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let the SCM data source re-use its FSItem instances",
+      "body": ""
+    },
+    {
+      "hash": "bf9102f7896ca173c3cf58033ff43509090a0d91",
+      "date": "2015-07-29T23:20:51+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Re-use FSFileItems that represent missing files",
+      "body": ""
+    },
+    {
+      "hash": "d40d9b0f2440ebf83c8acb1cf9569f0fac441735",
+      "date": "2015-07-29T23:19:34+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Draw white circle around label swatch when row is selected",
+      "body": "We previously did this when the background style was set to dark, but the code for this only works when the view is a direct descendent of the NSTableCellView and also, when a row is selected in an inactive table view, the background style is not set to dark."
+    },
+    {
+      "hash": "5b357d58c23762ab0ee467b2b0f15b4773f53bf5",
+      "date": "2015-07-27T18:45:32+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Track open state in FSItem",
+      "body": "This eliminates the need for the last binding that was causing a retain cycle."
+    },
+    {
+      "hash": "79d012dba2fad95e5259f27c8e31bc6d6a1cbc0d",
+      "date": "2015-07-27T18:44:49+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Dynamically create and dispose close button and label view",
+      "body": ""
+    },
+    {
+      "hash": "a2052592effd45ea214975834612bde98cb42d23",
+      "date": "2015-07-27T18:43:36+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move construction of open/close buttons to table cell view",
+      "body": "This gives us a bit more flexibility which we will need to properly toggle the close button."
+    },
+    {
+      "hash": "297c1c7ea52b5cff02436409a2154575a292eccd",
+      "date": "2015-07-27T18:43:14+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Limit the tab bar items’ tool tips to the title string",
+      "body": "This prevents having a tool tip show when hovering the close button (as can often happen when closing multiple tabs)."
+    },
+    {
+      "hash": "0c2a8b7e0c9d7940ab6c84309b579c6d172ad200",
+      "date": "2015-07-27T18:42:03+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "File browser’s undo/redo menu items only worked when it had focus",
+      "body": "We only want to use first responder’s (local) undo manager when the first responder is a descendent of the file browser itself, e.g. the field editor."
+    },
+    {
+      "hash": "33d5538967ecbf318bd7c5e7e189fe383af4a3e6",
+      "date": "2015-07-27T18:40:38+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make the datasource setter more robust",
+      "body": "Previously it would throw an exception if datasource was set to nil after the outline view had been disposed."
+    },
+    {
+      "hash": "2d1804fc4cca9b99906ed20c06f8228b0f09fd78",
+      "date": "2015-07-27T18:39:43+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t handle “item did reload” notifications for leaf items",
+      "body": "In the view-based system all changes to a single item should be done by updating the properties of this item."
+    },
+    {
+      "hash": "e52efd5486db73a405c521e111999f33df31d0e3",
+      "date": "2015-07-27T18:39:37+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Avoid binding each table cell view to the modifiedURLs property",
+      "body": "This removes a retain cycle though we still have one left caused by the openURLs property."
+    },
+    {
+      "hash": "f66abfa33d610f92239e9b478456712459fe001b",
+      "date": "2015-07-27T18:39:26+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add isModified property to FSItem",
+      "body": ""
+    },
+    {
+      "hash": "b67713e9e555ba778158a3ffeed3982c5ef8ab26",
+      "date": "2015-07-27T18:39:25+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add custom view to draw label swatch",
+      "body": "This mimics the new look used by Finder and we also fix a retain cycle by not binding to ‘self’ for the labelIndex property."
+    },
+    {
+      "hash": "161ffdc3fcb7e16305a40d3a37de61b0bb84fbe3",
+      "date": "2015-07-24T23:41:06+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove “cut” from file browser’s menu",
+      "body": "It’s still possible to use ⌘X but I will probably remove the functionality in the future."
+    },
+    {
+      "hash": "909e36b516c992983f3a6b982bea1dda3765ce59",
+      "date": "2015-07-24T23:34:05+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Support using ⌥⌘V in file browser to “move” an item",
+      "body": "This is consistent with Finder and slightly more flexible as it allows copying items in Finder and pasting them in TextMate via ⌥⌘V."
+    },
+    {
+      "hash": "8910b395f99e6dad0c10aa254d8df08f894cfce8",
+      "date": "2015-07-24T23:24:14+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Include number of items on pasteboard in menu item title",
+      "body": ""
+    },
+    {
+      "hash": "90ab3749d97f5e35d467ad7574d992cb415b2daa",
+      "date": "2015-07-23T21:54:20+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Setup proper truncation for file browser’s text field",
+      "body": ""
+    },
+    {
+      "hash": "828f6fdd3780bb17ce000544920c631e861ef4fe",
+      "date": "2015-07-23T21:50:47+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove reference to OakView.h",
+      "body": ""
+    },
+    {
+      "hash": "f675008402bafa24615d0f87354db03e3d28b641",
+      "date": "2015-07-23T13:18:02+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Mark file browser as needing display after reloading items",
+      "body": "After changing root item it often fails to redraw itself, so this is a workaround for what appears to be a framework bug."
+    },
+    {
+      "hash": "22acd31b25c61997d24410e8933d943aba4e9f47",
+      "date": "2015-07-23T13:13:09+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Skip reloading file browser items if items are unchanged",
+      "body": "The comparison is somewhat shallow, but ideally all changes to the actual items (rather than adding or removing items) is done by updating the properties of the existing instance. The exception here is the SCM Status data source, but FSItem’s isEqual: method does compare scmStatus."
+    },
+    {
+      "hash": "b8906248bd71797c99c81e671dabf4d37dd917f9",
+      "date": "2015-07-23T13:08:09+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t post “item did reload” notification for property changes",
+      "body": ""
+    },
+    {
+      "hash": "f5358c79e49c12537bd89facae323b5db8856803",
+      "date": "2015-07-23T13:06:39+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove OFBPathInfoCell",
+      "body": ""
+    },
+    {
+      "hash": "5b304160837da32fdb1bb88b0bbb2dc617e99c58",
+      "date": "2015-07-23T12:59:25+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Switch file browser to be view-based (instead of cell-based)",
+      "body": "One issue with the view-based version is that there seems to be no hook where we can update the text prior to edit, so in the SCM Status view where item names are disambiguated, editing the item will cause the disambiguated name to be used as basename.\n\nThe view-based version is also more eager to start editing rows, for example the “click a selected item to move focus to file browser” now also trigger renaming of that item, which is rather undesirable.\n\nA few other pending issues also remain, like better rendering of labels, not adding a (hidden) close button to each row, and ensuring FSItem instances are re-used when possible (e.g. SCM data source).\n\nThe way we mark items as modified or open is also suboptimal, as it’s partly done via bindings and partly manual."
+    },
+    {
+      "hash": "e3ad1440e16c1cc026750c35a30eacd8546a1f7e",
+      "date": "2015-07-23T12:54:16+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Prefer the clicked row when triggering edit of a row",
+      "body": ""
+    },
+    {
+      "hash": "34ebabdc87aed4216120fe09db65b7f655329b69",
+      "date": "2015-07-23T12:50:21+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Call abortEditing on outline view instead of cancelOperation",
+      "body": "I’m not sure if it is necessary to manually refocus the outline view after aborting the field editor, does seem like a bug and will most likely not be present for view-based outline views."
+    },
+    {
+      "hash": "58dc3070ba63e95b97e16f413e1348d1263bc4cf",
+      "date": "2015-07-23T11:49:24+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move label color change to FSItem",
+      "body": ""
+    },
+    {
+      "hash": "12fdcefb14732d394725b386d5afd0ac2f2dcc48",
+      "date": "2015-07-23T11:32:19+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t rely on cached display name when requesting a rename",
+      "body": "The problem is that we may update the display name property before requesting the FSItem be renamed."
+    },
+    {
+      "hash": "5cd7958fb721eb6df945abdc107096e6ad7e59c7",
+      "date": "2015-07-20T12:11:01+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Move rename support to FSItem",
+      "body": ""
+    },
+    {
+      "hash": "6aad406ddef9699bf9beffb2aaa69739362f2140",
+      "date": "2015-07-20T12:10:23+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use symbolic constants for binding properties",
+      "body": ""
+    },
+    {
+      "hash": "a13b75ebc4961890aaa9347917040312b4770692",
+      "date": "2015-07-20T12:10:05+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use isEqualToXYZ: or isEqual: instead of isEqualTo:",
+      "body": ""
+    },
+    {
+      "hash": "772692c2df3e356253bc3b4e542b30ae727d5625",
+      "date": "2015-07-20T12:08:57+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Limit file browser path change for Go → Current Document",
+      "body": "If the file browser’s root path is already a parent of the item we want to reveal (and a descendent of the requested parent) then we skip changing path."
+    },
+    {
+      "hash": "37ed461ca6e8447ac136ba599c332d824749337d",
+      "date": "2015-07-20T12:08:32+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use menu delegate for the file browser’s context menu",
+      "body": "This simplifies the code (API) and also allows us to skip having to select the clicked item, as the outline view will handle this for us (using a “special” selection indication that can work in parallel with regular selection)."
+    },
+    {
+      "hash": "f942869bee23f7bed3f6db96658da6877adbad27",
+      "date": "2015-07-20T12:07:12+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let file browser’s selectedItems include clicked row",
+      "body": ""
+    },
+    {
+      "hash": "497afab82b58ff4d142e063a0413414098da5ac5",
+      "date": "2015-07-20T11:41:02+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update roll-over button state when control is hidden",
+      "body": "If the button gets hidden while the mouse is hovering above it then it’ll not receive a mouseExited: message once the mouse leaves its bounds (while the control is hidden)."
+    },
+    {
+      "hash": "b3ec7b4c0563b052dff516dc78117294d192ae66",
+      "date": "2015-07-20T11:40:59+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Setup key view loop manually for main window",
+      "body": "The auto-calculated key view loop includes everything, which means dynamically added elements such as the close buttons for tab view items, but worse, the subviews of a view-based table view. So this change is required before switching to a view-based file browser."
+    },
+    {
+      "hash": "2f30d7d3687965e67e1369c08e5ba83b1019b396",
+      "date": "2015-07-20T11:40:22+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove support for nested arrays when setting key view loop",
+      "body": ""
+    },
+    {
+      "hash": "699cdd72cbae89de99b82f98e48d308e9f60bcf6",
+      "date": "2015-07-20T11:40:14+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Include scope bar in key view loop (rather than its buttons)",
+      "body": ""
+    },
+    {
+      "hash": "7cb3835c3b4d2086c3268154902cd41ff4bc6883",
+      "date": "2015-07-20T11:39:54+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Preserve next key view when a descendent of our previous key view",
+      "body": "This allows bottom-up construction of the key view loop."
+    },
+    {
+      "hash": "da92f21e5e7d6ab5a4cf476e13e38caa0b519ce9",
+      "date": "2015-07-20T11:37:57+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not activate file browser for double-click",
+      "body": ""
+    },
+    {
+      "hash": "d64dfa661dc86dab7b05a0c2245768f8589c9fcf",
+      "date": "2015-07-20T11:36:00+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Delete code that tests if field editor was dismissed",
+      "body": "It seems that after the field editor has been dismissed, the first responder reverts to the outline view (file browser), even though we are asked if we accept first responder.\n\nSo now we simply check if we are already first responder, and that seems to work just as well (for clicking on an outline view row while the field editor is showing)."
+    },
+    {
+      "hash": "cce3417962c5c3f573c392ec6998f7e9eeaaede7",
+      "date": "2015-07-20T11:34:38+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove custom handling of ‘return’ to edit items in file browser",
+      "body": "This behavior is already implemented by the OS (although maybe not for older versions)."
+    },
+    {
+      "hash": "2e456c0d77001190b8357bc63b95efd89fcb2803",
+      "date": "2015-07-20T11:33:42+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Include FSFileItem’s ‘missing’ property in equivalence check",
+      "body": "In theory we should include all instance variables, but we only use this check to see if we need to cause a file browser reload (when a row is being edited) and long-term (when we switch to NSTableCellView) most changes can be done without needing to reload the file browser items."
+    },
+    {
+      "hash": "a2b9064894343e6aef53a08fda80c6ab7bd15f37",
+      "date": "2015-07-20T11:32:09+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "When changing FSItem’s SCM status we update our icon property",
+      "body": "This way it is possible to bind an image view’s value property directly to FSItem’s icon and not worry about having to manually trigger a redraw when the SCM status changes."
+    },
+    {
+      "hash": "ae9fef95a4eafb7928dc6927ed55cf7765d9256a",
+      "date": "2015-07-20T11:30:45+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix copy support for OakFileIconImage",
+      "body": ""
+    },
+    {
+      "hash": "5a9ba13ec4b0a501b4fc1a3266bf41d9b2f3dc8e",
+      "date": "2015-07-20T11:28:55+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove file browser’s code for return/backtab in field editor",
+      "body": "Handling return was to prevent that key to move to editing the next row, though it does not seem to have this behavior anymore.\n\nBacktab was to support editing the row above, though Apple has a defined behavior for how tab/backtab should work when editing table view items, so we shouldn’t change that."
+    },
+    {
+      "hash": "2de5395ba51fc4c0d9b56e3d9873d7fc95a7de0b",
+      "date": "2015-07-20T11:28:53+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove reference to OFBPathInfoCell",
+      "body": ""
+    },
+    {
+      "hash": "bf2c92b73a20a065be6efebf156e964290b7a12f",
+      "date": "2015-07-17T16:51:52+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes",
+      "body": ""
+    },
+    {
+      "hash": "94d825c720bd05dfe48275629ee168b0572ac943",
+      "date": "2015-07-17T12:03:31+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove potential cycles from bundle menus",
+      "body": "A cycle would cause an infinite loop when generating an item’s full display name."
+    },
+    {
+      "hash": "29ded47820d55989623c27b7ca49a4b1f3d3556c",
+      "date": "2015-07-16T00:17:08+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ensure all file URLs are constructed via NSURL",
+      "body": "It’s important that URLs pointing to the same path are testing as equal, which previously could fail because NSURL doesn’t use ‘localhost’ in its file URLs."
+    },
+    {
+      "hash": "1fb6c978d5516c6d1026c89411ff8ed2d8ec7629",
+      "date": "2015-07-15T22:20:38+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Request “system font” for about window and help book (web views)",
+      "body": "Reference http://furbo.org/2015/07/09/i-left-my-system-fonts-in-san-francisco/"
+    },
+    {
+      "hash": "2715f1148d0b966fee33fd44ea90a9383b0b2f89",
+      "date": "2015-07-15T22:19:03+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Improve which item is selected when right-clicking file browser",
+      "body": "We no longer select items that the delegate tells us are non-selectable (header items) and we no longer deselect when right-clicking outside selectable items."
+    },
+    {
+      "hash": "5ff61612752e934a896d61233ea3c3109c54aad8",
+      "date": "2015-07-15T22:18:17+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Showing SCM status now have a SCM icon in file browser’s header",
+      "body": ""
+    },
+    {
+      "hash": "9138e5138928154b04b7704c3171d6cd9405b721",
+      "date": "2015-07-15T22:17:31+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSImage instead of OakFileIconImage for SCM folder icon",
+      "body": ""
+    },
+    {
+      "hash": "514a3fe2bc17bb3b5a664558be62172c8e239db4",
+      "date": "2015-07-15T22:16:12+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add scmStatus property to FSItem and change icon to NSImage",
+      "body": ""
+    },
+    {
+      "hash": "7b1f480a1df488fbb7fe7db7a8ae12fd1ae4dc3b",
+      "date": "2015-07-15T22:15:12+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t rely on the declared type of FSItem’s icon property",
+      "body": ""
+    },
+    {
+      "hash": "86b0b1350a5b353ed4b3bc6c37d4079e25cdc4aa",
+      "date": "2015-07-15T22:14:19+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t rely on FSItem’s icon for path and exists info",
+      "body": ""
+    },
+    {
+      "hash": "b7c5a4b80615f479ec2521aaca8895de6a00fed2",
+      "date": "2015-07-15T22:13:26+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add number of children to FSItem’s description",
+      "body": ""
+    },
+    {
+      "hash": "f72153e045caab40e55ef5383b53a7f6732df3c9",
+      "date": "2015-07-15T22:12:00+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove support for old FSDataSource API",
+      "body": ""
+    },
+    {
+      "hash": "4164059f7ab5273e0fb2b00ab7b32c282c3cdb40",
+      "date": "2015-07-15T22:10:59+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Improve FSSCMDataSource to work better with new API",
+      "body": ""
+    },
+    {
+      "hash": "c151465d980a7799a9463b2c86abc51cebc10511",
+      "date": "2015-07-15T22:09:17+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Improve FSVolumesDataSource to work better with new API",
+      "body": ""
+    },
+    {
+      "hash": "a9c22cf803e44651a43ad4bd3285948740c12a13",
+      "date": "2015-07-15T22:08:55+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Make FSItem’s initWithURL: method public",
+      "body": "This is the designated initializer that should be used by subclasses."
+    },
+    {
+      "hash": "0b5d478b37415a80e6478825a88942a3b2015ed2",
+      "date": "2015-07-15T22:07:35+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Refactor the file browser",
+      "body": "We now subclass NSOutlineView to detect recursive expansion/collapsing rather than look at the current event (and testing for option). This should be more reliable, for example previously using drag’n’drop with option could falsely trigger recursive expansion.\n\nThe way background folder content is loaded is also made simpler with a fairly straightforward code flow (thanks in part to the use of blocks) without the need for “pendingXYZ” variables that got checked at somewhat arbitrary times (to see if we needed to expand/select items that got loaded).\n\nThis also better tracks expanded items, as we now remove items that are collapsed from the session info the minute they are collapsed, rather than take a snapshot of the outline view during application termination. This should close #1111.\n\nAnother improvement is that we wrap item updating in begin/end update calls to get animated expansion of folders.\n\nThere are still a few issues, for example switching to using the view-based API for the outline view and handling reloading items while the field editor is up (which I think require the former).\n\nAlso, this commit does not change the data source API so there is some redundant work being done, as we request a reload after getting a “did reload” notification."
+    },
+    {
+      "hash": "6bade2e18dc3719f9f2731664719e15007e8ad56",
+      "date": "2015-07-15T22:07:01+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add property tracking if expand/collapse includes children",
+      "body": "This can then be checked in will/did expand/collapse delegate methods."
+    },
+    {
+      "hash": "63b1d2a7fe8687308327712cbe863714898f2728",
+      "date": "2015-07-15T22:05:25+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add hash implementation to FSItem",
+      "body": "The NSOutlineView uses an NSSet to track expanded items (during reload), so for items used in an NSOutlineView this method is sort of required."
+    },
+    {
+      "hash": "3b49fd173ebad2e6ff83d5b7f9abee2d54fc48cf",
+      "date": "2015-07-15T22:04:25+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add block-based API to asynchronously load FSDataSource items",
+      "body": ""
+    },
+    {
+      "hash": "8a2b97207c486a1d267117c05ab45b95eabba064",
+      "date": "2015-07-15T22:02:16+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Refactor FSDirectoryDataSource",
+      "body": "All code has been moved to the FSItem subclass.\n\nThe advantage is that bookkeeping becomes easier, for example no need to explicitly unregister paths (instead we can do that in the destructor).\n\nThe disadvantage is that sharing resources between items becomes harder, for example all (expanded) folders track file system and version control changes, though the existing code only accidentally shared these resources for identical paths, and it actually lacked a tracking system for retain counts."
+    },
+    {
+      "hash": "c56bb0c9f1147f1ba79b1af1de40bd7b7a21f438",
+      "date": "2015-06-25T23:01:58+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Double-tapping shift disables “freehanded mode” for single caret",
+      "body": ""
+    },
+    {
+      "hash": "bf7f7b21d170051500d7a2c9c818577ce2b8afec",
+      "date": "2015-06-25T19:27:25+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes",
+      "body": ""
+    },
+    {
+      "hash": "a69711755ff2ba36babf571672f3da924f38fbba",
+      "date": "2015-06-25T17:09:54+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Read the line number scale factor from user defaults",
+      "body": "If you dislike the downscaling of the line numbers then run the following in a terminal:\n\n    defaults write com.macromates.TextMate.preview lineNumberScaleFactor -float 1"
+    },
+    {
+      "hash": "3fdc72b93af0167e234c48314658d702f65a8a5f",
+      "date": "2015-06-24T00:41:02+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Support spell checking being “automatic by language”",
+      "body": "This must be set in the spelling panel and changing language via the spelling panel does not update the buffer (recheck the text with the new spelling language), so toggle automatic spelling after using the spelling panel to change language.\n\nCloses #1139"
+    },
+    {
+      "hash": "86dc42fdf4e23a280f75fd8244b9bbf8fa422c85",
+      "date": "2015-06-24T00:15:16+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add ability to unlearn words (as being spelled correctly)",
+      "body": "This option is available in the context menu when bringing it up for previously learned words."
+    },
+    {
+      "hash": "f5fca8eb024f30df8c9c3d05fbccdeded2512917",
+      "date": "2015-06-24T00:08:59+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Refactor how we create context menu",
+      "body": ""
+    },
+    {
+      "hash": "457969788e9119ae69a5fb1294922e694b7467cb",
+      "date": "2015-06-23T22:46:58+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use std::tuple for the OS version",
+      "body": "This makes compatibility checks simpler, since we can use a single comparison operator."
+    },
+    {
+      "hash": "1767842229fc2c6b6e18c72656d1e195c0c3b8bb",
+      "date": "2015-06-18T19:21:52+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Skip looking for shift/option modifier changes when mouse is down",
+      "body": "Also skip updating the state if there has been no change (to the modifiers we’re interested in)."
+    },
+    {
+      "hash": "265bdb671319c0147eb04d9311b1219ce7d7e700",
+      "date": "2015-06-18T19:11:39+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "No need to queue an auto-refresh in the flagsChanged: method",
+      "body": ""
+    },
+    {
+      "hash": "1919bce337b66517558be25b7c4392c873720d83",
+      "date": "2015-06-17T21:55:34+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Delay context menu to next event loop cycle when using keyboard",
+      "body": "This also failed prior to the recent refactoring. Might have started with 10.10, as I haven’t noticed this until recently."
+    },
+    {
+      "hash": "5d30498be25708d3f023dcd0f486fc1d96f30b55",
+      "date": "2015-06-17T21:41:10+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Provide full line of context when asking for spelling suggestions",
+      "body": ""
+    },
+    {
+      "hash": "70ef4c94c1e4e1fee073cebd8ac8687c7995eeca",
+      "date": "2015-06-16T16:31:35+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove use of deprecated NSSpellChecker API",
+      "body": "We do not provide the full line to the new API, this will require a bit of refactoring."
+    },
+    {
+      "hash": "1ac59e2553113d2708187def49160348ca2921af",
+      "date": "2015-06-16T16:20:39+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update OakTextView to use NSDraggingSession API (10.7)",
+      "body": ""
+    },
+    {
+      "hash": "af82d6e540fe24eb674fe6a280889f634c3d088d",
+      "date": "2015-06-15T16:41:52+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update OakTabBarView to use NSDraggingSession API (10.7)",
+      "body": "Previously used API has been deprecated."
+    },
+    {
+      "hash": "e8cba4dbae046288dcc2c7236ba6e2ab0784e8d5",
+      "date": "2015-06-15T12:17:33+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Support reloading tab bar view while a tab is being dragged",
+      "body": "This would happen if dragging a tab into an unmodified document (in the same window) while holding down control (to insert the path of the dragged tab).\n\nHere the document would change state to “modified” which would trigger a tab bar view reload, but since the drag session isn’t completed, we reload the tabs while one of them is “outside” the bar, which causes it to be added, and once the drag session completes, the original tab outside the bar, will be re-added, leading to two copies of the same tab."
+    },
+    {
+      "hash": "cb9e2e5fa42606a39a22801cc24255849c67bd30",
+      "date": "2015-06-15T11:59:17+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Revert \"Suppress warning from the atos Xcode tool\"",
+      "body": "The option that was recently made mandatory has now been removed.\n\nThis reverts commit b0814dfbd9bbea3eaa14f2abeb8330e58fc8bb8f."
+    },
+    {
+      "hash": "9d1d1a1a5a65d0dab8213a48dfde35f9ed7863b3",
+      "date": "2015-06-13T19:16:10+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Link directly with static versions of boost libraries",
+      "body": "This is currently using absolute paths since it’s a quick fix."
+    },
+    {
+      "hash": "9dc71d568726b648dbc8cf49dd0f8a71347685c4",
+      "date": "2015-06-13T18:05:53+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes",
+      "body": ""
+    },
+    {
+      "hash": "4a7faba2c08f28392c79a6c9c9d6f81d0d43d257",
+      "date": "2015-06-12T14:18:53+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not show “TextMate is Outdated!” dialog for licensed copies",
+      "body": ""
+    },
+    {
+      "hash": "e5404fb1ea2bd369cb9ad1704d9631fffc0caa76",
+      "date": "2015-06-12T14:18:19+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Expose the registration window controller",
+      "body": "Also make the registration window show up at the modal window layer. It should (probably) be using a modal session, though not entirely sure."
+    },
+    {
+      "hash": "980b0b9796b828539f3a4956aa16fd104908437f",
+      "date": "2015-06-12T14:18:12+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Double-tapping shift will now “deselect last”",
+      "body": ""
+    },
+    {
+      "hash": "d17f5095361ae35af8c39320d0e0159c5e41d7d5",
+      "date": "2015-06-12T14:17:06+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Implement a “deselect last” action method",
+      "body": "If there are multiple (discontinuous) selections then this action will drop the last one.\n\nIf there are multiple carets (with no selections) then this action will drop all but the first caret."
+    },
+    {
+      "hash": "ec37b09faf4cd88f1908e6701e1c7cd437c33f32",
+      "date": "2015-06-12T14:16:50+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use find clipboard when no string is present in macro",
+      "body": "This makes it possible to combine the “Use Selection for Find / Replace” with a non-simple find action (e.g. “Replace All”).\n\nIf any find options are set (case sensitive, regular expression, etc.) then these will trump the options set for the entry on the find clipboard."
+    },
+    {
+      "hash": "f4089e76fd9817ac2f0d2358c1c6ec9cddd498e0",
+      "date": "2015-06-12T14:16:12+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Using Check Spelling at the end of a word now checks that word",
+      "body": "This supports the workflow of typing a misspelled word and then using Check Spelling (⌘;) to fix it."
+    },
+    {
+      "hash": "b826f34584358d13d3f63be2db9f9248f769bb9b",
+      "date": "2015-06-12T14:14:39+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Disabling anti-alias will now also apply to the line numbers",
+      "body": ""
+    },
+    {
+      "hash": "9a7203cae182090a88151789989de85037415975",
+      "date": "2015-06-12T14:12:47+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Eliminate redundant anti-alias user defaults constant",
+      "body": ""
+    },
+    {
+      "hash": "4f2f799c6b324c4b1617749119aa596416db5945",
+      "date": "2015-06-12T14:10:17+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Convert filter string to decomposed unicode",
+      "body": "Since we are doing a literal (byte-by-byte) subset match we need to have the filter string use the same unicode normalization form as the items it is matched against.\n\nFor favorites and the file chooser, the items are file system names, which default to the decomposed form.\n\nIdeally the filtering algorithm would know about diacritics, but in practice the current solution should work for most actual scenarios, and is much simpler (thus faster)."
+    },
+    {
+      "hash": "4827e354f032732ac37ce4170b1ad1b718d18337",
+      "date": "2015-05-09T21:40:29+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Don’t call non-virtual member functions for nullptr",
+      "body": ""
+    },
+    {
+      "hash": "50250bb4028a8514d9b933fdcc4a0868a1e0981e",
+      "date": "2015-05-06T21:20:21+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Escape tilde in default glob pattern",
+      "body": "In retrospect it was perhaps a mistake to use tilde as a special character in globs."
+    },
+    {
+      "hash": "0f4397769d491c7db60a974e3b130d944b56bc60",
+      "date": "2015-05-06T21:19:07+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Include the cstdlib header",
+      "body": "This is to ensure we get the integer prototype for std::abs"
+    },
+    {
+      "hash": "dbd33948f3ca7b228e17940d071636ce7b155002",
+      "date": "2015-04-30T14:07:58+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "For unknown key binding actions we append this info to its name",
+      "body": ""
+    },
+    {
+      "hash": "74ef6697baf68c020bcb77a5d7e5e4eae54e3e37",
+      "date": "2015-04-30T14:07:15+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Our doCommandBySelector: override should beep for unknown actions",
+      "body": ""
+    },
+    {
+      "hash": "0edcddccfaab59c7146dddd7f3c2e4bc59a7fac2",
+      "date": "2015-04-30T13:35:23+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do proper escaping when constructing a glob from file path",
+      "body": ""
+    },
+    {
+      "hash": "9ceb07e54c57d6cbe2eb097844f4381d057637f8",
+      "date": "2015-04-30T13:21:34+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add API to escape a string for use in a glob pattern",
+      "body": ""
+    },
+    {
+      "hash": "c6c388e088b927d2cf56d0e54fe89d2387b827a5",
+      "date": "2015-04-30T13:20:39+02:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add explicit link dependency",
+      "body": ""
+    },
+    {
+      "hash": "d7121673ba24ec6a2ef12c54d528056f8e1ecc8d",
+      "date": "2015-04-22T22:28:49-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Declare properties `needsNewWebView` and `webView` @dynamic",
+      "body": "This suppress a warning with the latest version of clang shipped with Xcode 6.3."
+    },
+    {
+      "hash": "4aff7098a5d6e503c6301d2fc49c0b137d754c19",
+      "date": "2015-04-22T22:16:23-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Use std::abs instead of abs()",
+      "body": "This suppresses a couple of warnings with the latest version of clang shipped with Xcode 6.3."
+    },
+    {
+      "hash": "172ce9d4282e408fe60b699c432390b9f6e3f74a",
+      "date": "2015-04-22T21:47:53-04:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Replace `thread_local` with boost equivalent",
+      "body": "The new version of clang (Apple LLVM version 6.1.0) as shipped with Xcode 6.3, disabled TLS. According to http://clang.llvm.org/cxx_status.html, in order to support `thread_local`, the C++ runtime library from g++-4.8 or later is needed.\n\nFor now, we can use the boost `thread_specific_ptr`. This is probably a reasonable solution since 1) it should be portable with old and future versions of (Apple's) clang and 2) requires no additional dependencies."
+    },
+    {
+      "hash": "23509380cb1697a14c6e0eeaf3c3a26f6bd5b71e",
+      "date": "2015-04-12T04:37:20-04:00",
+      "author": {
+        "name": "Alexander Böhn / FI$H2k",
+        "username": "fish2000",
+        "avatar_url": "https://avatars.githubusercontent.com/u/378969?v=4"
+      },
+      "summary": "Fixed fatal error in Applications/indent/indent.cc",
+      "body": "The static `std::map` instance (named just `map`, on line 79) had its initializer template params in the wrong order, which kept it from compiling. Swapping them as per this PR lets `indent` build and run with no issues."
+    },
+    {
+      "hash": "70893f4583ab21e8a56b0ab2c47f54699ae77f72",
+      "date": "2015-04-08T21:56:56+02:00",
+      "author": {
+        "name": "Joachim Mårtensson",
+        "username": "joachimm",
+        "avatar_url": "https://avatars.githubusercontent.com/u/7707?v=4"
+      },
+      "summary": "Use dense_hash_map for style cache",
+      "body": ""
+    },
+    {
+      "hash": "f7dd4c0acee74888b86a69455771c42e0ca46a84",
+      "date": "2015-04-08T21:56:16+02:00",
+      "author": {
+        "name": "Joachim Mårtensson",
+        "username": "joachimm",
+        "avatar_url": "https://avatars.githubusercontent.com/u/7707?v=4"
+      },
+      "summary": "Add std::hash() implementation to scope_t",
+      "body": ""
+    },
+    {
+      "hash": "f9e8192d00483e461d26ead4bb3842e0b64feffc",
+      "date": "2015-04-08T11:42:33-04:00",
+      "author": {
+        "name": "Jason Gavris",
+        "username": "jgavris",
+        "avatar_url": "https://avatars.githubusercontent.com/u/178749?v=4"
+      },
+      "summary": "Fix t_bump_date timezone",
+      "body": ""
+    },
+    {
+      "hash": "9d517741efca11a84585a8c2f96bd5720be638c7",
+      "date": "2015-03-31T11:34:32-07:00",
+      "author": {
+        "name": "Waynn Lue",
+        "username": "waynn",
+        "avatar_url": "https://avatars.githubusercontent.com/u/318137?v=4"
+      },
+      "summary": "Moving a comma that seems misplaced",
+      "body": ""
+    },
+    {
+      "hash": "9c69badaf6938d5d72bb4fd44f54472f9b14deed",
+      "date": "2015-03-28T09:44:28+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Save with Xcode 6.2 (6C131e)",
+      "body": ""
+    },
+    {
+      "hash": "5a1754bc0198d9cc03899265127a6cf19f9c5a5e",
+      "date": "2015-03-28T06:36:47+09:00",
+      "author": {
+        "name": "Yuu Q",
+        "username": "yuuq",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4944536?v=4"
+      },
+      "summary": "Add missing shadow to find/replace history pop-up list",
+      "body": "The NSComboBox, whose pop-up list has shadow, and so it will be nice for this similar control."
+    },
+    {
+      "hash": "8c3177113f8f9dadfb39901767b415e0a0e5500a",
+      "date": "2015-03-26T12:19:19+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add missing newline to error output",
+      "body": ""
+    },
+    {
+      "hash": "b0814dfbd9bbea3eaa14f2abeb8330e58fc8bb8f",
+      "date": "2015-03-26T12:15:18+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Suppress warning from the atos Xcode tool",
+      "body": "Not sure why we get this warning since we do go via xcrun."
+    },
+    {
+      "hash": "3c49b4fd69e095f3ef1659cc63da998fc023a1cc",
+      "date": "2015-03-26T12:13:33+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "fixup! Support discontinuous selections in command input API",
+      "body": "Fixes textmate/bugs#12"
+    },
+    {
+      "hash": "08db1b53a92a897235e2f7b6dffd62e84c34053e",
+      "date": "2015-03-25T13:03:52+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes",
+      "body": ""
+    },
+    {
+      "hash": "65480a60bff25327ccef97da5466c972dba1cd50",
+      "date": "2015-03-25T12:26:28+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Find dates surrounded by underscores in path names",
+      "body": ""
+    },
+    {
+      "hash": "245450ae9fb82cf08f93c1744900480b9f6b4c91",
+      "date": "2015-03-25T12:15:26+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add test for updating date in file path string",
+      "body": ""
+    },
+    {
+      "hash": "6c07075cc06277703e0a18017b1f1ba48fa85d4f",
+      "date": "2015-03-24T18:26:01+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Improve behavior of command-clicking",
+      "body": "When command-clicking an existing selection we remove the selection and insert a single caret.\n\nWhen double/triple-clicking we remove existing carets/selections in the range that gets selected."
+    },
+    {
+      "hash": "6aa81a0eb9cdf577bd15b887bd40d5077fbb4c65",
+      "date": "2015-03-24T10:30:13+01:00",
+      "author": {
+        "name": "Koen Punt",
+        "username": "koenpunt",
+        "avatar_url": "https://avatars.githubusercontent.com/u/351038?v=4"
+      },
+      "summary": "Fix typo, delsyedPlaySound => delayedPlaySound",
+      "body": ""
+    },
+    {
+      "hash": "a003d762349e211ce1d2e40c7e9bbf29557c188a",
+      "date": "2015-03-24T13:38:43+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not go via /usr/bin/env for bash",
+      "body": "For standard commands we want to use the system’s standard interpreter, as that makes it easier to ensure compatibility."
+    },
+    {
+      "hash": "7a7f5a967655b8159afa8dabb63cf06f87d21cc4",
+      "date": "2015-03-24T13:37:18+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Preserve font scale factor when switching theme",
+      "body": ""
+    },
+    {
+      "hash": "daa32482bf92f160720214efa7c45feb36cd7a55",
+      "date": "2015-03-23T18:01:47+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "When duplicating a file with a YYYY-MM-DD date we bump the date",
+      "body": "This is instead of adding “copy” to the base name.\n\nThis is useful when you use a previous (dated) document as template for a new one, e.g. an invoice, meeting minutes, or similar."
+    },
+    {
+      "hash": "eca7d839f325b54321009b8c4461a2e49462462c",
+      "date": "2015-03-23T17:03:36+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update MASPreferences submodule: Improve 10.10 compatibility",
+      "body": ""
+    },
+    {
+      "hash": "31464f39fdb33ea449d983bf4ffa085d68068b8d",
+      "date": "2015-03-23T11:53:21+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Send performCloseTab: to our delegate instead of next responder",
+      "body": "A delegate was introduced (out of necessity) in 6748c281098d87ac3c441efe0de7a9d1d38facdc but we didn’t use it for everything, leading to inconsistent code."
+    },
+    {
+      "hash": "491ef65e65239863dae2e97e9ea77f7f30ffad9c",
+      "date": "2015-03-23T11:27:11+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "fixup! Support discontinuous selections in command input API",
+      "body": ""
+    },
+    {
+      "hash": "808aaabc44eaa01bdb9c479250be0f102527f282",
+      "date": "2015-03-22T17:43:06+01:00",
+      "author": {
+        "name": "Koen Punt",
+        "username": "koenpunt",
+        "avatar_url": "https://avatars.githubusercontent.com/u/351038?v=4"
+      },
+      "summary": "Add NSOtherMouseUp to OakIsAlternateKeyOrMouseEvent",
+      "body": "To allow the alternate behavior (“close other”) when clicking a tab with the middle mouse button."
+    },
+    {
+      "hash": "436068cbb7eff1998a4e292ddf78eedc54d160e0",
+      "date": "2015-03-22T12:31:35+01:00",
+      "author": {
+        "name": "Koen Punt",
+        "username": "koenpunt",
+        "avatar_url": "https://avatars.githubusercontent.com/u/351038?v=4"
+      },
+      "summary": "Allow closing tabs on “other” (middle) mouse button",
+      "body": ""
+    },
+    {
+      "hash": "8829637b6c3571345696e25b6d9589d013c307e7",
+      "date": "2015-03-18T11:00:51+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Workaround for control-click not sent to superview",
+      "body": "We only add this workaround to tab item views and rollover buttons, but the issue applies to all subviews that do not have their own context menu, but placed in a superview which does.\n\nCloses textmate/bugs#11"
+    },
+    {
+      "hash": "6e5169a9af0acf361500096a54f0f527f59f756a",
+      "date": "2015-03-08T16:51:55+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "When command input is discontinuous then split result on LF",
+      "body": "Input range i will get the i’th line from the output (module n, with n being total number of output lines)."
+    },
+    {
+      "hash": "100c13f3b5dd12c55b0a4f1beaf91c3865d1ef96",
+      "date": "2015-03-08T16:49:19+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Let command input be LF separated selections when discontinues",
+      "body": "This is only when the command input requested is “selection”. In theory it probably should also do this when input is character, word, or line, but in this case, we can end up with overlapping input ranges."
+    },
+    {
+      "hash": "30be46a166bb7609a6fd204693042d8b91ef5c3c",
+      "date": "2015-03-08T14:21:59+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Support discontinuous selections in command input API",
+      "body": ""
+    },
+    {
+      "hash": "0e309b10566ed3f375296e69dce9bbfcfe0360fc",
+      "date": "2015-03-05T16:33:36+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add “never hide left border” tab bar view property",
+      "body": "We set this when the file browser is on the left of the tab bar view."
+    },
+    {
+      "hash": "b80b526c7014a69abea584063b4e6baa364d29c5",
+      "date": "2015-03-05T16:29:34+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use actual type for OakTabBarView instead of NSView",
+      "body": ""
+    },
+    {
+      "hash": "0c9735c767251f4244ac1edf9ee49760f3cb1cd9",
+      "date": "2015-03-05T14:35:58+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Show a heads-up display when changing font scale factor",
+      "body": ""
+    },
+    {
+      "hash": "4a825499d6f18c0562e4d26be3e75c2e16fa2814",
+      "date": "2015-03-05T14:31:58+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Introduce font scale factor property",
+      "body": "Previously increasing/decreasing font size would simply change the base font, making it non-trivial to know the current scale factor and/or reset it."
+    },
+    {
+      "hash": "f54a7cb45b51775a4ebbe739b330a7005ce96f04",
+      "date": "2015-03-05T14:26:59+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update dialog plug-in (remove unused code)",
+      "body": ""
+    },
+    {
+      "hash": "c710ee8b7a562627f30cf0dcca76a79d53d88152",
+      "date": "2015-03-05T14:25:27+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove unused code",
+      "body": ""
+    },
+    {
+      "hash": "c416262d820e4e220f986ba0e247f3db46c4a8db",
+      "date": "2015-03-02T17:43:04+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Limit FFMatch / find::match_t boxing and unboxing",
+      "body": ""
+    },
+    {
+      "hash": "7b233c562cb204803fcde8ea8d6aaea1ac652930",
+      "date": "2015-03-02T17:40:19+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update dialog plug-in (eliminate sizeofA macro)",
+      "body": ""
+    },
+    {
+      "hash": "8d15a4972d0d3144c3708d424d2da36d1f8807d0",
+      "date": "2015-03-02T16:59:31+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix logic to detect Yosemite or later",
+      "body": ""
+    },
+    {
+      "hash": "40879d5683d347dd0ba3fa31e43ab6ac29d22082",
+      "date": "2015-03-02T16:57:01+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Replace sizeofA macro with range-based for loop or std::begin/end",
+      "body": ""
+    },
+    {
+      "hash": "f2d8598b0698f9bd6498be04106c3084ca10963f",
+      "date": "2015-02-27T20:47:48+01:00",
+      "author": {
+        "name": "Adam Strzelecki",
+        "username": "nanoant",
+        "avatar_url": "https://avatars.githubusercontent.com/u/103067?v=4"
+      },
+      "summary": "Fix dull file browser labels on Yosemite",
+      "body": "Using NSTextFieldCell instead default NSCell together with\nNSTableViewSelectionHighlightStyleSourceList on Yosemite causes cells get light\ngray color, making the whole list dull and unreadable. Workaround that setting\ncell's `textColor` to `[NSColor textColor]`."
+    },
+    {
+      "hash": "6136e1d6077fa6bca67b240ae9962e3aef90550f",
+      "date": "2015-02-27T18:27:15+01:00",
+      "author": {
+        "name": "Adam Strzelecki",
+        "username": "nanoant",
+        "avatar_url": "https://avatars.githubusercontent.com/u/103067?v=4"
+      },
+      "summary": "Remove browser header shadow & bold on Yosemite",
+      "body": "This applies to tabs above document case."
+    },
+    {
+      "hash": "0ca21f9c7551a7161a00ccf6704ffde18abd7d7f",
+      "date": "2015-02-27T18:24:50+01:00",
+      "author": {
+        "name": "Adam Strzelecki",
+        "username": "nanoant",
+        "avatar_url": "https://avatars.githubusercontent.com/u/103067?v=4"
+      },
+      "summary": "Use black text color selected tab on Yosemite",
+      "body": "This is more inline with Safar, Xcode & Terminal look on Yosemite."
+    },
+    {
+      "hash": "b7a1011f96633d65cd81a4f2d09eb36180cbd157",
+      "date": "2015-02-27T01:47:57+01:00",
+      "author": {
+        "name": "Joachim Mårtensson",
+        "username": "joachimm",
+        "avatar_url": "https://avatars.githubusercontent.com/u/7707?v=4"
+      },
+      "summary": "Update install instructions",
+      "body": ""
+    },
+    {
+      "hash": "71960834ba58a1207fae2f8a97b15552543afdc2",
+      "date": "2015-02-27T00:23:11+01:00",
+      "author": {
+        "name": "Joachim Mårtensson",
+        "username": "joachimm",
+        "avatar_url": "https://avatars.githubusercontent.com/u/7707?v=4"
+      },
+      "summary": "Setup Google's sparsehash library for use",
+      "body": ""
+    },
+    {
+      "hash": "b51f7f44af30c8a5e463539460dbea1992991896",
+      "date": "2015-02-09T00:17:13+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Rename bundles::item_t::full_name → name_with_bundle",
+      "body": "Although not perfectly clear, it does better match what is actually returned from this member function."
+    },
+    {
+      "hash": "438f110dc9d4c551a344729ebbe084188658de8b",
+      "date": "2015-02-07T00:23:39-05:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "fixup! Use `_externalScopeAttributes` as a fallback to export TM_SCM_NAME",
+      "body": "Added a const reference to avoid the unnecessary copies when using `auto` in range-based for loops. One can find other instances in the code base where we could probably avoid making copies in similar situations, but I did not want to create the patch noise. The intention here is just to correct the obvious mistake and avoid repeating it in the future."
+    },
+    {
+      "hash": "fcaa683a0943e378d4d88dd1ddbb6c392c967789",
+      "date": "2015-02-04T13:50:35+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Do not invoke “did save” callback for untitled documents",
+      "body": "The problem is that when something is saved, the text view is responsible for invoking the callbacks, but it might not show the document that was saved (e.g. in the case of Save All where background tabs are saved).\n\nLong-term this should be improved so that OakTextView is not responsible for executing these commands; the challenge is that OakTextView supply a lot of the environment (like some of the TM variables), potentially the input, and is also the potentially receiver of the output."
+    },
+    {
+      "hash": "5be2c426ddc38b4d5bec794f269e90d37240d206",
+      "date": "2015-02-03T16:59:46+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes",
+      "body": ""
+    },
+    {
+      "hash": "fca65bdd8b29069602d4f0c0ff668d152a02d1cd",
+      "date": "2015-02-01T19:10:47+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Handle unknown job identifiers in TextMate’s custom URL handler",
+      "body": "Using a relative URL in a command with HTML output will be relative to our custom URL scheme which could result in stalling the output, as we did not handle “not found”, so WebKit would wait for data until a timeout."
+    },
+    {
+      "hash": "285fe6f90762b3c9b717d46efe261c88984c97b3",
+      "date": "2015-02-01T18:00:48+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Use NSInteger instead of int",
+      "body": "The code is tightly coupled with Cocoa, so it makes sense to use the Cocoa type definitions."
+    },
+    {
+      "hash": "a54c0616ae9fa9b06d7972e9031ea576d2208cd9",
+      "date": "2015-02-01T13:51:54+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Include flv and swf files in the default list of non-text files",
+      "body": ""
+    },
+    {
+      "hash": "638b813d9fd85817f92568ec92b28c01a3078914",
+      "date": "2015-01-31T11:54:35+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Account for tab item’s padding when doing partial layout",
+      "body": "This partial layout is done when closing tab X to ensure that the close button of tab X+1 will occupy the same rectangle as was used by X.\n\nCloses #1285."
+    },
+    {
+      "hash": "566cba3b44e17351455cc09b963fdb5f1b212dc4",
+      "date": "2015-01-30T17:16:39-05:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Mark local variable as const",
+      "body": ""
+    },
+    {
+      "hash": "130d7615d2fb58008d26b775a5bd6c167a25be83",
+      "date": "2015-01-30T17:09:49-05:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Make `OakTabBarStyle` properties readonly",
+      "body": "We do not modify these properties after initialization. Furthermore, where we do access them, we mark them as `const`."
+    },
+    {
+      "hash": "a9e48c01e6649e1a4a3efdb1e622a65e1c094fe1",
+      "date": "2015-01-30T16:26:11-05:00",
+      "author": {
+        "name": "Ronald Wampler",
+        "username": "rdwampler",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1371296?v=4"
+      },
+      "summary": "Explicitly set the value for the left and right padding",
+      "body": "While these properties are initialized to zero upon `alloc`, I think it makes the code easier to follow to explicitly set `leftPadding` and `rightPadding` to zero (if zero is desired) since the reader does not have to look around to ensure they aren't being set elsewhere."
+    },
+    {
+      "hash": "b4ee16312bd8431050cffc034a8340baa4baaaee",
+      "date": "2015-01-30T21:50:40+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Revert \"Output frame of find window’s field editor (debug)\"",
+      "body": "This reverts commit 3d2ac7f371095c954c9fe3da463fec1754621452."
+    },
+    {
+      "hash": "292e6eabb3737706c6963ad8a60e8a2b67d7acde",
+      "date": "2015-01-29T23:52:59+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Macro recording would not replay inserted text",
+      "body": "This broke when we changed from insertText: → insertText:replacementRange: as the latter selector is not replayable.\n\nWe now record this action simply as insertText: and ignore the “replacementRange” argument. This argument can be used by advanced input managers, so there might be an issue with text recorded using such manager, however, to properly support this we need to translate the “replacementRange” into something relative, which is left as an exercise for a rainy day."
+    },
+    {
+      "hash": "5acabfff6b0563f771432f058526a1d5cd7097ca",
+      "date": "2015-01-29T14:40:28+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Ensure document’s metadata is up-to-date before saving it",
+      "body": "This was a problem for the saveOnBlur which takes a shortcut to saving, and previously wouldn’t save updated metadata.\n\nThis was a problem for folded text, as the old state of folded code was saved."
+    },
+    {
+      "hash": "cca1f607fd5144789e1749afb798a2c6c02f5437",
+      "date": "2015-01-29T14:38:29+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Introduce updateDocumentMetadata as public OakTextView method",
+      "body": ""
+    },
+    {
+      "hash": "812f8146bf91adfdf66debbb70abfe265b6cba46",
+      "date": "2015-01-29T14:37:56+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Only limit regexp search to 5 MB when operating on disk file",
+      "body": "That is, if the file has been opened by the user, there is no size limit on what we will search."
+    },
+    {
+      "hash": "439601b8b059bb788a926d35ed9752bf0cdf4ab7",
+      "date": "2015-01-29T14:35:34+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Introduce API to check if a file reader works on an “open” buffer",
+      "body": ""
+    },
+    {
+      "hash": "f9cef6959b1de768896f45fa8eb683686001f053",
+      "date": "2015-01-21T15:55:16+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Handle searching files that end with an incomplete UTF-8 sequence",
+      "body": "Previously this would cause infinite looping as we tried to read more to complete the UTF-8 sequence."
+    },
+    {
+      "hash": "49b784f09caf5d9e4563bee8b2619d965d93cee1",
+      "date": "2015-01-21T15:47:27+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Fix bad logic in if statement",
+      "body": "Effectively we would only test if the prefix of a search result was malformed UTF-8, if the search result itself or the suffix was malformed, no error would be shown."
+    },
+    {
+      "hash": "a1a8205467ed3f90cb08013bf0f2d49a83efdcee",
+      "date": "2015-01-21T15:38:33+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Find in folder excerpt would be one byte too short for last line",
+      "body": "Since it was one byte it would throw an exception if the last character on the line was a multi-byte sequence (as we’d create an NSString with malformed/truncated UTF-8)."
+    },
+    {
+      "hash": "71f7c50aea95150a56177a83b6d9bd1dd4081c44",
+      "date": "2015-01-19T13:21:51+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Checkin release notes",
+      "body": ""
+    },
+    {
+      "hash": "f8c823195f04f4a2d50199f82a8a14e8bb56ab9e",
+      "date": "2015-01-19T12:29:33+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update script to create release notes",
+      "body": "We now place the GitHub version comparison link in the list of changes rather than in the heading."
+    },
+    {
+      "hash": "b84cb097dab4cc0d68a6f91a348ac006b23d058c",
+      "date": "2015-01-19T10:12:18+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Add Ignore Case and Wrap Around checkboxes to incremental search",
+      "body": ""
+    },
+    {
+      "hash": "b854201acfab3f00330c193a0708df92c05a25ff",
+      "date": "2015-01-18T18:17:33+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Improve NSEvent decoding for non-Latin key mappings",
+      "body": "If control (⌃) is down and the system gives us a non-ASCII key string then we will disregard it and instead convert the virtual key code to its ANSI character."
+    },
+    {
+      "hash": "691a6b4086826379d86238b767e9bf929af0da67",
+      "date": "2015-01-18T18:05:34+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Remove redundancy",
+      "body": ""
+    },
+    {
+      "hash": "51fb4f4015a28ed2549a0c05a9fd5a59e28a5aa8",
+      "date": "2015-01-14T17:27:00+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update kvdb submodule: Bind keys to SQL statements",
+      "body": ""
+    },
+    {
+      "hash": "d9286edaba46a16aa49cd700f029ea087f8dd53f",
+      "date": "2015-01-07T19:39:12+07:00",
+      "author": {
+        "name": "Allan Odgaard",
+        "username": "sorbits",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11901?v=4"
+      },
+      "summary": "Update copyright to 2015",
+      "body": ""
+    }
+  ]
+}
