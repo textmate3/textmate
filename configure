@@ -18,10 +18,12 @@ done
 # error about a missing SDK that never names either, so both are checked here by
 # name. .ruby-version is the Ruby that bin/rave and the scripts run on. rv reads
 # it and provides that Ruby, but bin/rave runs on whatever ruby the PATH finds,
-# so that one is checked too. Versions compare as numbers, major then minor, so
-# 6.10 is newer than 6.4 and a 4.0.7 passes a 4.0.9 pin.
+# so that one is checked too. Versions compare as numbers, major, then minor,
+# then patch, with a missing part as zero, so 6.10 is newer than 6.4, 27.0 is
+# 27.0.0, and a 4.0.7 does not pass a 4.0.9 pin. A patch release can be the one
+# that closes a vulnerability, so the pin means what it says all the way down.
 at_least () {
-  awk -v have="$1" -v need="$2" 'BEGIN { split(have, h, "."); split(need, n, "."); exit !((h[1] + 0 > n[1] + 0) || (h[1] + 0 == n[1] + 0 && h[2] + 0 >= n[2] + 0)) }'
+  awk -v have="$1" -v need="$2" 'BEGIN { split(have, h, "."); split(need, n, "."); for (i = 1; i <= 3; i++) { if (h[i] + 0 != n[i] + 0) exit !(h[i] + 0 > n[i] + 0) }; exit 0 }'
 }
 
 macos_needed=$(tr -d '[:space:]' < .macos-version)
