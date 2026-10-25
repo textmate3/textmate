@@ -1402,6 +1402,12 @@ module Target
           flags << "-F #{SWIFT_TESTING_FRAMEWORKS.shellescape} -framework Testing"
           flags << "-plugin-path #{SWIFT_TESTING_PLUGINS.shellescape}"
 
+          # A module built with a bridging header brings that header along
+          # with `@testable import`, so the headers it imports from other
+          # targets are found here the way the module compile finds them.
+          include_dirs = required_targets(target, targets, include_weak: true).map { |archs| include_dir(archs) }.reject { |e| e.nil? }.sort.uniq
+          flags += include_dirs.map { |dir| "-Xcc -I#{dir.shellescape}" }
+
           module_dependencies = []
           required.each do |t|
             if required_swift = swift_module(t)
@@ -1423,6 +1429,7 @@ module Target
             description:  "Compile Swift ‘$module’…",
             module:       module_name,
             dependencies: module_dependencies,
+            order_only:   include_dirs,
           }
 
           swift_executable = File.join(target[:builddir], '_Tests', "#{target[:name]}_swift_test")
