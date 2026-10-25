@@ -3,6 +3,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// Posted on the default center whenever the catalog's snapshot changes, for a second reader beside
+// the Bundles pane, which owns the change handler below.
+extern NSString* const BundleCatalogDidChangeNotification;
+
 // Plain Objective-C over the bundles manager for the Bundles pane: the catalog as snapshots, the
 // install and uninstall actions, and one callback for any change, whether a new index arriving, an
 // install finishing or the activity text moving on. The manager's own header carries C++ and cannot

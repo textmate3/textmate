@@ -8,6 +8,8 @@ namespace python_runtime
 	// itself reads, so the Python bundle commands run on moves when it does.
 	std::string const kPinnedVersion = PYTHON_RUNTIME_VERSION;
 
+	std::string const kBundleIdentifier = "5CA339D1-FDBB-4F83-BFDC-7069F626FCA8";
+
 	answer_t parse (std::string const& output)
 	{
 		return runtime_resolver::parse(output, "python");
