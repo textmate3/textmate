@@ -121,15 +121,14 @@ struct LanguageSection: View {
         }
       }
 
+      // Both rows stay one line of text whatever the state, so a refresh changes no row's height and the sections stay put.
+      // While the lists reload the last known values stay in place, and the spinner is in the section header.
       LabeledContent("Installed") {
-        if runtime.isRefreshing {
-          ProgressView()
-            .controlSize(.small)
-        } else if let problem = runtime.listingProblem {
+        if let problem = runtime.listingProblem {
           Text(problem)
             .foregroundStyle(.secondary)
         } else if runtime.installedVersions.isEmpty {
-          Text("None")
+          Text(runtime.isRefreshing ? "Checking" : "None")
             .foregroundStyle(.secondary)
         } else {
           Text(runtime.installedVersions.map(\.version).joined(separator: ", "))
@@ -137,8 +136,12 @@ struct LanguageSection: View {
       }
 
       LabeledContent("Newer") {
-        if runtime.isRefreshing || runtime.listingProblem != nil {
-          Text("")
+        if runtime.listingProblem != nil {
+          Text("Unknown")
+            .foregroundStyle(.secondary)
+        } else if runtime.versions.isEmpty {
+          Text(runtime.isRefreshing ? "Checking" : "None")
+            .foregroundStyle(.secondary)
         } else if runtime.newerThanPinned.isEmpty {
           Text("None")
             .foregroundStyle(.secondary)
@@ -148,7 +151,16 @@ struct LanguageSection: View {
         }
       }
     } header: {
-      Text(runtime.language)
+      HStack {
+        Text(runtime.language)
+        Spacer()
+        if runtime.isRefreshing {
+          ProgressView()
+            .controlSize(.small)
+        }
+      }
+      // A fixed height, so the spinner coming and going moves nothing below it.
+      .frame(height: 20)
     }
   }
 
