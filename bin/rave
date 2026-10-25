@@ -886,10 +886,20 @@ module Target
             out:          [ swift[:object], swift[:header], swift[:module] ],
             flags:        flags.join(' '),
             command:      'xcrun --sdk macosx swiftc -c -wmo -parse-as-library -emit-dependencies $flags $in',
-            depfile:      swift[:object].chomp('.o') + '.d',
+            # The depfile and the description belong to the ninja rule, and
+            # every Swift compile shares this one, so both are read from
+            # variables of the step. With the path written on the rule, every
+            # Swift module read whichever module's depfile rave had written
+            # last, recorded that module's dependencies as its own, and a
+            # module that one imports then depended on itself.
+            depfile:      '$depfile_path',
+            depfile_path: swift[:object].chomp('.o') + '.d',
             deps:         'gcc',
-            # A description belongs to the ninja rule, and every Swift compile
-            # shares this one, so the module name is a variable of the step.
+            # swiftc leaves an output alone when it would be identical, so a
+            # source touched without a change leaves the object older than
+            # its source for good. restat has ninja record the unchanged
+            # output as current rather than rebuild it on every run.
+            restat:       '1',
             description:  "Compile Swift ‘$module’…",
             module:       swift[:name],
             dependencies: dependencies,
@@ -1412,8 +1422,10 @@ module Target
             out:          test_object,
             flags:        flags.join(' '),
             command:      'xcrun --sdk macosx swiftc -c -wmo -parse-as-library -emit-dependencies $flags $in',
-            depfile:      test_object.chomp('.o') + '.d',
+            depfile:      '$depfile_path',
+            depfile_path: test_object.chomp('.o') + '.d',
             deps:         'gcc',
+            restat:       '1',
             description:  "Compile Swift ‘$module’…",
             module:       module_name,
             dependencies: module_dependencies,
@@ -1633,7 +1645,7 @@ end
 # = Output Buildfile =
 # ====================
 
-NINJA_KEYS = %w[ command description depfile deps generator pool ]
+NINJA_KEYS = %w[ command description depfile deps generator pool restat ]
 
 def write_rules(io, rules)
   actions = Set.new
