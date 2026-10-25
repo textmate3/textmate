@@ -79,10 +79,15 @@ struct LanguageSection: View {
 
       LabeledContent("In use") {
         if let inUse = runtime.inUse {
+          // A path under the home directory is written with a tilde, the way the Mac writes one, and a path still too long for the
+          // row loses its middle rather than dropping under the label, which is what the form does with a value that does not fit.
+          // The whole path is a hover away.
           HStack(spacing: 6) {
-            Text(inUse)
+            Text(abbreviated(inUse))
               .lineLimit(1)
               .truncationMode(.middle)
+              .frame(maxWidth: 400, alignment: .trailing)
+              .help(inUse)
             Button {
               status.reveal(inUse)
             } label: {
@@ -100,13 +105,15 @@ struct LanguageSection: View {
 
       LabeledContent("Manager") {
         if let path = runtime.managerPath {
-          VStack(alignment: .leading, spacing: 2) {
+          VStack(alignment: .trailing, spacing: 2) {
             Text(runtime.managerVersion ?? runtime.managerName)
-            Text(path)
+            Text(abbreviated(path))
               .font(.caption)
               .foregroundStyle(.secondary)
               .lineLimit(1)
               .truncationMode(.middle)
+              .frame(maxWidth: 400, alignment: .trailing)
+              .help(path)
           }
         } else {
           Text("\(runtime.managerName) is not on this machine")
@@ -143,5 +150,10 @@ struct LanguageSection: View {
     } header: {
       Text(runtime.language)
     }
+  }
+
+  /// The path with the home directory as a tilde.
+  private func abbreviated(_ path: String) -> String {
+    (path as NSString).abbreviatingWithTildeInPath
   }
 }
