@@ -94,6 +94,7 @@ static NSString* const kUserDefaultsPreferencesSelectedPaneKey       = @"prefere
 			[[TMFilesPaneController alloc] init],
 			[[TMProjectsPaneController alloc] init],
 			[[TMBundlesPaneController alloc] init],
+			[[TMRuntimesPaneController alloc] init],
 			[[TMVariablesPaneController alloc] init],
 			[[TMUpdatesPaneController alloc] init],
 			[[TMTerminalPaneController alloc] init]

@@ -25,6 +25,9 @@ namespace python_runtime
 	// anything recording that it moved. Latest, and moved deliberately.
 	extern std::string const kPinnedVersion;
 
+	// The Runtimes Python bundle, which carries uv and the resolver, by its identifier.
+	extern std::string const kBundleIdentifier;
+
 	answer_t parse (std::string const& output);
 	answer_t resolve (std::string const& resolverPath, std::string const& version);
 

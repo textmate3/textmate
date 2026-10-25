@@ -19,6 +19,9 @@ namespace ruby_runtime
 	// The version bundle support is tested on. Moved by an application release.
 	extern std::string const kPinnedVersion;
 
+	// The Runtimes Ruby bundle, which carries rv and the resolver, by its identifier.
+	extern std::string const kBundleIdentifier;
+
 	struct answer_t
 	{
 		std::string ruby      = NULL_STR; // The directory, or NULL_STR with an error.
