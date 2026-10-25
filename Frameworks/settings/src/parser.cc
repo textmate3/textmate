@@ -1,6 +1,6 @@
 // file:          ( «line» )*
 // line:          ( «comment» | ( «section» | «assignment» )? ( «comment» )? ) ( '\n' | EOF )
-// section:       '[' «name» ( ";" «name» )* ']'
+// section:       '[' «name» ( ( ";" | "," ) «name» )* ']'
 // name:          ( /[^\] \t\n]/ | /\\[\] \t\n\\]/ )+
 // assignment:    «key» '=' «value»
 // key:           ( /[^= \t\n]/ | /\\[= \t\n\\]/ )+
@@ -85,18 +85,55 @@ static bool parse_assignment (char const*& p, char const* pe, std::pair<std::str
 	return parse_key(p, pe, res.first) && parse_char(p, pe, "=") && parse_string(p, pe, res.second) || backtrack(p, bt);
 }
 
+// A name in a header: a quoted string, which keeps everything inside its
+// quotes and is how a scope selector carries its own commas, or a bare run
+// up to a separator, a semicolon or a comma, the closing bracket, or
+// whitespace. A comma inside braces is kept, since a glob writes its
+// alternatives that way, tests/t_*.{cc,mm}. A backslash escapes a stop
+// character, as it does elsewhere in the file.
+static bool parse_header_name (char const*& p, char const* pe, std::string& res)
+{
+	if(parse_string_single(p, pe, res) || parse_string_double(p, pe, res))
+		return true;
+
+	parse_ws(p, pe);
+	res.clear();
+	size_t depth = 0;
+	for(; p != pe; ++p)
+	{
+		if(*p == '\\' && p+1 != pe && (p[1] == '\\' || strchr(";,] \t\n{}", p[1])))
+		{
+			res += *++p;
+			continue;
+		}
+
+		if(*p == '{')
+			++depth;
+		else if(*p == '}' && depth != 0)
+			--depth;
+		else if(depth == 0 && strchr(";,] \t\n", *p))
+			break;
+		res += *p;
+	}
+	return true;
+}
+
+// Names are separated by a semicolon or a comma. The semicolon is the one
+// the format always had. The comma is accepted because it is what people
+// write, since a scope selector and a glob both use commas of their own, and
+// an unquoted comma between names can mean nothing else in a header.
 static bool parse_header (char const*& p, char const* pe, std::vector<std::string>& res)
 {
 	char const* bt = p;
 	if(parse_char(p, pe, "["))
 	{
 		std::string name;
-		while(parse_string_single(p, pe, name) || parse_string_double(p, pe, name) || (parse_ws(p, pe) && parse_until(p, pe, ";] \t\n", name)))
+		while(parse_header_name(p, pe, name))
 		{
 			res.push_back(name);
 			if(parse_char(p, pe, "]"))
 				return true;
-			if(!parse_char(p, pe, ";"))
+			if(!parse_char(p, pe, ";") && !parse_char(p, pe, ","))
 				break;
 		}
 	}
@@ -117,6 +154,15 @@ static bool parse_line (char const*& p, char const* pe, ini_file_t& res, int n =
 		res.new_section(header);
 	else if(parse_assignment(p, pe, assignment))
 		res.insert_value(assignment.first, assignment.second, n);
+	else if(p != pe && *p == '[')
+	{
+		// A header that could not be read still opens a section, one that
+		// applies nowhere. Otherwise the settings under it would land in
+		// whatever section came before, which for a header near the top of
+		// a file is the root, and they would apply to every file. The error
+		// below says what was wrong with it.
+		res.new_malformed_section();
+	}
 
 	if(parse_comment(p, pe) && (p == pe || parse_char(p, pe, "\n")))
 		return true;

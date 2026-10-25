@@ -30,6 +30,36 @@ void test_sections_with_only_directory ()
 	OAK_ASSERT_EQ(settings_for_path(NULL_STR, "", jail.path("folder")).get("testSetting"), "child");
 }
 
+// A comma between names separates them the way a semicolon does, with or
+// without a space, while a comma inside braces stays part of a glob and a
+// comma inside quotes stays part of a scope selector.
+void test_sections_separated_by_commas ()
+{
+	test::jail_t jail;
+	jail.set_content(".tm_properties", "testSetting = root\n[ *.md, *.markdown ]\ntestSetting = markdown\n[ *.rb,*.rake ]\ntestSetting = ruby\n[ 'source.c++, source.objc++' ]\nscoped = yes\n[ tests/t_*.{cc,mm} ]\ntestSetting = test\n");
+
+	OAK_ASSERT_EQ(settings_for_path(jail.path("a.md")).get("testSetting"),           "markdown");
+	OAK_ASSERT_EQ(settings_for_path(jail.path("a.markdown")).get("testSetting"),     "markdown");
+	OAK_ASSERT_EQ(settings_for_path(jail.path("a.rb")).get("testSetting"),           "ruby");
+	OAK_ASSERT_EQ(settings_for_path(jail.path("a.rake")).get("testSetting"),         "ruby");
+	OAK_ASSERT_EQ(settings_for_path(jail.path("a.txt")).get("testSetting"),          "root");
+	OAK_ASSERT_EQ(settings_for_path(jail.path("tests/t_foo.cc")).get("testSetting"), "test");
+	OAK_ASSERT_EQ(settings_for_path(jail.path("tests/t_foo.mm")).get("testSetting"), "test");
+	OAK_ASSERT_EQ(settings_for_path(jail.path("tests/t_foo.py")).get("testSetting"), "root");
+}
+
+// A header that cannot be read opens a section that applies nowhere, so the
+// settings under it reach no file, rather than every file through the root.
+void test_malformed_section_applies_nowhere ()
+{
+	test::jail_t jail;
+	jail.set_content(".tm_properties", "testSetting = root\n[ *.md\ntestSetting = lost\n[ *.rb ]\ntestSetting = ruby\n");
+
+	OAK_ASSERT_EQ(settings_for_path(jail.path("a.md")).get("testSetting"),  "root");
+	OAK_ASSERT_EQ(settings_for_path(jail.path("a.txt")).get("testSetting"), "root");
+	OAK_ASSERT_EQ(settings_for_path(jail.path("a.rb")).get("testSetting"),  "ruby");
+}
+
 void test_conversions ()
 {
 	test::jail_t jail;

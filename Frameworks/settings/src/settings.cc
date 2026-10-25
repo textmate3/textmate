@@ -125,6 +125,10 @@ namespace
 		std::vector<section_t> res;
 		for(auto const& section : iniFile.sections)
 		{
+			// The values under a header that could not be read apply nowhere.
+			if(section.malformed)
+				continue;
+
 			std::vector<section_t::assignment_t> variables;
 			if(section.names.empty())
 			{
