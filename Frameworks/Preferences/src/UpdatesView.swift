@@ -37,15 +37,20 @@ struct UpdatesView: View {
       }
 
       LabeledContent("Update channel:") {
-        PopUpPicker(
-          selection: $channel,
-          choices: [
-            PopUpChoice("Release", "release"),
-            PopUpChoice("Beta, the nightlies", "beta"),
-            PopUpChoice("Alpha, the development team", "alpha"),
-          ]
-        )
-        .frame(maxWidth: .infinity, alignment: .leading)
+        VStack(alignment: .leading, spacing: 4) {
+          PopUpPicker(
+            selection: $channel,
+            choices: [
+              PopUpChoice("Release", "release"),
+              PopUpChoice("Beta, the nightlies", "beta"),
+              PopUpChoice("Alpha, the development team", "alpha"),
+            ]
+          )
+          .frame(maxWidth: .infinity, alignment: .leading)
+          Text(channel == "release" ? "Checks once a day." : "Checks every hour, since a new build is the point of this channel.")
+            .font(.callout)
+            .foregroundStyle(.secondary)
+        }
       }
 
       Divider()

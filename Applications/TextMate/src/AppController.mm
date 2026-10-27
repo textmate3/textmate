@@ -518,6 +518,26 @@ BOOL HasDocumentWindow (NSArray* windows)
 	NSString* rmateInterface = [NSUserDefaults.standardUserDefaults stringForKey:kUserDefaultsRMateServerListenKey];
 	int rmatePort            = [NSUserDefaults.standardUserDefaults integerForKey:kUserDefaultsRMateServerPortKey];
 	setup_rmate_server(!disableRmate, rmatePort, [rmateInterface isEqualToString:kRMateServerListenRemote]);
+
+	[self updateCheckIntervalForChannel];
+}
+
+// How often the automatic check runs follows the channel: every hour on
+// alpha and beta, where a new build is the point of being there, and every
+// day on release, Sparkle's own default. Sparkle keeps the interval in the
+// defaults and resets its schedule when it changes, so it is set only when
+// the channel's interval differs from the one in force, not on every
+// defaults change.
+- (void)updateCheckIntervalForChannel
+{
+	NSTimeInterval const kOneHour = 60*60;
+	NSTimeInterval const kOneDay  = 24*kOneHour;
+
+	NSString* channel = [NSUserDefaults.standardUserDefaults stringForKey:@"updateChannel"];
+	BOOL prerelease   = [channel isEqualToString:@"alpha"] || [channel isEqualToString:@"beta"];
+	NSTimeInterval const interval = prerelease ? kOneHour : kOneDay;
+	if(self.updaterController.updater.updateCheckInterval != interval)
+		self.updaterController.updater.updateCheckInterval = interval;
 }
 
 - (void)applicationWillFinishLaunching:(NSNotification*)aNotification
