@@ -130,7 +130,9 @@ public final class FavoriteChooser: OakChooser {
   // MARK: Rows
 
   /// The row view: icon, name, folder and a remove button, the last hidden on a row that cannot be removed.
-  public func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+  /// The base implements this delegate method in a class extension Swift cannot see, so this is not an override
+  /// to the compiler, and it has to be marked for Objective-C by hand to be the one the table calls.
+  @objc public func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
     guard let tableColumn else { return nil }
     let cell: NSTableCellView
     if let existing = tableView.makeView(withIdentifier: tableColumn.identifier, owner: self) as? NSTableCellView {

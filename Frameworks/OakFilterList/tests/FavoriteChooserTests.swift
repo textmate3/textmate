@@ -72,6 +72,20 @@ import Testing
     #expect(items[2].link == jail.path("Favorites/zebra"))
   }
 
+  /// The table asks its delegate, the chooser, through Objective-C. The base answers with a plain label and asks
+  /// the item for a key it does not have, so the row has to come from the Swift override, reached by selector.
+  @Test func theTableGetsItsRowsFromTheSwiftChooser() throws {
+    let jail = try Jail()
+    defer { jail.remove() }
+    let chooser = FavoriteChooser()
+    chooser.items = [FavoriteItem(path: try jail.directory("project"), isLink: false, isRemovable: true)]
+
+    let column = try #require(chooser.tableView.tableColumns.first)
+    let delegate = try #require(chooser.tableView.delegate)
+    let view = delegate.tableView?(chooser.tableView, viewFor: column, row: 0)
+    #expect(view is OakFileTableCellView)
+  }
+
   @Test func withoutAFilterTheOrderIsKept() throws {
     let jail = try Jail()
     defer { jail.remove() }
