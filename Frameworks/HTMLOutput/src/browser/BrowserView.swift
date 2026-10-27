@@ -39,7 +39,7 @@ open class BrowserView: NSView, WKNavigationDelegate {
 
   public override init(frame: NSRect) {
     let configuration = WKWebViewConfiguration()
-    configuration.setURLSchemeHandler(HOFileHandleSchemeHandler(), forURLScheme: HOFileHandleURLScheme)
+    configuration.setURLSchemeHandler(FileHandleSchemeHandler(), forURLScheme: FileHandleSchemeHandler.scheme)
     webView = WKWebView(frame: .zero, configuration: configuration)
     statusBar = HOStatusBar(frame: .zero)
     super.init(frame: frame)

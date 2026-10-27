@@ -16,7 +16,6 @@
 #import <regexp/format_string.h>
 #import <OakAppKit/OakToolTip.h>
 #import <HTMLOutput/HTMLOutput.h>
-#import <HTMLOutput/HOFileHandleSchemeHandler.h>
 #import <HTMLOutputWindow/HTMLOutputWindow.h>
 #import <OakSystem/process.h>
 #import <settings/settings.h>
@@ -245,7 +244,7 @@ static pid_t run_command (dispatch_group_t rootGroup, std::string const& cmd, in
 
 			static NSInteger UniqueKey = 0; // Make each URL unique to avoid caching
 
-			_urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@://job/%@/%ld", HOFileHandleURLScheme, to_ns(encode::url_part(_bundleCommand.name)), ++UniqueKey]] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:FLT_MAX];
+			_urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@://job/%@/%ld", HOFileHandleSchemeHandler.scheme, to_ns(encode::url_part(_bundleCommand.name)), ++UniqueKey]] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:FLT_MAX];
 			[NSURLProtocol setProperty:self.identifier forKey:@"commandIdentifier" inRequest:_urlRequest];
 			[NSURLProtocol setProperty:to_ns(_bundleCommand.name) forKey:@"processName" inRequest:_urlRequest];
 			[NSURLProtocol setProperty:self forKey:@"command" inRequest:_urlRequest];
