@@ -50,6 +50,7 @@ Target: **2.1.0**, the first release of the project. Version 3.0.0 is the eventu
 - Sparkle's `Autoupdate` helper was left with its ad hoc signature, because the rule that names the bundle a nested binary belongs to took anything under a framework's `Versions` directory for the framework's own binary. Apple's first notarization answer named exactly that file. The rule now matches the framework only for the binary that carries its name, and `Autoupdate` is signed as the standalone tool it is.
 
 ### Changed
+- `nullptr` where `NULL` was, in the theme framework: the thirteen Core Graphics color and color space references that start out unset.
 - `nullptr` where `NULL` was, in the OakAppKit framework: seven places, a selector, an error out parameter, an observer context, a buffer and three menu item actions. The replacement reads strings and comments as strings and comments, so the pasteboard's SQL keeps its `NULL`s.
 - The build no longer needs boost. The one thing used from it was the CRC-32 behind the document attributes and the search results, and the system's zlib gives the same checksum, pinned by a new test to the standard check values. The Brewfile, the configure check and the README row for boost are gone, and the file framework links the SDK's zlib by path, the way the document framework links its sqlite.
 - The source control watcher's callback is a lambda rather than the tree's last `std::bind`.
