@@ -163,7 +163,7 @@ static NSURL* CanonicalURL (NSURL* url, BOOL isDirectoryFlag = YES)
 			menuItem.toolTip           = [app.URL.filePathURL.path stringByAbbreviatingWithTildeInPath];
 
 			NSImage* image = nil;
-			if([app.URL getResourceValue:&image forKey:NSURLEffectiveIconKey error:NULL] || (image = [NSWorkspace.sharedWorkspace iconForFile:app.URL.filePathURL.path]))
+			if([app.URL getResourceValue:&image forKey:NSURLEffectiveIconKey error:nullptr] || (image = [NSWorkspace.sharedWorkspace iconForFile:app.URL.filePathURL.path]))
 			{
 				image = [image copy];
 				image.size = NSMakeSize(16, 16);
