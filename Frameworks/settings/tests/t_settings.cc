@@ -60,6 +60,32 @@ void test_malformed_section_applies_nowhere ()
 	OAK_ASSERT_EQ(settings_for_path(jail.path("a.rb")).get("testSetting"),  "ruby");
 }
 
+// Every parse of a settings file reports the headers it could not read, by
+// text and line, so the application can show them, and reports an empty list
+// for a file whose headers all read, so it can take a warning down again.
+void test_malformed_headers_are_reported ()
+{
+	test::jail_t jail;
+	jail.set_content(".tm_properties", "testSetting = root\n[ *.md\ntestSetting = lost\n[ *.rb ]\ntestSetting = ruby\n[ *.py \n");
+	jail.set_content("clean/.tm_properties", "[ *.rb ]\ntestSetting = ruby\n");
+
+	std::map<std::string, std::vector<settings_t::malformed_header_t>> reports;
+	settings_t::set_malformed_headers_handler([&](std::string const& path, std::vector<settings_t::malformed_header_t> const& headers){
+		reports[path] = headers;
+	});
+
+	settings_for_path(jail.path("a.md"));
+	settings_for_path(jail.path("clean/a.rb"));
+	settings_t::set_malformed_headers_handler(nullptr);
+
+	OAK_ASSERT_EQ(reports[jail.path(".tm_properties")].size(), 2);
+	OAK_ASSERT_EQ(reports[jail.path(".tm_properties")][0].header, "[ *.md");
+	OAK_ASSERT_EQ(reports[jail.path(".tm_properties")][0].line_number, 2);
+	OAK_ASSERT_EQ(reports[jail.path(".tm_properties")][1].header, "[ *.py");
+	OAK_ASSERT_EQ(reports[jail.path(".tm_properties")][1].line_number, 6);
+	OAK_ASSERT_EQ(reports[jail.path("clean/.tm_properties")].size(), 0);
+}
+
 void test_conversions ()
 {
 	test::jail_t jail;

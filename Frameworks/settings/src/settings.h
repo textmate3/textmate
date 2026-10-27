@@ -52,6 +52,20 @@ struct settings_t
 	static void set_global_settings_path (std::string const& path);
 	static void set_cascade_root_path (std::string const& path);
 
+	// A section header in a settings file that could not be read.
+	// The settings under it apply nowhere, and the person should hear that from somewhere other than the log.
+	struct malformed_header_t
+	{
+		malformed_header_t (std::string const& header, size_t lineNumber) : header(header), line_number(lineNumber) { }
+		std::string header;
+		size_t line_number;
+	};
+
+	// Called after every parse of a settings file, with the headers in it that could not be read, an empty list when all could.
+	// The settings code knows nothing about windows, so the application supplies what to do with them.
+	// The handler runs on whatever thread asked for settings, under the settings lock, so it must not ask for settings itself.
+	static void set_malformed_headers_handler (std::function<void(std::string const& path, std::vector<malformed_header_t> const& headers)> const& handler);
+
 private:
 	std::map<std::string, std::string> settings;
 

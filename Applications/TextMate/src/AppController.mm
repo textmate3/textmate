@@ -528,6 +528,25 @@ BOOL HasDocumentWindow (NSArray* windows)
 	settings_t::set_default_settings_path([[[NSBundle mainBundle] pathForResource:@"Default" ofType:@"tmProperties"] fileSystemRepresentation]);
 	settings_t::set_global_settings_path(oak::application_t::support("Global.tmProperties"));
 
+	// A section header in a .tm_properties file that could not be read goes on the notice board, named by file and line,
+	// since the settings under it apply nowhere and the log is the only other place that says so.
+	// Settings are asked for from any thread, so the board is reached on the main one.
+	// Every parse reports, so a file that was fixed takes its own warnings down.
+	settings_t::set_malformed_headers_handler([](std::string const& path, std::vector<settings_t::malformed_header_t> const& headers){
+		// The block runs after the handler has returned, so it needs its own copies, not the references.
+		std::string const file = path;
+		std::vector<settings_t::malformed_header_t> const malformed = headers;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			NSString* keyPrefix = [NSString stringWithFormat:@"settings:%s:", file.c_str()];
+			[OakNoticeBoard.shared dismissNoticesWithKeyPrefix:keyPrefix];
+			for(auto const& header : malformed)
+			{
+				NSString* text = [NSString stringWithFormat:@"%s line %zu: the section header ‘%s’ could not be read, so its settings apply to nothing.", path::with_tilde(file).c_str(), header.line_number, header.header.c_str()];
+				[OakNoticeBoard.shared post:text key:[NSString stringWithFormat:@"%@%zu", keyPrefix, header.line_number]];
+			}
+		});
+	});
+
 	[NSUserDefaults.standardUserDefaults registerDefaults:@{
 		@"NSRecentDocumentsLimit": @25,
 		@"WebKitDeveloperExtras":  @YES,

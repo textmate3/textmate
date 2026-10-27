@@ -19,7 +19,10 @@ struct ini_file_t
 
 		// A header that could not be read. The values under it are kept here so
 		// that they apply nowhere, rather than to whatever section came before.
+		// The header's text and line are kept so the person can be told which one.
 		bool malformed = false;
+		std::string header;
+		size_t line_number = 0;
 	};
 
 	ini_file_t (std::string const& path) : path(path) { }
@@ -29,10 +32,12 @@ struct ini_file_t
 		sections.emplace_back(names);
 	}
 
-	void new_malformed_section ()
+	void new_malformed_section (std::string const& header, size_t lineNumber)
 	{
 		sections.emplace_back(std::vector<std::string>());
-		sections.back().malformed = true;
+		sections.back().malformed   = true;
+		sections.back().header      = header;
+		sections.back().line_number = lineNumber;
 	}
 
 	void insert_value (std::string const& name, std::string const& value, size_t lineNumber)

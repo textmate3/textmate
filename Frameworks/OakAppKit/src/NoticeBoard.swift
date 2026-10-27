@@ -2,13 +2,17 @@ import Foundation
 import Observation
 
 /// One thing the application has to tell the person about something that happened on its own.
+/// A notice with a key stands for a condition that can go away, a settings file with a bad header say,
+/// and the key is what lets the poster replace it or take it down when the condition changes.
 public struct Notice: Identifiable, Equatable, Sendable {
   public let id: UUID
   public let text: String
+  public let key: String?
 
-  public init(text: String) {
+  public init(text: String, key: String? = nil) {
     id = UUID()
     self.text = text
+    self.key = key
   }
 }
 
@@ -42,9 +46,28 @@ public final class NoticeBoard: NSObject {
     changed()
   }
 
+  /// Posts a notice under a key. A notice already under that key is replaced in place if its text differs, and left alone if not.
+  @objc public func post(_ text: String, key: String) {
+    if let index = notices.firstIndex(where: { $0.key == key }) {
+      guard notices[index].text != text else { return }
+      notices[index] = Notice(text: text, key: key)
+    } else {
+      notices.append(Notice(text: text, key: key))
+    }
+    changed()
+  }
+
   public func dismiss(_ notice: Notice) {
     guard notices.contains(notice) else { return }
     notices.removeAll { $0.id == notice.id }
+    changed()
+  }
+
+  /// Takes down every notice whose key starts with the prefix, which is how a poster clears all it said about one file.
+  @objc public func dismissNotices(withKeyPrefix prefix: String) {
+    let remaining = notices.filter { !($0.key?.hasPrefix(prefix) ?? false) }
+    guard remaining.count != notices.count else { return }
+    notices = remaining
     changed()
   }
 
