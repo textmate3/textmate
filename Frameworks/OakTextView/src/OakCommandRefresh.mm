@@ -178,6 +178,7 @@ static NSMutableSet<OakCommandRefresher*>* CommandRefreshers = [NSMutableSet set
 			[data appendBytes:bytes length:byteRange.length];
 		}];
 
+		// Not a structured binding: the block below captures the write end, and a block cannot capture one.
 		int stdinRead, stdinWrite;
 		std::tie(stdinRead, stdinWrite) = io::create_pipe();
 
