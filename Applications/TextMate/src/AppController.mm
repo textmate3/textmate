@@ -16,7 +16,7 @@
 #import <OakAppKit/OakAppKit.h>
 #import <OakAppKit/OakAppKit-Swift.h>
 #import <OakAppKit/OakPasteboard.h>
-#import <OakFilterList/BundleItemChooser.h>
+#import <OakFilterList/TMScopeContext.h>
 #import <OakFoundation/OakFoundation.h>
 #import <OakFoundation/NSString Additions.h>
 #import <OakTextView/OakDocumentView.h>
@@ -972,7 +972,15 @@ static void RuntimeDidActivate (NSString* language)
 	chooser.editAction = @selector(editBundleItem:);
 
 	OakTextView* textView = [NSApp targetForAction:@selector(scopeContext)];
-	chooser.scope        = textView ? [textView scopeContext] : scope::wildcard;
+	if(textView)
+	{
+		scope::context_t const context = [textView scopeContext];
+		chooser.scope = [TMScopeContext contextWithLeft:to_ns(to_s(context.left)) right:to_ns(to_s(context.right))];
+	}
+	else
+	{
+		chooser.scope = TMScopeContext.wildcard;
+	}
 	chooser.hasSelection = [textView hasSelection];
 
 	if(DocumentWindowController* controller = [NSApp targetForAction:@selector(selectedDocument)])
