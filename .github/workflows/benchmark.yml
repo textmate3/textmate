@@ -1,0 +1,51 @@
+name: Benchmarks
+
+# Runs on pull requests only, apart from CI, so the build and test verdict is
+# never held up by a benchmark run. The pull request and main are built and
+# run on the same runner, turn and turn about, since a number from one shared
+# runner against a number from another is noise.
+#
+# The report goes to the job summary and never fails the pull request. A false
+# red on a shared runner would teach everyone to ignore the check. Once a few
+# weeks of pull requests have shown the noise floor, a threshold can fail it.
+on:
+  pull_request:
+
+# A new push to the pull request makes the run in progress moot.
+concurrency:
+  group: benchmark-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  benchmark:
+    # The same image as CI, see ci.yml for why it is named by Xcode.
+    runs-on: xcode-27
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+          # All history and every branch, so origin/main is there to build.
+          fetch-depth: 0
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+
+      - name: Install dependencies
+        run: brew bundle
+
+      # Homebrew lives under /opt/homebrew on Apple Silicon, and configure
+      # only writes local.rave with the /usr/local paths when none exists.
+      # The benchmark script copies this file to the base checkout too.
+      - name: Point the build at Homebrew
+        run: |
+          printf 'add FLAGS    "-I/opt/homebrew/include"\n' >  local.rave
+
+      - name: Configure
+        run: ./configure
+
+      # The report is the script's stdout, its progress is stderr. The report
+      # goes to the log and to the job summary, where it renders as a table.
+      - name: Benchmark against main
+        run: script/benchmark --compare origin/main | tee -a "$GITHUB_STEP_SUMMARY"
