@@ -3,7 +3,6 @@
 #include <bundles/bundles.h>
 #include <oak/oak.h>
 #include <text/ctype.h>
-#include <oak/duration.h>
 
 namespace
 {

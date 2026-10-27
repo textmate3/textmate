@@ -47,11 +47,7 @@ at_least "$ruby_have" "$ruby_needed" \
 if [[ -e local.rave ]]; then
   echo >&2 "Skipping writing ‘local.rave’: File already exists"
 else
-  echo >> local.rave 'add FLAGS    "-I/usr/local/include"'
-
-  for hdr in boost/crc.hpp; do
-    test -f "/usr/local/include/${hdr}" || error "*** dependency missing: ‘/usr/local/include/${hdr}’. Install dependency and/or update ‘local.rave’ with correct path."
-  done
+  echo >> local.rave '# Local additions to the build, read after default.rave: flags, the signing identity, a feed to test against.'
 fi
 
 # ========================

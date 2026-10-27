@@ -197,7 +197,7 @@ static size_t line_count (std::string const& text)
 
 		[tableView setTarget:self];
 		[tableView setDoubleAction:@selector(didDoubleClickInTableView:)];
-		[tableView setAction:NULL];
+		[tableView setAction:nullptr];
 	}
 }
 
