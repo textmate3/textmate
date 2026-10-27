@@ -53,6 +53,13 @@
 	environment = variables;
 }
 
+- (void)setEnvironmentDictionary:(NSDictionary<NSString*, NSString*>*)variables
+{
+	environment.clear();
+	for(NSString* key in variables)
+		environment.emplace(to_s(key), to_s(variables[key]));
+}
+
 // ===================
 // = Message Handler =
 // ===================
