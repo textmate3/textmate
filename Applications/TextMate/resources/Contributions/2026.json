@@ -2,6 +2,182 @@
   "year": 2026,
   "commits": [
     {
+      "hash": "9ff18444fac680ebcefa2f4c239ed68c5404194d",
+      "date": "2026-10-26T20:14:58-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Stop the signing steps and one file browser object rerunning on every build (#87)",
+      "body": "A build with nothing changed now does nothing. `ninja TextMate` twice in\na row ends in `ninja: no work to do`, and `ninja -n -d explain TextMate`\nafter a build lists nothing. Until now every build ran the eight signing\nsteps, the five nested ones and the eleven copies into the application\nagain, which is why every build ended in a dozen `replacing existing\nsignature` lines. Two causes, found with ninja's own explanation.\n\n**The signing steps.** `codesign` rewrites the binary it signs, which is\nthe step's own input. Ninja 1.11 and later record a step's start time as\nthe time of its output unless the rule says `restat`, so the `.ok`\nmarker each signing step touches was on record as older than the binary\ncodesign had just rewritten, and the step was due again on the next run,\nforever. The `Codesign` and `CodesignNested` rules now say `restat`, and\nthe marker's time on record is the marker's own, set by the touch after\ncodesign has finished. Two lines in `bin/rave`, each with the reason\nbeside it.\n\n**One object in the file browser.** `SCMManager.mm` reached scm's driver\nheader through a symbolic link named `drivers` beside the file browser's\nsources, there since 2018. That header's own `\"../status.h\"` was\nrecorded in the dependency file by its lexical path through the link,\n`Frameworks/FileBrowser/src/drivers/../status.h`, which names no file,\nso ninja found an input missing on every run and compiled the object\nagain, which relinked the framework, the application, and everything\nsigned after it. The duplicate `status.h` that #37 removed had been\nmasking this by existing at that lexical path. The link is gone and the\ninclude names scm's source tree by a relative path, which both resolves\nand records correctly. The drivers are scm's private API and not among\nthe headers it exports, which the comment says, and exporting them is a\nseparate question.\n\nIn Ruby terms, `bin/rave` is the Rakefile that writes `build.ninja`, and\nthe two signing rules are the two tasks whose side effect was to modify\ntheir own prerequisite. Nothing else in the build changes, the scm tests\npass, and the application builds."
+    },
+    {
+      "hash": "352a36e341cbdecc7e951a4ba5d54995cc6f9c59",
+      "date": "2026-10-26T19:58:53-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Show a notice when a .tm_properties section header cannot be read (#86)",
+      "body": "A section header the parser cannot read opens a section that applies\nnowhere, since #83, so the settings under it reach no file. The only\nword of it was a line in the log. Now the notice strip above every\ndocument window says which header, on which line of which file, could\nnot be read, and that its settings apply to nothing.\n\nThe settings code reports every parse of a settings file to a handler\nthe application installs, with the headers it could not read, an empty\nlist when all could. The application turns each into a notice keyed by\nfile and line, and clears every notice about a file before posting the\ncurrent ones, so fixing the file takes its notice down on the next read\nwithout a dismissal. The handler runs on whatever thread asked for\nsettings, so the application hops to the main thread with its own copies\nof the path and the list before touching the board.\n\nNotices can carry a key now, which is what lets a poster replace or\nclear what it said about one file. A keyed notice posted again with the\nsame text changes nothing and announces nothing. Plain notices are\nuntouched.\n\nIn the settings framework, in Ruby terms: the parser's malformed section\nnow remembers the header's text and line number, `parse_sections`\ncollects them into a list beside the sections it returns, and a module\nlevel handler, set once by the application, receives the list after\nevery parse. The tests cover the two headers reported by text and line\nand the clean file reported as empty, and the board's new keyed post and\nprefix dismissal."
+    },
+    {
+      "hash": "e673f6f02dd6114281138a5cfd33ec5ac56e3414",
+      "date": "2026-10-25T02:38:37-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Wrap the key equivalents in the release notes in backticks (#84)",
+      "body": "The HTML build dressed key equivalents such as ⌘S as keycaps through a\nregex in `bin/gen_html`, and the native About window deliberately does\nnot, so since #71 they have read as plain glyphs. This wraps them in\nbackticks in `Changes.md` itself, once, so the renderer draws them as\ncode spans. The same regex's idea of a key equivalent, applied outside\nthe code spans and code blocks the file already has, and to no heading.\nOne change to it: the lone character after a modifier may not be a\nbracket, so `[⌥]⌘V`, an optional modifier written in brackets, keeps its\nbrackets outside the span where the HTML had swallowed one.\n\n148 lines changed, about 220 spans. A run of keys separated by slashes\nor brackets becomes a span per key, `(`⇧`)`⌘⇠`/`⌘⇢``, which is what the\nHTML did as well. The renderer's tests over the file, which read its\nstructure, pass unchanged, since a code span changes no block."
+    },
+    {
+      "hash": "51bfacd8b43d4a955214700513f7c26458896526",
+      "date": "2026-10-24T23:15:06-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Accept a comma between the names of a .tm_properties section header (#83)",
+      "body": "A section header separated its names with a semicolon and nothing else,\nand a comma failed in one of two ways depending on the space after it.\n`[*.md,*.markdown]` parsed as one glob that matched nothing. `[*.md,\n*.markdown]` failed the header outright, the line was skipped, and the\nsettings under it fell into the section before, which for a header near\nthe top of a file is the root, so settings written for Markdown applied\nto every file. The only sign was an error in the system log.\n\nA comma now separates names the way a semicolon does. A comma inside\nbraces stays part of a glob, `tests/t_*.{cc,mm}`, and a comma inside\nquotes stays part of a scope selector, which is why those two spellings\nalready worked and made the third look like it should. A header that\nstill cannot be read opens a section that applies nowhere, so what is\nunder it reaches no file rather than all of them, and the error naming\nthe line goes to the log as before. Two tests cover the four spellings\nand the fallthrough."
+    },
+    {
+      "hash": "b05f2d0d3d78230adf900afebab739384b60dbba",
+      "date": "2026-10-24T23:11:17-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Name the test a C++ test binary crashes in (#82)",
+      "body": "The C++ test runner prints nothing on success and nothing on a crash.\n`io_test` has died twice on continuous integration with exit 139 and no\nother word, once in September and once this week, on pull requests that\ntouched nothing in io, and passed on rerun both times. Which test it was\nis still unknown, which is the whole problem.\n\nThe runner installs a handler for the crashing signals that writes\n`io_test: crashed in t_events::test_some_name` before letting the crash\ngo on, with only async signal safe calls. The running test is kept per\nthread, since the tests run in parallel. The runner also prints one line\non success, `io_test: 45 tests passed`, so a run that printed nothing is\nknown to have crashed rather than passed, and `-v` names each test\nbefore it runs.\n\nRun one hundred and twenty times locally after this, sixty as continuous\nintegration runs it and sixty in parallel, `io_test` did not crash once.\nThe next time it does on the runner, the log will say where."
+    },
+    {
+      "hash": "eb971794e3fe2289ba60303f34072e72d122d370",
+      "date": "2026-10-24T20:42:48-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "A Runtimes pane in Preferences (#81)",
+      "body": "A pane between Bundles and Variables that shows where each runtime\nstands. For Ruby and for Python: the bundle that carries the runtime and\nwhether it is installed, the version the application wants, the Ruby\ndirectory or Python interpreter bundle commands run on now with a button\nto show it in Finder, the manager behind it with its version and where\nit was found, every version the manager has installed, and the newer\nversions it could fetch.\n\nTwo actions. Install the bundle, through the catalog face the Bundles\npane already uses, after which the runtime is resolved as soon as the\nbundle arrives. Install the wanted version when it is missing, which\nasks the application to resolve the runtime again the way it does at\nlaunch, through a notification the launch hook now listens for and\nanswers when it has settled. The versions are the application's to pin\nand arrive with an update, so Newer is information and nothing switches\nto it, and the pane says so in a line at the bottom.\n\nThe lists come from `rv ruby list --format json` and `uv python list\n--managed-python --output-format json`, run off the main thread, from\nthe manager found the way the resolvers find it, the person's own first\nand the bundle's last. Only final releases of the reference\nimplementation are listed. The parsing is pure functions with tests over\ncaptured output from both managers.\n\nOn the way: the two bundle identifiers move from the launch hook into\n`io/ruby_runtime.h` and `io/python_runtime.h`, where the pane can read\nthem too. `BundleCatalog` posts a notification on change beside the\nsingle handler the Bundles pane owns. And rave's Swift test rule gains\nthe include directories the module compile has, since a module built\nwith a bridging header brings that header along with `@testable import`,\nwhich the Preferences tests are the first to need.\n\nSeen in light and dark with both bundles installed, Ruby 4.0.9 in use,\nand Python showing the Install 3.14.9 button on a machine whose own uv\ncannot fetch it.\n\n\nThis branch also carries the commit of #85, the Swift depfile fix in\nrave, cherry picked so the pane builds on its own. Merge #85 first and\nthe duplicate falls away."
+    },
+    {
+      "hash": "f9d14b5290370e6afdb0f87e9e9ac2526b8b4834",
+      "date": "2026-10-24T20:42:18-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Give every Swift compile its own depfile and restat its outputs (#85)",
+      "body": "Ninja treats `depfile` as a property of the rule, as it does\n`description`, and rave wrote the depfile path on the shared\n`CompileSwift` rule, so the rule carried whichever path rave wrote last,\nthe application's `TextMate.d`, and all 44 Swift compiles read that one\nfile. Every module recorded the application's dependencies as its own,\nand a module the application imports, OakFoundation, then depended on\nits own output. The moment that module needed rebuilding, ninja refused\nevery target with `dependency cycle: OakFoundation.swiftmodule ->\nOakFoundation.swiftmodule`. Caught by building the two edges one at a\ntime from an empty database: OakFoundation's own compile recorded the\napplication's dependencies.\n\nEach Swift edge sets `depfile_path` and the rule reads it, the same move\nthe module name made for the progress labels. The C++ rules were never\naffected, since `$out.d` works for an edge with one output.\n\nFound beside it: swiftc leaves an output alone when it would be\nidentical, so a source touched without a change left its object older\nthan the source for good, and every build recompiled every Swift module\nand relinked the application. The Swift rules restat their outputs now,\nso ninja records an unchanged output as current. After this, a real run\nfollowed by a dry run wants no Swift step.\n\nA build directory that recorded the wrong dependencies before this needs\n`.ninja_deps` removed once, beside the `builddir` in `build.ninja`, and\nrebuilds from there."
+    },
+    {
+      "hash": "d51d12e787f005aa6e1787695d6d6ded78aefae4",
+      "date": "2026-10-24T14:12:30-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "A notice strip above the text for what the launch did about the runtimes (#80)",
+      "body": "When the application launches it asks the Runtimes bundles for the\npinned Ruby and Python, and the resolver may install one, stand in with\nanother version, or find none. Each of those went to the log, which\nnobody reads, and the comment in the launch hook called them the\nbanner's material once the banner existed.\n\nThe banner is a strip above the text in every document window, in the\nplace the find bar appears, built as the Ruby runtime plan proposed.\n`OakNoticeBoard` in OakAppKit holds the notices and announces each\nchange through the notification center. The launch hook posts to it:\n`TextMate installed Ruby 4.0.9 for bundle commands, at …`, `Bundle\ncommands run on a Python other than 3.14.9. …`, `Ruby bundle commands\nwill not run. …`, with the resolver's own reason as the second sentence,\nand the same text twice is one notice. `OakNoticeStripView` is a SwiftUI\nstrip hosted in an AppKit view the way the HTML output status bar is:\none row per notice in body text on a pale yellow, an info icon in amber\non light and the system yellow on dark, and a Dismiss button, and\n`OakDocumentView` adds it to its top auxiliary views while the board has\nanything and removes it when the board is empty. Dismissing removes the\nnotice from the board, so every window loses it together, a window\nopened later shows what is still there, and the next launch starts\nclean. The board has tests, and the strip was seen with a Python\nfallback notice: a second window opened while it showed had it too, and\none Dismiss cleared both.\n\nNot an alert, since nothing the person did caused it. Not a system\nnotification, since that asks permission on first launch for a message\nmost people see once. The `TM_RUBY` below minimum warning still goes to\na command's standard error, since the command framework does not reach\nOakAppKit, and moving it onto the strip is a separate change."
+    },
+    {
+      "hash": "1a2b4b52616eada7d5c73570385124ce7291e730",
+      "date": "2026-10-24T03:04:12-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Move Python to 3.14.9 (#79)",
+      "body": "`.python-version` from 3.14.7 to 3.14.9, the current security patch\nrelease, which is the one line pin since #78: `configure`, uv, and\n`python_runtime::kPinnedVersion` all follow it, and the test that reads\nthe file passes against the build.\n\nThis merges only after the catalog serves the Runtimes Python bundle\nwith uv 0.13.5, the first uv that can download 3.14.9, since uv's list\nof Pythons is compiled into its binary and a pin it cannot fetch would\nfall back on every machine. The bundle's pull request is merged. The\nCHANGELOG sentence from #78 that said Python stays at 3.14.7 now says\nwhy it moved second."
+    },
+    {
+      "hash": "1f139a3a93486c00ae3fb5abbc7c6bbde48814cb",
+      "date": "2026-10-24T02:48:39-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Read the runtime pins from .ruby-version and .python-version, and move Ruby to 4.0.9 (#78)",
+      "body": "The Ruby that bundle commands run on was `ruby_runtime::kPinnedVersion =\n\"4.0.6\"`, a literal in C++, and the Python the same way at 3.14.7. The\nbuild and the scripts had just gained `.ruby-version` for their own\nRuby, so there were two Ruby pins in two forms with nothing tying them,\nand the one that reaches every user was three patches behind the release\nthat closed the vulnerabilities announced the day 4.0.8 came out.\n\nNow there is one file per runtime. `.ruby-version` and the new\n`.python-version`, the files rv and uv read natively, are captured by\nthe rave file the way `.macos-version` already is and handed to every\ncompile as `RUBY_RUNTIME_VERSION` and `PYTHON_RUNTIME_VERSION`, which\nthe two constants now are. Editing either file regenerates the build and\nrecompiles what carries the value. The developer's shell, `configure`,\ncontinuous integration and the application all read the same line, and\nmoving a version is a one line diff of it.\n\nThe two tests that asserted the literals read the files instead and\ncompare them to what the build compiled in, plus that each has three\nparts, so a stale build or a series pin would fail. Ruby moves from\n4.0.6 to 4.0.9 with this. Python stays at 3.14.7."
+    },
+    {
+      "hash": "2792ea05f5fd18d39654f2be8dcbc315a650e2a1",
+      "date": "2026-10-24T02:41:51-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Check the Ruby on the PATH against .ruby-version in configure (#76)",
+      "body": "`.ruby-version` pins the Ruby the scripts run on, but `bin/rave` says\n`#!/usr/bin/env ruby` and `configure` runs it directly, so the build has\nrun on whatever Ruby the PATH found with no check at all. `configure`\nnow reads the pin and refuses an older Ruby by name, the way it already\ndoes for the SDK against `.macos-version` and Swift against\n`.swift-version`. The refusal names the two ways rv provides the pinned\nRuby: `rv run sh ./configure` for one run, or `rv shell zsh` for the\nPATH.\n\nThe comparison goes to the patch for all three, where it compared major\nand minor. A patch release can be the one that closes a vulnerability,\nas 4.0.9 did the day 4.0.8 came out, so a pin means what it says all the\nway down. A missing part counts as zero, so `27.0` is `27.0.0`.\n\nTried: with the pin at 99.0, refused. On a shell whose PATH finds rv's\nhome pinned 4.0.7 against the repository's 4.0.9, refused with the\nmessage above. Through `rv run sh ./configure`, 4.0.9, passes. The\neleven pair matrix in the helper's terms: 4.0.10, 4.1, 5, 6.10 against\n6.4, 27.1 pass, and 4.0.7, 4.0, 6.3.9 against 6.4, 26.9 against 27.0 are\nrefused."
+    },
+    {
+      "hash": "fd6a352240e22cbdb00280c84eaa348ed2448b40",
+      "date": "2026-10-24T02:32:30-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Delete the Title lines from the About pages and the code that skipped them (#77)",
+      "body": "`Changes.md` and `Legal.md` opened with a MultiMarkdown `Title:` line\nthat fed the `<title>` tag of the HTML build. Neither goes through that\nbuild anymore: they ship as Markdown and render natively, and the two\nremaining readers of `Changes.md`, the version capture in the rave file\nand the release script, look only for the newest release heading. The\ntwo lines go, and with them the code in `MarkdownDocument` that skipped\nsuch a block, its test, and the block in the fixture. Nothing the\nrenderer draws carries one.\n\nThe release notes digest changes once, so the Changes page shows itself\nonce after the next update, which is also correct, since the file\nchanged."
+    },
+    {
+      "hash": "a3050b48aec7ccbd9a642ae2c16083a8b93bceb2",
+      "date": "2026-10-24T02:07:51-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Name the Swift module in ninja's progress line (#75)",
+      "body": "Every Swift compile shares one ninja rule, `CompileSwift`, and in ninja\na description belongs to the rule, not the step. So every Swift step\nprinted whichever description rave had written last, `Compile Swift\ntests ‘SoftwareUpdateTests’` four times while compiling OakFoundation,\nOakAppKit, BundlesManager and its tests. The work was right and the\nlabel was not.\n\nThe rule's description now reads `Compile Swift ‘$module’…` and each\nstep sets `module` to its own name, which is what ninja provides for\nexactly this. A rebuild prints `Compile Swift ‘OakFoundation’` and\n`Compile Swift ‘OakFoundationTests’`."
+    },
+    {
+      "hash": "62e1ddce0cbb95bc11df9fbe9ea22d7945b1aad6",
+      "date": "2026-10-24T02:03:48-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Refresh the contributions data from the release scripts (#74)",
+      "body": "The Contributions page's data is only as current as the last run of\n`script/update_contributions`, and nothing ran it. The release scripts\nnow do, between their preconditions and the build: the script reads\n`main` and asks GitHub about the commits since the last run through the\n`gh` the preconditions already require, and when the data changed it is\ncommitted as `Refresh the contributions data for <version>` and pushed,\nso the build number counts that commit and the released application\ncarries every commit on `main` but the refresh itself.\n\nBetween releases the data is as current as the last release, which is\nfine, since nobody sees the page of a build that was not released. Not\nthe build, which stays offline and token free, and not a CI workflow,\nwhich would put a bot commit after every merge."
+    },
+    {
+      "hash": "201b30d6b94750552e1ca2b15d467e93b222e647",
+      "date": "2026-10-24T01:52:37-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Say what multimarkdown is for now that the release notes are native: the Help pages",
+      "body": ""
+    },
+    {
+      "hash": "148dd79e52d52c51df3f07719807700751e7eaa3",
+      "date": "2026-10-24T01:48:25-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Refresh the contributions data after #72 (#73)",
+      "body": "`script/update_contributions` run on `main` after #72 merged. The four\ncommits of that branch leave the data, since they are not in `main`'s\nhistory, and the squash merge takes their place with its account from\nGitHub.\n\nThe script now logs `main` rather than `HEAD`, so the data is `main`'s\nhistory wherever the script is run from. Run on this branch after the\nchange, it wrote the same bytes."
+    },
+    {
       "hash": "24899423f975d578b497c08c8bff68687d8082c6",
       "date": "2026-10-24T01:45:42-07:00",
       "author": {
