@@ -91,11 +91,11 @@ public final class FileHandleSchemeHandler: NSObject, @MainActor WKURLSchemeHand
   /// directory registered for the page the request belongs to, identified by the request's main document URL.
   @objc(isAssetPathAllowed:forMainDocumentURL:)
   public func isAssetPathAllowed(_ path: String, forMainDocumentURL mainDocumentURL: URL?) -> Bool {
-    var roots = HOSchemeHandlerSupport.bundleAssetRoots()
+    var roots = AssetPolicy.roots(forBundleLocations: HOSchemeHandlerSupport.bundleLocations())
     if let mainDocumentURL, let job = Self.job(for: mainDocumentURL) {
       roots += job.allowedDirectories
     }
-    return HOSchemeHandlerSupport.isPath(path, allowedUnderAnyOf: roots)
+    return AssetPolicy.isAllowed(path, roots: roots)
   }
 
   /// Streams the command's output to the page as it arrives: read on a background queue, delivered on the main one,
