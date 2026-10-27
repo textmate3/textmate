@@ -1,4 +1,5 @@
 import AppKit
+import OSLog
 import WebKit
 
 private func escapeHTML(_ string: String) -> String {
@@ -130,6 +131,10 @@ open class BrowserView: NSView, WKNavigationDelegate {
 
   public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
     let url = (error as NSError).userInfo[NSURLErrorFailingURLErrorKey] as? URL ?? webView.url
+    // At debug level, since a failed load is already shown on the page, and the detail is for someone looking.
+    let failure = error as NSError
+    let logger = Logger(subsystem: "com.textmate3.TextMate", category: "HTMLOutput")
+    logger.debug("navigation failed: \(url?.absoluteString ?? "no URL", privacy: .public) (\(failure.domain, privacy: .public) \(failure.code))")
     showLoadError(in: webView, for: url, error: error)
     self.webView(webView, didFinish: navigation)
   }
