@@ -2,7 +2,7 @@
 #include <parse/parse.h>
 #include <OakSystem/application.h>
 #include <test/bundle_index.h>
-#include <oak/duration.h>
+#include <chrono>
 #include <oak/oak.h>
 #include <iostream>
 
@@ -61,7 +61,7 @@ void parse_stdin (std::string const& grammarSelector = "text.plain", bool verbos
 			parse::stack_ptr stack = grammar->seed();
 			scope::scope_t lastScope(grammarSelector);
 
-			oak::duration_t timer;
+			auto const start = std::chrono::steady_clock::now();
 			size_t bytes = 0;
 
 			static char buf[16384];
@@ -86,7 +86,10 @@ void parse_stdin (std::string const& grammarSelector = "text.plain", bool verbos
 			std::cout << xml_difference(lastScope, grammarSelector, "<", ">") << std::endl;
 
 			if(verbose)
-				fprintf(stderr, "parsed %zu bytes in %.1fs (%.0f bytes/s)\n", bytes, timer.duration(), bytes / timer.duration());
+			{
+				double const seconds = std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count();
+				fprintf(stderr, "parsed %zu bytes in %.1fs (%.0f bytes/s)\n", bytes, seconds, bytes / seconds);
+			}
 
 			return;
 		}
@@ -98,7 +101,7 @@ void parse_stdin (std::string const& grammarSelector = "text.plain", bool verbos
 
 static void load_bundle_index (bool verbose)
 {
-	oak::duration_t timer;
+	auto const start = std::chrono::steady_clock::now();
 
 	std::string const path = oak::application_t::cache("BundlesIndex.plist");
 
@@ -113,7 +116,7 @@ static void load_bundle_index (bool verbose)
 	bundles::set_index(index.first, index.second);
 
 	if(verbose)
-		fprintf(stderr, "loaded bundle index in %.2f seconds\n", timer.duration());
+		fprintf(stderr, "loaded bundle index in %.2f seconds\n", std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count());
 }
 
 int main (int argc, char* const* argv)
