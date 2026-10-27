@@ -1,6 +1,5 @@
 #include "case.h"
 #include "utf8.h"
-#include <oak/iterator_macros.h>
 
 namespace text
 {
