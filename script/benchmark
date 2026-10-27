@@ -1,0 +1,125 @@
+#!/usr/bin/env ruby
+# script/benchmark — run the framework benchmarks and report their times
+#
+# A benchmark is a `benchmark_*` function in a framework's tests folder, beside
+# the tests. The generated test runner runs the benchmarks instead of the tests
+# when given `-b`, and prints the seconds each one took. This script finds the
+# frameworks that have a benchmark, builds just their runners, runs each runner
+# the given number of times and reports the median and the fastest run of every
+# benchmark. The fastest run is the one with the least interference from the
+# rest of the machine, so it is the number to compare across machines.
+#
+# Usage:
+#   script/benchmark                    # every benchmark, five runs each
+#   script/benchmark buffer parse       # just these frameworks
+#   script/benchmark --runs 10          # more runs, a steadier median
+#   script/benchmark --json results.json  # also write every sample, for comparing later
+
+require 'json'
+require 'optparse'
+require_relative 'lib/benchmark_report'
+
+Dir.chdir(File.expand_path('..', __dir__))
+
+options = { json: nil, runs: 5 }
+OptionParser.new do |parser|
+  parser.banner = 'usage: script/benchmark [options] [framework ...]'
+  parser.on('--json PATH', 'write every sample here as JSON, as well as the report to the terminal') { options[:json] = it }
+  parser.on('--runs N', Integer, 'runs of each benchmark, default 5') { options[:runs] = it }
+end.parse!
+
+build_directory = File.read('build.ninja')[/^builddir = (.+)$/, 1] or abort('no builddir in build.ninja, run ./configure')
+
+# ==============
+# = Discovery =
+# ==============
+
+# The same pattern the test runner generator uses to find a benchmark.
+BENCHMARK_FUNCTION = /^\s*void benchmark_\w+ \(\)/
+
+def frameworks_with_benchmarks
+  Dir.glob('{Frameworks,Applications}/*/tests/*.{cc,mm}')
+     .select { File.read(it).match?(BENCHMARK_FUNCTION) }
+     .map { it.split('/')[1] }
+     .uniq
+     .sort
+end
+
+frameworks = frameworks_with_benchmarks
+frameworks &= ARGV unless ARGV.empty?
+abort('no benchmarks found, a benchmark is a `void benchmark_*()` in a tests folder') if frameworks.empty?
+
+runners = frameworks.to_h { [it, File.join(build_directory, 'release/_Tests', "#{it}_test")] }
+
+# =========
+# = Build =
+# =========
+
+puts "Building the test runners for #{frameworks.join(', ')}…"
+system('ninja', *runners.values) or abort('build failed')
+
+# ========
+# = Runs =
+# ========
+
+def run_benchmarks(runner)
+  output = IO.popen([runner, '-b'], &:read)
+  abort("#{runner} failed") unless $?.success?
+
+  output.lines.filter_map do |line|
+    seconds, name = line.match(/^([\d.]+)s (\S+)$/)&.captures
+    [name, seconds.to_f] if name
+  end
+end
+
+puts "Running each benchmark #{options[:runs]} times…"
+samples = Hash.new { |hash, key| hash[key] = [] }
+load_averages = []
+options[:runs].times do |run|
+  load_averages << `sysctl -n vm.loadavg`[/\{ ([\d.]+)/, 1].to_f
+  runners.each do |framework, runner|
+    run_benchmarks(runner).each do |name, seconds|
+      samples[[framework, name]] << seconds
+    end
+  end
+  puts "  run #{run + 1} of #{options[:runs]} done"
+end
+
+# ==========
+# = Report =
+# ==========
+
+def seconds(value) = format('%.3f', value)
+
+commit = `git rev-parse --short HEAD`.strip
+commit += ' (uncommitted changes)' unless `git status --porcelain`.empty?
+machine = `sysctl -n machdep.cpu.brand_string`.strip
+macos = `sw_vers -productVersion`.strip
+cores = `sysctl -n hw.ncpu`.strip
+
+report = []
+report << '# Benchmarks'
+report << ''
+report << "#{Time.now.strftime('%Y-%m-%d %H:%M')}, commit #{commit}, #{machine}, #{cores} cores, macOS #{macos}."
+report << "Load average during the runs: #{load_averages.min} to #{load_averages.max}. Anything above the core count means the machine was busy and the numbers are noisy."
+report << ''
+rows = samples.map do |(framework, name), values|
+  [framework, name, values.size, seconds(median(values)), seconds(values.min)]
+end
+report << markdown_table(['Framework', 'Benchmark', 'Runs', 'Median s', 'Min s'], rows, text_columns: %w[Framework Benchmark])
+
+text = "#{report.join("\n")}\n"
+puts
+puts text
+
+if options[:json]
+  results = {
+    commit:,
+    cores: cores.to_i,
+    machine:,
+    macos:,
+    runs: options[:runs],
+    benchmarks: samples.map { |(framework, name), values| { framework:, name:, seconds: values } }
+  }
+  File.write(options[:json], "#{JSON.pretty_generate(results)}\n")
+end
