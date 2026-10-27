@@ -9,7 +9,7 @@ namespace parser
 	// structs are complete; here only the name and the node list exist.
 	// std::vector supports incomplete element types since C++17.
 	struct node_t;
-	typedef std::vector<node_t> nodes_t;
+	using nodes_t = std::vector<node_t>;
 
 } /* parser */
 

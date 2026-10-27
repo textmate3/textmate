@@ -42,7 +42,7 @@ namespace ng
 		bool is_paired (size_t index) const;
 
 		size_t _rank;
-		typedef indexed_map_t<size_t> tree_t;
+		using tree_t = indexed_map_t<size_t>;
 		tree_t _pairs;
 	};
 

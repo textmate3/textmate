@@ -13,7 +13,7 @@ struct key_t
 };
 
 static int position_comp (ssize_t key, key_t const& offset, key_t const& node) { return key < offset.position + node.position ? -1 : (key == offset.position + node.position ? 0 : +1); }
-typedef oak::basic_tree_t<key_t> tree_t;
+using tree_t = oak::basic_tree_t<key_t>;
 
 static void set (tree_t& tree, ssize_t pos)
 {

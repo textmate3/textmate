@@ -15,8 +15,8 @@ namespace plist
 	// std::variant keeps any_t a real type name, and C++23 (P2162) makes
 	// std::visit work on the derived type.
 	struct any_t;
-	typedef std::map<std::string, any_t> dictionary_t;
-	typedef std::vector<any_t> array_t;
+	using dictionary_t = std::map<std::string, any_t>;
+	using array_t = std::vector<any_t>;
 
 	struct any_t : std::variant<bool, int32_t, uint64_t, std::string, std::vector<char>, oak::date_t, array_t, dictionary_t>
 	{

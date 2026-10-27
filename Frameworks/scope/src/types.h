@@ -16,7 +16,7 @@ namespace scope
 			virtual std::string to_s () const = 0;
 		};
 
-		typedef std::shared_ptr<any_t> any_ptr;
+		using any_ptr = std::shared_ptr<any_t>;
 
 		struct scope_t
 		{

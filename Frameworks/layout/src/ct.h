@@ -79,8 +79,8 @@ namespace ct
 	private:
 		void draw_invisible (std::vector<size_t> locations, CGPoint pos, std::string const& text, styles_t const& styles, ng::context_t const& context, bool isFlipped) const;
 
-		typedef std::shared_ptr<std::remove_pointer<CTLineRef>::type> CTLinePtr;
-		typedef std::shared_ptr<std::remove_pointer<CGColorRef>::type> CGColorPtr;
+		using CTLinePtr = std::shared_ptr<std::remove_pointer<CTLineRef>::type>;
+		using CGColorPtr = std::shared_ptr<std::remove_pointer<CGColorRef>::type>;
 
 		std::string _text;
 		CTLinePtr _line;

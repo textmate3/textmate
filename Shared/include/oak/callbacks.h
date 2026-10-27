@@ -9,7 +9,7 @@ namespace oak
 	template <typename T, bool AllowNonEmpty = false>
 	struct callbacks_t
 	{
-		typedef typename std::vector<T*>::const_iterator iterator;
+		using iterator = typename std::vector<T*>::const_iterator;
 
 		callbacks_t ()                                  { }
 		callbacks_t (callbacks_t const& rhs)            { } // intentionally skip copy of rhs._callbacks

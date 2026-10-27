@@ -64,7 +64,7 @@ namespace utf8
 		using pointer           = value_type*;
 		using reference         = value_type&;
 
-		typedef iterator_t self;
+		using self = iterator_t;
 
 		iterator_t (_Iter const& base_iterator) : base_iterator(base_iterator) { }
 		iterator_t () { }
@@ -252,7 +252,7 @@ namespace diacritics
 		using pointer           = value_type*;
 		using reference         = value_type&;
 
-		typedef iterator_t self;
+		using self = iterator_t;
 
 		iterator_t (utf8::iterator_t<_Iter> const& first, utf8::iterator_t<_Iter> const& last) : current(first), stop(last) { }
 
@@ -324,7 +324,7 @@ namespace diacritics
 	template <typename _BaseIter>
 	struct range_t
 	{
-		typedef iterator_t<_BaseIter> const_iterator;
+		using const_iterator = iterator_t<_BaseIter>;
 
 		range_t (iterator_t<_BaseIter> const& first, iterator_t<_BaseIter> const& last) : first(first), last(last) { }
 		iterator_t<_BaseIter> begin () const                     { return first; }

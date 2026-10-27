@@ -8,8 +8,8 @@
 
 namespace regexp
 {
-	typedef std::shared_ptr<regex_t> regex_ptr;
-	typedef std::shared_ptr<OnigRegion> region_ptr;
+	using regex_ptr = std::shared_ptr<regex_t>;
+	using region_ptr = std::shared_ptr<OnigRegion>;
 
 	struct match_t;
 	struct pattern_t;

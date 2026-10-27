@@ -97,10 +97,10 @@ namespace text
 
 	struct selection_t
 	{
-		typedef std::vector<range_t>::iterator        iterator;
-		typedef std::vector<range_t>::reference       reference;
-		typedef std::vector<range_t>::const_iterator  const_iterator;
-		typedef std::vector<range_t>::const_reference const_reference;
+		using iterator = std::vector<range_t>::iterator;
+		using reference = std::vector<range_t>::reference;
+		using const_iterator = std::vector<range_t>::const_iterator;
+		using const_reference = std::vector<range_t>::const_reference;
 
 		selection_t ()                                        { }
 		selection_t (pos_t const& pos) : ranges(1, pos)       { }
