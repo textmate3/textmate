@@ -8,7 +8,7 @@ typedef NS_ENUM(NSInteger, MBMenuType) {
 };
 
 struct MBMenuItem;
-typedef std::vector<MBMenuItem> MBMenu;
+using MBMenu = std::vector<MBMenuItem>;
 
 struct MBMenuItem
 {

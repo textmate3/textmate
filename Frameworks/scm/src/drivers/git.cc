@@ -149,7 +149,7 @@ namespace
 			helper_t (std::map<std::string, scm::status::type> const& entries) : _entries(entries) { }
 			std::map<std::string, scm::status::type> _entries;
 		};
-		typedef std::shared_ptr<helper_t> helper_ptr;
+		using helper_ptr = std::shared_ptr<helper_t>;
 		helper_ptr _helper;
 		std::string _key;
 		bool _is_dir;

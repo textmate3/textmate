@@ -7,7 +7,7 @@
 namespace be
 {
 	struct entry_t;
-	typedef std::shared_ptr<entry_t> entry_ptr;
+	using entry_ptr = std::shared_ptr<entry_t>;
 
 	struct entry_t
 	{

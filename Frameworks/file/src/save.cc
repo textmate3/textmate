@@ -94,7 +94,7 @@ namespace
 		std::vector<oak::uuid_t>             _text_export_filters;
 	};
 
-	typedef std::shared_ptr<file_context_t> file_context_ptr;
+	using file_context_ptr = std::shared_ptr<file_context_t>;
 }
 
 // ====================
