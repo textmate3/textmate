@@ -24,6 +24,8 @@ struct NoticeStrip: View {
           Text(notice.text)
             .font(.body)
             .textSelection(.enabled)
+            // Wraps rather than cuts off: a notice can name a path and a command, and both matter.
+            .fixedSize(horizontal: false, vertical: true)
           Spacer(minLength: 8)
           Button("Dismiss") {
             board.dismiss(notice)

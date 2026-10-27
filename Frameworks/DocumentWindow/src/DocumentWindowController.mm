@@ -25,7 +25,11 @@
 #import <BundlesManager/BundlesManager.h>
 #import <BundleEditor/BundleEditor.h>
 #import <file/path_info.h>
+#import <bundles/bundles.h>
 #import <io/entries.h>
+#import <io/project_ruby.h>
+#import <io/ruby_runtime.h>
+#import <OakAppKit/OakAppKit-Swift.h>
 #import <scm/scm.h>
 #import <text/parse.h>
 #import <text/tokenize.h>
@@ -2531,7 +2535,50 @@ static NSUInteger DisableSessionSavingCount = 0;
 		res["TM_PROJECT_UUID"]      = to_s(self.identifier);
 	}
 
+	// The project directory when the window has one, and the document's own
+	// directory when it is a lone file, which is what a script run with
+	// Command-R usually is. The pin is found upward from there either way.
+	std::string rubyDirectory = NULL_STR;
+	if(NSString* projectDir = self.projectPath)
+		rubyDirectory = [projectDir fileSystemRepresentation];
+	else if(NSString* documentPath = self.selectedDocument.path)
+		rubyDirectory = path::parent(to_s(documentPath));
+
+	if(rubyDirectory != NULL_STR)
+	{
+		if(std::string const projectRuby = [self projectRubyForDirectory:rubyDirectory]; projectRuby != NULL_STR)
+			res["TM_PROJECT_RUBY"] = projectRuby;
+	}
+
 	return res;
+}
+
+// The Ruby the project pins, for running the person's own code, from the
+// Runtimes Ruby bundle's resolver, which the application asks once per
+// directory and again when a pin file changes. A pin that names a version
+// not installed is not installed here, since that would be a surprise on
+// Command-R: a notice names the project and the version, once per project,
+// and goes away on its own when the version has been installed. Bundle
+// commands keep running on TM_RUBY, which is not this.
+- (std::string)projectRubyForDirectory:(std::string const&)directory
+{
+	bundles::item_ptr runtimes = bundles::lookup(oak::uuid_t(ruby_runtime::kBundleIdentifier));
+	if(!runtimes)
+		return NULL_STR;
+
+	std::string const resolver = path::join(runtimes->support_path(), "bin/project_ruby");
+	project_ruby::answer_t const answer = project_ruby::cached_resolve(resolver, directory);
+
+	NSString* key = [NSString stringWithFormat:@"project-ruby:%s", directory.c_str()];
+	if(answer.missing != NULL_STR)
+		[OakNoticeBoard.shared post:[NSString stringWithFormat:@"%s pins Ruby %s, which is not installed, so Command-R uses the bundles’ Ruby. To install it: rv ruby install %s", path::with_tilde(directory).c_str(), answer.missing.c_str(), answer.missing.c_str()] key:key];
+	else
+		[OakNoticeBoard.shared dismissNoticesWithKeyPrefix:key];
+
+	if(answer.error != NULL_STR)
+		os_log_error(OS_LOG_DEFAULT, "No project Ruby for %{public}s: %{public}s", directory.c_str(), answer.error.c_str());
+
+	return answer.ruby != NULL_STR ? path::join(answer.ruby, "bin/ruby") : NULL_STR;
 }
 
 + (instancetype)controllerForDocument:(OakDocument*)aDocument

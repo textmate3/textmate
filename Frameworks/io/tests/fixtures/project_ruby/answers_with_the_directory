@@ -1,0 +1,2 @@
+#!/bin/sh
+echo "ruby $1/stub-ruby"

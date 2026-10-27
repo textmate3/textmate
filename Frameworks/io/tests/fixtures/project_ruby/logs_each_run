@@ -1,0 +1,3 @@
+#!/bin/sh
+echo run >> "$1/resolver.log"
+echo "ruby $1/stub-ruby"
