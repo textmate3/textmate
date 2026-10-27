@@ -21,10 +21,7 @@ private final class TMFileDummyProtocol: URLProtocol {
 }
 
 /// What a page asks of the application through WebKit: alerts, confirmations, an open panel, a new window, and closing itself.
-///
-/// The status bar previewed a link's target while the pointer was over it, through the legacy delegate's
-/// `setStatusText:` and `mouseDidMoveOverElement:`. `WKUIDelegate` has neither, so that preview is gone.
-/// Reinstating it means a script that reports mouseover events.
+/// The link preview the legacy delegate gave the status bar comes from a script in the page now, see `LinkHoverReporter`.
 @objc(HOWebViewDelegateHelper)
 @MainActor
 final class WebViewUIDelegate: NSObject, WKUIDelegate {
