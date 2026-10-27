@@ -10,7 +10,7 @@
 #import <OakAppKit/OakScopeBarView.h>
 #import <OakAppKit/OakTableViewActions.h>
 #import <document/OakProjectStateStore.h>
-#import "OakChooser.h"
+#import "ui/SearchField.h"
 #import "TMBundleItems.h"
 #import "TMDocumentSymbols.h"
 #import "TMDocuments.h"

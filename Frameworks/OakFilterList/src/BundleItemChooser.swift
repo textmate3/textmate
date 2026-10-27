@@ -1,11 +1,17 @@
 import AppKit
 
+struct MenuItemRecord {
+  let name: String
+  let path: String
+  let menuItem: NSMenuItem
+}
+
 /// Select Bundle Item: every command, snippet, setting, grammar, theme, menu item and key binding that applies where the
 /// caret is, searched by title, key equivalent, tab trigger, semantic class or scope selector. A pick runs the item, or
 /// opens it for editing.
 @objc(BundleItemChooser)
 @MainActor
-public final class BundleItemChooser: OakChooser, NSMenuItemValidation {
+public final class BundleItemChooser: Chooser, NSMenuItemValidation {
   @objc public static let sharedInstance = BundleItemChooser()
 
   private static let bindingsName = "OakBundleItemChooserBindings"
@@ -89,8 +95,8 @@ public final class BundleItemChooser: OakChooser, NSMenuItemValidation {
   /// Sent to the target with the chooser when the person asks to edit the item rather than run it.
   @objc public var editAction: Selector?
 
-  public override init() {
-    super.init()
+  public convenience init() {
+    self.init(window: nil)
     tableView.rowHeight = 38
     window?.title = "Select Bundle Item"
 
@@ -194,23 +200,15 @@ public final class BundleItemChooser: OakChooser, NSMenuItemValidation {
     }
   }
 
-  /// The base watches the window's first responder to draw the table as active while the search field has focus.
-  /// When the key equivalent view stands in for the field, the same goes for it, unless it is recording.
-  public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-    super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-
-    // The window reports its first responder on the main thread, which the isolated block states. The two
-    // responders are taken as identities first, since the change dictionary cannot cross into it.
-    guard keyPath == "firstResponder" else { return }
-    let oldResponder = (change?[.oldKey] as AnyObject?).map(ObjectIdentifier.init)
-    let newResponder = (change?[.newKey] as AnyObject?).map(ObjectIdentifier.init)
-    MainActor.assumeIsolated {
-      guard let keyEquivalentView, !keyEquivalentView.recording else { return }
-      let oldIsKeyEquivalentView = oldResponder == ObjectIdentifier(keyEquivalentView)
-      let newIsKeyEquivalentView = newResponder == ObjectIdentifier(keyEquivalentView)
-      if oldIsKeyEquivalentView != newIsKeyEquivalentView {
-        drawTableViewAsHighlighted = newIsKeyEquivalentView
-      }
+  /// When the key equivalent view stands in for the search field, the table draws as active while it has focus,
+  /// unless it is recording.
+  public override func firstResponderDidChange(from oldResponder: NSResponder?, to newResponder: NSResponder?) {
+    super.firstResponderDidChange(from: oldResponder, to: newResponder)
+    guard let keyEquivalentView, !keyEquivalentView.recording else { return }
+    let oldIsKeyEquivalentView = oldResponder === keyEquivalentView
+    let newIsKeyEquivalentView = newResponder === keyEquivalentView
+    if oldIsKeyEquivalentView != newIsKeyEquivalentView {
+      drawTableViewAsHighlighted = newIsKeyEquivalentView
     }
   }
 
@@ -240,9 +238,7 @@ public final class BundleItemChooser: OakChooser, NSMenuItemValidation {
     super.showWindow(sender)
   }
 
-  /// The base declares the delegate conformance in a class extension Swift cannot see, so this is a new method
-  /// to the compiler, under the selector the window sends.
-  @objc public func windowWillClose(_ notification: Notification) {
+  public override func windowWillClose(_ notification: Notification) {
     unfilteredItems = nil
     items = []
   }
@@ -255,77 +251,9 @@ public final class BundleItemChooser: OakChooser, NSMenuItemValidation {
     }
   }
 
-  // MARK: Key equivalent input
-
-  /// The view that records a key equivalent in the search field's place, made when first needed.
-  private func makeKeyEquivalentView() -> OakKeyEquivalentView {
-    if let keyEquivalentView { return keyEquivalentView }
-    let view = OakKeyEquivalentView(frame: .zero)
-    view.translatesAutoresizingMaskIntoConstraints = false
-    view.bind(.value, to: self, withKeyPath: "keyEquivalentString", options: nil)
-    recordingObservation = view.observe(\.recording, options: .new) { [weak self] _, change in
-      MainActor.assumeIsolated {
-        self?.drawTableViewAsHighlighted = !(change.newValue ?? false)
-      }
-    }
-    view.setAccessibilitySharedFocusElements([tableView])
-    keyEquivalentView = view
-    return view
-  }
-
-  private func replace(_ oldView: NSView, with newView: NSView) {
-    let next = oldView.nextKeyView
-    let previous = oldView.previousKeyView
-
-    let contentView = oldView.superview
-    oldView.removeFromSuperview()
-    contentView?.addSubview(newView)
-
-    previous?.nextKeyView = newView
-    newView.nextKeyView = next
-
-    newView.window?.initialFirstResponder = newView
-    newView.window?.makeFirstResponder(newView)
-  }
-
-  private func swapSearchInput() {
-    titlebarView.removeConstraints(layoutConstraints)
-    layoutConstraints = []
-
-    let keyEquivalentView = makeKeyEquivalentView()
-    if keyEquivalentInput {
-      replace(searchField, with: keyEquivalentView)
-    } else {
-      replace(keyEquivalentView, with: searchField)
-    }
-
-    setUpLayoutConstraints()
-
-    keyEquivalentView.eventString = nil
-    keyEquivalentView.recording = keyEquivalentInput
-
-    updateItems(self)
-  }
-
-  @objc private func toggleSearchAllScopes(_ sender: Any?) {
-    searchAllScopes.toggle()
-    unfilteredItems = nil
-    updateItems(self)
-  }
-
-  @objc private func takeBundleItemField(from sender: Any?) {
-    if let item = sender as? NSMenuItem, let field = BundleItemField(rawValue: item.tag) {
-      bundleItemField = field
-    }
-  }
-
   // MARK: Rows
 
-  /// The base implements this delegate method in a class extension Swift cannot see, so this is not an override
-  /// to the compiler, and it has to be marked for Objective-C by hand, under the delegate's own selector, to be the
-  /// one the table calls.
-  @objc(tableView:viewForTableColumn:row:)
-  public func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+  public override func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
     guard let tableColumn else { return nil }
     let cell: NSTableCellView
     if let existing = tableView.makeView(withIdentifier: tableColumn.identifier, owner: self) as? NSTableCellView {
@@ -336,155 +264,6 @@ public final class BundleItemChooser: OakChooser, NSMenuItemValidation {
     }
     cell.objectValue = items[row]
     return cell
-  }
-
-  // MARK: Items
-
-  /// The key equivalent a menu item shows, in the bundle notation: modifier symbols then the key, with shift folded
-  /// into an uppercase letter.
-  static func keyEquivalent(for menuItem: NSMenuItem) -> String? {
-    guard !menuItem.keyEquivalent.isEmpty else { return nil }
-
-    let eventFlags: [(flag: NSEvent.ModifierFlags, symbol: String)] = [
-      (.numericPad, "#"),
-      (.control, "^"),
-      (.option, "~"),
-      (.shift, "$"),
-      (.command, "@"),
-    ]
-
-    var key = menuItem.keyEquivalent
-    var flags = menuItem.keyEquivalentModifierMask
-    if flags.contains(.shift) {
-      let upcased = key.uppercased()
-      if key != upcased {
-        flags.remove(.shift)
-        key = upcased
-      }
-    }
-
-    let modifiers = eventFlags.filter { flags.contains($0.flag) }.map(\.symbol).joined()
-    return modifiers + key
-  }
-
-  /// Every item in the menus a target answers for and allows, with its path of parent titles, leaving out the ones
-  /// that stand for bundle items and themes, which the bundle index lists on its own.
-  private static func menuItems(in menu: NSMenu, parentNames: [String] = []) -> [(name: String, path: String, menuItem: NSMenuItem)] {
-    let excludedActions: Set<Selector> = [
-      Selector(("performBundleItemWithUUIDStringFrom:")),
-      Selector(("takeThemeAppearanceFrom:")),
-      Selector(("takeUniversalThemeUUIDFrom:")),
-      Selector(("takeDarkThemeUUIDFrom:")),
-    ]
-
-    var result: [(name: String, path: String, menuItem: NSMenuItem)] = []
-    for item in menu.items {
-      if let action = item.action, excludedActions.contains(action) {
-        continue
-      }
-
-      if let action = item.action, let target = NSApp.target(forAction: action) as AnyObject? {
-        let allowed = (target as? NSMenuItemValidation)?.validateMenuItem(item) ?? true
-        if allowed {
-          var title = item.title
-          if item.state == .on {
-            title += item.onStateImage?.name() == "NSMenuItemBullet" ? " (•)" : " (✓)"
-          }
-          result.append((title, parentNames.joined(separator: " ‣ "), item))
-        }
-      }
-
-      if let submenu = item.submenu {
-        if submenu.title == "Spelling", let delegate = submenu.delegate {
-          delegate.menuNeedsUpdate?(submenu)
-        }
-        result += menuItems(in: submenu, parentNames: parentNames + [item.title])
-      }
-    }
-    return result
-  }
-
-  private func buildUnfilteredItems() -> [BundleItemChooserItem] {
-    var items: [BundleItemChooserItem] = []
-    let scope = searchAllScopes ? TMScopeContext.wildcard : self.scope
-    let bundleEditorClass: AnyClass? = NSClassFromString("BundleEditor")
-
-    for record in TMBundleItems.records(inScope: scope, hasSelection: hasSelection, sources: searchSources.bundleItemSources, everyScope: searchAllScopes) {
-      let item = BundleItemChooserItem()
-      item.itemName = record.name
-      item.location = record.location
-      item.uuid = record.uuid
-      item.scopeSelector = record.scopeSelector
-      item.keyEquivalent = record.keyEquivalent
-      item.tabTrigger = record.tabTrigger
-      item.semanticClass = record.semanticClass
-      item.value = record.value
-      item.eclipsed = record.eclipsed
-      item.kindName = record.isSettings ? "Settings" : TMBundleItems.kindName(ofItemWithUUID: record.uuid)
-      if let kindName = item.kindName, let bundleEditorClass {
-        item.icon = NSImage(named: kindName, inSameBundleAsClass: bundleEditorClass)
-      }
-      items.append(item)
-    }
-
-    // A key bound in a menu is not listed again from a key bindings file for the same action.
-    var seen = Set<String>()
-    if searchSources.contains(.menuItems), let mainMenu = NSApp.mainMenu {
-      for record in Self.menuItems(in: mainMenu) {
-        let item = BundleItemChooserItem()
-        item.itemName = record.name
-        item.location = record.path
-        item.menuItem = record.menuItem
-        item.keyEquivalent = Self.keyEquivalent(for: record.menuItem)
-        if let keyEquivalent = item.keyEquivalent, let action = record.menuItem.action {
-          seen.insert(keyEquivalent + "\u{0}" + NSStringFromSelector(action))
-        }
-        if let bundleEditorClass {
-          item.icon = NSImage(named: "MenuItem", inSameBundleAsClass: bundleEditorClass)
-        }
-        items.append(item)
-      }
-    }
-
-    if searchSources.contains(.keyBindings) {
-      var keysSeen = Set<String>()
-      for record in TMBundleItems.keyBindingRecords() {
-        var name = record.name
-        if let selectorName = record.selectorName {
-          if !seen.insert(record.keyEquivalent + "\u{0}" + selectorName).inserted {
-            continue
-          }
-          if NSApp.target(forAction: NSSelectorFromString(selectorName)) == nil {
-            name += " (unknown action)"
-          }
-        }
-
-        let item = BundleItemChooserItem()
-        item.itemName = name
-        item.location = record.location
-        item.file = record.file
-        item.keyEquivalent = record.keyEquivalent
-        item.eclipsed = !keysSeen.insert(record.keyEquivalent).inserted
-        item.action = record.selectorName.map(NSSelectorFromString)
-        item.icon = TMBundleItems.icon(forFile: record.file)
-        items.append(item)
-      }
-    }
-
-    if searchSources.contains(.settings) {
-      for record in TMBundleItems.settings(forPath: path, scope: scope, everyScope: searchAllScopes, directory: directory) {
-        let item = BundleItemChooserItem()
-        item.itemName = record.name
-        item.value = record.value
-        item.location = record.location
-        item.file = record.file
-        item.line = record.line
-        item.icon = record.file.map(TMBundleItems.icon(forFile:)) ?? NSImage(systemSymbolName: "dollarsign.circle", accessibilityDescription: "Preferences")
-        items.append(item)
-      }
-    }
-
-    return items
   }
 
   public override func updateItems(_ sender: Any?) {
@@ -591,4 +370,223 @@ public final class BundleItemChooser: OakChooser, NSMenuItemValidation {
   @IBAction public func selectPreviousTab(_ sender: Any?) {
     scopeBar.selectPreviousButton(sender)
   }
+}
+
+// MARK: Key equivalent input
+
+extension BundleItemChooser {
+  /// The view that records a key equivalent in the search field's place, made when first needed.
+  private func makeKeyEquivalentView() -> OakKeyEquivalentView {
+    if let keyEquivalentView { return keyEquivalentView }
+    let view = OakKeyEquivalentView(frame: .zero)
+    view.translatesAutoresizingMaskIntoConstraints = false
+    view.bind(.value, to: self, withKeyPath: "keyEquivalentString", options: nil)
+    recordingObservation = view.observe(\.recording, options: .new) { [weak self] _, change in
+      MainActor.assumeIsolated {
+        self?.drawTableViewAsHighlighted = !(change.newValue ?? false)
+      }
+    }
+    view.setAccessibilitySharedFocusElements([tableView])
+    keyEquivalentView = view
+    return view
+  }
+
+  private func replace(_ oldView: NSView, with newView: NSView) {
+    let next = oldView.nextKeyView
+    let previous = oldView.previousKeyView
+
+    let contentView = oldView.superview
+    oldView.removeFromSuperview()
+    contentView?.addSubview(newView)
+
+    previous?.nextKeyView = newView
+    newView.nextKeyView = next
+
+    newView.window?.initialFirstResponder = newView
+    newView.window?.makeFirstResponder(newView)
+  }
+
+  private func swapSearchInput() {
+    titlebarView.removeConstraints(layoutConstraints)
+    layoutConstraints = []
+
+    let keyEquivalentView = makeKeyEquivalentView()
+    if keyEquivalentInput {
+      replace(searchField, with: keyEquivalentView)
+    } else {
+      replace(keyEquivalentView, with: searchField)
+    }
+
+    setUpLayoutConstraints()
+
+    keyEquivalentView.eventString = nil
+    keyEquivalentView.recording = keyEquivalentInput
+
+    updateItems(self)
+  }
+
+  @objc private func toggleSearchAllScopes(_ sender: Any?) {
+    searchAllScopes.toggle()
+    unfilteredItems = nil
+    updateItems(self)
+  }
+
+  @objc private func takeBundleItemField(from sender: Any?) {
+    if let item = sender as? NSMenuItem, let field = BundleItemField(rawValue: item.tag) {
+      bundleItemField = field
+    }
+  }
+
+}
+
+// MARK: Items
+
+extension BundleItemChooser {
+  /// The key equivalent a menu item shows, in the bundle notation: modifier symbols then the key, with shift folded
+  /// into an uppercase letter.
+  static func keyEquivalent(for menuItem: NSMenuItem) -> String? {
+    guard !menuItem.keyEquivalent.isEmpty else { return nil }
+
+    let eventFlags: [(flag: NSEvent.ModifierFlags, symbol: String)] = [
+      (.numericPad, "#"),
+      (.control, "^"),
+      (.option, "~"),
+      (.shift, "$"),
+      (.command, "@"),
+    ]
+
+    var key = menuItem.keyEquivalent
+    var flags = menuItem.keyEquivalentModifierMask
+    if flags.contains(.shift) {
+      let upcased = key.uppercased()
+      if key != upcased {
+        flags.remove(.shift)
+        key = upcased
+      }
+    }
+
+    let modifiers = eventFlags.filter { flags.contains($0.flag) }.map(\.symbol).joined()
+    return modifiers + key
+  }
+
+  /// Every item in the menus a target answers for and allows, with its path of parent titles, leaving out the ones
+  /// that stand for bundle items and themes, which the bundle index lists on its own.
+  private static func menuItems(in menu: NSMenu, parentNames: [String] = []) -> [MenuItemRecord] {
+    let excludedActions: Set<Selector> = [
+      Selector(("performBundleItemWithUUIDStringFrom:")),
+      Selector(("takeThemeAppearanceFrom:")),
+      Selector(("takeUniversalThemeUUIDFrom:")),
+      Selector(("takeDarkThemeUUIDFrom:")),
+    ]
+
+    var result: [MenuItemRecord] = []
+    for item in menu.items {
+      if let action = item.action, excludedActions.contains(action) {
+        continue
+      }
+
+      if let action = item.action, let target = NSApp.target(forAction: action) as AnyObject? {
+        let allowed = (target as? NSMenuItemValidation)?.validateMenuItem(item) ?? true
+        if allowed {
+          var title = item.title
+          if item.state == .on {
+            title += item.onStateImage?.name() == "NSMenuItemBullet" ? " (•)" : " (✓)"
+          }
+          result.append(MenuItemRecord(name: title, path: parentNames.joined(separator: " ‣ "), menuItem: item))
+        }
+      }
+
+      if let submenu = item.submenu {
+        if submenu.title == "Spelling", let delegate = submenu.delegate {
+          delegate.menuNeedsUpdate?(submenu)
+        }
+        result += menuItems(in: submenu, parentNames: parentNames + [item.title])
+      }
+    }
+    return result
+  }
+
+  private func buildUnfilteredItems() -> [BundleItemChooserItem] {
+    var items: [BundleItemChooserItem] = []
+    let scope = searchAllScopes ? TMScopeContext.wildcard : self.scope
+    let bundleEditorClass: AnyClass? = NSClassFromString("BundleEditor")
+
+    for record in TMBundleItems.records(inScope: scope, hasSelection: hasSelection, sources: searchSources.bundleItemSources, everyScope: searchAllScopes) {
+      let item = BundleItemChooserItem()
+      item.itemName = record.name
+      item.location = record.location
+      item.uuid = record.uuid
+      item.scopeSelector = record.scopeSelector
+      item.keyEquivalent = record.keyEquivalent
+      item.tabTrigger = record.tabTrigger
+      item.semanticClass = record.semanticClass
+      item.value = record.value
+      item.eclipsed = record.eclipsed
+      item.kindName = record.isSettings ? "Settings" : TMBundleItems.kindName(ofItemWithUUID: record.uuid)
+      if let kindName = item.kindName, let bundleEditorClass {
+        item.icon = NSImage(named: kindName, inSameBundleAsClass: bundleEditorClass)
+      }
+      items.append(item)
+    }
+
+    // A key bound in a menu is not listed again from a key bindings file for the same action.
+    var seen = Set<String>()
+    if searchSources.contains(.menuItems), let mainMenu = NSApp.mainMenu {
+      for record in Self.menuItems(in: mainMenu) {
+        let item = BundleItemChooserItem()
+        item.itemName = record.name
+        item.location = record.path
+        item.menuItem = record.menuItem
+        item.keyEquivalent = Self.keyEquivalent(for: record.menuItem)
+        if let keyEquivalent = item.keyEquivalent, let action = record.menuItem.action {
+          seen.insert(keyEquivalent + "\u{0}" + NSStringFromSelector(action))
+        }
+        if let bundleEditorClass {
+          item.icon = NSImage(named: "MenuItem", inSameBundleAsClass: bundleEditorClass)
+        }
+        items.append(item)
+      }
+    }
+
+    if searchSources.contains(.keyBindings) {
+      var keysSeen = Set<String>()
+      for record in TMBundleItems.keyBindingRecords() {
+        var name = record.name
+        if let selectorName = record.selectorName {
+          if !seen.insert(record.keyEquivalent + "\u{0}" + selectorName).inserted {
+            continue
+          }
+          if NSApp.target(forAction: NSSelectorFromString(selectorName)) == nil {
+            name += " (unknown action)"
+          }
+        }
+
+        let item = BundleItemChooserItem()
+        item.itemName = name
+        item.location = record.location
+        item.file = record.file
+        item.keyEquivalent = record.keyEquivalent
+        item.eclipsed = !keysSeen.insert(record.keyEquivalent).inserted
+        item.action = record.selectorName.map(NSSelectorFromString)
+        item.icon = TMBundleItems.icon(forFile: record.file)
+        items.append(item)
+      }
+    }
+
+    if searchSources.contains(.settings) {
+      for record in TMBundleItems.settings(forPath: path, scope: scope, everyScope: searchAllScopes, directory: directory) {
+        let item = BundleItemChooserItem()
+        item.itemName = record.name
+        item.value = record.value
+        item.location = record.location
+        item.file = record.file
+        item.line = record.line
+        item.icon = record.file.map(TMBundleItems.icon(forFile:)) ?? NSImage(systemSymbolName: "dollarsign.circle", accessibilityDescription: "Preferences")
+        items.append(item)
+      }
+    }
+
+    return items
+  }
+
 }

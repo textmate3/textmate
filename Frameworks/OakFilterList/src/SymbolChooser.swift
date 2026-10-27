@@ -34,7 +34,7 @@ import AppKit
 /// Jump to Symbol: the document's symbols, filtered as the person types, with the one at the selection chosen to begin with.
 @objc(SymbolChooser)
 @MainActor
-public final class SymbolChooser: OakChooser {
+public final class SymbolChooser: Chooser {
   @objc public static let sharedInstance = SymbolChooser()
 
   private static let title = "Jump to Symbol"
@@ -56,8 +56,8 @@ public final class SymbolChooser: OakChooser {
     }
   }
 
-  public override init() {
-    super.init()
+  public convenience init() {
+    self.init(window: nil)
     window?.title = Self.title
 
     let titlebarView = NSView(frame: .zero)
@@ -81,7 +81,7 @@ public final class SymbolChooser: OakChooser {
     window?.initialFirstResponder = searchField
   }
 
-  @objc public func windowWillClose(_ notification: Notification) {
+  public override func windowWillClose(_ notification: Notification) {
     symbolDocument = nil
   }
 

@@ -49,7 +49,7 @@ import OSLog
 /// Removing a row forgets a recent project or trashes a favorite's link.
 @objc(FavoriteChooser)
 @MainActor
-public final class FavoriteChooser: OakChooser {
+public final class FavoriteChooser: Chooser {
   @objc public static let sharedInstance = FavoriteChooser()
 
   enum Source: Int {
@@ -73,8 +73,8 @@ public final class FavoriteChooser: OakChooser {
     }
   }
 
-  public override init() {
-    super.init()
+  public convenience init() {
+    self.init(window: nil)
     window?.title = "Open Recent Project"
     tableView.allowsTypeSelect = false
     tableView.allowsMultipleSelection = true
@@ -130,11 +130,7 @@ public final class FavoriteChooser: OakChooser {
   // MARK: Rows
 
   /// The row view: icon, name, folder and a remove button, the last hidden on a row that cannot be removed.
-  /// The base implements this delegate method in a class extension Swift cannot see, so this is not an override
-  /// to the compiler, and it has to be marked for Objective-C by hand, under the delegate's own selector, to be the
-  /// one the table calls.
-  @objc(tableView:viewForTableColumn:row:)
-  public func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+  public override func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
     guard let tableColumn else { return nil }
     let cell: NSTableCellView
     if let existing = tableView.makeView(withIdentifier: tableColumn.identifier, owner: self) as? NSTableCellView {
@@ -156,7 +152,7 @@ public final class FavoriteChooser: OakChooser {
       removeButton.target = self
       removeButton.action = #selector(takeItemToRemove(from:))
 
-      cell = OakFileTableCellView(closeButton: removeButton)
+      cell = FileTableCellView(closeButton: removeButton)
       cell.identifier = tableColumn.identifier
       removeButton.bind(.hidden, to: cell, withKeyPath: "objectValue.isRemovable", options: [.valueTransformerName: NSValueTransformerName.negateBooleanTransformerName])
     }
@@ -241,7 +237,12 @@ public final class FavoriteChooser: OakChooser {
   /// The items as the filter orders them. With no filter, the list as loaded. With one, by how well each name matches,
   /// except that an item picked before for this very filter comes first, the most recent pick foremost.
   static func ranked(_ items: [FavoriteItem], filter: String, bindings: [String]) -> [FavoriteItem] {
-    var ranked: [(rank: Double, order: Int, item: FavoriteItem)] = []
+    struct Ranked {
+      let rank: Double
+      let order: Int
+      let item: FavoriteItem
+    }
+    var ranked: [Ranked] = []
     for item in items {
       var rank = Double(ranked.count)
       var byteRanges: [NSRange] = []
@@ -258,7 +259,7 @@ public final class FavoriteChooser: OakChooser {
       item.name = markedUpString(item.displayNameWithSuffix, byteRanges: byteRanges, lineBreakMode: .byTruncatingTail)
       let folder = ((item.path as NSString).deletingLastPathComponent as NSString).abbreviatingWithTildeInPath
       item.folder = markedUpString(folder, byteRanges: [], lineBreakMode: .byTruncatingHead)
-      ranked.append((rank, ranked.count, item))
+      ranked.append(Ranked(rank: rank, order: ranked.count, item: item))
     }
     return ranked.sorted { $0.rank != $1.rank ? $0.rank < $1.rank : $0.order < $1.order }.map(\.item)
   }

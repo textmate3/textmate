@@ -40,7 +40,7 @@ final class FileChooserItem: NSObject, @unchecked Sendable {
     self.isCurrent = isCurrent
   }
 
-  @objc class func keyPathsForValuesAffectingIcon() -> Set<String> {
+  @objc static func keyPathsForValuesAffectingIcon() -> Set<String> {
     ["document.icon"]
   }
 
@@ -50,7 +50,7 @@ final class FileChooserItem: NSObject, @unchecked Sendable {
     return image
   }
 
-  @objc class func keyPathsForValuesAffectingCloseDisabled() -> Set<String> {
+  @objc static func keyPathsForValuesAffectingCloseDisabled() -> Set<String> {
     ["document.open", "document.path"]
   }
 
@@ -146,11 +146,22 @@ final class FileChooserItem: NSObject, @unchecked Sendable {
   }
 }
 
+/// The documents a search has found and not yet shown, shared between the searching thread and the main one.
+private final class SearchResults: @unchecked Sendable {
+  private let lock = NSLock()
+  private var token = 0
+  private var documents: [AnyObject] = []
+
+  func withLock<Result>(_ body: (_ token: inout Int, _ documents: inout [AnyObject]) -> Result) -> Result {
+    lock.withLock { body(&token, &documents) }
+  }
+}
+
 /// Open Quickly: every file under the project, the open documents, or the ones with uncommitted changes, filtered as the
 /// person types. The filter can be a glob, and can carry a line or a symbol to go to after the file name.
 @objc(FileChooser)
 @MainActor
-public final class FileChooser: OakChooser, NSMenuItemValidation {
+public final class FileChooser: Chooser, NSMenuItemValidation {
   @objc public static let sharedInstance = FileChooser()
 
   enum Source: Int {
@@ -175,9 +186,11 @@ public final class FileChooser: OakChooser, NSMenuItemValidation {
       glob ?? filter ?? ""
     }
 
+    /// A glob with a star, or else a filter, then an optional line or range after a colon, or a symbol after an at sign.
+    private static let pattern = try? NSRegularExpression(pattern: #"\A(?:(.*?\*.*?)|(.*?))(?::([\d+:\-x]*)|@(.*))?\z"#, options: .anchorsMatchLines)
+
     static func parse(_ string: String?) -> ParsedFilter {
-      guard let string = string?.decomposedStringWithCanonicalMapping else { return ParsedFilter() }
-      let pattern = try! NSRegularExpression(pattern: #"\A(?:(.*?\*.*?)|(.*?))(?::([\d+:\-x\+]*)|@(.*))?\z"#, options: .anchorsMatchLines)
+      guard let string = string?.decomposedStringWithCanonicalMapping, let pattern else { return ParsedFilter() }
       let whole = NSRange(string.startIndex..., in: string)
       guard let match = pattern.firstMatch(in: string, options: .anchored, range: whole) else { return ParsedFilter() }
       func group(_ index: Int) -> String? {
@@ -188,17 +201,6 @@ public final class FileChooser: OakChooser, NSMenuItemValidation {
       var parsed = ParsedFilter(glob: group(1), filter: group(2), selection: group(3), symbol: group(4))
       parsed.filter = parsed.filter.map(TMRanker.normalizeFilter)
       return parsed
-    }
-  }
-
-  /// The documents a search has found and not yet shown, shared between the searching thread and the main one.
-  private final class SearchResults: @unchecked Sendable {
-    private let lock = NSLock()
-    private var token = 0
-    private var documents: [AnyObject] = []
-
-    func withLock<Result>(_ body: (_ token: inout Int, _ documents: inout [AnyObject]) -> Result) -> Result {
-      lock.withLock { body(&token, &documents) }
     }
   }
 
@@ -250,8 +252,8 @@ public final class FileChooser: OakChooser, NSMenuItemValidation {
     }
   }
 
-  public override init() {
-    super.init()
+  public convenience init() {
+    self.init(window: nil)
     tableView.allowsMultipleSelection = true
     tableView.rowHeight = 38
 
@@ -308,9 +310,7 @@ public final class FileChooser: OakChooser, NSMenuItemValidation {
     scopeBar.updateGoToMenu(menu)
   }
 
-  /// The base declares the delegate conformance in a class extension Swift cannot see, so this is a new method
-  /// to the compiler, under the selector the window sends.
-  @objc public func windowWillClose(_ notification: Notification) {
+  public override func windowWillClose(_ notification: Notification) {
     stopSearch()
     sourceControlStatus = nil
     records = []
@@ -398,8 +398,122 @@ public final class FileChooser: OakChooser, NSMenuItemValidation {
     }
   }
 
-  // MARK: Searching
+  // MARK: Filtering
 
+  /// The filter is taken apart first, and only a change to the part that lists files reaches the base, which
+  /// rebuilds the list. A change to the line or symbol after it does not.
+  public override func updateFilterString(_ string: String?) {
+    let oldListing = parsedFilter.listing
+    parsedFilter = ParsedFilter.parse(string)
+    if oldListing != parsedFilter.listing {
+      super.updateFilterString(string)
+    }
+  }
+
+  public override func updateItems(_ sender: Any?) {
+    updateRecords(from: 0)
+  }
+
+  public override func updateStatusText(_ sender: Any?) {
+    if searching {
+      let relative = TMPaths.relativePath(searchPath ?? "", toBase: path)
+      statusTextField.cell?.lineBreakMode = .byTruncatingMiddle
+      statusTextField.stringValue = "Searching “\(relative)”…"
+    } else if tableView.selectedRow == -1 {
+      statusTextField.stringValue = ""
+    } else if let record = items[tableView.selectedRow] as? FileChooserItem {
+      var shown: String
+      if let documentPath = TMDocuments.path(ofDocument: record.document) {
+        if let path, documentPath.hasPrefix(path) {
+          shown = TMPaths.relativePath(documentPath, toBase: path)
+        } else {
+          shown = (documentPath as NSString).abbreviatingWithTildeInPath
+        }
+      } else {
+        shown = TMDocuments.displayName(ofDocument: record.document)
+      }
+      statusTextField.cell?.lineBreakMode = .byTruncatingHead
+      statusTextField.stringValue = shown
+    }
+  }
+
+  /// What the caller opens: a path, or an identifier for an untitled document, with the line or range typed after
+  /// the file name when there was one.
+  public override var selectedItems: [Any] {
+    tableView.selectedRowIndexes.compactMap { row -> [String: String]? in
+      guard let record = items[row] as? FileChooserItem else { return nil }
+      var item: [String: String] = [:]
+      if let selection = parsedFilter.selection, !selection.isEmpty {
+        item["selectionString"] = selection
+      }
+      if let documentPath = TMDocuments.path(ofDocument: record.document) {
+        item["path"] = documentPath
+      } else {
+        item["identifier"] = TMDocuments.identifier(ofDocument: record.document)
+      }
+      return item
+    }
+  }
+
+  // MARK: Rows
+
+  /// The row view: icon, name, folder and a close button, the last hidden unless the document is open with a file.
+  public override func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    guard let tableColumn else { return nil }
+    let cell: NSTableCellView
+    if let existing = tableView.makeView(withIdentifier: tableColumn.identifier, owner: self) as? NSTableCellView {
+      cell = existing
+    } else {
+      let closeButton = ChooserConstruction.closeButton()
+      closeButton.target = self
+      closeButton.action = #selector(takeItemToClose(from:))
+
+      cell = FileTableCellView(closeButton: closeButton)
+      cell.identifier = tableColumn.identifier
+      closeButton.bind(.hidden, to: cell, withKeyPath: "objectValue.closeDisabled", options: nil)
+    }
+    cell.objectValue = items[row]
+    return cell
+  }
+
+  // MARK: Actions
+
+  public override func accept(_ sender: Any?) {
+    if let filter = parsedFilter.filter, !filter.isEmpty {
+      for row in tableView.selectedRowIndexes {
+        guard let item = items[row] as? FileChooserItem, !item.isDirectoryMatched, let documentPath = TMDocuments.path(ofDocument: item.document) else { continue }
+        OakAbbreviations.abbreviations(forName: Self.bindingsName).learn(abbreviation: filter, forString: documentPath)
+      }
+    }
+    super.accept(sender)
+  }
+
+  /// Closes the row's document through whoever answers for closing files, which is the file browser's window.
+  @objc private func takeItemToClose(from sender: NSButton) {
+    let row = tableView.row(for: sender)
+    guard row != -1, let item = items[row] as? FileChooserItem, let documentPath = TMDocuments.path(ofDocument: item.document) else { return }
+    let selector = Selector(("fileBrowser:closeURL:"))
+    if let target = NSApp.target(forAction: selector) as? NSObject {
+      target.perform(selector, with: nil, with: URL(fileURLWithPath: documentPath))
+    }
+  }
+
+  @IBAction public func goToParentFolder(_ sender: Any?) {
+    path = (path as NSString?)?.deletingLastPathComponent
+  }
+
+  public func validateMenuItem(_ item: NSMenuItem) -> Bool {
+    if item.action == #selector(goToParentFolder(_:)) {
+      guard let path, Source(rawValue: sourceIndex) == .all else { return false }
+      return path != TMPaths.parent(ofPath: path)
+    }
+    return true
+  }
+}
+
+// MARK: Searching
+
+extension FileChooser {
   /// Walks the directory on a background queue, gathering documents under the lock for the main queue to show in
   /// batches. The main queue waits for the first document that is not already open, or for the walk to end, so that
   /// the first batch is on screen when the window is, and then polls at a widening interval. A token tells a stale
@@ -497,119 +611,4 @@ public final class FileChooser: OakChooser, NSMenuItemValidation {
     pollTimer = nil
   }
 
-  // MARK: Filtering
-
-  /// The filter is taken apart first, and only a change to the part that lists files reaches the base, which
-  /// rebuilds the list. A change to the line or symbol after it does not.
-  public override func updateFilterString(_ string: String?) {
-    let oldListing = parsedFilter.listing
-    parsedFilter = ParsedFilter.parse(string)
-    if oldListing != parsedFilter.listing {
-      super.updateFilterString(string)
-    }
-  }
-
-  public override func updateItems(_ sender: Any?) {
-    updateRecords(from: 0)
-  }
-
-  public override func updateStatusText(_ sender: Any?) {
-    if searching {
-      let relative = TMPaths.relativePath(searchPath ?? "", toBase: path)
-      statusTextField.cell?.lineBreakMode = .byTruncatingMiddle
-      statusTextField.stringValue = "Searching “\(relative)”…"
-    } else if tableView.selectedRow == -1 {
-      statusTextField.stringValue = ""
-    } else if let record = items[tableView.selectedRow] as? FileChooserItem {
-      var shown: String
-      if let documentPath = TMDocuments.path(ofDocument: record.document) {
-        if let path, documentPath.hasPrefix(path) {
-          shown = TMPaths.relativePath(documentPath, toBase: path)
-        } else {
-          shown = (documentPath as NSString).abbreviatingWithTildeInPath
-        }
-      } else {
-        shown = TMDocuments.displayName(ofDocument: record.document)
-      }
-      statusTextField.cell?.lineBreakMode = .byTruncatingHead
-      statusTextField.stringValue = shown
-    }
-  }
-
-  /// What the caller opens: a path, or an identifier for an untitled document, with the line or range typed after
-  /// the file name when there was one.
-  public override var selectedItems: [Any] {
-    tableView.selectedRowIndexes.compactMap { row -> [String: String]? in
-      guard let record = items[row] as? FileChooserItem else { return nil }
-      var item: [String: String] = [:]
-      if let selection = parsedFilter.selection, !selection.isEmpty {
-        item["selectionString"] = selection
-      }
-      if let documentPath = TMDocuments.path(ofDocument: record.document) {
-        item["path"] = documentPath
-      } else {
-        item["identifier"] = TMDocuments.identifier(ofDocument: record.document)
-      }
-      return item
-    }
-  }
-
-  // MARK: Rows
-
-  /// The row view: icon, name, folder and a close button, the last hidden unless the document is open with a file.
-  /// The base implements this delegate method in a class extension Swift cannot see, so this is not an override
-  /// to the compiler, and it has to be marked for Objective-C by hand, under the delegate's own selector, to be the
-  /// one the table calls.
-  @objc(tableView:viewForTableColumn:row:)
-  public func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-    guard let tableColumn else { return nil }
-    let cell: NSTableCellView
-    if let existing = tableView.makeView(withIdentifier: tableColumn.identifier, owner: self) as? NSTableCellView {
-      cell = existing
-    } else {
-      let closeButton = ChooserConstruction.closeButton()
-      closeButton.target = self
-      closeButton.action = #selector(takeItemToClose(from:))
-
-      cell = OakFileTableCellView(closeButton: closeButton)
-      cell.identifier = tableColumn.identifier
-      closeButton.bind(.hidden, to: cell, withKeyPath: "objectValue.closeDisabled", options: nil)
-    }
-    cell.objectValue = items[row]
-    return cell
-  }
-
-  // MARK: Actions
-
-  public override func accept(_ sender: Any?) {
-    if let filter = parsedFilter.filter, !filter.isEmpty {
-      for row in tableView.selectedRowIndexes {
-        guard let item = items[row] as? FileChooserItem, !item.isDirectoryMatched, let documentPath = TMDocuments.path(ofDocument: item.document) else { continue }
-        OakAbbreviations.abbreviations(forName: Self.bindingsName).learn(abbreviation: filter, forString: documentPath)
-      }
-    }
-    super.accept(sender)
-  }
-
-  /// Closes the row's document through whoever answers for closing files, which is the file browser's window.
-  @objc private func takeItemToClose(from sender: NSButton) {
-    let row = tableView.row(for: sender)
-    guard row != -1, let item = items[row] as? FileChooserItem, let documentPath = TMDocuments.path(ofDocument: item.document) else { return }
-    let selector = Selector(("fileBrowser:closeURL:"))
-    if let target = NSApp.target(forAction: selector) as? NSObject {
-      target.perform(selector, with: nil, with: URL(fileURLWithPath: documentPath))
-    }
-  }
-
-  @IBAction public func goToParentFolder(_ sender: Any?) {
-    path = (path as NSString?)?.deletingLastPathComponent
-  }
-
-  public func validateMenuItem(_ item: NSMenuItem) -> Bool {
-    if item.action == #selector(goToParentFolder(_:)) {
-      guard let path, Source(rawValue: sourceIndex) == .all else { return false }
-      return path != TMPaths.parent(ofPath: path)
-    }
-    return true
-  }
 }

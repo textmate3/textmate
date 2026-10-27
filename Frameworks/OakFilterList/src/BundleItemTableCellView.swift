@@ -56,34 +56,13 @@ final class BundleItemTableCellView: NSTableCellView {
     }
   }
 
-  /// The marked up ranges in their selected colors, for a row drawn as selected.
-  private func selectedString(for value: Any?) -> NSAttributedString? {
-    let string: NSMutableAttributedString
-    if let text = value as? String {
-      string = NSMutableAttributedString(string: text)
-    } else if let attributed = value as? NSAttributedString {
-      string = NSMutableAttributedString(attributedString: attributed)
-    } else {
-      return nil
-    }
-    string.enumerateAttributes(in: NSRange(location: 0, length: string.length), options: .longestEffectiveRangeNotRequired) { attributes, range, _ in
-      if attributes[.backgroundColor] != nil {
-        string.addAttribute(.backgroundColor, value: NSColor.tmMatchedTextSelectedBackground(), range: range)
-      }
-      if attributes[.underlineColor] != nil {
-        string.addAttribute(.underlineColor, value: NSColor.tmMatchedTextSelectedUnderline(), range: range)
-      }
-    }
-    return string
-  }
-
   override var backgroundStyle: NSView.BackgroundStyle {
     didSet {
       let item = objectValue as? BundleItemChooserItem
       if backgroundStyle == .emphasized {
-        textField?.objectValue = selectedString(for: item?.name)
+        textField?.objectValue = ChooserConstruction.selectedString(for: item?.name)
         contextTextField.textColor = NSColor(calibratedWhite: 0.9, alpha: 1)
-        contextTextField.objectValue = selectedString(for: item?.path)
+        contextTextField.objectValue = ChooserConstruction.selectedString(for: item?.path)
       } else {
         textField?.objectValue = item?.name
         contextTextField.textColor = NSColor(calibratedWhite: 0.5, alpha: 1)
