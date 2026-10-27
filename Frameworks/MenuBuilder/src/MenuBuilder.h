@@ -13,7 +13,7 @@ typedef std::vector<MBMenuItem> MBMenu;
 struct MBMenuItem
 {
 	NSString*             title             = nil;
-	SEL                   action            = NULL;
+	SEL                   action            = nullptr;
 	NSString*             keyEquivalent     = @"";
 	NSUInteger            modifierFlags     = NSEventModifierFlagCommand;
 	NSInteger             tag               = 0;

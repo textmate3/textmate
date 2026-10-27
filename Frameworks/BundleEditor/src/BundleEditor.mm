@@ -497,7 +497,7 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 	{
 		static int const types = bundles::kItemTypeBundle|bundles::kItemTypeCommand|bundles::kItemTypeDragCommand|bundles::kItemTypeSnippet|bundles::kItemTypeSettings|bundles::kItemTypeGrammar|bundles::kItemTypeProxy|bundles::kItemTypeTheme;
 		if((it.kind & types) == it.kind)
-			[[menu addItemWithTitle:it.file action:NULL keyEquivalent:@""] setTag:it.kind];
+			[[menu addItemWithTitle:it.file action:nullptr keyEquivalent:@""] setTag:it.kind];
 	}
 
 	NSAlert* alert = [NSAlert tmAlertWithMessageText:@"Create New Item" informativeText:@"Please choose what you want to create:" buttons:@"Create", @"Cancel", nil];
@@ -893,7 +893,7 @@ static be::entry_ptr parent_for_column (NSBrowser* aBrowser, NSInteger aColumn, 
 	{
 		NSString* key = [NSString stringWithCxxString:str];
 		[oldProperties removeObserver:self forKeyPath:key];
-		[someProperties addObserver:self forKeyPath:key options:0 context:NULL];
+		[someProperties addObserver:self forKeyPath:key options:0 context:nullptr];
 	}
 	propertiesChanged = NO;
 }

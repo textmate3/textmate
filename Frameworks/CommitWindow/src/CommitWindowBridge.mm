@@ -17,7 +17,7 @@ static std::map<std::string, std::string> convert (NSDictionary* dictionary)
 @implementation CommitWindowBridge
 + (NSString*)runShellCommand:(NSString*)command environment:(NSDictionary<NSString*, NSString*>*)environment
 {
-	std::string const res = io::exec(convert(environment), "/bin/sh", "-c", to_s(command).c_str(), NULL);
+	std::string const res = io::exec(convert(environment), "/bin/sh", "-c", to_s(command).c_str(), nullptr);
 	return res == NULL_STR ? nil : to_ns(res);
 }
 
