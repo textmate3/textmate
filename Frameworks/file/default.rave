@@ -1,6 +1,12 @@
 target "${dirname}" {
 	require authorization bundles cf command encoding io plist regexp scm settings text
 	headers src/{bytes,open,save,status,encoding,type,path_info,reader}.h
+	# The SDK's zlib by path, for the CRC-32 the document attributes and the
+	# search results carry, so a Homebrew zlib on the linker's search path is
+	# never picked up. Nothing the application ships may load a library from
+	# outside the system.
+	capture SDK_PATH "xcrun --sdk macosx --show-sdk-path"
+	libraries "${SDK_PATH}/usr/lib/libz.tbd"
 	sources src/*.cc
 	tests tests/*.cc
 }

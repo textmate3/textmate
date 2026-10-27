@@ -1,5 +1,5 @@
 #include "run_loop.h"
-#include <oak/duration.h>
+#include <chrono>
 
 namespace cf
 {
@@ -29,17 +29,18 @@ namespace cf
 
 	bool run_loop_t::start () const
 	{
-		oak::duration_t timer;
+		auto const start = std::chrono::steady_clock::now();
+		auto const elapsed = [&start]{ return std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count(); };
 		while(true)
 		{
-			SInt32 rc = CFRunLoopRunInMode(_mode, std::min(10.0, _timeout - timer.duration()), true);
+			SInt32 rc = CFRunLoopRunInMode(_mode, std::min(10.0, _timeout - elapsed()), true);
 			if(_should_stop && rc != kCFRunLoopRunTimedOut)
 				break;
 
 			if(_should_stop)
 				os_log_error(OS_LOG_DEFAULT, "Command completed but run-loop was not stopped.");
 
-			if(_should_stop || _timeout <= timer.duration())
+			if(_should_stop || _timeout <= elapsed())
 				return false;
 		}
 		return true;

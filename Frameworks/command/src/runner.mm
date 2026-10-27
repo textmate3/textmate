@@ -47,9 +47,8 @@ static std::tuple<pid_t, int, int> my_fork (char const* cmd, int inputRead, std:
 		return my_fork(cmd, inputRead, newEnv, workingDir);
 	}
 
-	int outputRead, outputWrite, errorRead, errorWrite;
-	std::tie(outputRead, outputWrite) = io::create_pipe();
-	std::tie(errorRead,  errorWrite)  = io::create_pipe();
+	auto [outputRead, outputWrite] = io::create_pipe();
+	auto [errorRead, errorWrite] = io::create_pipe();
 
 	oak::c_array env(environment);
 
@@ -133,6 +132,7 @@ static void exhaust_fd_in_queue (dispatch_group_t group, int fd, CFRunLoopRef ru
 
 static pid_t run_command (dispatch_group_t rootGroup, std::string const& cmd, int inputFd, std::map<std::string, std::string> const& env, std::string const& cwd, CFRunLoopRef runLoop, void(^stdoutHandler)(char const* bytes, size_t len), void(^stderrHandler)(char const* bytes, size_t len), void(^completionHandler)(int status))
 {
+	// Not a structured binding: a block below captures the process id, and a block cannot capture one.
 	pid_t pid;
 	int outputFd, errorFd;
 	std::tie(pid, outputFd, errorFd) = my_fork(cmd.c_str(), inputFd, env, cwd.c_str());
@@ -354,8 +354,7 @@ namespace command
 		_temp_path = create_script_path(_command.command);
 		ASSERT(_temp_path != NULL_STR);
 
-		int stdinRead, stdinWrite;
-		std::tie(stdinRead, stdinWrite) = io::create_pipe();
+		auto [stdinRead, stdinWrite] = io::create_pipe();
 		_input_ranges = _command.input == input::nothing ? (close(stdinWrite), ng::ranges_t()) : _delegate->write_unit_to_fd(stdinWrite, _command.input, _command.input_fallback, _command.input_format, _command.scope_selector, _environment, &_input_was_selection);
 
 		auto textOutHandler = ^(char const* bytes, size_t len) { _out.insert(_out.end(), bytes, bytes + len); };

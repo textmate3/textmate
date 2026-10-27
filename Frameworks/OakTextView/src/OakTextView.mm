@@ -4443,8 +4443,7 @@ static scope::context_t add_modifiers_to_scope (scope::context_t scope, NSUInteg
 
 	std::map<std::string, std::string> variables = initialVariables;
 
-	int stdinRead, stdinWrite;
-	std::tie(stdinRead, stdinWrite) = io::create_pipe();
+	auto [stdinRead, stdinWrite] = io::create_pipe();
 
 	bool inputWasSelection = false;
 	ng::ranges_t const inputRanges = ng::write_unit_to_fd(buffer, selection, buffer.indent().tab_size(), stdinWrite, aBundleCommand.input, aBundleCommand.input_fallback, aBundleCommand.input_format, aBundleCommand.scope_selector, variables, &inputWasSelection);

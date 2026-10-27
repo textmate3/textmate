@@ -1,4 +1,5 @@
 #include "bytes.h"
+#include <zlib.h>
 
 namespace io
 {
@@ -33,11 +34,11 @@ namespace io
 		memcpy(_bytes, str.data(), _size);
 	}
 
+	// The standard CRC-32, from the system's zlib: the value every CRC-32 table
+	// gives, pinned by the test to the check value for "123456789".
 	uint32_t bytes_t::crc32 () const
 	{
-		boost::crc_32_type result;
-		result.process_bytes(_bytes, _size);
-		return result.checksum();
+		return (uint32_t)crc32_z(crc32_z(0L, Z_NULL, 0), (Bytef const*)_bytes, _size);
 	}
 
 } /* io */
