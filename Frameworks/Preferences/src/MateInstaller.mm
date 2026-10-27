@@ -84,7 +84,7 @@ static bool cp_path (std::string const& src, std::string const& dst, osx::author
 {
 	if(!cp_requires_admin(dst))
 	{
-		if(copyfile(src.c_str(), dst.c_str(), NULL, COPYFILE_ALL | COPYFILE_NOFOLLOW_SRC) == 0)
+		if(copyfile(src.c_str(), dst.c_str(), nullptr, COPYFILE_ALL | COPYFILE_NOFOLLOW_SRC) == 0)
 			return true;
 		print_system_error("MateInstaller: copyfile(\"%s\", \"%s\", NULL, COPYFILE_ALL | COPYFILE_NOFOLLOW_SRC)", src.c_str(), dst.c_str());
 	}
@@ -119,7 +119,7 @@ static bool uninstall_mate (std::string const& path)
 // What the bundled mate says it is, or nil.
 static NSString* bundled_mate_version (NSString* matePath)
 {
-	std::string res = io::exec(to_s(matePath), "--version", NULL);
+	std::string res = io::exec(to_s(matePath), "--version", nullptr);
 	if(regexp::match_t const& m = regexp::search("\\Amate ([\\d.]+)", res))
 		return [NSString stringWithCxxString:m[1]];
 	return nil;
