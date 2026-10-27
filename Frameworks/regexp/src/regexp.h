@@ -8,8 +8,8 @@
 
 namespace regexp
 {
-	typedef std::shared_ptr<regex_t> regex_ptr;
-	typedef std::shared_ptr<OnigRegion> region_ptr;
+	using regex_ptr = std::shared_ptr<regex_t>;
+	using region_ptr = std::shared_ptr<OnigRegion>;
 
 	struct match_t;
 	struct pattern_t;
@@ -28,7 +28,7 @@ namespace regexp
 		match_t (region_ptr const& region, regex_ptr const& compiled_pattern, char const* buf) : region(region), compiled_pattern(compiled_pattern), buf(buf) { }
 
 	public:
-		match_t () : buf(NULL) { }
+		match_t () : buf(nullptr) { }
 
 		int size () const                { return region ? region->num_regs : 0; }
 		bool empty (int i = 0) const     { return begin(i) == end(i); }
@@ -75,7 +75,7 @@ namespace regexp
 
 	std::string validate (std::string const& ptrn);
 	std::string escape (std::string ptrn);
-	match_t search (pattern_t const& ptrn, char const* first, char const* last, char const* from = NULL, char const* to = NULL, OnigOptionType options = ONIG_OPTION_NONE);
+	match_t search (pattern_t const& ptrn, char const* first, char const* last, char const* from = nullptr, char const* to = nullptr, OnigOptionType options = ONIG_OPTION_NONE);
 	match_t search (pattern_t const& ptrn, std::string const& str);
 
 } /* regexp */

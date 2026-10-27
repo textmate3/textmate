@@ -31,9 +31,9 @@ namespace ng
 	ranges_t sanitize (buffer_api_t const& buffer, ranges_t const& selection);
 	bool not_empty (buffer_api_t const& buffer, ranges_t const& selection);
 	bool multiline (buffer_api_t const& buffer, ranges_t const& selection);
-	ranges_t move (buffer_api_t const& buffer, ranges_t const& selection, move_unit_type const unit, layout_movement_t const* layout = NULL);
-	ranges_t extend (buffer_api_t const& buffer, ranges_t const& selection, select_unit_type const unit, layout_movement_t const* layout = NULL);
-	ranges_t extend_if_empty (buffer_api_t const& buffer, ranges_t const& selection, select_unit_type const unit, layout_movement_t const* layout = NULL);
+	ranges_t move (buffer_api_t const& buffer, ranges_t const& selection, move_unit_type const unit, layout_movement_t const* layout = nullptr);
+	ranges_t extend (buffer_api_t const& buffer, ranges_t const& selection, select_unit_type const unit, layout_movement_t const* layout = nullptr);
+	ranges_t extend_if_empty (buffer_api_t const& buffer, ranges_t const& selection, select_unit_type const unit, layout_movement_t const* layout = nullptr);
 	ranges_t select_scope (buffer_api_t const& buffer, ranges_t const& selection, scope::selector_t const& scopeSelector);
 	ranges_t toggle_columnar (ranges_t const& selection);
 	ranges_t deselect_last (ranges_t const& selection);

@@ -194,7 +194,7 @@ namespace oak
 			basic_tree_t* _tree;
 		};
 
-		typedef std::reverse_iterator<iterator> reverse_iterator;
+		using reverse_iterator = std::reverse_iterator<iterator>;
 
 		iterator begin ()                    { node_t* res = _root; while(!res->_left->is_null()) res = res->_left; return iterator(res, this); }
 		iterator end ()                      { return iterator(node_t::null_ptr(), this); }
@@ -376,7 +376,7 @@ namespace oak
 			{
 				bottom->update_key_offset();
 
-				node_t** ref = NULL;
+				node_t** ref = nullptr;
 				if(bottom->_parent->is_null())
 					ref = &_root;
 				else if(eq(bottom->_parent->_left, bottom))
@@ -480,7 +480,7 @@ namespace oak
 					if(--bottom->_level < bottom->_right->_level)
 						--bottom->_right->_level;
 
-					node_t** ref = NULL;
+					node_t** ref = nullptr;
 					if(bottom->_parent->is_null())
 						ref = &_root;
 					else if(eq(bottom->_parent->_left, bottom))

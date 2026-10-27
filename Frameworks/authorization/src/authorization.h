@@ -44,11 +44,11 @@ namespace osx
 				if(!_valid)
 					return false;
 
-				AuthorizationItem rightsItems[]     = { { right.c_str(), 0, NULL, 0 }, };
+				AuthorizationItem rightsItems[]     = { { right.c_str(), 0, nullptr, 0 }, };
 				AuthorizationRights const allRights = { std::size(rightsItems), rightsItems };
 
 				bool res = false;
-				AuthorizationRights* myAuthorizedRights = NULL;
+				AuthorizationRights* myAuthorizedRights = nullptr;
 				int myStatus = AuthorizationCopyRights(_authorization, &allRights, kAuthorizationEmptyEnvironment, flags, &myAuthorizedRights);
 				if(myStatus == errAuthorizationSuccess)
 				{
@@ -89,7 +89,7 @@ namespace osx
 			}
 
 		private:
-			void setup () { _valid = _valid || AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &_authorization) == errAuthorizationSuccess; }
+			void setup () { _valid = _valid || AuthorizationCreate(nullptr, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &_authorization) == errAuthorizationSuccess; }
 
 			AuthorizationRef _authorization;
 			bool _valid;

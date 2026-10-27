@@ -36,7 +36,7 @@ namespace ng
 				size_t _size = 0;
 			};
 
-			typedef std::shared_ptr<helper_t> helper_ptr;
+			using helper_ptr = std::shared_ptr<helper_t>;
 
 			template <typename _InputIter>
 			memory_t (_InputIter first, _InputIter last);
@@ -118,7 +118,7 @@ namespace ng
 			std::string substr (size_t first, size_t last) const;
 
 		private:
-			typedef oak::basic_tree_t<size_t, memory_t> tree_t;
+			using tree_t = oak::basic_tree_t<size_t, memory_t>;
 			mutable tree_t _tree;
 			tree_t::iterator split_at (tree_t::iterator, size_t pos);
 			tree_t::iterator find_pos (size_t pos) const;

@@ -25,7 +25,7 @@ private:
 	static int comp_abs (ssize_t key, key_t const& offset, key_t const& node) { return key < offset.length + node.length ? -1 : (key == offset.length + node.length ? 0 : +1); }
 	static int comp_nth (ssize_t key, key_t const& offset, key_t const& node) { return key < offset.number_of_children ? -1 : (key == offset.number_of_children ? 0 : +1); }
 
-	typedef oak::basic_tree_t<key_t, _ValT> tree_t;
+	using tree_t = oak::basic_tree_t<key_t, _ValT>;
 	mutable tree_t _tree; // this is made mutable because the type doesn’t have const versions of find, {upper,lower}_bound, and begin/end.
 
 	void remove (typename tree_t::iterator first, typename tree_t::iterator last)

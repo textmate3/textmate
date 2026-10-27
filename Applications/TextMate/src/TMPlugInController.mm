@@ -183,7 +183,7 @@ static id CreateInstanceOfPlugInClass (Class cl, TMPlugInController* controller)
 		NSModalResponse choice = [alert runModal];
 		if(choice == NSAlertFirstButtonReturn) // "Replace"
 		{
-			if(![fm removeItemAtPath:dst error:NULL])
+			if(![fm removeItemAtPath:dst error:nullptr])
 			{
 				NSAlert* alert = [[NSAlert alloc] init];
 				alert.messageText = @"Install Failed";
@@ -203,9 +203,9 @@ static id CreateInstanceOfPlugInClass (Class cl, TMPlugInController* controller)
 		return;
 
 	NSString* dstDir = [dst stringByDeletingLastPathComponent];
-	if([fm createDirectoryAtPath:dstDir withIntermediateDirectories:YES attributes:nil error:NULL])
+	if([fm createDirectoryAtPath:dstDir withIntermediateDirectories:YES attributes:nil error:nullptr])
 	{
-		if([fm copyItemAtPath:src toPath:dst error:NULL])
+		if([fm copyItemAtPath:src toPath:dst error:nullptr])
 		{
 			NSAlert* alert        = [[NSAlert alloc] init];
 			alert.messageText     = @"Plug-in Installed";

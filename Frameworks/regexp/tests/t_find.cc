@@ -1,6 +1,6 @@
 #include <regexp/find.h>
 
-typedef std::pair<size_t, size_t> range_t;
+using range_t = std::pair<size_t, size_t>;
 
 static std::vector<range_t> all_matches (find::find_t matcher, std::string const& text)
 {

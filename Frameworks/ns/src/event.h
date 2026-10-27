@@ -3,8 +3,8 @@
 
 namespace ns
 {
-	std::string normalize_event_string (std::string const& eventString, size_t* startOfKey = NULL);
-	std::string glyphs_for_event_string (std::string const& eventString, size_t* startOfKey = NULL);
+	std::string normalize_event_string (std::string const& eventString, size_t* startOfKey = nullptr);
+	std::string glyphs_for_event_string (std::string const& eventString, size_t* startOfKey = nullptr);
 	std::string glyphs_for_flags (NSUInteger flags);
 
 } /* ns */

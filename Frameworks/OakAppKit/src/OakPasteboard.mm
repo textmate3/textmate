@@ -241,7 +241,7 @@ namespace
 
 	struct event_loop_idle_callback_t
 	{
-		event_loop_idle_callback_t () : _running(false) { _observer = CFRunLoopObserverCreate(kCFAllocatorDefault, kCFRunLoopBeforeWaiting, true, 100, &callback, NULL); start(); }
+		event_loop_idle_callback_t () : _running(false) { _observer = CFRunLoopObserverCreate(kCFAllocatorDefault, kCFRunLoopBeforeWaiting, true, 100, &callback, nullptr); start(); }
 		~event_loop_idle_callback_t ()                  { stop(); CFRelease(_observer); }
 
 		void start ()

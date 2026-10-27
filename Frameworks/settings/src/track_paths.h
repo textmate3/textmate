@@ -111,7 +111,7 @@ private:
 			bool changed = false;
 		};
 
-		typedef std::shared_ptr<record_t> record_ptr;
+		using record_ptr = std::shared_ptr<record_t>;
 		std::map<int, record_ptr> _records;
 	};
 

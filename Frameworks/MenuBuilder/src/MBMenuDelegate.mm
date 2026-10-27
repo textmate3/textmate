@@ -49,7 +49,7 @@
 	[aMenu removeAllItems];
 	if(id delegate = [NSApp targetForAction:_selector])
 			[NSApp sendAction:_selector to:delegate from:aMenu];
-	else	[aMenu addItemWithTitle:@"no items" action:NULL keyEquivalent:@""];
+	else	[aMenu addItemWithTitle:@"no items" action:nullptr keyEquivalent:@""];
 }
 
 - (BOOL)menuHasKeyEquivalent:(NSMenu*)aMenu forEvent:(NSEvent*)anEvent target:(id*)anId action:(SEL*)aSEL

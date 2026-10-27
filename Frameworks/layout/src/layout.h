@@ -135,7 +135,7 @@ namespace ng
 			size_t _softlines;
 		};
 
-		typedef oak::basic_tree_t<row_key_t, paragraph_t> row_tree_t;
+		using row_tree_t = oak::basic_tree_t<row_key_t, paragraph_t>;
 
 		CGFloat content_width () const         { return ceil(std::max(_rows.aggregated()._width, _viewport_size.width - _margin.left - _margin.right)); }
 		CGFloat content_height () const        { return ceil(std::max(_rows.aggregated()._height, _viewport_size.height - _margin.top - _margin.bottom)); }

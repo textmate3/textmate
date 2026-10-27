@@ -8,8 +8,8 @@ namespace parse
 {
 	struct rule_t;
 	struct stack_t;
-	typedef std::shared_ptr<rule_t> rule_ptr;
-	typedef std::shared_ptr<stack_t> stack_ptr;
+	using rule_ptr = std::shared_ptr<rule_t>;
+	using stack_ptr = std::shared_ptr<stack_t>;
 
 	struct grammar_t
 	{
@@ -65,7 +65,7 @@ namespace parse
 		std::mutex _mutex;
 	};
 
-	typedef std::shared_ptr<grammar_t> grammar_ptr;
+	using grammar_ptr = std::shared_ptr<grammar_t>;
 	grammar_ptr parse_grammar (bundles::item_ptr const& grammarItem);
 
 } /* parse */

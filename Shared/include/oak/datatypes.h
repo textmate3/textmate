@@ -14,7 +14,7 @@ namespace oak
 					std::string const tmp = p.first + "=" + p.second;
 					return strdup(tmp.c_str());
 				});
-				_array[map.size()] = NULL;
+				_array[map.size()] = nullptr;
 			}
 
 			~c_array ()

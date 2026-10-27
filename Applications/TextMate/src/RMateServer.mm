@@ -41,7 +41,7 @@ static std::string sys_info (int field)
 	size_t bufSize = sizeof(buf);
 	int request[] = { CTL_KERN, field };
 
-	if(sysctl(request, std::size(request), buf, &bufSize, NULL, 0) != -1)
+	if(sysctl(request, std::size(request), buf, &bufSize, nullptr, 0) != -1)
 		return std::string(buf, buf + bufSize - 1);
 
 	return "?";
@@ -419,7 +419,7 @@ struct socket_observer_t
 
 					if(key == "data")
 					{
-						bytesLeft = strtol(value.c_str(), NULL, 10);
+						bytesLeft = strtol(value.c_str(), nullptr, 10);
 						size_t dataLen = std::min((ssize_t)line.size(), bytesLeft);
 						records.back().accept_data(line.data(), line.data() + dataLen);
 						line.erase(line.begin(), line.begin() + dataLen);

@@ -212,7 +212,7 @@ struct data_source_t
 			return &it;
 	}
 	ASSERT(false);
-	return NULL;
+	return nullptr;
 }
 
 - (std::vector<data_source_t>)visibleColumnDataSources
@@ -256,7 +256,7 @@ struct data_source_t
 
 static CTLineRef CreateCTLineFromText (std::string const& text, NSFont* font, NSColor* color = nil)
 {
-	CTLineRef res = NULL;
+	CTLineRef res = nullptr;
 	if(CFMutableDictionaryRef dict = CFDictionaryCreateMutable(kCFAllocatorDefault, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks))
 	{
 		if(CGColorRef cgColor = [color CGColor])
@@ -264,7 +264,7 @@ static CTLineRef CreateCTLineFromText (std::string const& text, NSFont* font, NS
 
 		if(CFStringRef fontName = (CFStringRef)CFBridgingRetain([font fontName]))
 		{
-			if(CTFontRef ctFont = CTFontCreateWithName(fontName, [font pointSize], NULL))
+			if(CTFontRef ctFont = CTFontCreateWithName(fontName, [font pointSize], nullptr))
 			{
 				CFDictionaryAddValue(dict, kCTFontAttributeName, ctFont);
 				CFRelease(ctFont);
@@ -286,7 +286,7 @@ static CTLineRef CreateCTLineFromText (std::string const& text, NSFont* font, NS
 static CGFloat WidthOfLineNumbers (NSUInteger lineNumber, NSFont* font)
 {
 	CTLineRef line = CreateCTLineFromText(std::to_string(std::max<NSUInteger>(10, lineNumber)), font);
-	CGFloat width  = CTLineGetTypographicBounds(line, NULL, NULL, NULL);
+	CGFloat width  = CTLineGetTypographicBounds(line, nullptr, nullptr, nullptr);
 	CFRelease(line);
 	return ceil(width);
 }
@@ -299,7 +299,7 @@ static void DrawText (std::string const& text, CGRect const& rect, CGFloat basel
 	CTLineRef line = CreateCTLineFromText(text, font, color);
 	CGContextSetTextMatrix(context, CGAffineTransformIdentity);
 	CGContextConcatCTM(context, CGAffineTransformMake(1, 0, 0, -1, 0, 2 * baseline));
-	CGContextSetTextPosition(context, CGRectGetMaxX(rect) - CTLineGetTypographicBounds(line, NULL, NULL, NULL), baseline);
+	CGContextSetTextPosition(context, CGRectGetMaxX(rect) - CTLineGetTypographicBounds(line, nullptr, nullptr, nullptr), baseline);
 	CTLineDraw(line, context);
 	CFRelease(line);
 
