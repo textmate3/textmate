@@ -66,12 +66,12 @@ namespace ct
 
 	struct line_t
 	{
-		line_t (std::string const& text, std::map<size_t, scope::scope_t> const& scopes, theme_ptr const& theme, size_t tabSize, ct::metrics_t const& metrics, CGColorRef textColor = NULL);
+		line_t (std::string const& text, std::map<size_t, scope::scope_t> const& scopes, theme_ptr const& theme, size_t tabSize, ct::metrics_t const& metrics, CGColorRef textColor = nullptr);
 
 		void draw_foreground (CGPoint pos, ng::context_t const& context, bool isFlipped, std::vector< std::pair<size_t, size_t> > const& misspelled, theme_ptr const& theme) const;
 		void draw_background (CGPoint pos, CGFloat height, ng::context_t const& context, bool isFlipped, CGColorRef currentBackground) const;
 
-		CGFloat width (CGFloat* ascent = NULL, CGFloat* descent = NULL, CGFloat* leading = NULL) const;
+		CGFloat width (CGFloat* ascent = nullptr, CGFloat* descent = nullptr, CGFloat* leading = nullptr) const;
 
 		size_t index_for_offset (CGFloat offset) const;
 		CGFloat offset_for_index (size_t index) const;

@@ -6,7 +6,7 @@
 __attribute__ ((format (printf, 1, 2))) inline void print_system_error (char const* format, ...)
 {
 	char* err = strerror(errno);
-	char* msg = NULL;
+	char* msg = nullptr;
 
 	va_list ap;
 	va_start(ap, format);

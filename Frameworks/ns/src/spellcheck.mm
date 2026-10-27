@@ -48,14 +48,14 @@ namespace ns
 		NSSpellChecker* spellChecker = NSSpellChecker.sharedSpellChecker;
 		NSString* lang               = language.length() ? [NSString stringWithCxxString:language] : nil;
 		NSString* str                = [NSString stringWithUTF8String:first length:last - first];
-		NSRange range                = [spellChecker checkSpellingOfString:str startingAt:0 language:lang wrap:NO inSpellDocumentWithTag:tag wordCount:NULL];
+		NSRange range                = [spellChecker checkSpellingOfString:str startingAt:0 language:lang wrap:NO inSpellDocumentWithTag:tag wordCount:nullptr];
 
 		while(range.location != NSNotFound && range.length)
 		{
 			char const* from = utf16::advance(first, range.location, last);
 			char const* to   = utf16::advance(from,  range.length,   last);
 			*out++ = ns::range_t(offset + from - first, offset + to - first);
-			range = [spellChecker checkSpellingOfString:str startingAt:NSMaxRange(range) language:lang wrap:NO inSpellDocumentWithTag:tag wordCount:NULL];
+			range = [spellChecker checkSpellingOfString:str startingAt:NSMaxRange(range) language:lang wrap:NO inSpellDocumentWithTag:tag wordCount:nullptr];
 		}
 		return out;
 	}

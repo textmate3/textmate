@@ -18,9 +18,9 @@ std::string to_s (NSString* aString)
 
 	CFRange range = CFRangeMake(0, CFStringGetLength((CFStringRef)aString));
 	CFIndex byteCount;
-	CFStringGetBytes((CFStringRef)aString, range, kCFStringEncodingUTF8, 0, false, NULL, 0, &byteCount);
+	CFStringGetBytes((CFStringRef)aString, range, kCFStringEncodingUTF8, 0, false, nullptr, 0, &byteCount);
 	std::string res(byteCount, '\0');
-	CFStringGetBytes((CFStringRef)aString, range, kCFStringEncodingUTF8, 0, false, (UInt8*)&res[0], byteCount, NULL);
+	CFStringGetBytes((CFStringRef)aString, range, kCFStringEncodingUTF8, 0, false, (UInt8*)&res[0], byteCount, nullptr);
 	return res;
 }
 
@@ -61,7 +61,7 @@ std::string to_s (id someObject)
 
 static std::string string_for (CGKeyCode key, CGEventFlags flags)
 {
-	CGEventRef event = CGEventCreateKeyboardEvent(NULL, key, true);
+	CGEventRef event = CGEventCreateKeyboardEvent(nullptr, key, true);
 	CGEventSetFlags(event, flags);
 	std::string const tmp = to_s([[NSEvent eventWithCGEvent:event] characters]);
 

@@ -220,7 +220,7 @@ void test_a_ruby_command_reports_the_version_of_tm_ruby ()
 		return;
 	}
 
-	std::string const expected = io::exec(ruby, "-e", "print RUBY_VERSION", NULL);
+	std::string const expected = io::exec(ruby, "-e", "print RUBY_VERSION", nullptr);
 	delegate_ptr res = run_command("#!/usr/bin/env ruby\nprint RUBY_VERSION\n", "showAsTooltip", { { "TM_RUBY", ruby }, { "TM_APPLICATION_RUBY", NULL_STR } });
 	OAK_ASSERT_EQ(res->out, expected);
 	OAK_ASSERT_EQ(res->err, "");
