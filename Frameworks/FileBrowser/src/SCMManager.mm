@@ -1,6 +1,10 @@
 #import "SCMManager.h"
 #import "FSEventsManager.h"
-#import "drivers/api.h"
+// The drivers are scm's private API, not among the headers it exports, so this reaches into its source tree.
+// A relative path rather than a symbolic link named drivers beside this file: through the link, api.h's own
+// "../status.h" was recorded in the dependency file by its lexical path, drivers/../status.h here, which names
+// no file, and ninja rebuilt this object on every run.
+#import "../../scm/src/drivers/api.h"
 #import <scm/scm.h>
 #import <ns/ns.h>
 #import <TMFileReference/TMFileReference.h>
