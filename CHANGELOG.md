@@ -50,6 +50,7 @@ Target: **2.1.0**, the first release of the project. Version 3.0.0 is the eventu
 - Sparkle's `Autoupdate` helper was left with its ad hoc signature, because the rule that names the bundle a nested binary belongs to took anything under a framework's `Versions` directory for the framework's own binary. Apple's first notarization answer named exactly that file. The rule now matches the framework only for the binary that carries its name, and `Autoupdate` is signed as the standalone tool it is.
 
 ### Changed
+- The source control watcher's callback is a lambda rather than the tree's last `std::bind`.
 - Six pipe creations in the command runners declare their two ends as a structured binding rather than two integers assigned through `std::tie`. Three more stay as they were, each with a comment saying why: a block captures one of the names, and a block cannot capture a structured binding.
 - The stack dump behind a failed assertion in the debug build forks rather than vforks, which the system has deprecated, and asks for the system's default search path before the fork rather than into a variable length array in the child. Same command, same environment, same dump. The two warnings the debug compile carried are gone.
 - The debug log facility is gone: the `D()`, `bug()`, `OAK_DEBUG()` and `OAK_DEBUG_VAR()` macros and the registry behind them that read a `DebugFlags` environment variable. No debug variable was declared anywhere, so no `D()` block could ever have run, and nothing named any of the four. The assertion header no longer includes it.
