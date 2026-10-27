@@ -1,6 +1,7 @@
 target "${dirname}" {
-	require HTMLOutput OakAppKit OakFoundation command ns
+	require HTMLOutput OakAppKit OakFoundation
 	headers src/HTMLOutputWindow.h
-	sources src/*.mm
+	sources src/*.swift
+	tests tests/*.swift
 	frameworks Cocoa
 }
