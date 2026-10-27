@@ -644,7 +644,7 @@ BOOL HasDocumentWindow (NSArray* windows)
 // thread, since an install downloads. When it is settled the environment
 // every command gets is made again around it. What the resolver reports on
 // the way, an install, a fallback, an error, is logged here and put on the
-// notice board, which every document window shows as a strip above its text
+// notice board, which every document window shows as a banner above its text
 // until the person dismisses it.
 // Tells the Runtimes pane, and anyone else listening, that a runtime has
 // settled one way or the other, so what it shows can be read again.

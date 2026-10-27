@@ -2,7 +2,7 @@ import Foundation
 import OakAppKit
 import Testing
 
-/// The board a document window's strip shows: what posting and dismissing do, and that each change is announced.
+/// The board a document window's banner shows: what posting and dismissing do, and that each change is announced.
 @Suite @MainActor struct NoticeBoardTests {
   @Test func startsEmpty() {
     let board = NoticeBoard()

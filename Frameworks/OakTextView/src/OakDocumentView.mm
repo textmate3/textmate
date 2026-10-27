@@ -40,9 +40,9 @@ static NSString* const kFoldingsColumnIdentifier  = @"foldings";
 	NSMutableArray* topAuxiliaryViews;
 	NSMutableArray* bottomAuxiliaryViews;
 
-	// The strip above the text that shows the notice board, there while the
+	// The banner above the text that shows the notice board, there while the
 	// board has something to say and gone when it is empty.
-	OakNoticeStripView* noticeStrip;
+	OakNoticeBannerView* noticeBanner;
 
 	IBOutlet NSPanel* tabSizeSelectorPanel;
 }
@@ -105,7 +105,7 @@ static NSString* const kFoldingsColumnIdentifier  = @"foldings";
 			[_textView addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionInitial context:NULL];
 
 		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(noticeBoardDidChange:) name:OakNoticeBoard.didChangeNotification object:nil];
-		[self updateNoticeStrip];
+		[self updateNoticeBanner];
 	}
 	return self;
 }
@@ -116,27 +116,27 @@ static NSString* const kFoldingsColumnIdentifier  = @"foldings";
 
 // What the application has to say about something that happened on its own,
 // a runtime installed at launch for one, is on the shared notice board. Every
-// document view shows the board as a strip above its text while there is
+// document view shows the board as a banner above its text while there is
 // anything on it, and the person dismisses a notice there, for every window
 // at once. A window opened later shows what is still on the board.
 
 - (void)noticeBoardDidChange:(NSNotification*)aNotification
 {
-	[self updateNoticeStrip];
+	[self updateNoticeBanner];
 }
 
-- (void)updateNoticeStrip
+- (void)updateNoticeBanner
 {
 	BOOL wanted = !OakNoticeBoard.shared.isEmpty;
-	if(wanted && !noticeStrip)
+	if(wanted && !noticeBanner)
 	{
-		noticeStrip = [[OakNoticeStripView alloc] initWithFrame:NSZeroRect];
-		[self addAuxiliaryView:noticeStrip atEdge:NSMaxYEdge];
+		noticeBanner = [[OakNoticeBannerView alloc] initWithFrame:NSZeroRect];
+		[self addAuxiliaryView:noticeBanner atEdge:NSMaxYEdge];
 	}
-	else if(!wanted && noticeStrip)
+	else if(!wanted && noticeBanner)
 	{
-		[self removeAuxiliaryView:noticeStrip];
-		noticeStrip = nil;
+		[self removeAuxiliaryView:noticeBanner];
+		noticeBanner = nil;
 	}
 }
 

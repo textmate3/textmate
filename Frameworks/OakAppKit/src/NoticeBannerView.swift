@@ -11,8 +11,8 @@ struct NoticeText: NSViewRepresentable {
   /// This is the application interrupting about something that went wrong on its own, and the text carries a path, a version and a command to read.
   static let pointSize: CGFloat = NSFont.preferredFont(forTextStyle: .title3).pointSize
 
-  /// Where the first line's baseline is from the top, for the strip to align the icon and the button to.
-  /// SwiftUI takes a representable's baseline to be its top edge, so the strip is told instead, from the font's own metrics.
+  /// Where the first line's baseline is from the top, for the banner to align the icon and the button to.
+  /// SwiftUI takes a representable's baseline to be its top edge, so the banner is told instead, from the font's own metrics.
   static let firstBaseline: CGFloat = NSFont.systemFont(ofSize: pointSize).ascender
 
   func makeNSView(context: Context) -> NSTextView {
@@ -57,10 +57,10 @@ struct NoticeText: NSViewRepresentable {
   }
 }
 
-/// The notices on the board, each with a Dismiss button, as a strip above a document's text.
-/// Dismissing removes the notice from the board, so every window's strip loses it together.
-/// The strip reports its laid out height, since how many lines a notice wraps onto depends on the window's width.
-struct NoticeStrip: View {
+/// The notices on the board, each with a Dismiss button, as a banner above a document's text.
+/// Dismissing removes the notice from the board, so every window's banner loses it together.
+/// The banner reports its laid out height, since how many lines a notice wraps onto depends on the window's width.
+struct NoticeBanner: View {
   var board: NoticeBoard
   var heightChanged: (CGFloat) -> Void
 
@@ -99,7 +99,7 @@ struct NoticeStrip: View {
     VStack(spacing: 0) {
       ForEach(board.notices) { notice in
         HStack(alignment: .firstTextBaseline, spacing: 8) {
-          // The icon takes the strip's color. The button stays the window's own, so it reads as a control and not as part of the warning.
+          // The icon takes the banner's color. The button stays the window's own, so it reads as a control and not as part of the warning.
           Image(systemName: "info.circle")
             .font(.title3)
             .foregroundStyle(iconColor)
@@ -122,13 +122,13 @@ struct NoticeStrip: View {
   }
 }
 
-/// The strip as an AppKit view, for the document view to stack above the text the way it stacks the find bar.
+/// The banner as an AppKit view, for the document view to stack above the text the way it stacks the find bar.
 /// The document view gives it the window's width and takes its height from a constraint this view keeps,
 /// set from what SwiftUI laid out at that width. A hosting view's own intrinsic size is for an unbounded width,
 /// one line per notice however narrow the window, which is why the height is measured rather than asked for.
-@objc(OakNoticeStripView)
+@objc(OakNoticeBannerView)
 @MainActor
-public final class NoticeStripView: NSView {
+public final class NoticeBannerView: NSView {
   private var heightConstraint: NSLayoutConstraint?
 
   public convenience override init(frame: NSRect) {
@@ -138,7 +138,7 @@ public final class NoticeStripView: NSView {
   public init(frame: NSRect, board: NoticeBoard) {
     super.init(frame: frame)
 
-    let hosting = NSHostingView(rootView: NoticeStrip(board: board) { [weak self] height in
+    let hosting = NSHostingView(rootView: NoticeBanner(board: board) { [weak self] height in
       self?.contentHeightChanged(to: height)
     })
     hosting.sizingOptions = []
@@ -158,7 +158,7 @@ public final class NoticeStripView: NSView {
 
   @available(*, unavailable)
   required init?(coder: NSCoder) {
-    fatalError("NoticeStripView is created in code")
+    fatalError("NoticeBannerView is created in code")
   }
 
   private func contentHeightChanged(to height: CGFloat) {
