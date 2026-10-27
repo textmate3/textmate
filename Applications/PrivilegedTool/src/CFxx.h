@@ -6,12 +6,12 @@ namespace cf
 	template <typename T = CFTypeRef>
 	struct value
 	{
-		value (T value = NULL) : cf_value(value)  { retain(); }
+		value (T value = nullptr) : cf_value(value)  { retain(); }
 		value (value const& rhs) : cf_value(rhs.cf_value) { retain(); }
 		~value ()                                         { release(); }
 		value& operator= (value const& rhs)               { reset(rhs.cf_value); return *this; }
 
-		void reset (T value = NULL)
+		void reset (T value = nullptr)
 		{
 			if(value != cf_value)
 			{
@@ -21,7 +21,7 @@ namespace cf
 			}
 		}
 
-		explicit operator bool () const { return cf_value != NULL; }
+		explicit operator bool () const { return cf_value != nullptr; }
 		operator T () const { return cf_value; }
 		operator T () { return cf_value; }
 

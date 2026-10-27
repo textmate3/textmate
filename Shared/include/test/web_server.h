@@ -139,7 +139,7 @@ static void send_head (int sock, int rc = 200, char const* status = "OK", std::s
 {
 	static char const* const tpl = "HTTP/1.0 %d %s\r\nServer: OakWebServer/0.1\r\nConnection: close\r\n";
 
-	char* res = NULL;
+	char* res = nullptr;
 	if(asprintf(&res, tpl, rc, status) != -1)
 	{
 		write(sock, res, strlen(res));

@@ -96,7 +96,7 @@ void OakAddBundlesToMenu (std::vector<bundles::item_ptr> const& items, bool setK
 		for(auto const& pair : menus)
 		{
 			if(showBundleHeadings)
-				[menu addItemWithTitle:[NSString stringWithCxxString:pair.first] action:NULL keyEquivalent:@""];
+				[menu addItemWithTitle:[NSString stringWithCxxString:pair.first] action:nullptr keyEquivalent:@""];
 
 			bool suppressSeparator = true;
 			bool pendingSeparator  = false;

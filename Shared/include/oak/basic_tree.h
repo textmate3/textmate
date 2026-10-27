@@ -376,7 +376,7 @@ namespace oak
 			{
 				bottom->update_key_offset();
 
-				node_t** ref = NULL;
+				node_t** ref = nullptr;
 				if(bottom->_parent->is_null())
 					ref = &_root;
 				else if(eq(bottom->_parent->_left, bottom))
@@ -480,7 +480,7 @@ namespace oak
 					if(--bottom->_level < bottom->_right->_level)
 						--bottom->_right->_level;
 
-					node_t** ref = NULL;
+					node_t** ref = nullptr;
 					if(bottom->_parent->is_null())
 						ref = &_root;
 					else if(eq(bottom->_parent->_left, bottom))

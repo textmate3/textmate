@@ -165,7 +165,7 @@
 
 		for(auto pair : ordered)
 		{
-			[themesMenu addItemWithTitle:to_ns(pair.first) action:NULL keyEquivalent:@""];
+			[themesMenu addItemWithTitle:to_ns(pair.first) action:nullptr keyEquivalent:@""];
 			themeUUIDs.push_back(pair.second->uuid());
 		}
 
@@ -175,7 +175,7 @@
 		NSMenu* fontSizesMenu = fontSizes.menu;
 		[fontSizesMenu removeAllItems];
 		for(NSInteger size = 4; size < 23; ++size)
-			[fontSizesMenu addItemWithTitle:@(size).stringValue action:NULL keyEquivalent:@""];
+			[fontSizesMenu addItemWithTitle:@(size).stringValue action:nullptr keyEquivalent:@""];
 
 		[themes bind:NSSelectedIndexBinding toObject:self withKeyPath:@"themeIndex" options:nil];
 		[fontSizes bind:NSSelectedValueBinding toObject:self withKeyPath:@"printFontSize" options:nil];

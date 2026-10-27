@@ -200,7 +200,7 @@ static NSString* SafeBasename (NSString* name)
 
 	NSPopUpButton* bundleChooser = [[NSPopUpButton alloc] initWithFrame:NSZeroRect pullsDown:NO];
 	[bundleChooser.menu removeAllItems];
-	[bundleChooser.menu addItemWithTitle:@"Create new bundle…" action:NULL keyEquivalent:@""];
+	[bundleChooser.menu addItemWithTitle:@"Create new bundle…" action:nullptr keyEquivalent:@""];
 	[bundleChooser.menu addItem:[NSMenuItem separatorItem]];
 
 	std::multimap<std::string, bundles::item_ptr, text::less_t> ordered;
@@ -209,7 +209,7 @@ static NSString* SafeBasename (NSString* name)
 
 	for(auto pair : ordered)
 	{
-		NSMenuItem* menuItem = [bundleChooser.menu addItemWithTitle:[NSString stringWithCxxString:pair.first] action:NULL keyEquivalent:@""];
+		NSMenuItem* menuItem = [bundleChooser.menu addItemWithTitle:[NSString stringWithCxxString:pair.first] action:nullptr keyEquivalent:@""];
 		[menuItem setRepresentedObject:[NSString stringWithCxxString:to_s(pair.second->uuid())]];
 		if(defaultBundle && defaultBundle == pair.second->uuid())
 			[bundleChooser selectItem:menuItem];

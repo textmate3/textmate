@@ -39,7 +39,7 @@
 		{
 			case bundles::kItemTypeMenu:
 			{
-				NSMenuItem* menuItem = [aMenu addItemWithTitle:[NSString stringWithCxxString:item->name()] action:NULL keyEquivalent:@""];
+				NSMenuItem* menuItem = [aMenu addItemWithTitle:[NSString stringWithCxxString:item->name()] action:nullptr keyEquivalent:@""];
 
 				menuItem.submenu = [[NSMenu alloc] initWithTitle:[NSString stringWithCxxString:item->uuid()]];
 				menuItem.submenu.delegate = BundleMenuDelegate.sharedInstance;

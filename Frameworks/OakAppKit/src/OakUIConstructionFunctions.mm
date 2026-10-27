@@ -42,7 +42,7 @@ NSPopUpButton* OakCreatePopUpButton (BOOL pullsDown, NSString* initialItemTitle,
 {
 	NSPopUpButton* res = [[NSPopUpButton alloc] initWithFrame:NSZeroRect pullsDown:pullsDown];
 	if(initialItemTitle)
-		[[res cell] setMenuItem:[[NSMenuItem alloc] initWithTitle:initialItemTitle action:NULL keyEquivalent:@""]];
+		[[res cell] setMenuItem:[[NSMenuItem alloc] initWithTitle:initialItemTitle action:nullptr keyEquivalent:@""]];
 	if(labelView)
 		res.accessibilityTitleUIElement = labelView;
 	return res;

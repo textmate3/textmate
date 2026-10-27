@@ -84,7 +84,7 @@ namespace // PopulateMenu{Flat,Hierarchical}
 
 				menu = [NSMenu new];
 				[menu setAutoenablesItems:NO];
-				[[containingMenu addItemWithTitle:[NSString stringWithCxxString:groupName] action:NULL keyEquivalent:@""] setSubmenu:menu];
+				[[containingMenu addItemWithTitle:[NSString stringWithCxxString:groupName] action:nullptr keyEquivalent:@""] setSubmenu:menu];
 			}
 
 			NSMenuItem* menuItem = [menu addItemWithTitle:[NSString stringWithCxxString:item.title] action:action keyEquivalent:@""];
@@ -195,7 +195,7 @@ namespace // PopulateMenu{Flat,Hierarchical}
 	{
 		if(currentEncodingsTitle)
 		{
-			self.firstMenuItem = [self.menu addItemWithTitle:currentEncodingsTitle action:NULL keyEquivalent:@""];
+			self.firstMenuItem = [self.menu addItemWithTitle:currentEncodingsTitle action:nullptr keyEquivalent:@""];
 			[self.menu addItem:[NSMenuItem separatorItem]];
 			[self selectItem:self.firstMenuItem];
 		}

@@ -48,7 +48,7 @@ static NSURL* ReleaseNotesURL ()
 {
 	NSURL* url = ReleaseNotesURL();
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-		if(NSString* releaseNotes = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL])
+		if(NSString* releaseNotes = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nullptr])
 		{
 			NSData* lastDigest    = [NSUserDefaults.standardUserDefaults dataForKey:kUserDefaultsReleaseNotesDigestKey];
 			NSData* currentDigest = Digest(releaseNotes);
@@ -107,7 +107,7 @@ static NSURL* ReleaseNotesURL ()
 	self.selectedPage = @"Changes";
 	[self showWindow:self];
 
-	if(NSString* releaseNotes = [NSString stringWithContentsOfURL:ReleaseNotesURL() encoding:NSUTF8StringEncoding error:NULL])
+	if(NSString* releaseNotes = [NSString stringWithContentsOfURL:ReleaseNotesURL() encoding:NSUTF8StringEncoding error:nullptr])
 		[NSUserDefaults.standardUserDefaults setObject:Digest(releaseNotes) forKey:kUserDefaultsReleaseNotesDigestKey];
 }
 

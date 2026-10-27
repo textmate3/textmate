@@ -1118,7 +1118,7 @@ static NSButton* OakCreateHistoryButton (NSString* toolTip)
 
 		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(folderSearchDidReceiveResults:) name:FFDocumentSearchDidReceiveResultsNotification object:_documentSearch];
 		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(folderSearchDidFinish:) name:FFDocumentSearchDidFinishNotification object:_documentSearch];
-		[_documentSearch addObserver:self forKeyPath:@"currentPath" options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) context:NULL];
+		[_documentSearch addObserver:self forKeyPath:@"currentPath" options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) context:nullptr];
 		self.performingFolderSearch = YES;
 		[_documentSearch start];
 	}
