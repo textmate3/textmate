@@ -83,7 +83,7 @@ import Testing
     let column = try #require(chooser.tableView.tableColumns.first)
     let delegate = try #require(chooser.tableView.delegate)
     let view = delegate.tableView?(chooser.tableView, viewFor: column, row: 0)
-    #expect(view is OakFileTableCellView)
+    #expect(view is FileTableCellView)
   }
 
   @Test func withoutAFilterTheOrderIsKept() throws {

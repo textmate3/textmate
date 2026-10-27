@@ -107,6 +107,6 @@ import Testing
     chooser.items = [item("/project/lib/editor.rb")]
     let column = try #require(chooser.tableView.tableColumns.first)
     let delegate = try #require(chooser.tableView.delegate)
-    #expect(delegate.tableView?(chooser.tableView, viewFor: column, row: 0) is OakFileTableCellView)
+    #expect(delegate.tableView?(chooser.tableView, viewFor: column, row: 0) is FileTableCellView)
   }
 }

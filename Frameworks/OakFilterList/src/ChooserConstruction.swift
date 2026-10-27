@@ -58,6 +58,27 @@ enum ChooserConstruction {
     return button
   }
 
+  /// The marked up ranges in their selected colors, for a row drawn as selected.
+  static func selectedString(for value: Any?) -> NSAttributedString? {
+    let string: NSMutableAttributedString
+    if let text = value as? String {
+      string = NSMutableAttributedString(string: text)
+    } else if let attributed = value as? NSAttributedString {
+      string = NSMutableAttributedString(attributedString: attributed)
+    } else {
+      return nil
+    }
+    string.enumerateAttributes(in: NSRange(location: 0, length: string.length), options: .longestEffectiveRangeNotRequired) { attributes, range, _ in
+      if attributes[.backgroundColor] != nil {
+        string.addAttribute(.backgroundColor, value: NSColor.tmMatchedTextSelectedBackground(), range: range)
+      }
+      if attributes[.underlineColor] != nil {
+        string.addAttribute(.underlineColor, value: NSColor.tmMatchedTextSelectedUnderline(), range: range)
+      }
+    }
+    return string
+  }
+
   static func addAutoLayoutViews(_ views: [NSView], to superview: NSView) {
     for view in views {
       view.translatesAutoresizingMaskIntoConstraints = false
