@@ -1,4 +1,5 @@
-NSMutableAttributedString* CreateAttributedStringWithMarkedUpRanges (std::string const& in, std::vector< std::pair<size_t, size_t> > const& ranges, NSLineBreakMode lineBreakMode = NSLineBreakByTruncatingMiddle);
+// Plain Objective-C, so that a chooser written in Swift can subclass it.
+// The marked up row text, which deals in C++ ranges, is in ui/MarkedUpString.h.
 
 @interface OakFileTableCellView : NSTableCellView
 - (instancetype)initWithCloseButton:(NSButton*)closeButton;

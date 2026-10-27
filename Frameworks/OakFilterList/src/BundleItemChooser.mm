@@ -1,5 +1,6 @@
 #import "BundleItemChooser.h"
 #import "OakFilterList-Swift.h"
+#import "ui/MarkedUpString.h"
 #import <OakAppKit/OakAppKit.h>
 #import <OakAppKit/OakUIConstructionFunctions.h>
 #import <OakAppKit/OakKeyEquivalentView.h>
