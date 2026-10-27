@@ -848,11 +848,9 @@ namespace path
 				str.resize(len - 1);
 		else	str = getenv("TMPDIR") ?: "/tmp";
 
+		// A std::string's buffer has been zero terminated at size() since C++11, which is what mkstemp and mkdtemp write into below.
 		if(file != NULL_STR)
-		{
 			str = join(str, std::string(getprogname() ?: "untitled") + "_" + file + ".XXXXXX");
-			str.c_str(); // ensure the buffer is zero terminated, should probably move to a better approach
-		}
 		return str;
 	}
 
