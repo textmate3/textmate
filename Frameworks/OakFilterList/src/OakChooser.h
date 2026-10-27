@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OakFileTableCellView : NSTableCellView
-- (instancetype)initWithCloseButton:(NSButton*)closeButton;
+- (instancetype)initWithCloseButton:(NSButton*)closeButton NS_SWIFT_NAME(init(closeButton:));
 @end
 
 @interface OakChooser : NSWindowController
@@ -43,14 +43,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL drawTableViewAsHighlighted;
 - (void)updateFilterString:(NSString*)aString;
 - (NSUInteger)removeItemsAtIndexes:(NSIndexSet*)anIndexSet;
-- (void)performDefaultButtonClick:(id)sender;
-- (void)accept:(id)sender;
-- (void)cancel:(id)sender;
+- (void)performDefaultButtonClick:(nullable id)sender;
+- (void)accept:(nullable id)sender;
+- (void)cancel:(nullable id)sender;
 
 // Overridden by each chooser: the first rebuilds the items from the filter
 // string, the second the status text from the selected row.
-- (void)updateItems:(id)sender;
-- (void)updateStatusText:(id)sender;
+- (void)updateItems:(nullable id)sender;
+- (void)updateStatusText:(nullable id)sender;
 @end
 
 NS_ASSUME_NONNULL_END

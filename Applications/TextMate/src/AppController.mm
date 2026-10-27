@@ -1,6 +1,6 @@
 #import "AppController.h"
 #import "OakMainMenu.h"
-#import "Favorites.h"
+#import <OakFilterList/OakFilterList-Swift.h>
 #import "AboutWindowController.h"
 #import "TMPlugInController.h"
 #import "RMateServer.h"
