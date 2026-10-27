@@ -35,7 +35,7 @@ static NSString* const kUserDefaultsEnableLoopFilterList = @"enableLoopFilterLis
 
 @interface OakTableViewActionHelper : NSResponder
 @property (nonatomic) NSTableView* tableView;
-@property (nonatomic) NSUInteger returnCode;
+@property (nonatomic) OakPerformTableViewActionResult returnCode;
 @end
 
 @implementation OakTableViewActionHelper
@@ -123,14 +123,14 @@ static NSString* const kUserDefaultsEnableLoopFilterList = @"enableLoopFilterLis
 }
 @end
 
-NSUInteger OakPerformTableViewActionFromKeyEvent (NSTableView* tableView, NSEvent* event)
+OakPerformTableViewActionResult OakPerformTableViewActionFromKeyEvent (NSTableView* tableView, NSEvent* event)
 {
 	OakTableViewActionHelper* helper = [OakTableViewActionHelper tableViewActionHelperWithTableView:tableView];
 	[helper interpretKeyEvents:@[ event ]];
 	return helper.returnCode;
 }
 
-NSUInteger OakPerformTableViewActionFromSelector (NSTableView* tableView, SEL selector)
+OakPerformTableViewActionResult OakPerformTableViewActionFromSelector (NSTableView* tableView, SEL selector)
 {
 	OakTableViewActionHelper* helper = [OakTableViewActionHelper tableViewActionHelperWithTableView:tableView];
 	[helper doCommandBySelector:selector];
