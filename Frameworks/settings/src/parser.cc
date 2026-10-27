@@ -160,8 +160,13 @@ static bool parse_line (char const*& p, char const* pe, ini_file_t& res, int n =
 		// applies nowhere. Otherwise the settings under it would land in
 		// whatever section came before, which for a header near the top of
 		// a file is the root, and they would apply to every file. The error
-		// below says what was wrong with it.
-		res.new_malformed_section();
+		// below says what was wrong with it, and the header is kept so the
+		// application can say so where the person will see it.
+		char const* lineEnd = strchr(p, '\n') ?: pe;
+		std::string header(p, lineEnd);
+		while(!header.empty() && isspace(header.back()))
+			header.pop_back();
+		res.new_malformed_section(header, n);
 	}
 
 	if(parse_comment(p, pe) && (p == pe || parse_char(p, pe, "\n")))

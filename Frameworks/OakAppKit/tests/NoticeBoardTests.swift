@@ -58,4 +58,39 @@ import Testing
     board.dismiss(Notice(text: "gone"))
     #expect(announcements == 2)
   }
+
+  @Test func aKeyedNoticeIsReplacedInPlaceWhenItsTextChanges() {
+    let board = NoticeBoard()
+    board.post("Before")
+    board.post("Line 2 could not be read.", key: "settings:/p/.tm_properties:2")
+    board.post("After")
+    board.post("Line 2 still could not be read.", key: "settings:/p/.tm_properties:2")
+    #expect(board.notices.map(\.text) == ["Before", "Line 2 still could not be read.", "After"])
+  }
+
+  @Test func theSameKeyedTextTwiceChangesNothing() {
+    let board = NoticeBoard()
+    nonisolated(unsafe) var announcements = 0
+    let observer = NotificationCenter.default.addObserver(forName: NoticeBoard.didChangeNotification, object: board, queue: nil) { _ in
+      announcements += 1
+    }
+    defer { NotificationCenter.default.removeObserver(observer) }
+
+    board.post("Same", key: "k")
+    board.post("Same", key: "k")
+    #expect(board.notices.count == 1)
+    #expect(announcements == 1)
+  }
+
+  @Test func dismissingByKeyPrefixTakesDownEveryNoticeAboutOneFile() {
+    let board = NoticeBoard()
+    board.post("Unkeyed")
+    board.post("Line 2", key: "settings:/p/.tm_properties:2")
+    board.post("Line 6", key: "settings:/p/.tm_properties:6")
+    board.post("Other file", key: "settings:/q/.tm_properties:1")
+    board.dismissNotices(withKeyPrefix: "settings:/p/.tm_properties:")
+    #expect(board.notices.map(\.text) == ["Unkeyed", "Other file"])
+    board.dismissNotices(withKeyPrefix: "settings:/nowhere:")
+    #expect(board.notices.count == 2)
+  }
 }

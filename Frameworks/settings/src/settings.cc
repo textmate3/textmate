@@ -36,6 +36,12 @@ namespace
 		return cascade_root_path() != NULL_STR ? cascade_root_path() : path::home();
 	}
 
+	static std::function<void(std::string const&, std::vector<settings_t::malformed_header_t> const&)>& malformed_headers_handler ()
+	{
+		static std::function<void(std::string const&, std::vector<settings_t::malformed_header_t> const&)> res;
+		return res;
+	}
+
 	static std::vector< std::pair<std::string, std::string> > global_variables ()
 	{
 		std::vector< std::pair<std::string, std::string> > res;
@@ -123,11 +129,15 @@ namespace
 			parse_ini(content.data(), content.data() + content.size(), iniFile);
 
 		std::vector<section_t> res;
+		std::vector<settings_t::malformed_header_t> malformedHeaders;
 		for(auto const& section : iniFile.sections)
 		{
 			// The values under a header that could not be read apply nowhere.
 			if(section.malformed)
+			{
+				malformedHeaders.emplace_back(section.header, section.line_number);
 				continue;
+			}
 
 			std::vector<section_t::assignment_t> variables;
 			if(section.names.empty())
@@ -149,6 +159,12 @@ namespace
 					res.emplace_back(path, variables, name);
 			}
 		}
+
+		// Every parse reports, so a file that was fixed reports an empty list and the application can take its warning down.
+		// A file that does not exist is parsed as empty, which is not a malformed header, and reports nothing.
+		if(content != NULL_STR && malformed_headers_handler())
+			malformed_headers_handler()(path, malformedHeaders);
+
 		return res;
 	}
 
@@ -283,6 +299,11 @@ void settings_t::set_global_settings_path (std::string const& path)
 void settings_t::set_cascade_root_path (std::string const& path)
 {
 	cascade_root_path() = path;
+}
+
+void settings_t::set_malformed_headers_handler (std::function<void(std::string const& path, std::vector<malformed_header_t> const& headers)> const& handler)
+{
+	malformed_headers_handler() = handler;
 }
 
 settings_t settings_for_path (std::string const& path, scope::scope_t const& scope, std::string const& directory, std::map<std::string, std::string> variables)
