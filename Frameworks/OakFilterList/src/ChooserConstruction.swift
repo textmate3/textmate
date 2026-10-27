@@ -24,6 +24,17 @@ enum ChooserConstruction {
     return field
   }
 
+  /// The close button a row carries, with the three template images the rest of the application's close buttons use.
+  static func closeButton(accessibilityLabel: String = "Close document") -> OakRolloverButton {
+    let bundle = Bundle(for: OakRolloverButton.self)
+    let button = OakRolloverButton(frame: .zero)
+    button.regularImage = bundle.image(forResource: "CloseTemplate")
+    button.pressedImage = bundle.image(forResource: "ClosePressedTemplate")
+    button.rolloverImage = bundle.image(forResource: "CloseRolloverTemplate")
+    button.setAccessibilityLabel(accessibilityLabel)
+    return button
+  }
+
   static func addAutoLayoutViews(_ views: [NSView], to superview: NSView) {
     for view in views {
       view.translatesAutoresizingMaskIntoConstraints = false

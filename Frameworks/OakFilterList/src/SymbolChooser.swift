@@ -45,7 +45,7 @@ public final class SymbolChooser: OakChooser {
       if symbolDocument != nil {
         updateItems(self)
       }
-      window?.title = symbolDocument.map { "\(Self.title) — \(TMDocumentSymbols.displayName(ofDocument: $0))" } ?? Self.title
+      window?.title = symbolDocument.map { "\(Self.title) — \(TMDocuments.displayName(ofDocument: $0))" } ?? Self.title
     }
   }
 
@@ -111,11 +111,11 @@ public final class SymbolChooser: OakChooser {
     guard let document = symbolDocument else { preconditionFailure("an item needs a document") }
     let selectionString = symbol.position.string
     return SymbolChooserItem(
-      path: TMDocumentSymbols.path(ofDocument: document),
-      identifier: TMDocumentSymbols.identifier(ofDocument: document),
+      path: TMDocuments.path(ofDocument: document),
+      identifier: TMDocuments.identifier(ofDocument: document),
       selectionString: selectionString,
       name: markedUpString(name, byteRanges: byteRanges, lineBreakMode: .byTruncatingTail),
-      infoString: "\(TMDocumentSymbols.displayName(ofDocument: document)):\(selectionString)")
+      infoString: "\(TMDocuments.displayName(ofDocument: document)):\(selectionString)")
   }
 
   public override func updateItems(_ sender: Any?) {

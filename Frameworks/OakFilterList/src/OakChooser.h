@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateScrollViewInsets;
 
 @property (nonatomic) BOOL drawTableViewAsHighlighted;
-- (void)updateFilterString:(NSString*)aString;
+- (void)updateFilterString:(nullable NSString*)aString;
 - (NSUInteger)removeItemsAtIndexes:(NSIndexSet*)anIndexSet;
 - (void)performDefaultButtonClick:(nullable id)sender;
 - (void)accept:(nullable id)sender;

@@ -1,6 +1,6 @@
 target "${dirname}" {
 	require OakAppKit OakFoundation OakSystem TMFileReference bundles document ns regexp scm scope settings text
-	headers src/{Oak,File,BundleItem}Chooser.h src/ui/MarkedUpString.h src/TMApplicationPaths.h src/TMRanker.h
+	headers src/{Oak,BundleItem}Chooser.h src/ui/MarkedUpString.h src/TMRanker.h
 	sources src/*.{mm,swift} src/ui/*.mm
 	tests tests/*.swift
 	frameworks Cocoa
