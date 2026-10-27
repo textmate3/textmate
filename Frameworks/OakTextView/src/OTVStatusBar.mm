@@ -97,7 +97,7 @@ static NSButton* OakCreateImageToggleButton (NSImage* image, NSString* accessibi
 		// = Wrap/Clip Bundles PopUp =
 		// ===========================
 
-		NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:@"" action:NULL keyEquivalent:@""];
+		NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:@"" action:nullptr keyEquivalent:@""];
 		item.image = [NSImage imageNamed:NSImageNameActionTemplate];
 		[[self.bundleItemsPopUp cell] setUsesItemFromMenu:NO];
 		[[self.bundleItemsPopUp cell] setMenuItem:item];

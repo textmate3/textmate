@@ -49,20 +49,20 @@ struct gutter_styles_t
 	bool is_transparent () const;
 	void clear ();
 
-	CGColorRef divider               = NULL;
-	CGColorRef selectionBorder       = NULL;
+	CGColorRef divider               = nullptr;
+	CGColorRef selectionBorder       = nullptr;
 
-	CGColorRef foreground            = NULL;
-	CGColorRef background            = NULL;
-	CGColorRef icons                 = NULL;
-	CGColorRef iconsHover            = NULL;
-	CGColorRef iconsPressed          = NULL;
+	CGColorRef foreground            = nullptr;
+	CGColorRef background            = nullptr;
+	CGColorRef icons                 = nullptr;
+	CGColorRef iconsHover            = nullptr;
+	CGColorRef iconsPressed          = nullptr;
 
-	CGColorRef selectionForeground   = NULL;
-	CGColorRef selectionBackground   = NULL;
-	CGColorRef selectionIcons        = NULL;
-	CGColorRef selectionIconsHover   = NULL;
-	CGColorRef selectionIconsPressed = NULL;
+	CGColorRef selectionForeground   = nullptr;
+	CGColorRef selectionBackground   = nullptr;
+	CGColorRef selectionIcons        = nullptr;
+	CGColorRef selectionIconsHover   = nullptr;
+	CGColorRef selectionIconsPressed = nullptr;
 };
 
 struct theme_t;
@@ -135,7 +135,7 @@ private:
 		static decomposed_style_t parse_styles (plist::dictionary_t const& plist);
 
 		bundles::item_ptr _item;
-		CGColorSpaceRef _color_space = NULL;
+		CGColorSpaceRef _color_space = nullptr;
 		std::vector<decomposed_style_t> _styles;
 		gutter_styles_t _gutter_styles;
 		CGColorPtr _foreground;

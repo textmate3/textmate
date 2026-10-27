@@ -9,7 +9,7 @@ namespace text
 
 	inline std::string format (char const* format, ...)
 	{
-		char* tmp = NULL;
+		char* tmp = nullptr;
 
 		va_list ap;
 		va_start(ap, format);

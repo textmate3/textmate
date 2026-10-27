@@ -151,7 +151,7 @@ namespace scm
 		_clients.insert(client);
 		if(_clients.size() == 1)
 		{
-			_watcher = std::make_shared<scm::watcher_t>(_root_path, std::bind(&shared_info_t::fs_did_change, this, std::placeholders::_1));
+			_watcher = std::make_shared<scm::watcher_t>(_root_path, [this](std::set<std::string> const& changedPaths){ fs_did_change(changedPaths); });
 			schedule_update();
 		}
 		else

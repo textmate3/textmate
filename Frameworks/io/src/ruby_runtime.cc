@@ -53,7 +53,7 @@ namespace ruby_runtime
 		if(executable == NULL_STR || access(executable.c_str(), X_OK) != 0)
 			return NULL_STR;
 
-		std::string const output = io::exec(executable, "-e", "print RUBY_VERSION", NULL);
+		std::string const output = io::exec(executable, "-e", "print RUBY_VERSION", nullptr);
 		if(output == NULL_STR)
 			return NULL_STR;
 

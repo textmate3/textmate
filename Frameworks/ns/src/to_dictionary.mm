@@ -8,7 +8,7 @@ namespace
 		CFPropertyListRef operator() (int32_t i) const                     { return CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &i); }
 		CFPropertyListRef operator() (uint64_t i) const                    { return CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt64Type, &i); }
 		CFPropertyListRef operator() (std::string const& str) const        { return CFStringCreateWithBytes(kCFAllocatorDefault, (UInt8*)str.data(), str.size(), kCFStringEncodingUTF8, false); }
-		CFPropertyListRef operator() (std::vector<char> const& data) const { return CFDataCreate(kCFAllocatorDefault, data.empty() ? NULL : (UInt8*)&data[0], data.size()); }
+		CFPropertyListRef operator() (std::vector<char> const& data) const { return CFDataCreate(kCFAllocatorDefault, data.empty() ? nullptr : (UInt8*)&data[0], data.size()); }
 		CFPropertyListRef operator() (oak::date_t const& date) const       { return CFDateCreate(kCFAllocatorDefault, date.value()); }
 
 		CFPropertyListRef operator() (plist::array_t const& array) const
