@@ -9,7 +9,7 @@
 #import <oak/debug.h>
 #import <bundles/bundles.h>
 #import <settings/settings.h>
-#import <OakFilterList/SymbolChooser.h>
+#import <OakFilterList/OakFilterList-Swift.h>
 #import <OakFoundation/NSString Additions.h>
 #import <OakAppKit/OakAppKit.h>
 #import <OakAppKit/NSImage Additions.h>
