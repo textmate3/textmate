@@ -8,19 +8,6 @@
 
 NSString* const HOFileHandleURLScheme = @"x-txmt-filehandle";
 
-void SchemeTrace (NSString* format, ...)
-{
-	va_list ap;
-	va_start(ap, format);
-	NSString* line = [[NSString alloc] initWithFormat:format arguments:ap];
-	va_end(ap);
-	if(FILE* fp = fopen("/tmp/tm_wk.log", "a"))
-	{
-		fprintf(fp, "%s\n", line.UTF8String);
-		fclose(fp);
-	}
-}
-
 @interface HOJob : NSObject
 @property (nonatomic) NSFileHandle* fileHandle;
 @property (nonatomic) pid_t processIdentifier;
