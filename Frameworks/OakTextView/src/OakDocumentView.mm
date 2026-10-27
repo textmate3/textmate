@@ -102,7 +102,7 @@ static NSString* const kFoldingsColumnIdentifier  = @"foldings";
 
 		self.observedKeys = @[ @"selectionString", @"symbol", @"recordingMacro", @"themeUUID" ];
 		for(NSString* keyPath in self.observedKeys)
-			[_textView addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionInitial context:NULL];
+			[_textView addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionInitial context:nullptr];
 
 		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(noticeBoardDidChange:) name:OakNoticeBoard.didChangeNotification object:nil];
 		[self updateNoticeBanner];
@@ -614,7 +614,7 @@ static NSString* const kFoldingsColumnIdentifier  = @"foldings";
 		if(!selectedGrammar && pair.second->hidden_from_user() || pair.second->menu().empty())
 			continue;
 
-		NSMenuItem* menuItem = [bundleItemsMenu addItemWithTitle:[NSString stringWithCxxString:pair.first] action:NULL keyEquivalent:@""];
+		NSMenuItem* menuItem = [bundleItemsMenu addItemWithTitle:[NSString stringWithCxxString:pair.first] action:nullptr keyEquivalent:@""];
 		menuItem.submenu = [[NSMenu alloc] initWithTitle:[NSString stringWithCxxString:pair.second->uuid()]];
 		menuItem.submenu.delegate = BundleMenuDelegate.sharedInstance;
 
@@ -665,7 +665,7 @@ static NSString* const kFoldingsColumnIdentifier  = @"foldings";
 - (IBAction)showTabSizeSelectorPanel:(id)sender
 {
 	if(!tabSizeSelectorPanel)
-		[[NSBundle bundleForClass:[self class]] loadNibNamed:@"TabSizeSetting" owner:self topLevelObjects:NULL];
+		[[NSBundle bundleForClass:[self class]] loadNibNamed:@"TabSizeSetting" owner:self topLevelObjects:nullptr];
 	[tabSizeSelectorPanel makeKeyAndOrderFront:self];
 }
 
