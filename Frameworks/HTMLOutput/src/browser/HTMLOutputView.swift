@@ -33,8 +33,7 @@ private final class AutoScroll {
 }
 
 /// The status bar already has the two properties the JavaScript bridge sets. This says so to the compiler.
-/// The bridge calls on the main thread, which the isolated conformance states.
-extension HOStatusBar: @MainActor HOJSBridgeDelegate {}
+extension HOStatusBar: JavaScriptBridgeDelegate {}
 
 /// Where a command's HTML output appears: a browser view that knows the command it is showing,
 /// answers to the title binding, stops the command when asked, and acts on the links the page's own loader cannot.
@@ -61,7 +60,7 @@ public final class HTMLOutputView: BrowserView {
   private var autoScroll: AutoScroll?
   private var environment: [String: String] = [:]
   private var loadedRequest: URLRequest?
-  private var bridge: HOJSBridge?
+  private var bridge: JavaScriptBridge?
 
   @objc public static func keyPathsForValuesAffectingMainFrameTitle() -> Set<String> {
     ["webView.title"]
@@ -85,7 +84,7 @@ public final class HTMLOutputView: BrowserView {
 
     self.environment = environment
     installJavaScriptBridgeIfNeeded()
-    bridge?.setEnvironmentDictionary(environment)
+    bridge?.environment = environment
     commandIdentifier = URLProtocol.property(forKey: "commandIdentifier", in: request) as? UUID
     runningCommand = commandIdentifier != nil
 
@@ -184,14 +183,14 @@ public final class HTMLOutputView: BrowserView {
   private func installJavaScriptBridgeIfNeeded() {
     guard bridge == nil, !disableJavaScriptAPI else { return }
 
-    let bridge = HOJSBridge()
+    let bridge = JavaScriptBridge()
     bridge.delegate = statusBar
     bridge.webView = webView
     self.bridge = bridge
 
     let controller = webView.configuration.userContentController
-    controller.addScriptMessageHandler(bridge, contentWorld: .page, name: HOJSBridge.messageHandlerName())
-    controller.addUserScript(WKUserScript(source: HOJSBridge.userScriptSource(), injectionTime: .atDocumentStart, forMainFrameOnly: true))
+    controller.addScriptMessageHandler(bridge, contentWorld: .page, name: JavaScriptBridge.messageHandlerName)
+    controller.addUserScript(WKUserScript(source: JavaScriptBridge.userScriptSource, injectionTime: .atDocumentStart, forMainFrameOnly: true))
   }
 
   public override func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {

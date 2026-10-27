@@ -4,6 +4,6 @@
 // It sits in browser/ because rave looks for it beside the first Swift source.
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
+#import "../HODocumentSupport.h"
 #import "../HOFindSupport.h"
 #import "../HOSchemeHandlerSupport.h"
-#import "../helpers/HOJSBridge.h"
