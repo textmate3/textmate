@@ -7,9 +7,13 @@ import SwiftUI
 struct NoticeText: NSViewRepresentable {
   var text: NSAttributedString
 
+  /// The text's size: title3, larger than the window's controls on purpose.
+  /// This is the application interrupting about something that went wrong on its own, and the text carries a path, a version and a command to read.
+  static let pointSize: CGFloat = NSFont.preferredFont(forTextStyle: .title3).pointSize
+
   /// Where the first line's baseline is from the top, for the strip to align the icon and the button to.
-  /// SwiftUI takes a representable's baseline to be its top edge, so the strip is told instead, from the body font's own metrics.
-  static let firstBaseline: CGFloat = NSFont.systemFont(ofSize: NSFont.systemFontSize).ascender
+  /// SwiftUI takes a representable's baseline to be its top edge, so the strip is told instead, from the font's own metrics.
+  static let firstBaseline: CGFloat = NSFont.systemFont(ofSize: pointSize).ascender
 
   func makeNSView(context: Context) -> NSTextView {
     let view = NSTextView()
@@ -71,7 +75,7 @@ struct NoticeStrip: View {
   /// A notice's text is inline Markdown: a path or a command in backticks draws monospaced, a name in double asterisks draws medium,
   /// and a link draws as one. Text that is not Markdown draws as it is. The fonts are AppKit's, for the label that draws them.
   private func styled(_ text: String) -> NSAttributedString {
-    let bodySize = NSFont.systemFontSize
+    let bodySize = NoticeText.pointSize
     var attributed: AttributedString
     if let parsed = try? AttributedString(markdown: text, options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace)) {
       attributed = parsed
@@ -97,6 +101,7 @@ struct NoticeStrip: View {
         HStack(alignment: .firstTextBaseline, spacing: 8) {
           // The icon takes the strip's color. The button stays the window's own, so it reads as a control and not as part of the warning.
           Image(systemName: "info.circle")
+            .font(.title3)
             .foregroundStyle(iconColor)
           NoticeText(text: styled(notice.text))
             .alignmentGuide(.firstTextBaseline) { dimensions in dimensions[.top] + NoticeText.firstBaseline }
