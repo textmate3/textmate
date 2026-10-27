@@ -4,6 +4,10 @@
 // It sits beside the first Swift source because rave looks for it there.
 #import <Cocoa/Cocoa.h>
 #import <OakAppKit/NSColor Additions.h>
+#import <OakAppKit/OakScopeBarView.h>
+#import <OakAppKit/OakTableViewActions.h>
+#import <document/OakProjectStateStore.h>
 #import "OakChooser.h"
+#import "TMApplicationPaths.h"
 #import "TMDocumentSymbols.h"
 #import "TMRanker.h"

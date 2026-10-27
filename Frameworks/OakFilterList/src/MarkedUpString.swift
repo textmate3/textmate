@@ -14,9 +14,10 @@ func markedUpString(_ text: String, byteRanges: [NSRange], lineBreakMode: NSLine
     .underlineColor: NSColor.tmMatchedTextUnderline(),
   ]
 
+  // A range that cuts a character in two is not text, and shows as a question mark the way it always has.
   let bytes = Array(text.utf8)
   func piece(_ range: Range<Int>) -> String {
-    String(decoding: bytes[range.clamped(to: 0..<bytes.count)], as: UTF8.self)
+    String(bytes: bytes[range.clamped(to: 0..<bytes.count)], encoding: .utf8) ?? "?"
   }
 
   let result = NSMutableAttributedString()

@@ -30,4 +30,22 @@ enum ChooserConstruction {
       superview.addSubview(view)
     }
   }
+
+  /// Makes the views a key view loop in the order given, each followed by the key views already chained
+  /// inside it, so that tabbing walks the search field, the table and the scope bar around and around.
+  static func setUpKeyViewLoop(_ superviews: [NSView]) {
+    var seen = Set(superviews.map(ObjectIdentifier.init))
+    var views: [NSView] = []
+    for view in superviews {
+      views.append(view)
+      var subview = view
+      while let next = subview.nextKeyView, next.isDescendant(of: view), seen.insert(ObjectIdentifier(next)).inserted {
+        views.append(next)
+        subview = next
+      }
+    }
+    for (index, view) in views.enumerated() {
+      view.nextKeyView = views.count == 1 ? nil : views[(index + 1) % views.count]
+    }
+  }
 }

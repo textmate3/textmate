@@ -5,5 +5,5 @@
 @property (nonatomic) NSControlSize controlSize;
 - (void)selectNextButton:(id)sender;
 - (void)selectPreviousButton:(id)sender;
-- (void)updateGoToMenu:(NSMenu*)aMenu;
+- (void)updateGoToMenu:(NSMenu*)aMenu NS_SWIFT_NAME(updateGoToMenu(_:));
 @end
