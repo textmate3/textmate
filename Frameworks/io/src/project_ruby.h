@@ -14,16 +14,17 @@
 //
 // The resolver answers on standard output:
 //
-//   ruby <directory>    the project's Ruby, the directory whose bin/ruby it is
-//   missing <version>   the pin names a version that is not installed
-//   none                nothing is pinned, anywhere rv looks
-//   error <message>     rv could not be asked
+//   ruby <directory>          the project's Ruby, the directory whose bin/ruby it is
+//   missing <version> <file>  the pin, in that file, names a version that is not installed
+//   none                      nothing is pinned, anywhere rv looks
+//   error <message>           rv could not be asked
 namespace project_ruby
 {
 	struct answer_t
 	{
 		std::string ruby    = NULL_STR; // The directory, when the pin resolves.
 		std::string missing = NULL_STR; // The pinned version, when it is not installed.
+		std::string pinFile = NULL_STR; // The file that pins it, beside missing.
 		std::string error   = NULL_STR;
 		bool none = false;
 	};

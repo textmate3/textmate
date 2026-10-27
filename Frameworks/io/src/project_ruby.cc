@@ -21,7 +21,13 @@ namespace project_ruby
 			if(word == "ruby")
 				res.ruby = rest;
 			else if(word == "missing")
-				res.missing = rest;
+			{
+				// The version, then the file that pins it, which can hold spaces.
+				std::string::size_type const gap = rest.find(' ');
+				res.missing = rest.substr(0, gap);
+				if(gap != std::string::npos)
+					res.pinFile = text::trim(rest.substr(gap + 1));
+			}
 			else if(word == "none")
 				res.none = true;
 			else if(word == "error")

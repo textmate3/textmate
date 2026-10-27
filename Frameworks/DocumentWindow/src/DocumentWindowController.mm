@@ -2571,7 +2571,13 @@ static NSUInteger DisableSessionSavingCount = 0;
 
 	NSString* key = [NSString stringWithFormat:@"project-ruby:%s", directory.c_str()];
 	if(answer.missing != NULL_STR)
-		[OakNoticeBoard.shared post:[NSString stringWithFormat:@"%s pins Ruby %s, which is not installed, so Command-R uses the bundles’ Ruby. To install it: rv ruby install %s", path::with_tilde(directory).c_str(), answer.missing.c_str(), answer.missing.c_str()] key:key];
+	{
+		// The file that pins, which may sit well above the project, and the directory when the resolver did not say.
+		std::string const pinnedBy = answer.pinFile != NULL_STR ? answer.pinFile : directory;
+		// The path is a link to the file, which the strip shows in Finder.
+		NSString* fileURL = [NSURL fileURLWithPath:[NSString stringWithCxxString:pinnedBy]].absoluteString;
+		[OakNoticeBoard.shared post:[NSString stringWithFormat:@"[`%s`](%@) pins **Ruby %s**, which is not installed, so ⌘R uses the bundles’ Ruby. To install it: `rv ruby install %s`", path::with_tilde(pinnedBy).c_str(), fileURL, answer.missing.c_str(), answer.missing.c_str()] key:key];
+	}
 	else
 		[OakNoticeBoard.shared dismissNoticesWithKeyPrefix:key];
 

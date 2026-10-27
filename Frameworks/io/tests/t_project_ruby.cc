@@ -17,12 +17,20 @@ void test_a_pin_that_resolves ()
 	OAK_ASSERT(!answer.none);
 }
 
-void test_a_pin_that_is_not_installed_names_its_version ()
+void test_a_pin_that_is_not_installed_names_its_version_and_its_file ()
 {
-	project_ruby::answer_t const answer = project_ruby::parse("missing 3.4.1\n");
+	project_ruby::answer_t const answer = project_ruby::parse("missing 3.4.1 /Users/someone/My Project/.ruby-version\n");
 	OAK_ASSERT_EQ(answer.ruby,    NULL_STR);
 	OAK_ASSERT_EQ(answer.missing, "3.4.1");
+	OAK_ASSERT_EQ(answer.pinFile, "/Users/someone/My Project/.ruby-version");
 	OAK_ASSERT_EQ(answer.error,   NULL_STR);
+}
+
+void test_a_missing_pin_without_a_file_still_names_its_version ()
+{
+	project_ruby::answer_t const answer = project_ruby::parse("missing 3.4.1\n");
+	OAK_ASSERT_EQ(answer.missing, "3.4.1");
+	OAK_ASSERT_EQ(answer.pinFile, NULL_STR);
 }
 
 void test_no_pin_anywhere ()
