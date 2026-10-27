@@ -27,7 +27,7 @@ namespace path
 
 	struct glob_list_t
 	{
-		glob_list_t (char const* glob = NULL)
+		glob_list_t (char const* glob = nullptr)
 		{
 			if(glob)
 				add_include_glob(glob);

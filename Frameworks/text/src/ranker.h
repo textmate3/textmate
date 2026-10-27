@@ -6,7 +6,7 @@
 namespace oak
 {
 	std::string normalize_filter (std::string const& filter);
-	double rank (std::string const& filter, std::string const& candidate, std::vector< std::pair<size_t, size_t> >* out = NULL);
+	double rank (std::string const& filter, std::string const& candidate, std::vector< std::pair<size_t, size_t> >* out = nullptr);
 }
 
 #endif /* end of include guard: RANKER_KFO7JS5A */

@@ -8,8 +8,8 @@ namespace path
 		typedef dirent const* const* const_iterator;
 
 		entries (std::string const& path, std::string const& globString = NULL_STR);
-		const_iterator begin () const { return _helper ? _helper->begin() : NULL; }
-		const_iterator end () const   { return _helper ? _helper->end()   : NULL; }
+		const_iterator begin () const { return _helper ? _helper->begin() : nullptr; }
+		const_iterator end () const   { return _helper ? _helper->end()   : nullptr; }
 
 	private:
 		entries ();

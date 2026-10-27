@@ -21,7 +21,7 @@ namespace test
 		{
 			mkdir(path::parent(relativeToRoot));
 			if(path::exists(path(relativeToRoot)))
-					utimes(path(relativeToRoot).c_str(), NULL);
+					utimes(path(relativeToRoot).c_str(), nullptr);
 			else	set_content(relativeToRoot, "");
 		}
 

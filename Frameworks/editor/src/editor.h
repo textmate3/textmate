@@ -169,7 +169,7 @@ namespace ng
 		editor_delegate_t* delegate () const            { return _delegate; }
 		void set_delegate (editor_delegate_t* delegate) { _delegate = delegate; }
 
-		void perform (action_t action, layout_movement_t const* layout = NULL, indent_correction_t indentCorrections = kIndentCorrectAlways, std::string const& scopeAttributes = NULL_STR);
+		void perform (action_t action, layout_movement_t const* layout = nullptr, indent_correction_t indentCorrections = kIndentCorrectAlways, std::string const& scopeAttributes = NULL_STR);
 
 		bool disallow_tab_expansion () const;
 
@@ -189,7 +189,7 @@ namespace ng
 		std::map<std::string, std::string> const& match_captures () const { return _match_captures; }
 
 		std::vector<std::string> const& choices () const;
-		std::string placeholder_content (ng::range_t* placeholderSelection = NULL) const;
+		std::string placeholder_content (ng::range_t* placeholderSelection = nullptr) const;
 		void set_placeholder_content (std::string const& str, size_t selectFrom);
 
 		ranges_t ranges () const                                              { return _selections; }
@@ -297,7 +297,7 @@ namespace ng
 		clipboard_ptr _yank_clipboard;
 		bool _extend_yank_clipboard = false;
 
-		editor_delegate_t* _delegate = NULL;
+		editor_delegate_t* _delegate = nullptr;
 	};
 
 } /* ng */
