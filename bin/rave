@@ -1190,6 +1190,11 @@ module Target
           # What the signing waits for: everything copied into a bundle, or
           # the file itself when the nested code is a standalone binary.
           inside = dependencies.select { |file| file == signed || file.start_with?(signed + '/') }
+          # codesign rewrites its input, so the input ends up newer than the
+          # command's start. Without restat ninja records the start time as the
+          # marker's time and finds the marker older than its input on every
+          # build, and signs again. With restat it records the marker's own time,
+          # which the touch sets after codesign has finished writing.
           rules << {
             name:         'CodesignNested',
             in:           binary,
@@ -1198,12 +1203,15 @@ module Target
             flags:        "#{target[:variables]['CS_NESTED_FLAGS']} #{signed.shellescape}",
             command:      'xcrun codesign --sign "$identity" $flags && touch $out',
             description:  'Sign nested ‘${in}’…',
+            restat:       '1',
             dependencies: inside + [ previous ].compact,
           }
           previous = marker
         end
         dependencies << previous if previous
 
+        # restat for the same reason as the nested signing above: codesign
+        # rewrites $in, and the marker must be dated after that, not before.
         rules << {
           name:         'Codesign',
           in:           executable,
@@ -1212,6 +1220,7 @@ module Target
           flags:        target[:variables]['CS_FLAGS'],
           command:      'xcrun codesign --sign "$identity" $flags $in && touch $out',
           description:  'Sign ‘${in}’…',
+          restat:       '1',
           dependencies: dependencies + (target.dig(:inference, 'CS_FLAGS') || []),
         }
 
