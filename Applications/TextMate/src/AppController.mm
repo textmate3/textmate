@@ -530,9 +530,12 @@ BOOL HasDocumentWindow (NSArray* windows)
 // defaults change.
 - (void)updateCheckIntervalForChannel
 {
+	NSTimeInterval const kOneHour = 60*60;
+	NSTimeInterval const kOneDay  = 24*kOneHour;
+
 	NSString* channel = [NSUserDefaults.standardUserDefaults stringForKey:@"updateChannel"];
 	BOOL prerelease   = [channel isEqualToString:@"alpha"] || [channel isEqualToString:@"beta"];
-	NSTimeInterval const interval = prerelease ? 60*60 : 24*60*60;
+	NSTimeInterval const interval = prerelease ? kOneHour : kOneDay;
 	if(self.updaterController.updater.updateCheckInterval != interval)
 		self.updaterController.updater.updateCheckInterval = interval;
 }
