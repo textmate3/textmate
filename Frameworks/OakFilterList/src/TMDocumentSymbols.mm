@@ -60,18 +60,4 @@
 	return res;
 }
 
-+ (NSString*)pathOfDocument:(id)document
-{
-	return [document isKindOfClass:OakDocument.class] ? ((OakDocument*)document).path : nil;
-}
-
-+ (NSString*)displayNameOfDocument:(id)document
-{
-	return [document isKindOfClass:OakDocument.class] ? ((OakDocument*)document).displayName : @"";
-}
-
-+ (NSString*)identifierOfDocument:(id)document
-{
-	return [document isKindOfClass:OakDocument.class] ? ((OakDocument*)document).identifier.UUIDString : @"";
-}
 @end

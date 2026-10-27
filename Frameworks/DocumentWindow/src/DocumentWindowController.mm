@@ -19,7 +19,7 @@
 #import <FileBrowser/FileBrowserViewController.h>
 #import <OakCommand/OakCommand.h>
 #import <HTMLOutputWindow/HTMLOutputWindow.h>
-#import <OakFilterList/FileChooser.h>
+#import <OakFilterList/OakFilterList-Swift.h>
 #import <OakSystem/application.h>
 #import <Find/Find.h>
 #import <BundlesManager/BundlesManager.h>

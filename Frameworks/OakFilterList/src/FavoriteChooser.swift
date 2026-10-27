@@ -220,7 +220,7 @@ public final class FavoriteChooser: OakChooser {
     case .recentProjects:
       originalItems = Self.recentProjects(from: OakProjectStateStore.sharedInstance.allEntries)
     case .favorites:
-      originalItems = Self.favorites(inDirectory: TMApplicationPaths.supportPath("Favorites"))
+      originalItems = Self.favorites(inDirectory: TMPaths.supportPath("Favorites"))
     case nil:
       originalItems = []
     }

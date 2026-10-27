@@ -1,6 +1,5 @@
 // What the symbol chooser, in Swift, needs from a document: its symbols with
-// their positions, the start of each range in a selection string, and three
-// things about the document itself. The document class is declared with C++
+// their positions, and the start of each range in a selection string. The document class is declared with C++
 // types, which the Swift cannot see, so it stands behind this plain
 // Objective-C and travels as an untyped object.
 #ifndef TM_DOCUMENT_SYMBOLS_H_9B3E5F12
@@ -30,9 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray<TMDocumentSymbol*>*)symbolsInDocument:(id)document;
 // Where each range in the selection string begins.
 + (NSArray<TMTextPosition*>*)rangeStartsInSelectionString:(NSString*)selectionString;
-+ (nullable NSString*)pathOfDocument:(id)document;
-+ (NSString*)displayNameOfDocument:(id)document;
-+ (NSString*)identifierOfDocument:(id)document;
 @end
 
 NS_ASSUME_NONNULL_END
