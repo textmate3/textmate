@@ -38,10 +38,18 @@ open class BrowserView: NSView, WKNavigationDelegate {
   }
 
   public override init(frame: NSRect) {
+    statusBar = HOStatusBar(frame: .zero)
+
     let configuration = WKWebViewConfiguration()
     configuration.setURLSchemeHandler(FileHandleSchemeHandler(), forURLScheme: FileHandleSchemeHandler.scheme)
+
+    // The page reports the link under the pointer, and the status bar shows it.
+    let linkHover = LinkHoverReporter()
+    linkHover.statusBar = statusBar
+    configuration.userContentController.add(linkHover, name: LinkHoverReporter.messageHandlerName)
+    configuration.userContentController.addUserScript(WKUserScript(source: LinkHoverReporter.userScriptSource, injectionTime: .atDocumentStart, forMainFrameOnly: false))
+
     webView = WKWebView(frame: .zero, configuration: configuration)
-    statusBar = HOStatusBar(frame: .zero)
     super.init(frame: frame)
 
     statusBar.delegate = webView
@@ -67,6 +75,7 @@ open class BrowserView: NSView, WKNavigationDelegate {
       progressObservation = nil
       webView.navigationDelegate = nil
       webView.uiDelegate = nil
+      webView.configuration.userContentController.removeScriptMessageHandler(forName: LinkHoverReporter.messageHandlerName)
       webView.stopLoading()
     }
   }

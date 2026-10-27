@@ -61,6 +61,8 @@ public final class HTMLOutputView: BrowserView {
   private var environment: [String: String] = [:]
   private var loadedRequest: URLRequest?
   private var bridge: JavaScriptBridge?
+  /// Where the page was scrolled before its content was replaced, put back once the new content has loaded.
+  private var pendingScrollY: Double?
 
   @objc public static func keyPathsForValuesAffectingMainFrameTitle() -> Set<String> {
     ["webView.title"]
@@ -155,8 +157,14 @@ public final class HTMLOutputView: BrowserView {
     webView.uiDelegate?.webViewDidClose?(webView)
   }
 
+  /// Replaces the page, keeping it scrolled where the person had it. The position lives in the page, so it is asked
+  /// for first and the load waits on the answer.
   @objc public func setContent(_ html: String) {
-    webView.loadHTMLString(html, baseURL: URL(fileURLWithPath: NSHomeDirectory()))
+    webView.evaluateJavaScript("window.scrollY") { [weak self] result, _ in
+      guard let self else { return }
+      pendingScrollY = (result as? NSNumber)?.doubleValue
+      webView.loadHTMLString(html, baseURL: URL(fileURLWithPath: NSHomeDirectory()))
+    }
   }
 
   public override func viewDidMoveToWindow() {
@@ -211,8 +219,10 @@ public final class HTMLOutputView: BrowserView {
       }
     }
 
-    // The scroll position is not restored across reloads. The content lives in another process, so there is
-    // no visible rect to read: it means asking the page for window.scrollY and setting it back through JavaScript.
+    if let pendingScrollY {
+      webView.evaluateJavaScript("window.scrollTo(0, \(pendingScrollY))", completionHandler: nil)
+      self.pendingScrollY = nil
+    }
 
     super.webView(webView, didFinish: navigation)
   }
