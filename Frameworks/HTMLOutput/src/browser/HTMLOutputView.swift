@@ -236,7 +236,7 @@ public final class HTMLOutputView: BrowserView {
   public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping @MainActor @Sendable (WKNavigationActionPolicy) -> Void) {
     guard var url = navigationAction.request.url else { return decisionHandler(.allow) }
 
-    if NSURLConnection.canHandle(navigationAction.request) || url.scheme == HOFileHandleURLScheme {
+    if NSURLConnection.canHandle(navigationAction.request) || url.scheme == FileHandleSchemeHandler.scheme {
       return decisionHandler(.allow)
     }
 
