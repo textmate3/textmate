@@ -54,9 +54,9 @@ namespace ng
 
 	struct ranges_t
 	{
-		typedef range_t                              value_type;
-		typedef std::vector<range_t>::iterator       iterator;
-		typedef std::vector<range_t>::const_iterator const_iterator;
+		using value_type = range_t;
+		using iterator = std::vector<range_t>::iterator;
+		using const_iterator = std::vector<range_t>::const_iterator;
 
 		ranges_t () { }
 		ranges_t (index_t const& first) : ranges(1, range_t(first, first)) { }

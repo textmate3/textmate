@@ -21,7 +21,7 @@ namespace ng
 		void replace (buffer_t* buffer, size_t from, size_t to, size_t len);
 		void did_parse (buffer_t const* buffer, size_t from, size_t to);
 
-		typedef indexed_map_t<bool> tree_t;
+		using tree_t = indexed_map_t<bool>;
 		tree_t _misspellings;    // true = misspelled, false = proper
 		bool _disabled = false;
 	};
@@ -35,7 +35,7 @@ namespace ng
 		void replace (buffer_t* buffer, size_t from, size_t to, size_t len);
 		void did_parse (buffer_t const* buffer, size_t from, size_t to);
 
-		typedef indexed_map_t<std::string> tree_t;
+		using tree_t = indexed_map_t<std::string>;
 		tree_t _symbols;
 	};
 
@@ -55,7 +55,7 @@ namespace ng
 		void replace (buffer_t* buffer, size_t from, size_t to, size_t len);
 		using meta_data_t::did_parse;
 
-		typedef indexed_map_t<std::string> tree_t;
+		using tree_t = indexed_map_t<std::string>;
 		std::map<std::string, tree_t> _marks;
 	};
 

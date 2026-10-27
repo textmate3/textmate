@@ -9,7 +9,7 @@ namespace scope
 	{
 		struct path_t;
 		struct selector_t;
-		typedef std::shared_ptr<selector_t> selector_ptr;
+		using selector_ptr = std::shared_ptr<selector_t>;
 
 	} /* types */
 

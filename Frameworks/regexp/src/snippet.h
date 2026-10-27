@@ -70,13 +70,13 @@ namespace snippet
 		std::vector<std::string> _choices;
 	};
 
-	typedef std::shared_ptr<placeholder_t> field_ptr;
+	using field_ptr = std::shared_ptr<placeholder_t>;
 
 	struct snippet_t
 	{
 		snippet_t (std::string const& text, std::map<size_t, field_ptr> const& fields, std::multimap<size_t, field_ptr> const& mirrors, std::map<std::string, std::string> const& variables, std::string const& indent_string, text::indent_t const& indent);
 
-		typedef std::vector< std::pair<range_t, std::string> > replacements_t;
+		using replacements_t = std::vector< std::pair<range_t, std::string> >;
 		replacements_t replace (range_t range, std::string const& str);
 
 		std::string text;
