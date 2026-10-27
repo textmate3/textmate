@@ -37,7 +37,7 @@
 #import <regexp/glob.h>
 #import <settings/settings.h>
 #import <ns/ns.h>
-#import "OakProjectStateStore.h"
+#import <document/OakProjectStateStore.h>
 #import <crash/info.h>
 
 static NSString* const kUserDefaultsAlwaysFindInDocument = @"alwaysFindInDocument";
