@@ -24,6 +24,29 @@ enum ChooserConstruction {
     return field
   }
 
+  static func button(_ title: String) -> NSButton {
+    NSButton(title: title, target: nil, action: nil)
+  }
+
+  /// A pull down button showing the gear, for a menu of actions.
+  static func actionPopUpButton(bordered: Bool) -> NSPopUpButton {
+    let button = NSPopUpButton()
+    button.pullsDown = true
+    button.isBordered = bordered
+
+    let item = NSMenuItem()
+    item.title = ""
+    item.image = NSImage(named: NSImage.actionTemplateName)
+    item.image?.size = NSSize(width: 14, height: 14)
+
+    if let cell = button.cell as? NSPopUpButtonCell {
+      cell.usesItemFromMenu = false
+      cell.menuItem = item
+    }
+    button.setAccessibilityLabel("Actions")
+    return button
+  }
+
   /// The close button a row carries, with the three template images the rest of the application's close buttons use.
   static func closeButton(accessibilityLabel: String = "Close document") -> OakRolloverButton {
     let bundle = Bundle(for: OakRolloverButton.self)
