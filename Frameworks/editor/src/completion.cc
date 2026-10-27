@@ -50,7 +50,7 @@ namespace ng
 		std::string result;
 	};
 
-	typedef std::shared_ptr<completion_command_delegate_t> completion_command_delegate_ptr;
+	using completion_command_delegate_ptr = std::shared_ptr<completion_command_delegate_t>;
 
 	std::vector<std::string> editor_t::completions (size_t bow, size_t eow, std::string const& prefix, std::string const& suffix, std::string const& scopeAttributes)
 	{

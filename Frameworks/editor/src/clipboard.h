@@ -21,7 +21,7 @@ struct clipboard_t
 		std::map<std::string, std::string> _options;
 	};
 
-	typedef std::shared_ptr<entry_t> entry_ptr;
+	using entry_ptr = std::shared_ptr<entry_t>;
 
 	clipboard_t ()          { }
 	virtual ~clipboard_t () { }
@@ -35,7 +35,7 @@ struct clipboard_t
 	void push_back (std::string const& content, std::map<std::string, std::string> const& options = { }) { push_back(std::make_shared<entry_t>(content, options)); }
 };
 
-typedef std::shared_ptr<clipboard_t> clipboard_ptr;
+using clipboard_ptr = std::shared_ptr<clipboard_t>;
 
 clipboard_ptr create_simple_clipboard ();
 

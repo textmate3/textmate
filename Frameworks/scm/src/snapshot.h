@@ -15,7 +15,7 @@ namespace fs
 		friend std::string to_s (fs::snapshot_t const& snapshot);
 
 		struct node_t;
-		typedef std::shared_ptr< std::map<ino_t, node_t> > nodes_ptr;
+		using nodes_ptr = std::shared_ptr< std::map<ino_t, node_t> >;
 
 		struct node_t
 		{

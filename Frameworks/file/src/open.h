@@ -20,7 +20,7 @@ namespace file
 		virtual void filter_error (bundle_command_t const& command, int rc, std::string const& out, std::string const& err) = 0;
 	};
 
-	typedef std::shared_ptr<open_context_t> open_context_ptr;
+	using open_context_ptr = std::shared_ptr<open_context_t>;
 
 	struct open_callback_t
 	{
@@ -31,7 +31,7 @@ namespace file
 		virtual void show_content (std::string const& path, io::bytes_ptr content, std::map<std::string, std::string> const& attributes, encoding::type const& encoding, std::vector<oak::uuid_t> const& binaryImportFilters, std::vector<oak::uuid_t> const& textImportFilters) = 0;
 	};
 
-	typedef std::shared_ptr<open_callback_t> open_callback_ptr;
+	using open_callback_ptr = std::shared_ptr<open_callback_t>;
 
 	void open (std::string const& path, osx::authorization_t auth, open_callback_ptr cb, io::bytes_ptr existingContent = io::bytes_ptr());
 

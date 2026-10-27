@@ -6,12 +6,12 @@
 namespace scm
 {
 	struct info_t;
-	typedef std::shared_ptr<info_t> info_ptr;
-	typedef std::weak_ptr<info_t> weak_info_ptr;
+	using info_ptr = std::shared_ptr<info_t>;
+	using weak_info_ptr = std::weak_ptr<info_t>;
 
 	struct shared_info_t;
-	typedef std::shared_ptr<shared_info_t> shared_info_ptr;
-	typedef std::weak_ptr<shared_info_t> shared_info_weak_ptr;
+	using shared_info_ptr = std::shared_ptr<shared_info_t>;
+	using shared_info_weak_ptr = std::weak_ptr<shared_info_t>;
 
 	struct info_t
 	{

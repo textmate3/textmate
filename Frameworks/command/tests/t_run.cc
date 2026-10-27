@@ -83,7 +83,7 @@ struct delegate_t : command::delegate_t
 	void done ()   { }
 };
 
-typedef std::shared_ptr<delegate_t> delegate_ptr;
+using delegate_ptr = std::shared_ptr<delegate_t>;
 
 // Runs a command the way the application does, with the basic environment plus any variables given.
 // A variable given as NULL_STR is removed, so a test can take away what the application would have set.

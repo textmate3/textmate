@@ -84,7 +84,7 @@ namespace
 		__weak OakDocument* document;
 	};
 
-	typedef std::shared_ptr<record_t> record_ptr;
+	using record_ptr = std::shared_ptr<record_t>;
 }
 
 @interface OakDocumentController ()

@@ -11,8 +11,8 @@ extern char const* kMacClassicThemeUUID;
 extern char const* kTwilightThemeUUID;
 extern char const* kSystemUIThemeUUID;
 
-typedef std::shared_ptr<std::remove_pointer<CTFontRef>::type> CTFontPtr;
-typedef std::shared_ptr<std::remove_pointer<CGColorRef>::type> CGColorPtr;
+using CTFontPtr = std::shared_ptr<std::remove_pointer<CTFontRef>::type>;
+using CGColorPtr = std::shared_ptr<std::remove_pointer<CGColorRef>::type>;
 
 struct styles_t
 {
@@ -66,7 +66,7 @@ struct gutter_styles_t
 };
 
 struct theme_t;
-typedef std::shared_ptr<theme_t> theme_ptr;
+using theme_ptr = std::shared_ptr<theme_t>;
 
 struct theme_t
 {
@@ -144,7 +144,7 @@ private:
 		bool _is_transparent;
 		callback_t _callback;
 	};
-	typedef std::shared_ptr<shared_styles_t> shared_styles_ptr;
+	using shared_styles_ptr = std::shared_ptr<shared_styles_t>;
 	shared_styles_ptr find_shared_styles (bundles::item_ptr const& themeItem);
 	shared_styles_ptr _styles;
 	bundles::item_ptr _item;

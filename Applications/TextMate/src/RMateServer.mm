@@ -159,7 +159,7 @@ private:
 	std::string path;
 };
 
-typedef std::shared_ptr<temp_file_t> temp_file_ptr;
+using temp_file_ptr = std::shared_ptr<temp_file_t>;
 
 struct record_t
 {

@@ -21,7 +21,7 @@ namespace file
 		virtual void filter_error (bundle_command_t const& command, int rc, std::string const& out, std::string const& err) = 0;
 	};
 
-	typedef std::shared_ptr<save_context_t> save_context_ptr;
+	using save_context_ptr = std::shared_ptr<save_context_t>;
 
 	struct save_callback_t
 	{
@@ -34,7 +34,7 @@ namespace file
 		virtual void did_save (std::string const& path, io::bytes_ptr content, encoding::type const& encoding, bool success, std::string const& message, oak::uuid_t const& filter) = 0;
 	};
 
-	typedef std::shared_ptr<save_callback_t> save_callback_ptr;
+	using save_callback_ptr = std::shared_ptr<save_callback_t>;
 
 	void save (std::string const& path, save_callback_ptr cb, osx::authorization_t auth, io::bytes_ptr content, std::map<std::string, std::string> const& attributes, encoding::type const& encoding, std::vector<oak::uuid_t> const& binaryImportFilters, std::vector<oak::uuid_t> const& textImportFilters);
 

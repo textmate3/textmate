@@ -61,6 +61,6 @@ private:
 	dispatch_source_t _dispatchSource;
 };
 
-typedef std::shared_ptr<socket_callback_t> socket_callback_ptr;
+using socket_callback_ptr = std::shared_ptr<socket_callback_t>;
 
 #endif /* end of include guard: IO_SOCKET_H_TNW4NXOL */

@@ -106,7 +106,7 @@ namespace
 			bool _requestedExists;
 		};
 
-		typedef std::shared_ptr<stream_t> stream_ptr;
+		using stream_ptr = std::shared_ptr<stream_t>;
 		std::vector<stream_ptr> streams;
 		std::mutex streams_mutex;
 

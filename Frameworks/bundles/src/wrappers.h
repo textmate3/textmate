@@ -7,7 +7,7 @@
 namespace bundles
 {
 	struct item_t;
-	typedef std::shared_ptr<item_t> item_ptr;
+	using item_ptr = std::shared_ptr<item_t>;
 
 	struct required_command_t
 	{

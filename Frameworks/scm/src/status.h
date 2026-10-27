@@ -19,7 +19,7 @@ namespace scm
 		};
 		std::string to_s (type status);
 	};
-	typedef std::map<std::string, scm::status::type> status_map_t;
+	using status_map_t = std::map<std::string, scm::status::type>;
 
 } /* scm */
 

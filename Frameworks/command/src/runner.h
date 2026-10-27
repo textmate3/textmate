@@ -30,8 +30,8 @@ namespace command
 	struct delegate_t;
 	struct runner_t;
 
-	typedef std::shared_ptr<delegate_t>     delegate_ptr;
-	typedef std::shared_ptr<runner_t>       runner_ptr;
+	using delegate_ptr = std::shared_ptr<delegate_t>;
+	using runner_ptr = std::shared_ptr<runner_t>;
 
 	struct delegate_t : std::enable_shared_from_this<delegate_t>
 	{

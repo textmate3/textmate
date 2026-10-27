@@ -5,7 +5,7 @@ namespace path
 {
 	struct entries
 	{
-		typedef dirent const* const* const_iterator;
+		using const_iterator = dirent const* const*;
 
 		entries (std::string const& path, std::string const& globString = NULL_STR);
 		const_iterator begin () const { return _helper ? _helper->begin() : nullptr; }
