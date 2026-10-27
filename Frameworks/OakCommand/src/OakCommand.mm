@@ -260,8 +260,13 @@ static pid_t run_command (dispatch_group_t rootGroup, std::string const& cmd, in
 			}
 			[HOFileHandleSchemeHandler registerFileHandle:pipe.fileHandleForReading processIdentifier:_processIdentifier allowedDirectories:allowedDirectories forURL:_urlRequest.URL];
 
+			// The output view is Swift and takes the environment as a dictionary.
+			NSMutableDictionary<NSString*, NSString*>* environment = [NSMutableDictionary dictionaryWithCapacity:_environment.size()];
+			for(auto const& pair : _environment)
+				environment[to_ns(pair.first)] = to_ns(pair.second);
+
 			_htmlOutputView.disableJavaScriptAPI = _bundleCommand.disable_javascript_api;
-			[_htmlOutputView loadRequest:_urlRequest environment:_environment autoScrolls:_bundleCommand.auto_scroll_output];
+			[_htmlOutputView loadRequest:_urlRequest environment:environment autoScrolls:_bundleCommand.auto_scroll_output];
 		}
 
 		NSData* data = [NSData dataWithBytes:bytes length:len];

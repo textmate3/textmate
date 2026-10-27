@@ -1,3 +1,9 @@
+// A guard by name rather than by file, since this header reaches a compile unit
+// twice: from the include farm, and through the Swift header, which carries the
+// bridging header's imports by their source path.
+#ifndef HO_FILE_HANDLE_SCHEME_HANDLER_H_4D7E2B19
+#define HO_FILE_HANDLE_SCHEME_HANDLER_H_4D7E2B19
+
 #import <WebKit/WebKit.h>
 
 // The scheme that carries a running command's HTML output, and the page's own
@@ -24,3 +30,5 @@ void SchemeTrace (NSString* format, ...);
 // request belongs to, identified by the request's main document URL.
 - (BOOL)isAssetPathAllowed:(NSString*)path forMainDocumentURL:(NSURL*)mainDocumentURL;
 @end
+
+#endif /* end of include guard: HO_FILE_HANDLE_SCHEME_HANDLER_H_4D7E2B19 */
