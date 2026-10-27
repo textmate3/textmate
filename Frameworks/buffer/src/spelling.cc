@@ -2,7 +2,6 @@
 #include <bundles/bundles.h>
 #include <oak/oak.h>
 #include <text/ctype.h>
-#include <oak/duration.h>
 #include <ns/spellcheck.h>
 #include <oak/debug.h>
 

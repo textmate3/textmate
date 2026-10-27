@@ -11,7 +11,6 @@
 #define ASSERT_NE(lhs, rhs)
 #define ASSERTF(expr, format, args...)
 #else
-#include "OakDebugLog.h"
 std::string OakStackDump (int linesToSkip = 1);
 void OakBadAssertion (char const* name, char const* format = NULL, ...);
 void OakPrintBadAssertion (char const* lhs, char const* op, char const* rhs, std::string const& realLHS, char const* realOp, std::string const& realRHS, char const* file, int line);
