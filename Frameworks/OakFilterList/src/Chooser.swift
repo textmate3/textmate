@@ -53,7 +53,7 @@ open class Chooser: NSWindowController, NSWindowDelegate, NSTextFieldDelegate, N
   private var firstResponderObservation: NSKeyValueObservation?
   // MARK: Views
 
-  @objc public let searchField: NSSearchField = OakLinkedSearchField(frame: .zero)
+  @objc public let searchField: NSSearchField = LinkedSearchField(frame: .zero)
   @objc public let tableView = NSTableView(frame: .zero)
   @objc public let scrollView = NSScrollView(frame: .zero)
   @objc public let statusTextField = NSTextField(frame: .zero)
