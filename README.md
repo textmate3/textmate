@@ -78,7 +78,6 @@ To build TextMate, you need the following:
 | Dependency                                                | Usage                          |
 | --------------------------------------------------------- | ------------------------------ |
 | [macOS 27+](https://apple.com/macos)                      | minimum macOS version          |
-| [boost](https://boost.org)                                | portable C++ source libraries  |
 | [ninja](https://ninja-build.org)                          | build system similar to `make` |
 | [Ruby 4.0+](https://ruby-lang.org)                        | build system and dev scripts   |
 | [rv](https://github.com/spinel-coop/rv)                   | runs the scripts on the Ruby in `.ruby-version` |
