@@ -1,4 +1,5 @@
 #import "Favorites.h"
+#import <OakFilterList/MarkedUpString.h>
 #import <OakFilterList/OakFilterList-Swift.h>
 #import <OakAppKit/OakAppKit.h>
 #import <OakAppKit/OakUIConstructionFunctions.h>
