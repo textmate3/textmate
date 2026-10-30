@@ -222,9 +222,12 @@ puts text
 
 if options[:json]
   as_list = ->(side) { samples[side].map { |(framework, name), values| { framework:, name:, seconds: values } } }
+  # The load average as each run began, one per run, so a noisy sample can be
+  # told from a slow one when the samples of many pull requests are compared.
   results = {
     commit: head_commit,
     cores: cores.to_i,
+    load_averages:,
     machine:,
     macos:,
     runs: options[:runs],

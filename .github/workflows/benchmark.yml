@@ -62,4 +62,13 @@ jobs:
       # does not, and a failed base build would show as a green check.
       - name: Benchmark against main
         shell: bash
-        run: script/benchmark --compare HEAD^1 | tee -a "$GITHUB_STEP_SUMMARY"
+        run: script/benchmark --compare HEAD^1 --json benchmarks.json | tee -a "$GITHUB_STEP_SUMMARY"
+
+      # Every sample from both sides, with the load average of each run, kept
+      # with the run. The noise floor a failing threshold waits on is measured
+      # from these, across pull requests, rather than read off the summaries.
+      - name: Keep every sample
+        uses: actions/upload-artifact@v7
+        with:
+          name: benchmarks-pull-request-${{ github.event.pull_request.number }}
+          path: benchmarks.json
