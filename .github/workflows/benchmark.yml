@@ -55,5 +55,11 @@ jobs:
       #
       # The report is the script's stdout, its progress is stderr. The report
       # goes to the log and to the job summary, where it renders as a table.
+      #
+      # A slow benchmark never fails the job, but a harness that cannot build
+      # or run does. The shell named outright runs with pipefail, so the
+      # script's exit status survives the pipe into tee. The default shell
+      # does not, and a failed base build would show as a green check.
       - name: Benchmark against main
+        shell: bash
         run: script/benchmark --compare HEAD^1 | tee -a "$GITHUB_STEP_SUMMARY"
