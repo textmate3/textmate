@@ -1,0 +1,235 @@
+#!/usr/bin/env ruby
+# script/benchmark — run the framework benchmarks and report their times
+#
+# A benchmark is a `benchmark_*` function in a framework's tests folder, beside
+# the tests. The generated test runner runs the benchmarks instead of the tests
+# when given `-b`, and prints the seconds each one took. This script finds the
+# frameworks that have a benchmark, builds just their runners, runs each runner
+# the given number of times and reports the median and the fastest run of every
+# benchmark. The fastest run is the one with the least interference from the
+# rest of the machine, so it is the number to compare across machines.
+#
+# With --compare the same benchmarks also run from a build of another commit,
+# the base, checked out as a git worktree with its own build directory. Base
+# and head run turn and turn about, so a machine that gets busy partway affects
+# both alike, and the report shows how much each benchmark changed. Two builds
+# on one machine is the only comparison that means anything on a shared
+# machine: a number from one run against a number from another run on other
+# hardware says nothing.
+#
+# Progress goes to stderr and the report to stdout, so the report alone can be
+# redirected into a file or a job summary.
+#
+# Usage:
+#   script/benchmark                                # every benchmark, five runs each
+#   script/benchmark buffer parse                   # just these frameworks
+#   script/benchmark --runs 10                      # more runs, a steadier median
+#   script/benchmark --json results.json            # also write every sample
+#   script/benchmark --compare main                 # against a build of main
+#   script/benchmark --compare main --threshold 5   # call a change past five percent slower or faster
+
+require 'fileutils'
+require 'json'
+require 'optparse'
+require 'tmpdir'
+require_relative 'lib/benchmark_report'
+
+Dir.chdir(File.expand_path('..', __dir__))
+
+options = { compare: nil, json: nil, runs: 5, threshold: 10 }
+OptionParser.new do |parser|
+  parser.banner = 'usage: script/benchmark [options] [framework ...]'
+  parser.on('--compare REF', 'also build and run this commit, and report the change from it') { options[:compare] = it }
+  parser.on('--json PATH', 'write every sample here as JSON, as well as the report to stdout') { options[:json] = it }
+  parser.on('--runs N', Integer, 'runs of each benchmark, default 5') { options[:runs] = it }
+  parser.on('--threshold PERCENT', Float, 'a change past this is slower or faster, default 10') { options[:threshold] = it }
+end.parse!
+
+# ===========
+# = Helpers =
+# ===========
+
+# The same pattern the test runner generator uses to find a benchmark.
+BENCHMARK_FUNCTION = /^\s*void benchmark_\w+ \(\)/
+
+def benchmark_sources(checkout, framework = '*')
+  Dir.glob(File.join(checkout, '{Frameworks,Applications}', framework, 'tests/*.{cc,mm}'))
+end
+
+def frameworks_with_benchmarks(checkout)
+  benchmark_sources(checkout)
+    .select { File.read(it).match?(BENCHMARK_FUNCTION) }
+    .map { File.basename(File.dirname(File.dirname(it))) }
+    .uniq
+    .sort
+end
+
+def build_directory_of(checkout)
+  File.read(File.join(checkout, 'build.ninja'))[/^builddir = (.+)$/, 1] or abort("no builddir in #{checkout}/build.ninja, run ./configure")
+end
+
+def runner_path(build_directory, framework) = File.join(build_directory, 'release/_Tests', "#{framework}_test")
+
+def commit_of(checkout)
+  commit = `git -C #{checkout} rev-parse --short HEAD`.strip
+  commit += ' (uncommitted changes)' unless `git -C #{checkout} status --porcelain`.empty?
+  commit
+end
+
+def run_benchmarks(runner)
+  output = IO.popen([runner, '-b'], &:read)
+  abort("#{runner} failed") unless $?.success?
+
+  output.lines.filter_map do |line|
+    seconds, name = line.match(/^([\d.]+)s (\S+)$/)&.captures
+    [name, seconds.to_f] if name
+  end
+end
+
+def seconds(value) = format('%.3f', value)
+def percent(value) = format('%+.1f%%', value)
+
+# =============
+# = Discovery =
+# =============
+
+frameworks = frameworks_with_benchmarks('.')
+frameworks &= ARGV unless ARGV.empty?
+abort('no benchmarks found, a benchmark is a `void benchmark_*()` in a tests folder') if frameworks.empty?
+
+head_runners = frameworks.to_h { [it, runner_path(build_directory_of('.'), it)] }
+
+warn "Building the test runners for #{frameworks.join(', ')}…"
+system('ninja', *head_runners.values) or abort('build failed')
+
+# ========
+# = Base =
+# ========
+
+base_checkout = File.join(Dir.tmpdir, 'textmate_benchmark_base')
+base_runners = {}
+
+def remove_worktree(path)
+  system('git', 'worktree', 'remove', '--force', path, err: File::NULL) if Dir.exist?(path)
+end
+
+if options[:compare]
+  system('git', 'rev-parse', '--verify', '--quiet', options[:compare], out: File::NULL) or abort("no such commit: #{options[:compare]}")
+
+  warn "Checking out #{options[:compare]} into #{base_checkout}…"
+  remove_worktree(base_checkout)
+  system('git', 'worktree', 'add', '--detach', base_checkout, options[:compare]) or abort('could not add the base worktree')
+  system('git', '-C', base_checkout, 'submodule', 'update', '--init', '--recursive') or abort('could not check out the base submodules')
+
+  # The same local flags as this checkout, so both builds see the same headers and defines.
+  FileUtils.cp('local.rave', File.join(base_checkout, 'local.rave')) if File.exist?('local.rave')
+  system('./configure', chdir: base_checkout) or abort('configure failed for the base')
+
+  # A framework the base has no C++ tests for has no runner there, and a
+  # benchmark new in the head is reported as new.
+  base_frameworks = frameworks.select { benchmark_sources(base_checkout, it).any? }
+  base_runners = base_frameworks.to_h { [it, runner_path(build_directory_of(base_checkout), it)] }
+
+  warn "Building the base test runners for #{base_frameworks.join(', ')}…"
+  system('ninja', '-C', base_checkout, *base_runners.values) or abort('base build failed')
+end
+
+# ========
+# = Runs =
+# ========
+
+sides = { base: base_runners, head: head_runners }.reject { |_, runners| runners.empty? }
+samples = sides.keys.to_h { [it, Hash.new { |hash, key| hash[key] = [] }] }
+load_averages = []
+
+begin
+  warn "Running each benchmark #{options[:runs]} times…"
+  options[:runs].times do |run|
+    load_averages << `sysctl -n vm.loadavg`[/\{ ([\d.]+)/, 1].to_f
+    frameworks.each do |framework|
+      sides.each do |side, runners|
+        next unless runners[framework]
+
+        run_benchmarks(runners[framework]).each { |name, value| samples[side][[framework, name]] << value }
+      end
+    end
+    warn "  run #{run + 1} of #{options[:runs]} done"
+  end
+ensure
+  remove_worktree(base_checkout)
+end
+
+# ==========
+# = Report =
+# ==========
+
+machine = `sysctl -n machdep.cpu.brand_string`.strip
+macos = `sw_vers -productVersion`.strip
+cores = `sysctl -n hw.ncpu`.strip
+head_commit = commit_of('.')
+base_commit = `git rev-parse --short #{options[:compare]}`.strip if options[:compare]
+
+report = []
+report << '# Benchmarks'
+report << ''
+report << "#{Time.now.strftime('%Y-%m-%d %H:%M')}, #{machine}, #{cores} cores, macOS #{macos}."
+report << "Load average during the runs: #{load_averages.min} to #{load_averages.max}. Anything above the core count means the machine was busy and the numbers are noisy."
+report << ''
+
+if options[:compare]
+  report << "Head is commit #{head_commit}, base is #{options[:compare]} at #{base_commit}. Medians of #{options[:runs]} runs each, run turn and turn about. A change past #{options[:threshold]}% either way is called slower or faster."
+  report << ''
+
+  names = (samples[:head].keys | samples[:base].keys).sort
+  verdicts = Hash.new(0)
+  rows = names.map do |key|
+    head_values = samples[:head][key]
+    base_values = samples[:base][key]
+    framework, name = key
+
+    next [framework, name, '', seconds(median(head_values)), '', 'new'] if base_values.empty?
+    next [framework, name, seconds(median(base_values)), '', '', 'gone'] if head_values.empty?
+
+    change = ((median(head_values) / median(base_values)) - 1) * 100
+    verdict =
+      if change > options[:threshold] then 'slower'
+      elsif change < -options[:threshold] then 'faster'
+      else ''
+      end
+    verdicts[verdict] += 1 unless verdict.empty?
+    [framework, name, seconds(median(base_values)), seconds(median(head_values)), percent(change), verdict]
+  end
+
+  summary = ["#{names.size} benchmarks"]
+  summary << "#{verdicts['slower']} slower" if verdicts['slower'].positive?
+  summary << "#{verdicts['faster']} faster" if verdicts['faster'].positive?
+  summary << 'none past the threshold' if verdicts.empty?
+  report << "#{summary.join(', ')}."
+  report << ''
+  report << markdown_table(['Framework', 'Benchmark', 'Base median s', 'Head median s', 'Change', 'Verdict'], rows, text_columns: %w[Framework Benchmark Verdict])
+else
+  report << "Commit #{head_commit}, #{options[:runs]} runs each."
+  report << ''
+  rows = samples[:head].map do |(framework, name), values|
+    [framework, name, values.size, seconds(median(values)), seconds(values.min)]
+  end
+  report << markdown_table(['Framework', 'Benchmark', 'Runs', 'Median s', 'Min s'], rows, text_columns: %w[Framework Benchmark])
+end
+
+text = "#{report.join("\n")}\n"
+warn ''
+puts text
+
+if options[:json]
+  as_list = ->(side) { samples[side].map { |(framework, name), values| { framework:, name:, seconds: values } } }
+  results = {
+    commit: head_commit,
+    cores: cores.to_i,
+    machine:,
+    macos:,
+    runs: options[:runs],
+    benchmarks: as_list.call(:head)
+  }
+  results[:base] = { commit: base_commit, ref: options[:compare], benchmarks: as_list.call(:base) } if options[:compare]
+  File.write(options[:json], "#{JSON.pretty_generate(results)}\n")
+end
