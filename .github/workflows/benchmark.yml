@@ -11,6 +11,9 @@ name: Benchmarks
 on:
   pull_request:
 
+permissions:
+  contents: read
+
 # A new push to the pull request makes the run in progress moot.
 concurrency:
   group: benchmark-${{ github.ref }}
