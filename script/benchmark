@@ -99,8 +99,10 @@ abort('no benchmarks found, a benchmark is a `void benchmark_*()` in a tests fol
 
 head_runners = frameworks.to_h { [it, runner_path(build_directory_of('.'), it)] }
 
+# Every program the script starts writes its output to stderr with the
+# progress, since stdout is the report alone and goes into the job summary.
 warn "Building the test runners for #{frameworks.join(', ')}…"
-system('ninja', *head_runners.values) or abort('build failed')
+system('ninja', *head_runners.values, out: :err) or abort('build failed')
 
 # ========
 # = Base =
@@ -118,12 +120,12 @@ if options[:compare]
 
   warn "Checking out #{options[:compare]} into #{base_checkout}…"
   remove_worktree(base_checkout)
-  system('git', 'worktree', 'add', '--detach', base_checkout, options[:compare]) or abort('could not add the base worktree')
-  system('git', '-C', base_checkout, 'submodule', 'update', '--init', '--recursive') or abort('could not check out the base submodules')
+  system('git', 'worktree', 'add', '--detach', base_checkout, options[:compare], out: :err) or abort('could not add the base worktree')
+  system('git', '-C', base_checkout, 'submodule', 'update', '--init', '--recursive', out: :err) or abort('could not check out the base submodules')
 
   # The same local flags as this checkout, so both builds see the same headers and defines.
   FileUtils.cp('local.rave', File.join(base_checkout, 'local.rave')) if File.exist?('local.rave')
-  system('./configure', chdir: base_checkout) or abort('configure failed for the base')
+  system('./configure', chdir: base_checkout, out: :err) or abort('configure failed for the base')
 
   # A framework the base has no C++ tests for has no runner there, and a
   # benchmark new in the head is reported as new.
@@ -131,7 +133,7 @@ if options[:compare]
   base_runners = base_frameworks.to_h { [it, runner_path(build_directory_of(base_checkout), it)] }
 
   warn "Building the base test runners for #{base_frameworks.join(', ')}…"
-  system('ninja', '-C', base_checkout, *base_runners.values) or abort('base build failed')
+  system('ninja', '-C', base_checkout, *base_runners.values, out: :err) or abort('base build failed')
 end
 
 # ========
@@ -222,9 +224,12 @@ puts text
 
 if options[:json]
   as_list = ->(side) { samples[side].map { |(framework, name), values| { framework:, name:, seconds: values } } }
+  # The load average as each run began, one per run, so a noisy sample can be
+  # told from a slow one when the samples of many pull requests are compared.
   results = {
     commit: head_commit,
     cores: cores.to_i,
+    load_averages:,
     machine:,
     macos:,
     runs: options[:runs],

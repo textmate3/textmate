@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           submodules: recursive
-          # All history and every branch, so origin/main is there to build.
+          # All history, so the merge commit's first parent is there to build.
           fetch-depth: 0
 
       - uses: ruby/setup-ruby@v1
@@ -48,7 +48,27 @@ jobs:
       - name: Configure
         run: ./configure
 
+      # The checkout is the pull request merged onto main, so its first parent
+      # is the main it was merged onto, and the two differ by the pull request
+      # alone. origin/main can be newer than that parent when main moved and
+      # GitHub has not yet merged the pull request onto it again.
+      #
       # The report is the script's stdout, its progress is stderr. The report
       # goes to the log and to the job summary, where it renders as a table.
+      #
+      # A slow benchmark never fails the job, but a harness that cannot build
+      # or run does. The shell named outright runs with pipefail, so the
+      # script's exit status survives the pipe into tee. The default shell
+      # does not, and a failed base build would show as a green check.
       - name: Benchmark against main
-        run: script/benchmark --compare origin/main | tee -a "$GITHUB_STEP_SUMMARY"
+        shell: bash
+        run: script/benchmark --compare HEAD^1 --json benchmarks.json | tee -a "$GITHUB_STEP_SUMMARY"
+
+      # Every sample from both sides, with the load average of each run, kept
+      # with the run. The noise floor a failing threshold waits on is measured
+      # from these, across pull requests, rather than read off the summaries.
+      - name: Keep every sample
+        uses: actions/upload-artifact@v7
+        with:
+          name: benchmarks-pull-request-${{ github.event.pull_request.number }}
+          path: benchmarks.json
