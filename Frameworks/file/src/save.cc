@@ -38,7 +38,7 @@ namespace
 
 		void filter_error (bundle_command_t const& command, int rc, std::string const& out, std::string const& err)
 		{
-			_error = text::trim(err + out).empty() ? text::format("Command returned status code %d.", rc) : err + out;
+			_error = text::trim(err + out).empty() ? std::format("Command returned status code {}.", rc) : err + out;
 			_filter = command.uuid;
 		}
 
@@ -135,11 +135,11 @@ namespace
 			if(fd == -1)
 				;
 			else if(write(fd, bytes->get(), bytes->size()) != bytes->size())
-				error = text::format("write: %s", strerror(errno));
+				error = std::format("write: {}", strerror(errno));
 			else if(!dest.close(&error))
 				;
 			else if(!path::set_attributes(path, attributes))
-				error = text::format("Setting extended attributes");
+				error = "Setting extended attributes";
 		}
 		else if(status == kFileTestWritableByRoot || status == kFileTestNotWritable)
 		{

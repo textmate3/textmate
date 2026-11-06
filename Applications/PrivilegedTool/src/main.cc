@@ -106,7 +106,7 @@ static int setup_socket ()
 // What was wrong, as text, or the no string marker when nothing was.
 static std::string failure (char const* what)
 {
-	return text::format("%s: %s", what, strerror(errno));
+	return std::format("{}: {}", what, strerror(errno));
 }
 
 static void handle_connection (int fd)

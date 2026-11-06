@@ -5,22 +5,6 @@
 
 namespace text
 {
-	inline std::string format (char const* format, ...) __attribute__ ((format (printf, 1, 2)));
-
-	inline std::string format (char const* format, ...)
-	{
-		char* tmp = nullptr;
-
-		va_list ap;
-		va_start(ap, format);
-		vasprintf(&tmp, format, ap);
-		va_end(ap);
-
-		std::string res(tmp);
-		free(tmp);
-		return res;
-	}
-
 	inline std::string pad (size_t number, size_t minDigits)
 	{
 		size_t actualDigits = 1 + size_t(floor(log10(number)));

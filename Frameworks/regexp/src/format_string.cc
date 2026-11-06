@@ -255,7 +255,7 @@ struct expand_visitor
 			for(auto const& unit : units)
 			{
 				if(unit.amount && unit.include)
-					v.emplace_back(text::format("%zu %s", unit.amount, unit.amount == 1 ? unit.singular : unit.plural));
+					v.emplace_back(std::format("{} {}", unit.amount, unit.amount == 1 ? unit.singular : unit.plural));
 			}
 			return text::join(v, ", ");
 		}

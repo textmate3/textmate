@@ -71,13 +71,13 @@ static std::string double_quote_escape (std::string const& ch)
 			if(0x20 <= val && val <= 0x7E)
 				return ch;
 			else if(iscntrl(val) || 0x7F < val && CFCharacterSetIsLongCharacterMember(control_set, val))
-				return text::format("\\x%02X", val);
+				return std::format("\\x{:02X}", val);
 			else if(0xE000 <= val && val <= 0xF8FF)
-				return text::format("\\U%04X", val);
+				return std::format("\\U{:04X}", val);
 			else if(0x0F0000 <= val && val <= 0x0FFFFD || 0x100000 <= val && val <= 0x10FFFD)
-				return text::format("\\U%06X", val);
+				return std::format("\\U{:06X}", val);
 			else if(CFCharacterSetIsLongCharacterMember(illegal_set, val))
-				return text::format("\\U%04X", val);
+				return std::format("\\U{:04X}", val);
 		}
 	};
 
@@ -263,7 +263,7 @@ namespace
 				{
 					std::string const& key = pretty_key(it.first, flags | plist::kSingleLine);
 					std::string const& value = std::visit(pretty(flags | plist::kSingleLine, key_compare), it.second);
-					res += text::format("%s = %s; ", key.c_str(), value.c_str());
+					res += std::format("{} = {}; ", key.c_str(), value.c_str());
 				}
 			}
 			else
@@ -277,7 +277,7 @@ namespace
 						res += indent_string();
 					std::string const& key = pretty_key(it.first, flags);
 					std::string const& value = std::visit(pretty(flags, key_compare, indent+1, true), it.second);
-					res += text::format("\t%s = %s;\n", key.c_str(), value.c_str());
+					res += std::format("\t{} = {};\n", key.c_str(), value.c_str());
 				}
 				res = (is_key ? "\n" + indent_string() : "") + res + indent_string();
 			}

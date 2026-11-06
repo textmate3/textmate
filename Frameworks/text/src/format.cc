@@ -24,10 +24,10 @@ namespace text
 		}
 		else
 		{
-			return text::format("%zu %s", inBytes, unitStr);
+			return std::format("{} {}", inBytes, unitStr);
 		}
 
-		return text::format("%.1f %s", size, unitStr);
+		return std::format("{:.1f} {}", size, unitStr);
 	}
 
 } /* text */

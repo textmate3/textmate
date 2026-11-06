@@ -257,7 +257,7 @@ namespace oak
 			if(!node->is_null())
 			{
 				to_s(node->_right, offset + node->_left->key_offset() + node->relative_key(), level + 1, out, dump);
-				out += std::string(2*level, ' ') + text::format("%p, %zu — ", node, node->_level) + dump(value_type(offset + node->_left->key_offset(), node->_relative_key, node->_value)) + "\n";
+				out += std::string(2*level, ' ') + std::format("{}, {} — ", static_cast<void const*>(node), node->_level) + dump(value_type(offset + node->_left->key_offset(), node->_relative_key, node->_value)) + "\n";
 				to_s(node->_left, offset, level + 1, out, dump);
 			}
 		}

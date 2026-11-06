@@ -18,7 +18,7 @@ namespace scm
 				case conflicted:   return "conflicted";
 				case ignored:      return "ignored";
 				case mixed:        return "mixed";
-				default:           return text::format("unknown (%d)", status);
+				default:           return std::format("unknown ({})", static_cast<int>(status));
 			}
 		}
 	}

@@ -75,7 +75,7 @@ namespace ng
 	{
 		std::vector<std::string> v;
 		for(auto const& pair : _folded)
-			v.push_back(text::format("(%zu,%zu)", pair.first, pair.second));
+			v.push_back(std::format("({},{})", pair.first, pair.second));
 		return v.empty() ? NULL_STR : "(" + text::join(v, ",") + ")";
 	}
 

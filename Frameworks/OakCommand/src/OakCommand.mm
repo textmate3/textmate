@@ -329,8 +329,8 @@ static pid_t run_command (dispatch_group_t rootGroup, std::string const& cmd, in
 
 			std::string message;
 			if(failedRequirement.variable != NULL_STR)
-					message = text::format("This command requires ‘%1$s’ which wasn’t found on your system.\n\nThe following locations were searched:%2$s\n\nIf ‘%1$s’ is installed elsewhere then you need to set %3$s in Preferences → Variables to the full path of where you installed it.", failedRequirement.command.c_str(), ("\n\u2003• " + text::join(paths, "\n\u2003• ")).c_str(), failedRequirement.variable.c_str());
-			else	message = text::format("This command requires ‘%1$s’ which wasn’t found on your system.\n\nThe following locations were searched:%2$s\n\nIf ‘%1$s’ is installed elsewhere then you need to set PATH in Preferences → Variables to include the folder in which it can be found.", failedRequirement.command.c_str(), ("\n\u2003• " + text::join(paths, "\n\u2003• ")).c_str());
+					message = std::format("This command requires ‘{0}’ which wasn’t found on your system.\n\nThe following locations were searched:{1}\n\nIf ‘{0}’ is installed elsewhere then you need to set {2} in Preferences → Variables to the full path of where you installed it.", failedRequirement.command.c_str(), ("\n\u2003• " + text::join(paths, "\n\u2003• ")).c_str(), failedRequirement.variable.c_str());
+			else	message = std::format("This command requires ‘{0}’ which wasn’t found on your system.\n\nThe following locations were searched:{1}\n\nIf ‘{0}’ is installed elsewhere then you need to set PATH in Preferences → Variables to include the folder in which it can be found.", failedRequirement.command.c_str(), ("\n\u2003• " + text::join(paths, "\n\u2003• ")).c_str());
 
 			NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:@{
 				NSLocalizedDescriptionKey:             [NSString stringWithFormat:@"Unable to run “%.*s”.", (int)_bundleCommand.name.size(), _bundleCommand.name.data()],
@@ -464,7 +464,7 @@ static pid_t run_command (dispatch_group_t rootGroup, std::string const& cmd, in
 				output = text::join(lines, "\n");
 			}
 
-			dict[NSLocalizedRecoverySuggestionErrorKey] = to_ns(output.empty() ? text::format("Command returned status code %d.", rc) : output) ?: @"Command output is not UTF-8.";
+			dict[NSLocalizedRecoverySuggestionErrorKey] = to_ns(output.empty() ? std::format("Command returned status code {}.", rc) : output) ?: @"Command output is not UTF-8.";
 
 			if(buttonLabels.count > 1)
 			{

@@ -41,7 +41,7 @@ std::string to_s (NSData* someData)
 
 std::string to_s (NSError* anError)
 {
-	return text::format("Error Domain=%s Code=%ld “%s”", [[anError domain] UTF8String], [anError code], [[anError localizedDescription] UTF8String]);
+	return std::format("Error Domain={} Code={} “{}”", [[anError domain] UTF8String], [anError code], [[anError localizedDescription] UTF8String]);
 }
 
 std::string to_s (id someObject)

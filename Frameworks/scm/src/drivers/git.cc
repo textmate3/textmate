@@ -238,7 +238,7 @@ namespace scm
 {
 	struct git_driver_t : driver_t
 	{
-		git_driver_t () : driver_t("git", "%s/.git", "git") { }
+		git_driver_t () : driver_t("git", "{}/.git", "git") { }
 
 		std::map<std::string, std::string> variables (std::string const& wcPath) const
 		{

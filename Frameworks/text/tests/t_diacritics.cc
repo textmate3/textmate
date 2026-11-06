@@ -1,4 +1,3 @@
-#include <text/format.h>
 #include <text/utf8.h>
 
 // What diacritics::make_range calls a grapheme: a base character and the
@@ -10,7 +9,7 @@ static std::string steps (std::string const& str)
 	std::string res;
 	auto const graphemes = diacritics::make_range(str.data(), str.data() + str.size());
 	for(auto ch = graphemes.begin(); ch != graphemes.end(); ++ch)
-		res += text::format("%sU+%04X@%td:%zd", res.empty() ? "" : " ", *ch, &ch - str.data(), ch.length());
+		res += std::format("{}U+{:04X}@{}:{}", res.empty() ? "" : " ", *ch, &ch - str.data(), ch.length());
 	return res;
 }
 
@@ -19,7 +18,7 @@ static std::string values (std::string const& str)
 {
 	std::string res;
 	for(auto grapheme : diacritics::graphemes(str.data(), str.data() + str.size()))
-		res += text::format("%sU+%04X@%td:%zu", res.empty() ? "" : " ", grapheme.code_point, grapheme.first - str.data(), grapheme.length());
+		res += std::format("{}U+{:04X}@{}:{}", res.empty() ? "" : " ", grapheme.code_point, grapheme.first - str.data(), grapheme.length());
 	return res;
 }
 

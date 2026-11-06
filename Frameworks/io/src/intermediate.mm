@@ -242,7 +242,7 @@ namespace path
 		{
 			_fileDescriptor = ::open(path, oflag, _mode);
 			if(_fileDescriptor == -1 && errorMsg)
-				*errorMsg = text::format("open(\"%s\"): %s", path, strerror(errno));
+				*errorMsg = std::format("open(\"{}\"): {}", path, strerror(errno));
 		}
 		return _fileDescriptor;
 	}
@@ -251,7 +251,7 @@ namespace path
 	{
 		int res = ::close(_fileDescriptor);
 		if(res == -1 && errorMsg)
-			*errorMsg = text::format("close(\"%d\"): %s", _fileDescriptor, strerror(errno));
+			*errorMsg = std::format("close(\"{}\"): {}", _fileDescriptor, strerror(errno));
 
 		_fileDescriptor = -1;
 		std::string ignoredErrorMsg;

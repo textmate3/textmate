@@ -52,7 +52,7 @@ namespace scm
 {
 	struct hg_driver_t : driver_t
 	{
-		hg_driver_t () : driver_t("hg", "%s/.hg", "hg") { }
+		hg_driver_t () : driver_t("hg", "{}/.hg", "hg") { }
 
 		bool may_touch_filesystem () const { return true; }
 

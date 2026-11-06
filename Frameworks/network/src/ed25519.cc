@@ -39,11 +39,11 @@ namespace network
 
 		std::string const signature = decode::base64(signatureBase64);
 		if(signature.size() != 64)
-			return (error = text::format("Bad signature: expected 64 bytes, got %zu.", signature.size())), false;
+			return (error = std::format("Bad signature: expected 64 bytes, got {}.", signature.size())), false;
 
 		std::string const publicKey = decode::base64(publicKeyBase64);
 		if(publicKey.size() != 32)
-			return (error = text::format("Bad public key: expected 32 bytes, got %zu.", publicKey.size())), false;
+			return (error = std::format("Bad public key: expected 32 bytes, got {}.", publicKey.size())), false;
 
 		bool res = false;
 
@@ -72,7 +72,7 @@ namespace network
 		}
 		else
 		{
-			error = text::format("Error creating public key: ‘%s’.", cf::to_s(err).c_str());
+			error = std::format("Error creating public key: ‘{}’.", cf::to_s(err).c_str());
 			if(err)
 				CFRelease(err);
 		}

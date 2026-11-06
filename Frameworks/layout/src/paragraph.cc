@@ -46,7 +46,7 @@ namespace ng
 					else if(ch < 0x20 || (0x7E < ch && ch < 0xA0))
 						return "◆";
 					else if(SpaceCharacters.find(ch) != SpaceCharacters.end())
-						return text::format("<U+%04X>", ch);
+						return std::format("<U+{:04X}>", ch);
 				}
 				break;
 			}

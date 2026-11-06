@@ -60,7 +60,7 @@ namespace file
 		}
 
 		os_version_t const& os = os_version();
-		res.push_back(text::format("attr.os-version.%zu.%zu.%zu", os.major, os.minor, os.patch));
+		res.push_back(std::format("attr.os-version.{}.{}.{}", os.major, os.minor, os.patch));
 		return text::join(res, " ");
 	}
 

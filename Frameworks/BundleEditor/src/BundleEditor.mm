@@ -1102,7 +1102,7 @@ static NSMutableDictionary* DictionaryForPropertyList (plist::dictionary_t const
 
 static NSString* DescriptionForChanges (std::map<bundles::item_ptr, plist::dictionary_t> const& changes)
 {
-	NSString* res = [NSString stringWithCxxString:text::format("Do you want to save the changes made to %zu items?", changes.size())];
+	NSString* res = [NSString stringWithCxxString:std::format("Do you want to save the changes made to {} items?", changes.size())];
 	if(changes.size() == 1)
 	{
 		bundles::item_ptr item = changes.begin()->first;

@@ -15,7 +15,7 @@ static char const* socket_path ()
 	if(getenv("SUDO_UID"))
 		uid = atoi(getenv("SUDO_UID"));
 
-	static std::string const str = text::format("/tmp/textmate-%d.sock", uid);
+	static std::string const str = std::format("/tmp/textmate-{}.sock", uid);
 	return str.c_str();
 }
 

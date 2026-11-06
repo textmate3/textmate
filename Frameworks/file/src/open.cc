@@ -49,7 +49,7 @@ namespace
 
 		void filter_error (bundle_command_t const& command, int rc, std::string const& out, std::string const& err)
 		{
-			_error = text::trim(err + out).empty() ? text::format("Command returned status code %d.", rc) : err + out;
+			_error = text::trim(err + out).empty() ? std::format("Command returned status code {}.", rc) : err + out;
 			_filter = command.uuid;
 		}
 

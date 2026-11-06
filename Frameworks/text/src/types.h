@@ -48,8 +48,8 @@ namespace text
 		static pos_t undefined;
 
 	private:
-		std::string column_str () const              { return column ? text::format(":%zu", column+1) : ""; }
-		std::string offset_str () const              { return offset ? text::format("+%zu", offset)   : ""; }
+		std::string column_str () const              { return column ? std::format(":{}", column+1) : ""; }
+		std::string offset_str () const              { return offset ? std::format("+{}", offset)   : ""; }
 	};
 
 	struct range_t
