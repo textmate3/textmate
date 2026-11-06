@@ -54,7 +54,7 @@ echo '{ items = ({title = "foo"; header = 1;},{title = "bar";}); }' | "$DIALOG" 
 
 	// FIXME this is needed only because we presently can’t express argument constraints (CLIProxy would otherwise correctly validate/convert CLI arguments)
 	if([menuItems isKindOfClass:[NSString class]])
-		menuItems = [NSPropertyListSerialization propertyListWithData:[(NSString*)menuItems dataUsingEncoding:NSUTF8StringEncoding] options:NSPropertyListImmutable format:NULL error:NULL];
+		menuItems = [NSPropertyListSerialization propertyListWithData:[(NSString*)menuItems dataUsingEncoding:NSUTF8StringEncoding] options:NSPropertyListImmutable format:nullptr error:nullptr];
 
 	NSMenu* menu = [NSMenu new];
 	[menu setFont:[NSFont menuFontOfSize:([NSUserDefaults.standardUserDefaults integerForKey:@"OakBundleManagerDisambiguateMenuFontSize"] ?: 11)]];
@@ -70,7 +70,7 @@ echo '{ items = ({title = "foo"; header = 1;},{title = "bar";}); }' | "$DIALOG" 
 		}
 		else if([[menuItem objectForKey:@"header"] intValue])
 		{
-			[menu addItemWithTitle:[menuItem objectForKey:@"title"] action:NULL keyEquivalent:@""];
+			[menu addItemWithTitle:[menuItem objectForKey:@"title"] action:nullptr keyEquivalent:@""];
 			inSection = YES;
 		}
 		else

@@ -401,7 +401,7 @@ struct document_view_t : ng::buffer_api_t
 	void macro_dispatch (plist::dictionary_t const& args, std::map<std::string, std::string> const& variables) { _editor->macro_dispatch(args, variables, _command_runner); }
 	void snippet_dispatch (plist::dictionary_t const& args, std::map<std::string, std::string> const& variables) { _editor->snippet_dispatch(args, variables); }
 	std::vector<std::string> const& choices () const { return _editor->choices(); }
-	std::string placeholder_content (ng::range_t* placeholderSelection = NULL) const { return _editor->placeholder_content(placeholderSelection); }
+	std::string placeholder_content (ng::range_t* placeholderSelection = nullptr) const { return _editor->placeholder_content(placeholderSelection); }
 	void set_placeholder_content (std::string const& str, size_t selectFrom) { _editor->set_placeholder_content(str, selectFrom); }
 	ng::ranges_t ranges () const { return _editor->ranges(); }
 	void set_ranges (ng::ranges_t const& r) { _editor->set_selections(r); }
@@ -873,10 +873,10 @@ static std::string shell_quote (std::vector<std::string> paths)
 
 		documentView->remove_callback(callback);
 		delete callback;
-		callback = NULL;
+		callback = nullptr;
 
 		delete documentView->delegate();
-		documentView->set_delegate(NULL);
+		documentView->set_delegate(nullptr);
 
 		self.choiceMenu = nil;
 		choiceVector.clear();
@@ -1212,10 +1212,10 @@ doScroll:
 			return CGImageRetain(img);
 
 		NSLog(@"Unable to create CGImage (%.1f × %.1f) from %@", width, height, pdfImage);
-		return NULL;
+		return nullptr;
 	};
 
-	documentView->draw(ng::context_t(context, _showInvisibles ? documentView->invisibles_map : NULL_STR, [spellingDotImage CGImageForProposedRect:NULL context:[NSGraphicsContext currentContext] hints:nil], foldingDotsFactory), aRect, [self isFlipped], merge(documentView->ranges(), [self markedRanges]), _liveSearchRanges);
+	documentView->draw(ng::context_t(context, _showInvisibles ? documentView->invisibles_map : NULL_STR, [spellingDotImage CGImageForProposedRect:nullptr context:[NSGraphicsContext currentContext] hints:nil], foldingDotsFactory), aRect, [self isFlipped], merge(documentView->ranges(), [self markedRanges]), _liveSearchRanges);
 }
 
 // =====================
@@ -4553,7 +4553,7 @@ static scope::context_t add_modifiers_to_scope (scope::context_t scope, NSUInteg
 
 - (BOOL)presentError:(NSError*)anError
 {
-	[self.window presentError:anError modalForWindow:self.window delegate:nil didPresentSelector:NULL contextInfo:nullptr];
+	[self.window presentError:anError modalForWindow:self.window delegate:nil didPresentSelector:nullptr contextInfo:nullptr];
 	return NO;
 }
 @end

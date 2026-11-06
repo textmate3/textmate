@@ -12,7 +12,7 @@
 #define ASSERTF(expr, format, args...)
 #else
 std::string OakStackDump (int linesToSkip = 1);
-void OakBadAssertion (char const* name, char const* format = NULL, ...);
+void OakBadAssertion (char const* name, char const* format = nullptr, ...);
 void OakPrintBadAssertion (char const* lhs, char const* op, char const* rhs, std::string const& realLHS, char const* realOp, std::string const& realRHS, char const* file, int line);
 
 namespace oak

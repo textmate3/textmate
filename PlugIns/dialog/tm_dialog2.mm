@@ -137,7 +137,7 @@ int main (int argc, char const* argv[])
 			@"stdin":       @(stdinName),
 			@"stdout":      @(stdoutName),
 			@"stderr":      @(stderrName),
-			@"cwd":         @(getcwd(NULL, 0)),
+			@"cwd":         @(getcwd(nullptr, 0)),
 			@"environment": [[NSProcessInfo processInfo] environment],
 			@"arguments":   args,
 		};
@@ -180,7 +180,7 @@ int main (int argc, char const* argv[])
 				fdCount = std::max(fdCount, pair.first + 1);
 			}
 
-			int i = select(fdCount, &readfds, &writefds, NULL, NULL);
+			int i = select(fdCount, &readfds, &writefds, nullptr, nullptr);
 			if(i == -1)
 			{
 				perror("Error from select");

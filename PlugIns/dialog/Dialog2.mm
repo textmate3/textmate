@@ -99,7 +99,7 @@
 		else if(NSString* path = [[NSBundle bundleForClass:[self class]] pathForResource:@"tm_dialog2" ofType:nil])
 		{
 			char* oldDialog = getenv("DIALOG");
-			if(oldDialog == NULL || ![@(oldDialog) isEqualToString:path])
+			if(oldDialog == nullptr || ![@(oldDialog) isEqualToString:path])
 			{
 				if(oldDialog)
 					setenv("DIALOG_1", oldDialog, 1);
