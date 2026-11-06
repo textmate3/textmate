@@ -2174,7 +2174,7 @@ static NSArray* const kObservedKeyPaths = @[ @"arrayController.arrangedObjects.p
 		v.push_back(customCandidate);
 	}
 
-	std::vector<std::string>::const_iterator it = std::find(v.begin(), v.end(), documentName);
+	std::vector<std::string>::const_iterator it = std::ranges::find(v, documentName);
 	ASSERT(it != v.end());
 
 	NSString* path = [NSString stringWithCxxString:path::join(documentDir, v[((it - v.begin()) + 1) % v.size()])];

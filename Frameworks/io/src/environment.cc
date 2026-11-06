@@ -69,7 +69,7 @@ namespace oak
 			if(value && *value == '=')
 			{
 				std::string const key = std::string(*pair, value);
-				if(whitelistSet.find(key) != whitelistSet.end() || std::any_of(whitelistGlobs.begin(), whitelistGlobs.end(), [&key](path::glob_t const& glob){ return glob.does_match(key); }))
+				if(whitelistSet.find(key) != whitelistSet.end() || std::ranges::any_of(whitelistGlobs, [&key](path::glob_t const& glob){ return glob.does_match(key); }))
 					res[key] = value + 1;
 			}
 		}

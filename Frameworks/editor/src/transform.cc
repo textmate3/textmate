@@ -23,7 +23,7 @@ static std::string justify_line (std::string const& str, size_t width, size_t ta
 	if(width <= currentWidth)
 		return str;
 
-	size_t numberOfSpaces = std::count(str.begin(), str.end(), ' ');
+	size_t numberOfSpaces = std::ranges::count(str, ' ');
 	size_t extraSpaces    = width - currentWidth;
 	size_t spaceCount     = 0;
 

@@ -88,7 +88,7 @@ namespace bundles
 					candidates.push_back(value.substr(0, firstSpace));
 				candidates.push_back(value);
 
-				if(std::find_if(candidates.begin(), candidates.end(), [](std::string const& path){ return path::is_executable(path); }) != candidates.end())
+				if(std::ranges::any_of(candidates, [](std::string const& path){ return path::is_executable(path); }))
 					return false;
 			}
 
@@ -96,7 +96,7 @@ namespace bundles
 			for(auto path : search_paths(environment))
 				candidates.push_back(path::join(path, requirement.command));
 
-			auto exe = std::find_if(candidates.begin(), candidates.end(), [](std::string const& path){ return path::is_executable(path); });
+			auto exe = std::ranges::find_if(candidates, [](std::string const& path){ return path::is_executable(path); });
 			if(exe != candidates.end())
 			{
 				if(requirement.variable != NULL_STR)
@@ -108,7 +108,7 @@ namespace bundles
 			for(auto path : requirement.locations)
 				candidates.push_back(format_string::expand(path, environment));
 
-			exe = std::find_if(candidates.begin(), candidates.end(), [](std::string const& path){ return path::is_executable(path); });
+			exe = std::ranges::find_if(candidates, [](std::string const& path){ return path::is_executable(path); });
 			if(exe != candidates.end())
 			{
 				if(requirement.variable != NULL_STR)

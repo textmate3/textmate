@@ -77,7 +77,7 @@ namespace scope
 
 					if(rank)
 					{
-						size_t len = std::count(sel->atoms.begin(), sel->atoms.end(), '.') + 1;
+						size_t len = std::ranges::count(sel->atoms, '.') + 1;
 						while(len-- != 0)
 							score += 1 / exp2(power - len);
 					}

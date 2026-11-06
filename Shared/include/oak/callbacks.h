@@ -18,8 +18,8 @@ namespace oak
 
 		void swap (callbacks_t& rhs)                    { _callbacks.swap(rhs._callbacks); }
 
-		void add (T* callback)                          { std::lock_guard<std::mutex> lock(_mutex); ASSERTF(std::find(_callbacks.begin(), _callbacks.end(), callback) == _callbacks.end(), "%p", callback); _callbacks.push_back(callback); }
-		void remove (T* callback)                       { std::lock_guard<std::mutex> lock(_mutex); ASSERTF(std::find(_callbacks.begin(), _callbacks.end(), callback) != _callbacks.end(), "%p", callback); _callbacks.erase(std::find(_callbacks.begin(), _callbacks.end(), callback)); }
+		void add (T* callback)                          { std::lock_guard<std::mutex> lock(_mutex); ASSERTF(!std::ranges::contains(_callbacks, callback), "%p", callback); _callbacks.push_back(callback); }
+		void remove (T* callback)                       { std::lock_guard<std::mutex> lock(_mutex); ASSERTF(std::ranges::contains(_callbacks, callback), "%p", callback); _callbacks.erase(std::ranges::find(_callbacks, callback)); }
 
 		template <typename M, typename... Args> void operator () (M fun, Args... args) const { for(auto const& cb : dup()) (cb->*fun)(args...); }
 

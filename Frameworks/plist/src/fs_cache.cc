@@ -172,7 +172,7 @@ namespace plist
 			if(parent != _cache.end() && parent->second.is_directory())
 			{
 				std::vector<std::string> entries = parent->second.entries();
-				auto name = std::find(entries.begin(), entries.end(), path::name(path));
+				auto name = std::ranges::find(entries, path::name(path));
 				if(name != entries.end())
 				{
 					entries.erase(name);

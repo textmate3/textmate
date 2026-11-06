@@ -707,7 +707,7 @@ namespace ng
 			{
 				size_t const lineNo = _buffer.convert(_selections.last().last.index).line;
 				std::string line = _buffer.substr(_buffer.begin(lineNo), _buffer.eol(lineNo));
-				if(std::count(line.begin(), line.end(), str[0]) % 2 == 1)
+				if(std::ranges::count(line, str[0]) % 2 == 1)
 					return insert(str);
 			}
 
@@ -1311,7 +1311,7 @@ namespace ng
 	// offset would land inside that character.
 	static size_t code_points_in (std::string const& str)
 	{
-		return std::count_if(str.begin(), str.end(), [](char ch){ return (ch & 0xC0) != 0x80; });
+		return std::ranges::count_if(str, [](char ch){ return (ch & 0xC0) != 0x80; });
 	}
 
 	static size_t bytes_for_code_points (std::string const& str, size_t codePoints)

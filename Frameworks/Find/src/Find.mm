@@ -550,7 +550,7 @@ static NSButton* OakCreateHistoryButton (NSString* toolTip)
 		paths.push_back(to_s(folder));
 	paths.push_back(to_s(self.projectFolder));
 
-	auto it = std::find(paths.begin(), paths.end(), to_s(path));
+	auto it = std::ranges::find(paths, to_s(path));
 	if(it != paths.end())
 		return [NSString stringWithCxxString:path::display_name(*it, path::disambiguate(paths)[it - paths.begin()])];
 	return [NSFileManager.defaultManager displayNameAtPath:path];
