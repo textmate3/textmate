@@ -198,7 +198,7 @@ namespace ng
 		// ============
 
 		void add_meta_data (meta_data_t* hook)      { if(hook) _meta_data.push_back(hook); }
-		void remove_meta_data (meta_data_t* hook)   { if(hook) _meta_data.erase(std::find(_meta_data.begin(), _meta_data.end(), hook)); }
+		void remove_meta_data (meta_data_t* hook)   { if(hook) _meta_data.erase(std::ranges::find(_meta_data, hook)); }
 
 		size_t actual_replace (size_t from, size_t to, char const* buf, size_t len);
 

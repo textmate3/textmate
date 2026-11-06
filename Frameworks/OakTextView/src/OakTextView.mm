@@ -2241,9 +2241,9 @@ static void update_menu_key_equivalents (NSMenu* menu, std::multimap<std::string
 		if(didEdit && !didDelete)
 		{
 			NSUInteger choiceIndex = NSNotFound;
-			if(std::find(newChoices.begin(), newChoices.end(), oldContent) != newChoices.end() && oldContent.find(newContent) == 0)
+			if(std::ranges::contains(newChoices, oldContent) && oldContent.find(newContent) == 0)
 			{
-				choiceIndex = std::find(newChoices.begin(), newChoices.end(), oldContent) - newChoices.begin();
+				choiceIndex = std::ranges::find(newChoices, oldContent) - newChoices.begin();
 			}
 			else
 			{

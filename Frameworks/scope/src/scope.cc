@@ -42,7 +42,7 @@ namespace scope
 
 	size_t scope_t::node_t::number_of_atoms () const
 	{
-		return std::count(_atoms.begin(), _atoms.end(), '.') + 1;
+		return std::ranges::count(_atoms, '.') + 1;
 	}
 
 	char const* scope_t::node_t::c_str () const

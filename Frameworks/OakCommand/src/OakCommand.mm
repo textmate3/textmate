@@ -453,7 +453,7 @@ static pid_t run_command (dispatch_group_t rootGroup, std::string const& cmd, in
 				[buttonLabels addObject:@"Edit Command"];
 
 			std::string output = text::trim(err + out);
-			if(std::count(output.begin(), output.end(), '\n') > 7)
+			if(std::ranges::count(output, '\n') > 7)
 			{
 				[buttonLabels addObject:@"Show Full Output"];
 				dict[@"OakCommandOutput"] = to_ns(output);

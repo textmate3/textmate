@@ -257,7 +257,7 @@ bool parse_context_t::parse_control_code (nodes_t& nodes)
 				std::string value;
 				if(parse_char("{") && parse_until("}", value))
 				{
-					if(value.size() <= 8 && std::find_if_not(value.begin(), value.end(), isxdigit) == value.end())
+					if(value.size() <= 8 && std::ranges::all_of(value, isxdigit))
 					{
 						text_node(nodes) += utf8::to_s(std::stoul(value, nullptr, 16));
 						return true;

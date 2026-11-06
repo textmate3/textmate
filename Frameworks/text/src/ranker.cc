@@ -172,7 +172,7 @@ static double calculate_rank (std::string const& lhs, std::string const& rhs, st
 	// = Calculate rank based on walk =
 	// ================================
 
-	size_t totalCapitals = std::count(capitals.begin(), capitals.end(), true);
+	size_t totalCapitals = std::ranges::count(capitals, true);
 	double score = 0.0;
 	double denom = n*(n+1) + 1;
 	if(n == capitalsTouched)

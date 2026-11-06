@@ -81,7 +81,7 @@ static NSAttributedString* convert_and_highlight (char const* first, char const*
 	{
 		static std::string const newlines[] = { "\r\n", "\n", "\r" };
 
-		auto it = std::find_if(std::begin(newlines), std::end(newlines), [&](std::string const& str){ return std::ranges::starts_with(dst.begin() + eol, dst.end(), str.begin(), str.end()); });
+		auto it = std::ranges::find_if(newlines, [&](std::string const& str){ return std::ranges::starts_with(dst.begin() + eol, dst.end(), str.begin(), str.end()); });
 		if(it == std::end(newlines))
 			continue;
 

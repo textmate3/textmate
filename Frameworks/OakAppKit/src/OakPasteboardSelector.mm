@@ -12,7 +12,7 @@
 
 static size_t line_count (std::string const& text)
 {
-	size_t line_count = std::count(text.begin(), text.end(), '\n') + 1;
+	size_t line_count = std::ranges::count(text, '\n') + 1;
 	if(text.size() > 0 && text[text.size() - 1] == '\n')
 		line_count -= 1;
 	return line_count;

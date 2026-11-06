@@ -317,7 +317,7 @@ void test_duplicate ()
 	std::vector<bool> values;
 	std::transform(map.begin(), map.end(), back_inserter(values), [](std::pair<ssize_t, bool> const& p){ return p.second; });
 	OAK_ASSERT_EQ(values.size(), std::size(random));
-	OAK_ASSERT(std::find(values.begin(), values.end(), false) == values.end());
+	OAK_ASSERT(!std::ranges::contains(values, false));
 
 	test::shuffle(std::begin(random), std::end(random));
 	for(auto i : random)
@@ -326,7 +326,7 @@ void test_duplicate ()
 	values.clear();
 	std::transform(map.begin(), map.end(), back_inserter(values), [](std::pair<ssize_t, bool> const& p){ return p.second; });
 	OAK_ASSERT_EQ(values.size(), std::size(random));
-	OAK_ASSERT(std::find(values.begin(), values.end(), true) == values.end());
+	OAK_ASSERT(!std::ranges::contains(values, true));
 }
 
 void test_bind_left_right ()
