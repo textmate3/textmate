@@ -10,7 +10,7 @@ extern NSString* const kUserDefaultsWrapColumnPresetsKey;
 
 @class OakDocument;
 
-namespace bundles { struct item_t; typedef std::shared_ptr<item_t> item_ptr; }
+namespace bundles { struct item_t; using item_ptr = std::shared_ptr<item_t>; }
 
 enum folding_state_t { kFoldingNone, kFoldingTop, kFoldingCollapsed, kFoldingBottom };
 

@@ -220,8 +220,8 @@ NSString* const kUserDefaultsScrollPastEndKey      = @"scrollPastEnd";
 }
 @end
 
-typedef indexed_map_t<OakAccessibleLink*> links_t;
-typedef std::shared_ptr<links_t> links_ptr;
+using links_t   = indexed_map_t<OakAccessibleLink*>;
+using links_ptr = std::shared_ptr<links_t>;
 
 typedef NS_ENUM(NSUInteger, OakFlagsState) {
 	OakFlagsStateClear = 0,
