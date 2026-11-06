@@ -92,9 +92,8 @@ static std::string single_quote_escape (std::string const& ch)
 static std::string escape (std::string const& str, std::string (*escapeFunction) (std::string const& ch), std::string const& quoteChar = "")
 {
 	std::string escaped("");
-	auto const graphemes = diacritics::make_range(str.data(), str.data() + str.size());
-	for(auto it = graphemes.begin(); it != graphemes.end(); ++it)
-		escaped.append(escapeFunction(std::string(&it, &it + it.length())));
+	for(auto grapheme : diacritics::graphemes(str.data(), str.data() + str.size()))
+		escaped.append(escapeFunction(std::string(grapheme.first, grapheme.last)));
 	return quoteChar + escaped + quoteChar;
 }
 
@@ -123,10 +122,9 @@ static std::string pretty_key (std::string const& key, int flags)
 	bool should_quote = false;
 	bool all_digits = true;
 	bool first = true;
-	auto const graphemes = diacritics::make_range(key.data(), key.data() + key.size());
-	for(auto it = graphemes.begin(); it != graphemes.end(); ++it)
+	for(auto grapheme : diacritics::graphemes(key.data(), key.data() + key.size()))
 	{
-		uint32_t const val = utf8::to_ch(std::string(&it, &it + it.length()));
+		uint32_t const val = utf8::to_ch(std::string(grapheme.first, grapheme.last));
 		if(!isdigit(val))
 			all_digits = false;
 

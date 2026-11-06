@@ -66,9 +66,8 @@ static std::string string_for (CGKeyCode key, CGEventFlags flags)
 	std::string const tmp = to_s([[NSEvent eventWithCGEvent:event] characters]);
 
 	std::string res = tmp;
-	auto const graphemes = diacritics::make_range(tmp.data(), tmp.data() + tmp.size());
-	for(auto str = graphemes.begin(); str != graphemes.end(); ++str)
-		res = std::string(&str, &str + str.length());
+	for(auto grapheme : diacritics::graphemes(tmp.data(), tmp.data() + tmp.size()))
+		res = std::string(grapheme.first, grapheme.last);
 
 	CFRelease(event);
 	return res == "" ? NULL_STR : res;

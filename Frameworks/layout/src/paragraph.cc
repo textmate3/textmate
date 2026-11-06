@@ -235,27 +235,26 @@ namespace ng
 
 		std::string const str = buffer.substr(pos, pos + len);
 		size_t from = 0, i = 0;
-		auto const graphemes = diacritics::make_range(str.data(), str.data() + str.size());
-		for(auto ch = graphemes.begin(); ch != graphemes.end(); ++ch)
+		for(auto grapheme : diacritics::graphemes(str.data(), str.data() + str.size()))
 		{
-			if(*ch == '\n' || representation_for(*ch) != NULL_STR)
+			if(grapheme.code_point == '\n' || representation_for(grapheme.code_point) != NULL_STR)
 			{
 				if(from != i)
 					insert_text(pos - bufferOffset + from, i - from);
 
-				if(*ch == '\n')
-					insert_newline(pos - bufferOffset + i, ch.length());
+				if(grapheme.code_point == '\n')
+					insert_newline(pos - bufferOffset + i, grapheme.length());
 				else
-					insert_unprintable(pos - bufferOffset + i, ch.length());
+					insert_unprintable(pos - bufferOffset + i, grapheme.length());
 
-				from = i + ch.length();
+				from = i + grapheme.length();
 			}
 			else if(i - from >= kCTLineMaxSize)
 			{
 				insert_text(pos - bufferOffset + from, i - from);
 				from = i;
 			}
-			i += ch.length();
+			i += grapheme.length();
 		}
 
 		if(from != str.size())
@@ -349,13 +348,12 @@ namespace ng
 					if(regexp::match_t const& m = regexp::search(pattern, str))
 					{
 						std::string tmp = format_string::expand(format, m.captures());
-						auto const graphemes = diacritics::make_range(tmp.data(), tmp.data() + tmp.size());
-						for(auto ch = graphemes.begin(); ch != graphemes.end(); ++ch)
+						for(auto grapheme : diacritics::graphemes(tmp.data(), tmp.data() + tmp.size()))
 						{
-							if(*ch == '\t')
+							if(grapheme.code_point == '\t')
 									fillStr.append(std::string(tabSize - (fillStrWidth % tabSize), ' '));
-							else	fillStr.append(&ch, ch.length());
-							fillStrWidth += (*ch == '\t' ? tabSize - (fillStrWidth % tabSize) : 1);
+							else	fillStr.append(grapheme.first, grapheme.length());
+							fillStrWidth += (grapheme.code_point == '\t' ? tabSize - (fillStrWidth % tabSize) : 1);
 						}
 					}
 				}

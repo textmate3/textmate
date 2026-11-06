@@ -649,15 +649,14 @@ namespace ng
 		size_t const tabSize = buffer.indent().tab_size();
 		size_t len = 0;
 		std::string const str = buffer.substr(caret, eol);
-		auto const graphemes = diacritics::make_range(str.data(), str.data() + str.size());
-		for(auto ch = graphemes.begin(); ch != graphemes.end(); ++ch)
+		for(auto grapheme : diacritics::graphemes(str.data(), str.data() + str.size()))
 		{
 			if(len == column)
-				return caret + (&ch - str.data());
+				return caret + (grapheme.first - str.data());
 
-			size_t chWidth = *ch == '\t' ? tabSize - (len % tabSize) : (text::is_east_asian_width(*ch) ? 2 : 1);
-			if(len + chWidth > column || *ch == '\n')
-				return index_t(caret + (&ch - str.data()), column - len);
+			size_t chWidth = grapheme.code_point == '\t' ? tabSize - (len % tabSize) : (text::is_east_asian_width(grapheme.code_point) ? 2 : 1);
+			if(len + chWidth > column || grapheme.code_point == '\n')
+				return index_t(caret + (grapheme.first - str.data()), column - len);
 
 			len += chWidth;
 		}
