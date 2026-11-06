@@ -170,13 +170,12 @@ namespace find
 		regular_find_t (std::string const& str, options_t options) : options(options)
 		{
 			std::vector< std::vector<std::string> > matrix;
-			auto const graphemes = diacritics::make_range(str.data(), str.data() + str.size());
-			for(auto it = graphemes.begin(); it != graphemes.end(); ++it)
+			for(auto grapheme : diacritics::graphemes(str.data(), str.data() + str.size()))
 			{
-				if((options & ignore_whitespace) && is_whitespace(*it))
+				if((options & ignore_whitespace) && is_whitespace(grapheme.code_point))
 					continue;
 
-				if(CFStringRef tmp = CFStringCreateWithBytes(kCFAllocatorDefault, (UInt8*)&it, it.length(), kCFStringEncodingUTF8, false))
+				if(CFStringRef tmp = CFStringCreateWithBytes(kCFAllocatorDefault, (UInt8*)grapheme.first, grapheme.length(), kCFStringEncodingUTF8, false))
 				{
 					matrix.push_back(std::vector<std::string>());
 					all_variations(tmp, options, matrix.back());

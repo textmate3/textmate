@@ -343,6 +343,46 @@ namespace diacritics
 		return range_t<_BaseIter>(iterator_t<_BaseIter>(utf8::iterator_t<_BaseIter>(first), utf8::iterator_t<_BaseIter>(last)), iterator_t<_BaseIter>(utf8::iterator_t<_BaseIter>(last), utf8::iterator_t<_BaseIter>(last)));
 	}
 
+	// One grapheme as a value: its base character's code point and its bytes.
+	// A loop over graphemes() gets all three by value, where a loop over
+	// make_range has to keep the iterator for the bytes and the length.
+	template <typename _BaseIter>
+	struct grapheme_t
+	{
+		uint32_t code_point;
+		_BaseIter first, last;
+
+		size_t length () const { return std::distance(first, last); }
+	};
+
+	template <typename _BaseIter>
+	struct graphemes_t
+	{
+		struct iterator
+		{
+			using iterator_category = std::input_iterator_tag;
+			using value_type        = grapheme_t<_BaseIter>;
+			using difference_type   = std::ptrdiff_t;
+
+			value_type operator* () const                 { return { *current, &current, std::next(&current, current.length()) }; }
+			iterator& operator++ ()                       { ++current; return *this; }
+			bool operator== (iterator const& rhs) const   { return current == rhs.current; }
+
+			iterator_t<_BaseIter> current;
+		};
+
+		iterator begin () const { return { first }; }
+		iterator end () const   { return { last }; }
+
+		iterator_t<_BaseIter> first, last;
+	};
+
+	template <typename _BaseIter>
+	graphemes_t<_BaseIter> graphemes (_BaseIter const& first, _BaseIter const& last)
+	{
+		return { begin_of(first, last), end_of(first, last) };
+	}
+
 } /* diacritics */
 
 #endif /* end of include guard: TEXT_UTF8_H_8I8S2ODM */
