@@ -129,3 +129,22 @@ void test_repopulating_mirrors ()
 	OAK_ASSERT_EQ(s.fields[1]->range.from.offset, 1);
 	OAK_ASSERT_EQ(s.fields[1]->range.to.offset,   2);
 }
+
+// The mirror of field 2 sits inside field 1, and field 2 sits outside it,
+// so replacing field 1 has to drop the mirror itself: field 2 survives,
+// and a mirror left behind would write field 2's text into field 1.
+void test_replacing_a_field_drops_the_mirrors_inside_it ()
+{
+	std::string src = "${1:a $2} ${2:b}";
+	snippet::snippet_t s = snippet::parse(src, std::map<std::string, std::string>(), "" /* indent string */, text::indent_t(2, 2, false), nullptr /* run command callback */);
+
+	OAK_ASSERT_EQ(s.text, "a b b");
+	OAK_ASSERT_EQ(s.mirrors.size(), 1);
+
+	s.replace(s.fields[1]->range, "x");
+	OAK_ASSERT_EQ(s.text, "x b");
+	OAK_ASSERT_EQ(s.mirrors.size(), 0);
+
+	s.replace(s.fields[2]->range, "y");
+	OAK_ASSERT_EQ(s.text, "x y");
+}
