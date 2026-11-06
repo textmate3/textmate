@@ -331,15 +331,15 @@ namespace bundles
 	{
 		static struct path_format_t { kind_t type; char const* format; } const PathFormats[] =
 		{
-			{ kItemTypeBundle,         "%s.tmbundle"                   },
-			{ kItemTypeCommand,        "Commands/%s.tmCommand"         },
-			{ kItemTypeDragCommand,    "DragCommands/%s.tmDragCommand" },
-			{ kItemTypeMacro,          "Macros/%s.tmMacro"             },
-			{ kItemTypeSettings,       "Preferences/%s.tmPreferences"  },
-			{ kItemTypeSnippet,        "Snippets/%s.tmSnippet"         },
-			{ kItemTypeGrammar,        "Syntaxes/%s.tmLanguage"        },
-			{ kItemTypeProxy,          "Proxies/%s.tmProxy"            },
-			{ kItemTypeTheme,          "Themes/%s.tmTheme"             },
+			{ kItemTypeBundle,         "{}.tmbundle"                   },
+			{ kItemTypeCommand,        "Commands/{}.tmCommand"         },
+			{ kItemTypeDragCommand,    "DragCommands/{}.tmDragCommand" },
+			{ kItemTypeMacro,          "Macros/{}.tmMacro"             },
+			{ kItemTypeSettings,       "Preferences/{}.tmPreferences"  },
+			{ kItemTypeSnippet,        "Snippets/{}.tmSnippet"         },
+			{ kItemTypeGrammar,        "Syntaxes/{}.tmLanguage"        },
+			{ kItemTypeProxy,          "Proxies/{}.tmProxy"            },
+			{ kItemTypeTheme,          "Themes/{}.tmTheme"             },
 		};
 
 		for(auto const& pathFormat : PathFormats)
@@ -349,7 +349,7 @@ namespace bundles
 				std::replace(name.begin(), name.end(), '/', ':');
 				std::replace(name.begin(), name.end(), '.', '_');
 
-				std::string path = path::unique(path::join(folder, text::format(pathFormat.format, name.c_str())));
+				std::string path = path::unique(path::join(folder, std::vformat(pathFormat.format, std::make_format_args(name))));
 				if(kind == kItemTypeBundle)
 					path = path::join(path, "info.plist");
 

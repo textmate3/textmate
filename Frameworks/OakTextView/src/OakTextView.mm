@@ -2207,7 +2207,7 @@ static void update_menu_key_equivalents (NSMenu* menu, std::multimap<std::string
 		[self realKeyDown:anEvent];
 	}
 	catch(std::exception const& e) {
-		info << text::format("C++ Exception: %s", e.what());
+		info << std::format("C++ Exception: {}", e.what());
 		abort();
 	}
 }
@@ -3792,9 +3792,9 @@ static char const* kOakMenuItemTitle = "OakMenuItemTitle";
 	{
 		if(shouldMove && documentView->has_selection())
 		{
-			crashInfo << text::format("buffer size: %zu, move selection (%s) to %s", documentView->size(), to_s(documentView->ranges()).c_str(), to_s(pos).c_str());
+			crashInfo << std::format("buffer size: {}, move selection ({}) to {}", documentView->size(), to_s(documentView->ranges()).c_str(), to_s(pos).c_str());
 			documentView->move_selection_to(pos);
-			crashInfo << text::format("new selection %s", to_s(documentView->ranges()).c_str());
+			crashInfo << std::format("new selection {}", to_s(documentView->ranges()).c_str());
 		}
 		else
 		{

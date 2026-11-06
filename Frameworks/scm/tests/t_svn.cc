@@ -15,7 +15,7 @@ void test_basic_status ()
 	std::string const repoName = "tm-test-repo";
 	std::string const wcName = "tm-test-wc";
 	std::string const jailPath = jail.path();
-	std::string const script = text::format("{ cd '%1$s' && '%2$sadmin' create '%3$s' && '%2$s' co 'file://%1$s/%3$s' %4$s && cd '%4$s' && touch {clean,ignored,modified,added,missing,untracked}.txt && '%2$s' propset svn:ignore 'ignored.txt' . && '%2$s' add {clean,modified,missing}.txt && '%2$s' commit -m 'Initial commit' && '%2$s' add added.txt && '%2$s' rm missing.txt && echo foo > modified.txt; } >/dev/null", jailPath.c_str(), svn.c_str(), repoName.c_str(), wcName.c_str());
+	std::string const script = std::format("{{ cd '{0}' && '{1}admin' create '{2}' && '{1}' co 'file://{0}/{2}' {3} && cd '{3}' && touch {{clean,ignored,modified,added,missing,untracked}}.txt && '{1}' propset svn:ignore 'ignored.txt' . && '{1}' add {{clean,modified,missing}}.txt && '{1}' commit -m 'Initial commit' && '{1}' add added.txt && '{1}' rm missing.txt && echo foo > modified.txt; }} >/dev/null", jailPath.c_str(), svn.c_str(), repoName.c_str(), wcName.c_str());
 
 	if(io::exec("/bin/sh", "-c", script.c_str(), nullptr) == NULL_STR)
 		OAK_FAIL("error in setup: " + script);
@@ -24,7 +24,7 @@ void test_basic_status ()
 	{
 		wait_for_status(info);
 
-		std::string expectedBranch = text::format("file://%s/%s", jailPath.c_str(), repoName.c_str());
+		std::string expectedBranch = std::format("file://{}/{}", jailPath.c_str(), repoName.c_str());
 
 		auto vars = info->scm_variables();
 		OAK_ASSERT_EQ(vars["TM_SCM_NAME"],   "svn");

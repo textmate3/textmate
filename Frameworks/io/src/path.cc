@@ -341,7 +341,7 @@ namespace path
 				}
 				else
 				{
-					std::string errStr = len == -1 ? strerror(errno) : text::format("Result outside allowed range %zd", len);
+					std::string errStr = len == -1 ? strerror(errno) : std::format("Result outside allowed range {}", len);
 					os_log_error(OS_LOG_DEFAULT, "readlink(\"%{public}s\"): %{public}s", path.c_str(), errStr.c_str());
 				}
 			}
@@ -551,7 +551,7 @@ namespace path
 
 		for(size_t i = 1; i < 500; ++i)
 		{
-			std::string const num = i > 1 ? text::format(" %zu", i) : "";
+			std::string const num = i > 1 ? std::format(" {}", i) : "";
 			std::string const path = path::join(dir, base + suffix + num + ext);
 			if(!exists(path))
 				return path;
@@ -807,7 +807,7 @@ namespace path
 			// Retry is the only thing on offer because it is the only thing that can help. The
 			// radar names a bug filed in 2011 and marked a duplicate of one that was never
 			// resolved, so the system righting itself is all there is to wait for.
-			std::string message = text::format("Unable to obtain basic system information such as your home folder.\n\ngetpwuid(%d) did not return a readable home folder.", getuid());
+			std::string message = std::format("Unable to obtain basic system information such as your home folder.\n\ngetpwuid({}) did not return a readable home folder.", getuid());
 
 			CFOptionFlags responseFlags;
 			CFUserNotificationDisplayAlert(0 /* timeout */, kCFUserNotificationStopAlertLevel, nullptr /* iconURL */, nullptr /* soundURL */, nullptr /* localizationURL */, CFSTR("Missing User Database"), cf::wrap(message), CFSTR("Retry"), nullptr /* alternateButtonTitle */, nullptr /* otherButtonTitle */, &responseFlags);

@@ -61,7 +61,7 @@ namespace scm
 
 	bool driver_t::has_info_for_directory (std::string const& path)
 	{
-		bool res = path::exists(text::format(_wc_root_format_string.c_str(), path.c_str()));
+		bool res = path::exists(std::vformat(_wc_root_format_string, std::make_format_args(path)));
 		if(res)
 			setup();
 		return res;

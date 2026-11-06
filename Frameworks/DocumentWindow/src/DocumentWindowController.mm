@@ -54,7 +54,7 @@ static void show_command_error (std::string const& message, oak::uuid_t const& u
 
 	NSAlert* alert = [[NSAlert alloc] init];
 	[alert setAlertStyle:NSAlertStyleCritical];
-	[alert setMessageText:[NSString stringWithCxxString:text::format("Failure running “%.*s”.", (int)commandName.size(), commandName.data())]];
+	[alert setMessageText:[NSString stringWithCxxString:std::format("Failure running “{}”.", commandName)]];
 	[alert setInformativeText:[NSString stringWithCxxString:message] ?: @"No output"];
 	[alert addButtonWithTitle:@"OK"];
 	if(bundleItem)

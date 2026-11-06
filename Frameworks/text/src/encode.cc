@@ -10,7 +10,7 @@ namespace encode
 		{
 			if(strchr("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.!~*'()", ch) || excl.find(ch) != std::string::npos)
 					res += ch;
-			else	res += text::format("%%%02X", ch);
+			else	res += std::format("%{:02X}", ch);
 		}
 		return res;
 	}

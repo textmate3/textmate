@@ -53,7 +53,7 @@ namespace
 {
 	static char const* socket_path ()
 	{
-		static std::string const str = text::format("/tmp/textmate-%d.sock", getuid());
+		static std::string const str = std::format("/tmp/textmate-{}.sock", getuid());
 		return str.c_str();
 	}
 
@@ -271,7 +271,7 @@ namespace // wrap in anonymous namespace to avoid clashing with other callbacks 
 				char buf[1024];
 				while(size_t len = fread(buf, 1, sizeof(buf), fp))
 				{
-					std::string str = text::format("data: %zu\r\n", len);
+					std::string str = std::format("data: {}\r\n", len);
 					res = res && write(socket, str.data(), str.size()) == str.size();
 					res = res && write(socket, buf, len) == len;
 				}

@@ -874,7 +874,7 @@ static NSButton* OakCreateHistoryButton (NSString* toolTip)
 		std::string error = regexp::validate(to_s(self.findString));
 		if(error != NULL_STR)
 		{
-			[_findTextFieldViewController showPopoverWithString:to_ns(text::format("Invalid regular expression: %s.", error.c_str()))];
+			[_findTextFieldViewController showPopoverWithString:to_ns(std::format("Invalid regular expression: {}.", error.c_str()))];
 			return;
 		}
 	}
@@ -1339,8 +1339,9 @@ static NSButton* OakCreateHistoryButton (NSString* toolTip)
 		else if(str.size() && str.back() == '\n')
 			str.erase(str.size()-1);
 
+		// An untitled document has no path, which printf wrote as "(null)".
 		if(withFilename)
-			str = text::format("%s:%lu\t", [item.path UTF8String], m.lineNumber + 1) + str;
+			str = std::format("{}:{}\t", item.path ? [item.path UTF8String] : "(null)", m.lineNumber + 1) + str;
 
 		[array addObject:to_ns(str)];
 	}

@@ -43,7 +43,7 @@ namespace ng
 		};
 
 		static int key_comp (size_t key, size_t offset, size_t node)                              { return key < offset + node ? -1 : (key == offset + node ? 0 : +1); }
-		static std::string info_to_s (oak::basic_tree_t<size_t, value_t>::value_type const& info) { return text::format("%zu: %zu + %zu", info.offset + info.key, info.offset, info.key); }
+		static std::string info_to_s (oak::basic_tree_t<size_t, value_t>::value_type const& info) { return std::format("{}: {} + {}", info.offset + info.key, info.offset, info.key); }
 
 		void set_folded (std::vector< std::pair<size_t, size_t> > const& newFoldings);
 		std::vector< std::pair<size_t, size_t> > foldable_ranges () const;

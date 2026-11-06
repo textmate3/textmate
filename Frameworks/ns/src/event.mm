@@ -93,7 +93,7 @@ static std::string glyphs_for_key (std::string const& key, bool numpad = false)
 	if(code == 0xA0)
 		res = "nbsp";
 	else if(NSF1FunctionKey <= code && code <= NSF35FunctionKey)
-		res = text::format("F%d", code - NSF1FunctionKey + 1);
+		res = std::format("F{}", code - NSF1FunctionKey + 1);
 
 	if(numpad)
 		res += "\u20E3"; // COMBINING ENCLOSING KEYCAP

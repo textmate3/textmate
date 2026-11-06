@@ -143,7 +143,7 @@ namespace
 			if(section.names.empty())
 			{
 				variables.emplace_back("CWD", path::parent(path));
-				variables.emplace_back("TM_PROPERTIES_PATH", text::format("%s${TM_PROPERTIES_PATH:+:$TM_PROPERTIES_PATH}", path.c_str()));
+				variables.emplace_back("TM_PROPERTIES_PATH", std::format("{}${{TM_PROPERTIES_PATH:+:$TM_PROPERTIES_PATH}}", path.c_str()));
 			}
 
 			for(auto const& pair : section.values)

@@ -70,7 +70,7 @@ void test_indent ()
 	indent::fsm_t fsm(indentSize, tabSize);
 	for(auto line = std::begin(lines); line != std::end(lines); ++line)
 	{
-		OAK_MASSERT_EQ(text::format("%td: %s", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
+		OAK_MASSERT_EQ(std::format("{}: {}", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
 	}
 }
 
@@ -98,7 +98,7 @@ void test_seeding_proper_1 ()
 
 	for(auto line = std::begin(lines); line != std::end(lines); ++line)
 	{
-		OAK_MASSERT_EQ(text::format("%td: %s", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
+		OAK_MASSERT_EQ(std::format("{}: {}", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
 	}
 }
 
@@ -126,7 +126,7 @@ void test_seeding_proper_2 ()
 
 	for(auto line = std::begin(lines); line != std::end(lines); ++line)
 	{
-		OAK_MASSERT_EQ(text::format("%td: %s", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
+		OAK_MASSERT_EQ(std::format("{}: {}", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
 	}
 }
 
@@ -154,7 +154,7 @@ void test_seeding_improper ()
 
 	for(auto line = std::begin(lines); line != std::end(lines); ++line)
 	{
-		OAK_MASSERT_EQ(text::format("%td: %s", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
+		OAK_MASSERT_EQ(std::format("{}: {}", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
 	}
 }
 
@@ -180,7 +180,7 @@ void test_seeding_extra_indent ()
 
 	for(auto line = std::begin(lines); line != std::end(lines); ++line)
 	{
-		OAK_MASSERT_EQ(text::format("%td: %s", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
+		OAK_MASSERT_EQ(std::format("{}: {}", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
 	}
 }
 
@@ -198,6 +198,6 @@ void test_mixing ()
 	indent::fsm_t fsm(indentSize, tabSize);
 	for(auto line = std::begin(lines); line != std::end(lines); ++line)
 	{
-		OAK_MASSERT_EQ(text::format("%td: %s", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
+		OAK_MASSERT_EQ(std::format("{}: {}", line - std::begin(lines), line->content.c_str()), fsm.scan_line(line->content, patterns()), indentSize * line->indent);
 	}
 }

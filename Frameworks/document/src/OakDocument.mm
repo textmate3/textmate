@@ -570,7 +570,7 @@ static void* kDocumentEditedObserverContext = &kDocumentEditedObserverContext;
 			checksum = crc32_z(checksum, (Bytef const*)bytes, len);
 		});
 
-		res["com.macromates.crc32"]  = text::format("%04x", (uint32_t)checksum);
+		res["com.macromates.crc32"]  = std::format("{:04x}", (uint32_t)checksum);
 		res["com.macromates.folded"] = to_s(_folded);
 	}
 
@@ -861,7 +861,7 @@ static void* kDocumentEditedObserverContext = &kDocumentEditedObserverContext;
 	if(folded != attributes.end())
 	{
 		auto crc32 = attributes.find("com.macromates.crc32");
-		if(crc32 != attributes.end() && crc32->second == text::format("%04x", content->crc32()))
+		if(crc32 != attributes.end() && crc32->second == std::format("{:04x}", content->crc32()))
 			_folded = to_ns(folded->second);
 	}
 
@@ -1544,12 +1544,12 @@ static void* kDocumentEditedObserverContext = &kDocumentEditedObserverContext;
 	if(_buffer)
 	{
 		for(auto const& mark : _buffer->get_marks(0, _buffer->size(), to_s(aMark)))
-			v.push_back(text::format("'%s'", std::string(_buffer->convert(mark.first)).c_str()));
+			v.push_back(std::format("'{}'", std::string(_buffer->convert(mark.first)).c_str()));
 	}
 	else
 	{
 		for(auto const& mark : document::marks.get(to_s(_path), to_s(aMark)))
-			v.push_back(text::format("'%s'", std::string(mark.first).c_str()));
+			v.push_back(std::format("'{}'", std::string(mark.first).c_str()));
 	}
 	return to_ns(v.empty() ? NULL_STR : "( " + text::join(v, ", ") + " )");
 }

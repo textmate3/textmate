@@ -13,7 +13,7 @@ static std::string read_link (std::string const& path)
 	}
 	else
 	{
-		std::string errStr = len == -1 ? strerror(errno) : text::format("Result outside allowed range %zd", len);
+		std::string errStr = len == -1 ? strerror(errno) : std::format("Result outside allowed range {}", len);
 		os_log_error(OS_LOG_DEFAULT, "readlink(\"%{public}s\"): %{public}s", path.c_str(), errStr.c_str());
 	}
 	return NULL_STR;

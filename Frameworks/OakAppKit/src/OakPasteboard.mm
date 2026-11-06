@@ -644,20 +644,20 @@ namespace
 			isFlagged = [res[@"flagCount"] integerValue] ? YES : NO;
 	}
 
-	char const* queryFormat =
+	constexpr char const* queryFormat =
 		"BEGIN TRANSACTION;"
 		"INSERT INTO clipboards ('name') VALUES (:name);"
-		"%s"
+		"{}"
 		"INSERT INTO history ('options', 'clipboard_id') SELECT :options, id FROM clipboards WHERE name = :name;"
 		"SELECT LAST_INSERT_ROWID() AS history_id;"
-		"%s"
-		"INSERT INTO groups ('history_id', 'string_id') VALUES %s;"
+		"{}"
+		"INSERT INTO groups ('history_id', 'string_id') VALUES {};"
 		"END TRANSACTION;"
 		;
 
 	NSString* deleteQuery = self.avoidsDuplicates ? [NSString stringWithFormat:@"DELETE FROM history WHERE id IN (SELECT history_id FROM (SELECT history_id, COUNT(*) AS count FROM groups LEFT JOIN history ON history_id = history.id LEFT JOIN clipboards ON clipboard_id = clipboards.id LEFT JOIN strings ON string_id = strings.id WHERE name = :name AND string_id IN (%@) GROUP BY history_id HAVING count = %lu));", [stringIds componentsJoinedByString:@", "], stringIds.count] : @"";
 	NSString* flagQuery = isFlagged ? @"INSERT INTO flags (id) VALUES (LAST_INSERT_ROWID());" : @"";
-	std::string query = text::format(queryFormat, deleteQuery.UTF8String, flagQuery.UTF8String, [values componentsJoinedByString:@","].UTF8String);
+	std::string query = std::format(queryFormat, deleteQuery.UTF8String, flagQuery.UTF8String, [values componentsJoinedByString:@","].UTF8String);
 
 	if(NSDictionary* res = RunSQLStatement(OakPasteboard.SQLDatabase, query.c_str(), variables).firstObject)
 		options[@"historyId"] = res[@"history_id"];
@@ -760,14 +760,14 @@ namespace
 				keepUntil = [NSString stringWithFormat:@"MAX(\"%@\", %@)", row[@"date"], keepUntil];
 		}
 
-		char const* queryFormat =
-			"SELECT COUNT(*) AS count FROM history LEFT JOIN flags USING (id) WHERE date < %1$s AND flags.id IS NULL AND clipboard_id = (SELECT id FROM clipboards WHERE name = :name);"
-			"DELETE FROM history WHERE id IN (SELECT history.id FROM history LEFT JOIN flags USING (id) WHERE date < %1$s AND flags.id IS NULL AND clipboard_id = (SELECT id FROM clipboards WHERE name = :name));"
+		constexpr char const* queryFormat =
+			"SELECT COUNT(*) AS count FROM history LEFT JOIN flags USING (id) WHERE date < {0} AND flags.id IS NULL AND clipboard_id = (SELECT id FROM clipboards WHERE name = :name);"
+			"DELETE FROM history WHERE id IN (SELECT history.id FROM history LEFT JOIN flags USING (id) WHERE date < {0} AND flags.id IS NULL AND clipboard_id = (SELECT id FROM clipboards WHERE name = :name));"
 			"SELECT COUNT(*) AS count FROM strings LEFT JOIN groups ON string_id = strings.id WHERE string_id IS NULL;"
 			"DELETE FROM strings WHERE id IN (SELECT strings.id FROM strings LEFT JOIN groups ON string_id = strings.id WHERE string_id IS NULL);"
 			;
 
-		std::string query = text::format(queryFormat, keepUntil.UTF8String);
+		std::string query = std::format(queryFormat, keepUntil.UTF8String);
 		if(NSArray* rows = RunSQLStatement(OakPasteboard.SQLDatabase, query.c_str(), { { ":name", _name } }))
 		{
 			if(os_log_info_enabled(kLogSQLite))

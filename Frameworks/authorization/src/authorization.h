@@ -83,7 +83,7 @@ namespace osx
 				if(AuthorizationMakeExternalForm(_authorization, &extAuth) == errAuthorizationSuccess)
 				{
 					for(char* it = (char*)&extAuth; it != (char*)(&extAuth + 1); ++it)
-						res += text::format("%02X", *it);
+						res += std::format("{:02X}", *it);
 				}
 				return res;
 			}

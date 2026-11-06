@@ -71,7 +71,7 @@ void InstallBundleItems (NSArray* itemPaths)
 	{
 		char const* type = info.is_bundle ? "bundle" : "bundle item";
 		std::string const name = path::name(path::strip_extension(info.path));
-		std::string const title = text::format("The %s “%s” could not be installed because it is in delta format.", type, name.c_str());
+		std::string const title = std::format("The {} “{}” could not be installed because it is in delta format.", type, name.c_str());
 
 		NSAlert* alert        = [[NSAlert alloc] init];
 		alert.messageText     = [NSString stringWithCxxString:title];
@@ -84,7 +84,7 @@ void InstallBundleItems (NSArray* itemPaths)
 	{
 		char const* type = info.is_bundle ? "bundle" : "bundle item";
 		std::string const name = path::name(path::strip_extension(info.path));
-		std::string const title = text::format("The %s “%s” could not be installed because it is malformed.", type, name.c_str());
+		std::string const title = std::format("The {} “{}” could not be installed because it is malformed.", type, name.c_str());
 
 		NSAlert* alert        = [[NSAlert alloc] init];
 		alert.messageText     = [NSString stringWithCxxString:title];
@@ -97,7 +97,7 @@ void InstallBundleItems (NSArray* itemPaths)
 	{
 		char const* type = info.is_bundle ? "bundle" : "bundle item";
 		std::string const name = info.name;
-		std::string const title = text::format("The %s “%s” is already installed.", type, name.c_str());
+		std::string const title = std::format("The {} “{}” is already installed.", type, name.c_str());
 
 		NSAlert* alert        = [[NSAlert alloc] init];
 		alert.messageText     = [NSString stringWithCxxString:title];

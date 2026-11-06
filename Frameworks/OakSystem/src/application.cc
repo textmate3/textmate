@@ -103,7 +103,7 @@ namespace oak
 	void application_t::relaunch (char const* args)
 	{
 		std::string const appPath = path();
-		std::string script = text::format("{ kill %1$d; while ps -xp %1$d; do if (( ++n == 300 )); then exit; fi; sleep .2; done; open \"$0\" --args $1; } &>/dev/null &", getpid());
+		std::string script = std::format("{{ kill {0}; while ps -xp {0}; do if (( ++n == 300 )); then exit; fi; sleep .2; done; open \"$0\" --args $1; }} &>/dev/null &", getpid());
 		io::exec("/bin/sh", "-c", script.c_str(), appPath.c_str(), args, nullptr);
 	}
 

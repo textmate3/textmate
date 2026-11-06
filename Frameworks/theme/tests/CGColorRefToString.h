@@ -11,7 +11,7 @@ inline std::string to_s (CGColorRef color)
 	if(componentsCount == 4)
 	{
 		CGFloat const* rgba = CGColorGetComponents(color);
-		return text::format("#%02lX%02lX%02lX%02lX", lround(0xFF*rgba[0]), lround(0xFF*rgba[1]), lround(0xFF*rgba[2]), lround(0xFF*rgba[3]));
+		return std::format("#{:02X}{:02X}{:02X}{:02X}", lround(0xFF*rgba[0]), lround(0xFF*rgba[1]), lround(0xFF*rgba[2]), lround(0xFF*rgba[3]));
 	}
 	return NULL_STR;
 }

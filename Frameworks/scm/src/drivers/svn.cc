@@ -72,7 +72,7 @@ static std::map<std::string, std::string> parse_info_output (std::string const& 
 static void collect_all_paths (std::string const& svn, std::string const& xsltPath, scm::status_map_t& entries, std::string const& dir)
 {
 	ASSERT_NE(svn, NULL_STR); ASSERT_NE(xsltPath, NULL_STR);
-	std::string const cmd = text::format("cd %s && %s status --no-ignore --xml|/usr/bin/xsltproc %s -", path::escape(dir).c_str(), path::escape(svn).c_str(), path::escape(xsltPath).c_str());
+	std::string const cmd = std::format("cd {} && {} status --no-ignore --xml|/usr/bin/xsltproc {} -", path::escape(dir).c_str(), path::escape(svn).c_str(), path::escape(xsltPath).c_str());
 	parse_status_output(entries, io::exec("/bin/sh", "-c", cmd.c_str(), nullptr), dir);
 }
 
@@ -80,7 +80,7 @@ namespace scm
 {
 	struct svn_driver_t : driver_t
 	{
-		svn_driver_t () : driver_t("svn", "%s/.svn", "svn")
+		svn_driver_t () : driver_t("svn", "{}/.svn", "svn")
 		{
 			if(CFBundleRef bundle = CFBundleGetBundleWithIdentifier(CFSTR("com.textmate3.TextMate.scm")) ?: CFBundleGetMainBundle())
 			{

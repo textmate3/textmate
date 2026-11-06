@@ -574,8 +574,8 @@ namespace ng
 		std::vector<CGRect> res;
 		if(_refresh_counter == 1)
 		{
-			info << text::format("buffer revision %zu, previous revision %zu", _buffer.revision(), _pre_refresh_revision);
-			info << text::format("buffer caret %zu, previous caret %zu", selection.last().last.index, _pre_refresh_caret);
+			info << std::format("buffer revision {}, previous revision {}", _buffer.revision(), _pre_refresh_revision);
+			info << std::format("buffer caret {}, previous caret {}", selection.last().last.index, _pre_refresh_caret);
 
 			set_tab_size(_buffer.indent().tab_size());
 			update_metrics(visibleRect);
@@ -957,7 +957,7 @@ namespace ng
 	{
 		std::string const buffer = _buffer.substr(0, _buffer.size());
 		return _rows.to_s([&buffer](row_tree_t::value_type info){
-			return text::format("y: %.1f-%.1f, w: %1.f, bytes: %zu-%zu\n» %s\n%s", info.offset._height, info.offset._height + info.key._height, info.key._width, info.offset._length, info.offset._length + info.key._length, buffer.substr(info.offset._length, info.key._length).c_str(), ng::to_s(info.value).c_str());
+			return std::format("y: {:.1f}-{:.1f}, w: {:1.0f}, bytes: {}-{}\n» {}\n{}", info.offset._height, info.offset._height + info.key._height, info.key._width, info.offset._length, info.offset._length + info.key._length, buffer.substr(info.offset._length, info.key._length).c_str(), ng::to_s(info.value).c_str());
 		});
 	}
 

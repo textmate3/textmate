@@ -1508,7 +1508,7 @@ namespace ng
 				}
 				else
 				{
-					map.emplace("TM_SELECTED_TEXT", text::format("Error: Selection exceeds %s. Command should read selection from stdin.", text::format_size(ARG_MAX-32).c_str()));
+					map.emplace("TM_SELECTED_TEXT", std::format("Error: Selection exceeds {}. Command should read selection from stdin.", text::format_size(ARG_MAX-32).c_str()));
 				}
 			}
 		}

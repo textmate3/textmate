@@ -5,7 +5,7 @@ namespace scm
 {
 	struct p4_driver_t : driver_t
 	{
-		p4_driver_t () : driver_t("p4", "%s/.p4config") { }
+		p4_driver_t () : driver_t("p4", "{}/.p4config") { }
 
 		std::map<std::string, std::string> variables (std::string const& wcPath) const
 		{

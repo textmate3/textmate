@@ -26,7 +26,7 @@ void test_track_file ()
 	test::jail_t jail;
 	std::vector<std::string> paths;
 	for(size_t i = 0; i < 50; ++i)
-		paths.push_back(jail.path(text::format("%02zu.txt", i)));
+		paths.push_back(jail.path(std::format("{:02}.txt", i)));
 
 	for(size_t i = 0; i < 30; ++i)
 		path::set_content(paths[i], "");
