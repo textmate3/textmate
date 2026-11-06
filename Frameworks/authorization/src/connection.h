@@ -4,8 +4,8 @@
 #include <io/socket.h>
 #include <oak/oak.h>
 
-template <typename T> struct container_traits { typedef typename T::value_type insert_type; };
-template <template <typename, typename, typename, typename> class T, typename A, typename B, typename C, typename D> struct container_traits < T<A, B, C, D> > { typedef typename std::pair<A, B> insert_type; };
+template <typename T> struct container_traits { using insert_type = typename T::value_type; };
+template <template <typename, typename, typename, typename> class T, typename A, typename B, typename C, typename D> struct container_traits < T<A, B, C, D> > { using insert_type = std::pair<A, B>; };
 
 struct connection_t
 {
