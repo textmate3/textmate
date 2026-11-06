@@ -75,9 +75,8 @@ namespace transform
 				return format_string::expand("${open}${rhs}${op}${lhs}${close}", m.captures());
 
 			std::deque<char> tmp;
-			auto const graphemes = diacritics::make_range(src.data(), src.data() + src.size() - (hasNewline ? 1 : 0));
-			for(auto it = graphemes.begin(); it != graphemes.end(); ++it)
-				tmp.insert(tmp.begin(), &it, &it + it.length());
+			for(auto grapheme : diacritics::graphemes(src.data(), src.data() + src.size() - (hasNewline ? 1 : 0)))
+				tmp.insert(tmp.begin(), grapheme.first, grapheme.last);
 
 			std::copy(tmp.begin(), tmp.end(), back_inserter(res));
 			if(hasNewline)

@@ -25,15 +25,14 @@ namespace ng
 	{
 		size_t len = 0, tabSize = buffer.indent().tab_size();
 		std::string const& str = buffer.substr(caret.index, buffer.eol(buffer.convert(caret.index).line));
-		auto const graphemes = diacritics::make_range(str.data(), str.data() + str.size());
-		for(auto ch = graphemes.begin(); ch != graphemes.end(); ++ch)
+		for(auto grapheme : diacritics::graphemes(str.data(), str.data() + str.size()))
 		{
 			if(len == distance)
-				return index_t(caret.index + (&ch - str.data()));
+				return index_t(caret.index + (grapheme.first - str.data()));
 
-			size_t chWidth = *ch == '\t' ? tabSize - (len % tabSize) : (eastAsianWidth && text::is_east_asian_width(*ch) ? 2 : 1);
-			if(len + chWidth > distance || *ch == '\n')
-				return index_t(caret.index + (&ch - str.data()), distance - len);
+			size_t chWidth = grapheme.code_point == '\t' ? tabSize - (len % tabSize) : (eastAsianWidth && text::is_east_asian_width(grapheme.code_point) ? 2 : 1);
+			if(len + chWidth > distance || grapheme.code_point == '\n')
+				return index_t(caret.index + (grapheme.first - str.data()), distance - len);
 
 			len += chWidth;
 		}
