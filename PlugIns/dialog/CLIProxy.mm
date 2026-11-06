@@ -40,7 +40,7 @@
 	if(!_parameters)
 	{
 		NSMutableDictionary* res = [NSMutableDictionary dictionary];
-		if(id plist = [TMDCommand readPropertyList:self.inputHandle error:NULL])
+		if(id plist = [TMDCommand readPropertyList:self.inputHandle error:nullptr])
 		{
 			if([plist isKindOfClass:[NSDictionary class]])
 				res = plist;

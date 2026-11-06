@@ -23,18 +23,18 @@ std::string OakStackDump (int linesToSkip)
 	// ============
 
 	std::string cmd = text::format("/usr/bin/xcrun atos -p %d %s | /usr/bin/tail -n +%d | /usr/bin/c++filt", getpid(), trace, linesToSkip + 1);
-	char const* argv[] = { "/bin/sh", "-c", cmd.c_str(), NULL };
+	char const* argv[] = { "/bin/sh", "-c", cmd.c_str(), nullptr };
 
 	// The system's default PATH, asked for before the fork so that the child
 	// only closes, duplicates and executes. The length answered the first time
 	// includes the terminating null.
 	int mib[2] = { CTL_USER, USER_CS_PATH };
 	size_t len = 0;
-	sysctl(mib, 2, NULL, &len, NULL, 0);
+	sysctl(mib, 2, nullptr, &len, nullptr, 0);
 	std::string pathVariable(5 + len, '\0');
 	memcpy(&pathVariable[0], "PATH=", 5);
-	sysctl(mib, 2, &pathVariable[5], &len, NULL, 0);
-	char const* envp[] = { "LANG=en_US.UTF-8", "LC_CTYPE=en_US.UTF-8", pathVariable.c_str(), NULL };
+	sysctl(mib, 2, &pathVariable[5], &len, nullptr, 0);
+	char const* envp[] = { "LANG=en_US.UTF-8", "LC_CTYPE=en_US.UTF-8", pathVariable.c_str(), nullptr };
 
 	int output[2];
 	pipe(&output[0]);
@@ -74,7 +74,7 @@ std::string OakStackDump (int linesToSkip)
 static std::string format (char const* format, ...) __attribute__ ((format (printf, 1, 2)));
 static std::string format (char const* format, ...)
 {
-	char* tmp = NULL;
+	char* tmp = nullptr;
 
 	va_list ap;
 	va_start(ap, format);
@@ -93,7 +93,7 @@ namespace oak
 	std::string to_s (ssize_t value)            { return format("%zd", value); }
 	std::string to_s (int value)                { return format("%d", value); }
 	std::string to_s (double value)             { return format("%g", value); }
-	std::string to_s (char const* value)        { return value == NULL     ? "«NULL»"     : format("\"%s\"", value); }
+	std::string to_s (char const* value)        { return value == nullptr  ? "«NULL»"     : format("\"%s\"", value); }
 	std::string to_s (std::string const& value) { return value == NULL_STR ? "«NULL_STR»" : "\"" + value + "\""; }
 }
 
@@ -135,7 +135,7 @@ void OakBadAssertion (char const* name, char const* format, ...)
 	{
 		va_list ap;
 		va_start(ap, format);
-		char* buf = NULL;
+		char* buf = nullptr;
 		vasprintf(&buf, format, ap);
 		va_end(ap);
 

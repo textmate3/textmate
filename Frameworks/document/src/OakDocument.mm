@@ -1874,6 +1874,6 @@ static void* kDocumentEditedObserverContext = &kDocumentEditedObserverContext;
 	[[printer printPanel] setOptions:[[printer printPanel] options] | NSPrintPanelShowsPaperSize | NSPrintPanelShowsOrientation];
 	[[printer printPanel] addAccessoryController:[OakDocumentPrintOptionsViewController new]];
 
-	[printer runOperationModalForWindow:aWindow delegate:nil didRunSelector:NULL contextInfo:nil];
+	[printer runOperationModalForWindow:aWindow delegate:nil didRunSelector:nullptr contextInfo:nil];
 }
 @end

@@ -80,7 +80,7 @@ id frontMostTextViewForSelector (SEL selector, BOOL* isNew, NSWindow** winForTex
 void insert_text (NSString* someText)
 {
 	BOOL isNewDocument = NO;
-	if(id textView = frontMostTextViewForSelector(@selector(insertText:), &isNewDocument, NULL))
+	if(id textView = frontMostTextViewForSelector(@selector(insertText:), &isNewDocument, nullptr))
 	{
 		if(isNewDocument) // delay the insertion to let TM finish the initialization of the new doc
 				[textView performSelector:@selector(insertText:) withObject:someText afterDelay:insertionDelayForNewDoc];

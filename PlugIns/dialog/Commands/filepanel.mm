@@ -64,7 +64,7 @@ static NSArray<UTType*>* ContentTypesFromStrings (NSArray<NSString*>* types)
 
 	if(NSString* typesStr = args[@"allowedFileTypes"])
 	{
-		id rawTypes = [NSPropertyListSerialization propertyListWithData:[typesStr dataUsingEncoding:NSUTF8StringEncoding] options:NSPropertyListImmutable format:NULL error:NULL];
+		id rawTypes = [NSPropertyListSerialization propertyListWithData:[typesStr dataUsingEncoding:NSUTF8StringEncoding] options:NSPropertyListImmutable format:nullptr error:nullptr];
 		NSArray* types = nil;
 		if([rawTypes isKindOfClass:[NSString class]])
 			types = [NSArray arrayWithObject:rawTypes];
