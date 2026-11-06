@@ -14,6 +14,38 @@ static std::string steps (std::string const& str)
 	return res;
 }
 
+// The same, through graphemes(), which hands each step over as a value.
+static std::string values (std::string const& str)
+{
+	std::string res;
+	for(auto grapheme : diacritics::graphemes(str.data(), str.data() + str.size()))
+		res += text::format("%sU+%04X@%td:%zu", res.empty() ? "" : " ", grapheme.code_point, grapheme.first - str.data(), grapheme.length());
+	return res;
+}
+
+void test_graphemes_agree_with_make_range ()
+{
+	static std::string const samples[] = {
+		"", "abc", "caf\xC3\xA9", "cafe\xCC\x81", "a\xCC\x81\xCC\xA7" "b", "\xE6\x97\xA5\xE6\x9C\xAC", "a\tb\n", "a\r\nb",
+		"\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA7\xE2\x80\x8D\xF0\x9F\x91\xA6",
+		"\xF0\x9F\x8F\xB4\xF3\xA0\x81\xA7\xF3\xA0\x81\xA2\xF3\xA0\x81\xB3\xF3\xA0\x81\xA3\xF3\xA0\x81\xB4\xF3\xA0\x81\xBF",
+		"\xF0\x9F\x91\x8D\xF0\x9F\x8F\xBD",
+	};
+	for(auto const& sample : samples)
+		OAK_ASSERT_EQ(values(sample), steps(sample));
+}
+
+void test_a_grapheme_value_carries_its_bytes ()
+{
+	std::string const str = "cafe\xCC\x81!";
+	std::vector<std::string> bytes;
+	for(auto grapheme : diacritics::graphemes(str.data(), str.data() + str.size()))
+		bytes.emplace_back(grapheme.first, grapheme.last);
+	OAK_ASSERT_EQ(bytes.size(), 5);
+	OAK_ASSERT_EQ(bytes[3], "e\xCC\x81");
+	OAK_ASSERT_EQ(bytes[4], "!");
+}
+
 void test_ascii_is_one_byte_a_step ()
 {
 	OAK_ASSERT_EQ(steps("abc"), "U+0061@0:1 U+0062@1:1 U+0063@2:1");
