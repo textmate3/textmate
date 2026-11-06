@@ -130,11 +130,9 @@ namespace
 		void unwatch (std::string const& path, fs::event_callback_t* cb)
 		{
 			std::lock_guard<std::mutex> lock(streams_mutex);
-			for(auto stream = streams.begin(); stream != streams.end(); ++stream)
-			{
-				if((*stream)->_requested.path() == path && (*stream)->_callback == cb)
-					return (void)streams.erase(stream);
-			}
+			auto stream = std::ranges::find_if(streams, [&](stream_ptr const& candidate){ return candidate->_requested.path() == path && candidate->_callback == cb; });
+			if(stream != streams.end())
+				return (void)streams.erase(stream);
 			os_log_error(OS_LOG_DEFAULT, "Not watching ‘%{public}s’", path.c_str());
 		}
 

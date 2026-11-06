@@ -220,15 +220,7 @@ namespace snippet
 		range.from.rank = range.to.rank = currentField.from.rank+1;
 		ASSERTF(currentField.contains(range), "%zu (%zu) < %zu (%zu) && %zu (%zu) < %zu (%zu)", currentField.from.offset, currentField.from.rank, range.from.offset, range.from.rank, range.to.offset, range.to.rank, currentField.to.offset, currentField.to.rank);
 
-		std::vector<std::multimap<size_t, field_ptr>::iterator> mirrors_to_remove;
-		for(auto mirror = mirrors.begin(); mirror != mirrors.end(); ++mirror)
-		{
-			if(currentField.contains(mirror->second->range))
-				mirrors_to_remove.push_back(mirror);
-		}
-
-		for(auto const& mirror : mirrors_to_remove)
-			mirrors.erase(mirror);
+		std::erase_if(mirrors, [&currentField](auto const& mirror){ return currentField.contains(mirror.second->range); });
 
 		replacements_t const& res = replace_helper(current_field, range, str);
 		std::vector<size_t> fields_to_remove;
