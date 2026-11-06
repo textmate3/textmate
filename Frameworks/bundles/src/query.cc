@@ -187,17 +187,14 @@ namespace bundles
 
 	void remove_item (item_ptr item)
 	{
-		for(auto it = AllItems.begin(); it != AllItems.end(); ++it)
-		{
-			if((*it)->uuid() != item->uuid())
-				continue;
+		auto it = std::ranges::find_if(AllItems, [&item](item_ptr const& candidate){ return candidate->uuid() == item->uuid(); });
+		if(it == AllItems.end())
+			return;
 
-			Callbacks(&callback_t::bundles_will_change);
-			AllItems.erase(it);
-			cache().clear();
-			Callbacks(&callback_t::bundles_did_change);
-			break;
-		}
+		Callbacks(&callback_t::bundles_will_change);
+		AllItems.erase(it);
+		cache().clear();
+		Callbacks(&callback_t::bundles_did_change);
 	}
 
 	// ===================

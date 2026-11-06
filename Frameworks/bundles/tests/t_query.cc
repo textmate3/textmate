@@ -85,3 +85,20 @@ void test_require ()
 	std::string pathSuffix = "/Bundles/Dialog.tmbundle/Support/bin";
 	OAK_ASSERT_EQ(dialogPath.find(pathSuffix) + pathSuffix.size(), dialogPath.size());
 }
+
+// Adds an item of its own and removes it again, so the shared index ends as it began.
+void test_remove_item ()
+{
+	auto item = std::make_shared<bundles::item_t>(oak::uuid_t().generate(), bundles::item_ptr(), bundles::kItemTypeSnippet);
+	item->initialize(plist::dictionary_t{ { "name", std::string("Temporary Snippet") } });
+
+	bundles::add_item(item);
+	OAK_ASSERT(bundles::lookup(item->uuid()));
+
+	bundles::remove_item(item);
+	OAK_ASSERT(!bundles::lookup(item->uuid()));
+
+	// Removing an item the index does not hold does nothing.
+	bundles::remove_item(item);
+	OAK_ASSERT(!bundles::lookup(item->uuid()));
+}
