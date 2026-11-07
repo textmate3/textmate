@@ -1,5 +1,6 @@
-import Testing
 import Foundation
+import Testing
+
 @testable import CommitWindow
 
 // The window had no tests at all. These cover what it decides rather than what

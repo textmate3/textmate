@@ -1,4 +1,5 @@
 import Testing
+
 @testable import HTMLOutput
 
 // The status strip decided which of two progress indicators to show by adding

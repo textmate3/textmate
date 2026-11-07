@@ -23,24 +23,24 @@ public struct Version: Comparable, Sendable {
     var left = lhs.tokens[...]
     var right = rhs.tokens[...]
 
-    while let l = left.first, let r = right.first {
-      let bothNumeric = isNumeric(l) && isNumeric(r)
-      if l != r && (!bothNumeric || !numericallyEqual(l, r)) {
+    while let leftToken = left.first, let rightToken = right.first {
+      let bothNumeric = isNumeric(leftToken) && isNumeric(rightToken)
+      if leftToken != rightToken && (!bothNumeric || !numericallyEqual(leftToken, rightToken)) {
         if bothNumeric {
-          return numericallyLess(l, r)
-        } else if isSeparator(l) {
-          return l == "-" || (l == "+" && r == ".")
+          return numericallyLess(leftToken, rightToken)
+        } else if isSeparator(leftToken) {
+          return leftToken == "-" || (leftToken == "+" && rightToken == ".")
         }
-        return l.utf8.lexicographicallyPrecedes(r.utf8)
-      } else if l == "+" {
+        return leftToken.utf8.lexicographicallyPrecedes(rightToken.utf8)
+      } else if leftToken == "+" {
         return false
       }
       left = left.dropFirst()
       right = right.dropFirst()
     }
 
-    if let l = left.first {
-      return l == "-"
+    if let leftToken = left.first {
+      return leftToken == "-"
     }
     return right.first == "."
   }
@@ -104,12 +104,12 @@ public struct Version: Comparable, Sendable {
   }
 
   private static func numericallyLess(_ lhs: String, _ rhs: String) -> Bool {
-    let l = significantDigits(lhs)
-    let r = significantDigits(rhs)
-    if l.count != r.count {
-      return l.count < r.count
+    let leftDigits = significantDigits(lhs)
+    let rightDigits = significantDigits(rhs)
+    if leftDigits.count != rightDigits.count {
+      return leftDigits.count < rightDigits.count
     }
-    return l.utf8.lexicographicallyPrecedes(r.utf8)
+    return leftDigits.utf8.lexicographicallyPrecedes(rightDigits.utf8)
   }
 }
 
@@ -120,9 +120,9 @@ public struct Version: Comparable, Sendable {
     case (nil, nil): return .orderedSame
     case (nil, _): return .orderedAscending
     case (_, nil): return .orderedDescending
-    case let (l?, r?):
-      let left = Version(l)
-      let right = Version(r)
+    case (let leftString?, let rightString?):
+      let left = Version(leftString)
+      let right = Version(rightString)
       if left < right { return .orderedAscending }
       if right < left { return .orderedDescending }
       return .orderedSame

@@ -39,13 +39,13 @@ import Testing
       }
     }
 
-    for i in versions.indices {
-      for j in i..<versions.count {
-        for lhs in [versions[i], versions[i] + "+git.c0de"] {
-          for rhs in [versions[j], versions[j] + "+git.b337"] {
+    for lowerIndex in versions.indices {
+      for upperIndex in lowerIndex..<versions.count {
+        for lhs in [versions[lowerIndex], versions[lowerIndex] + "+git.c0de"] {
+          for rhs in [versions[upperIndex], versions[upperIndex] + "+git.b337"] {
             let left = Version(lhs)
             let right = Version(rhs)
-            if i < j {
+            if lowerIndex < upperIndex {
               #expect(left < right, "\(lhs) < \(rhs)")
             } else {
               #expect(left == right, "\(lhs) == \(rhs)")

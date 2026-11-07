@@ -1,4 +1,5 @@
 import Testing
+
 @testable import OakFilterList
 
 /// The ranker face answers as the C++ ranker does, which has its own tests over the scoring.

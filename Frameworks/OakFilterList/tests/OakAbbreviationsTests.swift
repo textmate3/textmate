@@ -1,5 +1,6 @@
-import Testing
 import Foundation
+import Testing
+
 @testable import OakFilterList
 
 // What a person picked the last time they typed a given abbreviation. Every

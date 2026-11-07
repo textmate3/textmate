@@ -1,6 +1,7 @@
 import AppKit
 import Testing
 import WebKit
+
 @testable import HTMLOutput
 
 /// The output view's face: what it says about the command it shows, before and after a load, without a window.
