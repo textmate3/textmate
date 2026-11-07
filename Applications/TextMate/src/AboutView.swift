@@ -32,7 +32,7 @@ struct AboutView: View {
       Text(
         """
         There is a [FAQ](https://textmate3.com/faq/) and \
-        [hidden settings](https://github.com/textmate/textmate/wiki/Hidden-Settings) page.
+        [hidden settings](https://textmate3.com/faq/#hidden-settings) page.
         """
       )
 
