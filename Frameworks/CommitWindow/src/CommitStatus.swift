@@ -24,23 +24,23 @@ enum CommitStatus: Character, CaseIterable {
 
   var foreground: Color {
     switch self {
-      case .added: .init(red: 0, green: 0.667, blue: 0)
-      case .conflict, .unversioned: .init(red: 0, green: 0.502, blue: 0.502)
-      case .deleted, .removed: .init(red: 1, green: 0, blue: 0)
-      case .external: .white
-      case .ignored: .init(red: 0.502, green: 0, blue: 0.502)
-      case .merged, .modified: .init(red: 0.922, green: 0.392, blue: 0)
+    case .added: .init(red: 0, green: 0.667, blue: 0)
+    case .conflict, .unversioned: .init(red: 0, green: 0.502, blue: 0.502)
+    case .deleted, .removed: .init(red: 1, green: 0, blue: 0)
+    case .external: .white
+    case .ignored: .init(red: 0.502, green: 0, blue: 0.502)
+    case .merged, .modified: .init(red: 0.922, green: 0.392, blue: 0)
     }
   }
 
   var background: Color {
     switch self {
-      case .added: .init(red: 0.733, green: 1, blue: 0.702)
-      case .conflict, .unversioned: .init(red: 0.639, green: 0.808, blue: 0.816)
-      case .deleted, .removed: .init(red: 0.961, green: 0.741, blue: 0.741)
-      case .external: .black
-      case .ignored: .init(red: 0.929, green: 0.682, blue: 0.961)
-      case .merged, .modified: .init(red: 0.969, green: 0.882, blue: 0.678)
+    case .added: .init(red: 0.733, green: 1, blue: 0.702)
+    case .conflict, .unversioned: .init(red: 0.639, green: 0.808, blue: 0.816)
+    case .deleted, .removed: .init(red: 0.961, green: 0.741, blue: 0.741)
+    case .external: .black
+    case .ignored: .init(red: 0.929, green: 0.682, blue: 0.961)
+    case .merged, .modified: .init(red: 0.969, green: 0.882, blue: 0.678)
     }
   }
 }

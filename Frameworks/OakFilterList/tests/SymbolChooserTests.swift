@@ -1,4 +1,5 @@
 import Testing
+
 @testable import OakFilterList
 
 /// The symbol chooser's reading of a selection: which symbol the selection is in, by position.

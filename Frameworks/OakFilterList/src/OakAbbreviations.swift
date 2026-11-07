@@ -23,7 +23,8 @@ public final class OakAbbreviations: NSObject {
 
     init?(dictionary: [String: String]) {
       guard let abbreviation = dictionary[Self.abbreviationKey],
-            let expansion = dictionary[Self.expansionKey] else { return nil }
+        let expansion = dictionary[Self.expansionKey]
+      else { return nil }
       self.init(abbreviation: abbreviation, expansion: expansion)
     }
 

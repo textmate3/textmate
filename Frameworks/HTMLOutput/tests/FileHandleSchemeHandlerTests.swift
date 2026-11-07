@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+
 @testable import HTMLOutput
 
 /// The scheme handler's asset policy: which paths a page may read, by the page it is and the directories registered for it.

@@ -52,17 +52,17 @@ struct CommitArguments {
 
     while let argument = remaining.next() {
       switch argument {
-        case "--show-continue-button": showsContinueButton = true
-        case "--commit-button-title":  commitButtonPrefix = remaining.next() ?? commitButtonPrefix
-        case "--log":                  log = remaining.next() ?? ""
-        case "--status":               statuses = (remaining.next() ?? "").components(separatedBy: ":")
-        case "--diff-cmd":             diffCommand = (remaining.next() ?? "").components(separatedBy: ",")
-        case "--action-cmd":
-          if let declaration = remaining.next(), let action = CommitAction(declaration: declaration) {
-            actions.append(action)
-          }
-        default:
-          paths.append(argument)
+      case "--show-continue-button": showsContinueButton = true
+      case "--commit-button-title": commitButtonPrefix = remaining.next() ?? commitButtonPrefix
+      case "--log": log = remaining.next() ?? ""
+      case "--status": statuses = (remaining.next() ?? "").components(separatedBy: ":")
+      case "--diff-cmd": diffCommand = (remaining.next() ?? "").components(separatedBy: ",")
+      case "--action-cmd":
+        if let declaration = remaining.next(), let action = CommitAction(declaration: declaration) {
+          actions.append(action)
+        }
+      default:
+        paths.append(argument)
       }
     }
   }

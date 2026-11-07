@@ -1,4 +1,5 @@
 import Testing
+
 @testable import HTMLOutput
 
 /// A command run for a page: the handlers hear every chunk as it is read, and the whole once it is done.
