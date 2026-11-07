@@ -24,14 +24,14 @@ struct AboutView: View {
       Text(
         """
         The manual is a work in progress and can be found at \
-        [macromates.com/textmate/manual](https://macromates.com/textmate/manual/). \
-        The MacroMates Blog has a [TextMate 2 category](https://blog.macromates.com/categories/textmate-2/).
+        [textmate3.com/docs](https://textmate3.com/docs/). \
+        News is on the [TextMate 3 blog](https://textmate3.com/blog/).
         """
       )
 
       Text(
         """
-        There is a [FAQ](https://github.com/textmate/textmate/wiki/FAQ) and \
+        There is a [FAQ](https://textmate3.com/faq/) and \
         [hidden settings](https://github.com/textmate/textmate/wiki/Hidden-Settings) page.
         """
       )
@@ -39,7 +39,7 @@ struct AboutView: View {
       Text(
         """
         For comments, questions, and general feedback see \
-        [macromates.com/support](https://macromates.com/support).
+        [textmate3.com/support](https://textmate3.com/support/).
         """
       )
 
