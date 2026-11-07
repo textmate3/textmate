@@ -1,4 +1,5 @@
 import Testing
+
 @testable import HTMLOutput
 
 /// The buffer assembles whole characters from bytes that arrive in any chunking,

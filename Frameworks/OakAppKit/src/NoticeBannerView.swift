@@ -138,9 +138,10 @@ public final class NoticeBannerView: NSView {
   public init(frame: NSRect, board: NoticeBoard) {
     super.init(frame: frame)
 
-    let hosting = NSHostingView(rootView: NoticeBanner(board: board) { [weak self] height in
-      self?.contentHeightChanged(to: height)
-    })
+    let hosting = NSHostingView(
+      rootView: NoticeBanner(board: board) { [weak self] height in
+        self?.contentHeightChanged(to: height)
+      })
     hosting.sizingOptions = []
     hosting.translatesAutoresizingMaskIntoConstraints = false
     addSubview(hosting)

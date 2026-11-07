@@ -1,4 +1,5 @@
 import Testing
+
 @testable import HTMLOutput
 
 /// The bridge's side of the TextMate object: what each message from the page does, and what it answers.

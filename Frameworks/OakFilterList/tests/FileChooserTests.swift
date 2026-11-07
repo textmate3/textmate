@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+
 @testable import OakFilterList
 
 /// Open Quickly apart from the window: how the typed filter is taken apart, how a row ranks, and what a pick carries.
