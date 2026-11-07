@@ -1,3 +1,5 @@
+// swiftlint:disable file_length
+
 import AppKit
 
 /// One row of Open Quickly: a document, where it sits under the project, and how well it matches the filter.
@@ -161,6 +163,7 @@ private final class SearchResults: @unchecked Sendable {
 /// person types. The filter can be a glob, and can carry a line or a symbol to go to after the file name.
 @objc(FileChooser)
 @MainActor
+// swiftlint:disable:next type_body_length
 public final class FileChooser: Chooser, NSMenuItemValidation {
   @objc public static let sharedInstance = FileChooser()
 

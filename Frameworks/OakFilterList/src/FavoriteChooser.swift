@@ -49,6 +49,7 @@ import OSLog
 /// Removing a row forgets a recent project or trashes a favorite's link.
 @objc(FavoriteChooser)
 @MainActor
+// swiftlint:disable:next type_body_length
 public final class FavoriteChooser: Chooser {
   @objc public static let sharedInstance = FavoriteChooser()
 

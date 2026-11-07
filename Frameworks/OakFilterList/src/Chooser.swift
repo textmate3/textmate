@@ -7,6 +7,7 @@ import AppKit
 /// picked. The subclasses decide what the items are, how they rank, and what a row looks like.
 @objc(OakChooser)
 @MainActor
+// swiftlint:disable:next type_body_length
 open class Chooser: NSWindowController, NSWindowDelegate, NSTextFieldDelegate, NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate {
   /// Sent to the target with the chooser when an item is picked.
   @objc open var action: Selector?
@@ -64,7 +65,7 @@ open class Chooser: NSWindowController, NSWindowDelegate, NSTextFieldDelegate, N
 
   /// The views are made with the chooser and set up here, all of them, so that tearing down touches nothing that
   /// was never made.
-  private func setUpViews() {
+  private func setUpViews() {  // swiftlint:disable:this function_body_length
     searchField.cell?.isScrollable = true
     (searchField.cell as? NSSearchFieldCell)?.sendsSearchStringImmediately = true
     searchField.setAccessibilitySharedFocusElements([tableView])
