@@ -52,6 +52,7 @@ Target: **2.1.0**, the first release of the project. Version 3.0.0 is the eventu
 - Sparkle's `Autoupdate` helper was left with its ad hoc signature, because the rule that names the bundle a nested binary belongs to took anything under a framework's `Versions` directory for the framework's own binary. Apple's first notarization answer named exactly that file. The rule now matches the framework only for the binary that carries its name, and `Autoupdate` is signed as the standalone tool it is.
 
 ### Changed
+- The About window's links point at `textmate3.com`: the manual at `/docs/`, the blog at `/blog/`, the FAQ and the hidden settings at `/faq/`, and support at `/support/`, which sends people to the GitHub issues. They pointed at TextMate 2's manual, blog, wiki and support page on `macromates.com` and GitHub.
 - CI runs `script/lint`, as a job of its own beside the build and tests, so a style or formatting slip fails the pull request that makes it.
 - `script/lint` passes again. The Swift sources are formatted with `script/format`, which wraps long lines, groups `@testable` imports after the others and moves a `let` inside a `case` pattern, and the one letter names in `Version` and its tests are spelled out.
 - The CI and Benchmarks workflows no longer write a Homebrew include path into `local.rave` before configuring. It was there for boost's headers, and the build has used nothing from Homebrew's include directory since boost left, so `configure` writes the file itself as it does on any fresh checkout.
