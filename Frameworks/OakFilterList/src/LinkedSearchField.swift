@@ -174,7 +174,7 @@ final class LinkedSearchFieldCell: NSSearchFieldCell {
 /// The chooser's search field, whose cell pads its text for assistive clients.
 @objc(OakLinkedSearchField)
 final class LinkedSearchField: NSSearchField {
-  override class var cellClass: AnyClass? {
+  override static var cellClass: AnyClass? {
     get { LinkedSearchFieldCell.self }
     set {}
   }
