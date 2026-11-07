@@ -1,3 +1,5 @@
+// swiftlint:disable file_length
+
 import AppKit
 
 struct MenuItemRecord {
@@ -11,6 +13,7 @@ struct MenuItemRecord {
 /// opens it for editing.
 @objc(BundleItemChooser)
 @MainActor
+// swiftlint:disable:next type_body_length
 public final class BundleItemChooser: Chooser, NSMenuItemValidation {
   @objc public static let sharedInstance = BundleItemChooser()
 
@@ -95,6 +98,7 @@ public final class BundleItemChooser: Chooser, NSMenuItemValidation {
   /// Sent to the target with the chooser when the person asks to edit the item rather than run it.
   @objc public var editAction: Selector?
 
+  // swiftlint:disable:next function_body_length
   public convenience init() {
     self.init(window: nil)
     tableView.rowHeight = 38
@@ -506,6 +510,7 @@ extension BundleItemChooser {
     return result
   }
 
+  // swiftlint:disable:next cyclomatic_complexity function_body_length
   private func buildUnfilteredItems() -> [BundleItemChooserItem] {
     var items: [BundleItemChooserItem] = []
     let scope = searchAllScopes ? TMScopeContext.wildcard : self.scope

@@ -44,7 +44,7 @@ public final class JavaScriptBridge: NSObject, WKScriptMessageHandlerWithReply {
   }
 
   /// Acts on what the page sent. Apart from the WebKit message, which only WebKit can make.
-  func handle(_ body: Any, reply: @escaping @MainActor (Any?, String?) -> Void) {
+  func handle(_ body: Any, reply: @escaping @MainActor (Any?, String?) -> Void) {  // swiftlint:disable:this cyclomatic_complexity
     guard let body = body as? [String: Any], let method = body["method"] as? String else {
       return reply(nil, "TextMate bridge: malformed message")
     }

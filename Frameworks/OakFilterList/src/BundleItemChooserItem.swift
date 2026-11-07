@@ -92,7 +92,13 @@ final class BundleItemChooserItem: NSObject, @unchecked Sendable {
   /// How well the row matches the filter in the field being searched. For the title, actions rank by the ranker and
   /// everything else by substring, a name match ahead of one through the location. The other fields match whole or
   /// contained. A remembered pick for this filter comes before any match, the most recent foremost.
-  func updateRank(filter: String, field: BundleItemField, sources: BundleItemSearchSources, bindings: [String], defaultRank: Double) {
+  func updateRank(  // swiftlint:disable:this cyclomatic_complexity function_body_length
+    filter: String,
+    field: BundleItemField,
+    sources: BundleItemSearchSources,
+    bindings: [String],
+    defaultRank: Double
+  ) {
     reset()
 
     var rank = defaultRank

@@ -14,13 +14,17 @@ struct HTMLOutputStatusBar: View {
     VStack(spacing: 0) {
       Divider()
       HStack(spacing: 2) {
-        Button(action: { status.goBack?() }) {
+        Button {
+          status.goBack?()
+        } label: {
           Image(systemName: "chevron.left")
         }
         .disabled(!status.canGoBack)
         .help("Show the previous page")
 
-        Button(action: { status.goForward?() }) {
+        Button {
+          status.goForward?()
+        } label: {
           Image(systemName: "chevron.right")
         }
         .disabled(!status.canGoForward)

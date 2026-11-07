@@ -24,7 +24,7 @@ import Testing
     + Array(" اسم الآيفون سيكون\nDouble width: ".utf8) + [0xF0, 0xA0, 0xBB]
     + Array("南野 繁弘\n".utf8) + [0xE2, 0x99]
 
-  private static let expected = String(decoding: good, as: UTF8.self)
+  private static let expected = String(bytes: good, encoding: .utf8)!
 
   private func feed(_ source: [UInt8], chunkSize: Int) -> (streamed: String, whole: String) {
     var buffer = UTF8Buffer()

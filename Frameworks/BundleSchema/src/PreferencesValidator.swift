@@ -91,6 +91,7 @@ public struct PreferencesValidator: Sendable {
     return issues
   }
 
+  // swiftlint:disable:next cyclomatic_complexity
   private func mismatch(_ value: Any, _ key: SchemaKey) -> String? {
     switch key.kind {
     case .boolean:
