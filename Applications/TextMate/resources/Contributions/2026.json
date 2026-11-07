@@ -2,6 +2,523 @@
   "year": 2026,
   "commits": [
     {
+      "hash": "d1054eb0b21342a6c6bb88f7439bf5c1b53f63a7",
+      "date": "2026-11-06T22:52:13-08:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Fail script/lint on warnings, and clear the warnings (#134)",
+      "body": "SwiftLint's warnings did not fail `script/lint`, so eighteen of them sat\non main. With `--strict`, a warning fails it as an error does, here and\nin CI.\n\n- Five are fixed. The two status bar buttons take their label as a named\nclosure, a test decodes its bytes with `String(bytes:encoding:)`, and\nthe search field's `cellClass` is `static` in its final class.\n- Thirteen are size and complexity limits, on the choosers, the\nJavaScript bridge and the preferences validator. Each is suppressed\nwhere it stands, with `swiftlint:disable:next` or `:this`, and\n`file_length` at the top of the two long files, so the limits still\napply to new code. Where a doc comment sits above the declaration, the\nsuppression goes on the declaration's own line, since a comment between\nthem detaches the doc comment. Splitting those types is a separate\nchange."
+    },
+    {
+      "hash": "abacf88982240638d636b0af91c7c0575d53f5cc",
+      "date": "2026-11-06T16:38:46-08:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Point the About window's links at textmate3.com (#132)",
+      "body": "The About page sent people to TextMate 2's manual, blog, wiki and\nsupport page. They now go to the pages on textmate3.com:\n\n- The manual, `/docs/`, which goes to the current version.\n- The blog, `/blog/`.\n- The FAQ, `/faq/`, and the hidden settings, `/faq/#hidden-settings`.\nFor now the FAQ points on to the TextMate 2 wiki's pages.\n- Support, `/support/`, which sends people to this repository's issues.\n\nThe pages are placeholders for now, so the links can move before the\ncontent does. The attribution to Allan Odgaard and MacroMates is\nunchanged."
+    },
+    {
+      "hash": "7a35c5f2dc89bdb2a3e20827c05405f2130513ab",
+      "date": "2026-11-06T16:32:39-08:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Make script/lint pass, and run it in CI (#133)",
+      "body": "`script/lint` failed on main, and nothing noticed, since CI did not run\nit.\n\n- The Swift sources are run through `script/format`. It wraps a few long\nlines, puts a blank line before `@testable` imports, and moves a `let`\ninside a `case` pattern. No behavior change.\n- The one letter variables in `Version` and its tests get names:\n`leftToken` and `rightToken`, `leftDigits` and `rightDigits`,\n`leftString` and `rightString`, `lowerIndex` and `upperIndex`.\n- CI gets a `lint` job beside `build-and-test`, which runs `script/lint`\nwith SwiftLint from the Brewfile and the Ruby from `.ruby-version`, so a\nstyle or formatting slip fails the pull request that makes it."
+    },
+    {
+      "hash": "f3d5ac7df679c8dac829fcf660ebffc17bdb2227",
+      "date": "2026-11-06T13:11:46-08:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Format with std::format and remove text::format (#131)",
+      "body": "`text::format` was printf through `vasprintf`. Its 83 calls in 48 files\nare now `std::format`, and `text::format` is gone. `text::pad`,\n`text::join` and `text::format_size` stay in `text/format.h`. `<format>`\njoins the standard headers in the C++ prefix header, where the others\nalready are, rather than being included in 48 files.\n\nThe gain is checking: a literal format string is now checked against its\narguments when the code compiles. printf's `format` attribute only\nwarned, and only for the arguments it could see.\n\n**The output is meant to be the same, and was checked to be.** Before\nany call site changed, a probe formatted values of each call's types\nboth ways and compared them byte for byte, 64 cases:\n\n- `%.1f` and `%1.f`: rounding, with `%1.f` as `{:1.0f}`\n- `%02X`, `%04X`, `%06X`, `%04x`, `%02lX`, `%02zu`: padding, and a\n`char` above 127, given `-funsigned-char`\n- `%%%02X`: a literal percent\n- `%c` of the scope selector's `op_t` and `side_t` enumerations, and\n`%d` of the source control status enumeration, each needing a cast,\nsince `std::format` does not format a plain enumeration as printf\npromotes it\n- `%.*s`, where the precision argument came first in printf\n- `%p` of a typed pointer, which `std::format` takes only as `void\nconst*`\n- Positional `%1$s` as `{0}`\n- Literal braces doubled\n\nA second probe compared the five strings with literal braces: the git,\nhg and svn test setup scripts with their shell brace expansions, the\n`TM_PROPERTIES_PATH` variable, and the relaunch script. It also covered\nthe two `std::vformat` patterns. A last check confirmed the strings in\nthe files are exactly the ones the probe tested.\n\n**Where the format came from somewhere else:**\n\n- The bundle item path table, `\"Commands/%s.tmCommand\"` and the rest,\nand the source control drivers' working copy patterns, `\"%s/.git\"` and\nthe rest, are now `{}` patterns through `std::vformat`.\n- The two pasteboard SQL queries are `constexpr`, so they keep the\ncompile-time check. One used `%1$s` twice and is now `{0}`.\n\n**One quirk, kept and named:** Find's copy with filename passed\n`[item.path UTF8String]`, which is null for an untitled document. printf\nwrote `(null)`, while `std::format` would have been handed a null\npointer, which is undefined. The call now writes `(null)` itself, with a\ncomment. Whether an untitled document should show its display name there\ninstead is a separate change.\n\n**Smaller things:**\n\n- One call had nothing to format, `text::format(\"Setting extended\nattributes\")`, and is now the plain string.\n- A `%.*s` over a `std::string` is now the string itself. printf would\nhave stopped at an embedded null byte, which a command name does not\nhave.\n\n`OakAssert.mm` builds in the debug configuration only, and\n`basic_tree.h`'s dump is a template, so both were also built in debug.\nThose test binaries were run there. `layout_test` crashes in debug under\nAddressSanitizer, a stack use after scope in `test_basic_tree_delta`,\nand does so on `main` too, so it is not from this change. The git, hg\nand svn tests, whose setup scripts these are, ran: all three tools are\ninstalled here."
+    },
+    {
+      "hash": "7feaecfa42e5da30f42f0276eae1e4da125e582b",
+      "date": "2026-11-06T13:04:30-08:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Walk graphemes with a range for over grapheme values (#130)",
+      "body": "`diacritics::make_range` hands out a grapheme's base code point on\ndereference, and its bytes and length only through the iterator itself,\nan overloaded `operator&` and `length()`. So eleven of the loops over it\nkept the iterator. This adds `diacritics::graphemes`, a range of values,\nand moves ten of those loops onto it, with no change in what counts as a\ngrapheme.\n\nFour commits, tests first:\n\n1. **What a grapheme is today, pinned down.**\n`text/tests/t_diacritics.cc` records the code point, byte offset and\nbyte length of every step `make_range` takes. The values came from a\nprobe of the current code, not from expectation:\n- Combining marks join their base: `e` and a combining accent is one\nstep of three bytes.\n   - A wide character is one step, and so are a tab and a newline.\n- What Core Foundation would join comes apart: `\\r\\n` in two steps, a\nfamily emoji in seven, the Scotland flag in seven, a thumbs up and its\nskin tone in two. The caret's `text::grapheme_end` keeps each of those\nwhole, so the two notions differ. That is left as it is, and named here\nfor a decision of its own.\n2. **`diacritics::graphemes`.** Each element is a `grapheme_t` holding\n`code_point`, `first` and `last`, with `length()`. It sits beside\n`make_range`, which stays for the callers that step backwards or jump\nahead. A test checks the two agree on every sample above, and one checks\na value's bytes. Making each value's end one byte past its start fails\nboth.\n3. **Two tests over callers with wide and decomposed characters,** since\nthe tests over the converted loops used plain ASCII, where every\ngrapheme is a byte and a wrong offset or length cannot show. `transpose`\nkeeps a combining accent on its letter and a wide character's bytes in\norder. Up and down count a wide character as two columns and an accented\nletter as one, landing on the right byte. Both pass on `main`, and each\nfails when the code under it is broken on purpose: copying one byte a\ngrapheme for transpose, and returning the column for the byte offset.\n4. **The ten loops,** in the plist writer, find, the key equivalent\nformatter, the paragraph layout twice, the layout and selection column\nhelpers, transpose and the editor's metrics. `*ch` became\n`grapheme.code_point`, `&ch` `grapheme.first`, `ch.length()`\n`grapheme.length()`.\n\nThe eleventh stays: soft wrapping in `text/src/parse.cc` rewinds its\niterator when it backtracks, which a range for cannot do.\n\nA value also has no reference into the iterator to go stale. That is the\nshape the spike on Swift Testing over this code found Swift's\ninteroperability reading wrong."
+    },
+    {
+      "hash": "ca192f08b2f9e6331cc83209ba3a3eec10cb4cc2",
+      "date": "2026-11-06T12:57:11-08:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Find and erase with standard algorithms in the snippet, the event watcher and the bundle index (#129)",
+      "body": "Of the eight hand written iterator loops over a whole container, outside\nthe grapheme loops, three were a find and an erase written out by hand.\nThey now use the algorithm that says so:\n\n- **The snippet**, `regexp/src/snippet.cc`: replacing a field collected\nthe iterators of every mirror inside it, then erased them in a second\nloop. One `std::erase_if` over the multimap does both.\n- **The event watcher's `unwatch`**, `io/src/events.cc`:\n`std::ranges::find_if` for the stream with the path and callback, then\nthe erase, or the log line when there is none.\n- **The bundle index's `remove_item`**, `bundles/src/query.cc`:\n`std::ranges::find_if` for the item's uuid, then the same callbacks\naround the same erase.\n\nThe other five stay, since each needs the iterator itself:\n\n- `layout.cc`, three loops, hand each row's iterator to `update_row`.\n- `paragraph.cc` inserts at the iterator and returns it.\n- The bundle editor selects a row by its position, and keeps looking\nafter a match whose inner search comes up empty, which a `find_if` would\nnot.\n\n**Tests.** Neither the snippet's mirror dropping nor `remove_item` had a\ntest, so the first commit adds one for each, and both pass on `main`\nbefore the change:\n\n- `test_replacing_a_field_drops_the_mirrors_inside_it` uses `${1:a $2}\n${2:b}`, where the mirror sits inside field 1 and its field outside.\nThat is the case only this code handles. In `${1:a ${2:b} $2}`, a later\nstep drops the mirror anyway, since its field went too. With the erase\nmade to do nothing, the test fails.\n- `test_remove_item` adds an item of its own to the shared index,\nremoves it, and checks it is gone, then removes it again to show a\nmissing item is left alone. With the search made to find nothing, the\ntest fails.\n\n`unwatch` was already covered by the event tests."
+    },
+    {
+      "hash": "00d736b45022a10b593df57a50bacd6477c34b79",
+      "date": "2026-11-06T02:45:45-08:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Use std::ranges algorithms that take the container for whole-container searches and counts (#128)",
+      "body": "Every `std::find`, `find_if`, `find_if_not`, `count`, `count_if` and\n`any_of` that took a `begin()` and `end()` pair over a whole container\nnow passes the container to its `std::ranges::` counterpart: 26 calls in\n19 files, across the plist, io, regexp, scope, text, buffer, editor,\nbundles, document, Find, OakAppKit, OakCommand and OakTextView\nframeworks, the document window, and the shared callbacks header.\n\nWhere the only question was whether the result reached `end()`, the call\nnow asks it directly:\n\n- `std::find(…) != v.end()` became `std::ranges::contains(v, …)`, in the\ntext view, the callbacks header and the indexed map's tests.\n- `std::find_if(…) != v.end()` became `std::ranges::any_of`, for the\nexecutable search in the bundles framework.\n- `std::find_if_not(…, isxdigit) == v.end()` became\n`std::ranges::all_of(v, isxdigit)`, in the regexp parser.\n\nEach returns the same iterator or count it did, so the code around each\ncall is unchanged.\n\nThe one search over part of a range stays: `io/src/path.cc` searches a\nstring backwards for a slash, from `rbegin()` to a point short of the\nend.\n\nThe callbacks header's two new calls sit inside `ASSERTF`, which release\nbuilds compile away, and inside a template, which is only checked where\nit is used, so the buffer's tests were built and run in the debug\nconfiguration as well."
+    },
+    {
+      "hash": "7447c2a6c8db85b6d37e97a28fb695d6fc397267",
+      "date": "2026-11-06T02:28:02-08:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Use nullptr for the last NULLs (#127)",
+      "body": "The last 39 `NULL`s in code are now `nullptr`, in 17 files. They were\nleft out of the October sweep because open pull requests touched those\nfiles at the time.\n\n- **Assertion and stack dump code**, `OakDebug`: the sentinels ending\n`atos`'s argument and environment lists, `sysctl`'s unused arguments,\ntwo pointers that start out unset, and `OakBadAssertion`'s default\nformat.\n- **The text view:** a default argument, a callback and delegate\ncleared, a Core Graphics image factory's failure, an error sheet's\nselector, and the spelling dot image's proposed rect.\n- **The document and both command runners:** a print sheet's selector\nand an application event's graphics context.\n- **The dialog plug in:** property list format and error out parameters,\na menu header's action, `getcwd` and `select`'s unused arguments, and an\nenvironment variable check.\n\nEach is the same swap. Where the October sweep and this one met an\nObjective-C argument, the existing code is split between `nil` and\n`nullptr`, and this keeps to a straight swap rather than choosing.\n\n`NULL` is now only ever a word inside a string or a comment: SQL in the\npasteboard history, `NSPredicate` formats, a log message, `«NULL»` in\nthe assertion output. A scanner that skips strings, character literals\nand comments found 39 `NULL` identifiers before and none after. It also\nfound one my first search missed, on a line that also uses `NULL_STR`.\n\n`OakDebug` builds in the debug configuration only, so `OakAssert.mm` was\ncompiled there as well."
+    },
+    {
+      "hash": "fc65f38e478f2406fcdff40ad30aa0450d5562f0",
+      "date": "2026-11-06T01:53:24-08:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Use using for the last five typedefs (#126)",
+      "body": "The last five type aliases written as `typedef` now read name first, as\n`using`: `bundles::item_ptr`'s forward declaration in `OakTextView.h`,\n`links_t` and `links_ptr` in `OakTextView.mm`, and the two\n`insert_type`s of `container_traits` in the authorization framework's\n`connection.h`. The second of those drops a `typename` that\n`std::pair<A, B>` never needed.\n\nWhat is left of `typedef` is the forms that should stay: Objective-C's\n`NS_ENUM` and `NS_OPTIONS`, C's `typedef struct` and `typedef enum`, and\nblock types."
+    },
+    {
+      "hash": "150f0431a36b82e20a91d867912357cc7a89c474",
+      "date": "2026-10-30T13:33:56-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Drop the Homebrew include step from the CI and Benchmarks workflows (#125)",
+      "body": "Both workflows wrote `-I/opt/homebrew/include` into `local.rave` before\nrunning `configure`. That was for boost's headers, which `configure`\nused to check for under `/usr/local` unless a `local.rave` already\nexisted, and on Apple Silicon Homebrew lives under `/opt/homebrew`.\n\nBoost left the build in #115, and nothing else the build compiles comes\nfrom Homebrew's include directory. The step goes from both workflows,\nand `configure` writes `local.rave` itself, as it does on any fresh\ncheckout. This pull request's own run is the proof, since it runs the\nedited workflows."
+    },
+    {
+      "hash": "687e9106597ffc8c2136570a4fd7f7eb3591a6e3",
+      "date": "2026-10-30T13:26:20-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Benchmark follow-ups: the right base, every sample kept, a clean report (#124)",
+      "body": "Five small follow-ups to the benchmark harness from #123. Nothing here\nchanges what a benchmark measures.\n\n**The base is the main the pull request was merged onto.** The job\nchecks out the pull request merged onto main, so comparing against\n`origin/main` already isolates the pull request's change, as long as\nGitHub has merged it onto the newest main. When main has moved and the\nmerge ref has not caught up, `origin/main` holds commits the head lacks.\nThe merge commit's first parent, `HEAD^1`, is always the exact main the\nhead sits on.\n\n**Every sample is kept.** The plan is to let a few weeks of pull\nrequests show the noise floor before a threshold fails anything. A job\nsummary is a table nobody can aggregate, so each run now writes `--json`\nand uploads it as an artifact, and the JSON carries the load average as\neach run began, which is what tells a noisy sample from a slow one.\n\n**A broken harness fails the job.** The run step piped into `tee` under\nthe default shell, which has no pipefail, so a failed base build exited\nthrough `tee` and showed green. Naming the shell turns pipefail on. A\nslow benchmark still never fails it.\n\n**The report is the report.** The script promises the report alone on\nstdout so it can go into the job summary, but the two `ninja` builds,\nthe base checkout, its submodules and its configure all wrote to stdout\ntoo. The last run on #123 put 364 build lines into the summary ahead of\nthe table. Those five now write to stderr with the script's progress,\nand the report comes out as the seventeen lines it should be.\n\nOne thing still left alone: the step that writes the Homebrew include\ninto `local.rave`. It was what got the job past configure's boost check\nwhile #123's branch predated the boost removal. Now that this is on main\nit does nothing, as the same step in `ci.yml` has done nothing since\nthen, and the two can go together in a pull request of their own."
+    },
+    {
+      "hash": "e996cd772c527bb04632afc420462fcbbd31c61a",
+      "date": "2026-10-30T12:53:22-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Benchmark every pull request against main (#123)",
+      "body": "Allan wrote TextMate in C++ with performance in mind, and every port of\na hot path to Swift needs a before and after number, not a feeling. This\ngives the project its first one.\n\nEvery C++ test runner has had a benchmark mode since Allan: a\n`benchmark_*` function in a tests folder runs under `-b` instead of the\ntests. Six exist, all in `buffer`, and nothing ran them.\n\n`script/benchmark` builds the runners that have a benchmark, runs each a\nnumber of times and reports the median and the fastest run as a table.\n`--compare main` builds main in a git worktree too, with a build\ndirectory of its own, runs both turn and turn about so a busy machine\nhits both alike, and reports the change per benchmark, calling one\nslower or faster past ten percent.\n\nA Benchmarks workflow runs that against main on every pull request,\napart from CI, and writes the report to the job summary. It never fails\nthe pull request yet. A false red on a shared runner teaches everyone to\nignore the check. Once a few weeks of pull requests have shown the noise\nfloor, a threshold can fail it.\n\nSame code on both sides on my laptop under load lands within four\npercent.\n\nNext, one commit each: a benchmark per hot path that calls the face the\napplication calls, so the same benchmark measures before and after a\nport. The ranker through `TMRanker` first, then scope selectors, parse,\nregexp, plist and settings.\n\n---------\n\nCo-authored-by: Copilot Autofix powered by AI <62310815+github-advanced-security[bot]@users.noreply.github.com>"
+    },
+    {
+      "hash": "843e88c065231378d8e92c0bd3c0067ebcc02349",
+      "date": "2026-10-27T14:27:21-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "using where typedef was, across the file and tool frameworks (#122)",
+      "body": "Thirty four type aliases in twenty four files are `using` declarations\nrather than `typedef`s: the file, io, source control, bundles, theme,\neditor, command and document frameworks, the bundle editor's entry, the\nmenu builder's menu type and the rmate server's temporary file. Each\nsays the same thing with the name first.\n\nWhat is left of `typedef` in the tree is the Objective-C `NS_ENUM` and\n`NS_OPTIONS` forms, which are the right spelling for those, and three\naliases in the text view, which an open pull request touches and which\nfollow once it merges.\n\nThe rewrite was one line to one line by the same script as the editing\ncore's, and each changed line was read. The build and all thirty four\ntest suites pass."
+    },
+    {
+      "hash": "e37ba1229a671d5e976809b17ae47d79be83ed01",
+      "date": "2026-10-27T14:14:53-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "using where typedef was, across the editing core (#121)",
+      "body": "Forty four type aliases in twenty five files are `using` declarations\nrather than `typedef`s: the text, selection, buffer, layout, regexp,\nscope, plist, parse and settings frameworks, and the shared tree and\ncallback headers. Each alias says the same thing with the name first,\nwhich is the form the language has had since C++11 and the one that\nworks for templates.\n\nThe rewrite was one line to one line, by a script that takes `typedef\nType Name;` and writes `using Name = Type;`, leaving the Objective-C\n`NS_ENUM` and `NS_OPTIONS` forms alone, and each changed line was read.\nThe build and all thirty four test suites pass."
+    },
+    {
+      "hash": "9557e8793ef09854be3f6a85ccb090968e763f20",
+      "date": "2026-10-27T14:09:13-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "nullptr where NULL was, across the interface frameworks and the applications (#120)",
+      "body": "Twenty six `NULL`s in sixteen files are `nullptr`: menu item actions in\nthe bundle editor, the bundles manager, the bundle menu, the menu\nbuilder and the application's menus, error out parameters in the about\nwindow and the plug-in controller, key value observing contexts, a\ntimer's user info, the sentinel that ends a command's argument list in\nthe mate installer and the commit window, a copy state, two unused\narguments of a system call, and the privileged tool's Core Foundation\nwrapper. Every one is a pointer.\n\nThe replacement was done by a scanner that leaves strings and comments\nalone, which is why the document window's predicates and the menu dump's\nlabel keep their `NULL`, and each changed line was read. The build,\nincluding the privileged tool, and all thirty four test suites pass.\n\nWith this and its three siblings, what is left of `NULL` in the tree is\nin the files other open pull requests touch, which follow once those\nmerge."
+    },
+    {
+      "hash": "c7770e4dcbb953db7c7c24fb85352aabe68ddeb9",
+      "date": "2026-10-27T14:06:48-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "nullptr where NULL was, across the C++ frameworks and the shared headers (#119)",
+      "body": "Thirty eight `NULL`s in twenty three files are `nullptr`: the default\narguments of optional out parameters in regexp, ns, selection, editor,\ntext, bundles, layout and document, Core Foundation and Core Text out\nparameters, the sentinel that ends a command's argument list in\n`io::exec` and the test that calls it, the authorization rights, and\npointers that start out unset in the shared headers and the test\nhelpers. Every one is a pointer, and a `nullptr` passed through a\nvariadic sentinel is converted to `void*` by the language, so the\nsentinel reads the same.\n\nLeft alone for now because an open pull request touches them: the\ndocument class, the source control shared info, the two command runners\nand the assertion files. They follow once those merge.\n\nThe replacement was done by a scanner that leaves strings and comments\nalone, which is why two comments in the io framework still say\n`NULL-terminated`, and each changed line was read. The build and all\nthirty four test suites pass."
+    },
+    {
+      "hash": "dcc4505a181bd14bda48e9202eb78df5f380994d",
+      "date": "2026-10-27T14:01:35-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "nullptr where NULL was, in OakTextView apart from the text view (#118)",
+      "body": "Nine `NULL`s in the OakTextView framework are `nullptr`: Core Text out\nparameters and a font in the gutter, a key value observing context, a\nnib's top level objects and a menu item action in the document view, and\na menu item action in the status bar. Every one is a pointer.\n\nThe text view itself and the command refresher are left alone for now,\nsince an open pull request touches both, and they follow once it merges.\n\nThe replacement was done by a scanner that leaves strings and comments\nalone, and each changed line was read. The build and all thirty four\ntest suites pass."
+    },
+    {
+      "hash": "bf45103985caff973f7bf2f1e7c84f0fbf5877c0",
+      "date": "2026-10-27T14:00:15-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "nullptr where NULL was, in the theme framework (#117)",
+      "body": "Thirteen `NULL`s in the theme framework are `nullptr`: the twelve Core\nGraphics color references a theme's styles start out without, and the\ncolor space. Every one is a pointer. The replacement was done by a\nscanner that leaves strings and comments alone, and each changed line\nwas read.\n\nThe build and all thirty four test suites pass."
+    },
+    {
+      "hash": "83d170a6135224b87556a2426d396fa79d1b075f",
+      "date": "2026-10-27T13:55:31-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "nullptr where NULL was, in OakAppKit (#116)",
+      "body": "Seven `NULL`s in the OakAppKit framework are `nullptr`: a table view\naction, three menu item actions, an error out parameter, a run loop\nobserver context and a buffer. Every one is a pointer, which is what\n`nullptr` says and `NULL` only implied.\n\nThe replacement was done by a scanner that reads string literals,\ncharacter literals and comments as what they are, so the pasteboard's\nSQL schema keeps every `NOT NULL` and `IS NULL`. Each changed line was\nread.\n\nThe build and all thirty four test suites pass."
+    },
+    {
+      "hash": "e4d99410a171ce1bac112df1a8f52f838b6d836d",
+      "date": "2026-10-27T13:52:37-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Take the CRC-32 from the system's zlib and drop boost from the build (#115)",
+      "body": "The build needed boost from Homebrew for one thing: the CRC-32 that the\ndocument attributes carry to check folded ranges against the file, that\nthe search results carry to check a document has not changed before a\nreplacement, and that the file framework's bytes offer. The system's\nzlib computes the same CRC-32, the standard one with the same\npolynomial, initial value, reflection and final XOR, so the checksums\nwritten by earlier builds still match.\n\nThat sameness is pinned rather than assumed. A new test checks the bytes\nchecksum against the standard check values, `0xCBF43926` for `123456789`\namong them, and the test was run against boost first and passed, then\nagainst zlib and passed. The five sites use zlib's size_t entry point,\nso a buffer longer than four gigabytes is not cut short.\n\nWith that, the Brewfile line, the configure check for the boost header\nand the README row are gone, and configure writes a `local.rave` with a\ncomment on what it is for rather than a Homebrew include path. The file\nframework links the SDK's zlib by path, the way the document framework\nlinks its sqlite, so a Homebrew zlib on the linker's path is never\npicked up. The application and the test executables link\n`/usr/lib/libz.1.dylib`.\n\nThe build and all thirty four test suites pass."
+    },
+    {
+      "hash": "21ecb8d53add9bd4f3cfc1af2444c5f2148390af",
+      "date": "2026-10-27T13:28:02-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "A lambda for the tree's last std::bind (#114)",
+      "body": "The source control watcher was handed its callback through `std::bind`\nwith a placeholder, the last `std::bind` in the tree. It is a lambda\nnow, capturing `this` and taking the changed paths by the same\nsignature. Nothing else changes.\n\nThe build and all thirty four test suites pass."
+    },
+    {
+      "hash": "b0b8992c896abc078429591c50b9cf7de0849da3",
+      "date": "2026-10-27T13:25:31-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Declare pipe ends as structured bindings where no block captures them (#113)",
+      "body": "Twelve places assigned a pair or triple through `std::tie` into\nvariables declared the line before. Six of them, the pipe ends in the\ntwo command runners and the text view's command input, are a structured\nbinding now, one line where there were two.\n\nThree stay as they were, each with a comment saying why: a block a few\nlines down captures one of the names, the process id for `waitpid` or\nthe pipe's write end, and a block cannot capture a structured binding,\nwhich the compiler says plainly. The three in the io framework's spawn\nstay too, since they assign one end into a struct member and the other\ninto a local, which a binding cannot do.\n\nThe build and all thirty four test suites pass."
+    },
+    {
+      "hash": "d0a4a9e15c7a38944a05ff7bdc0ddc220c36cabd",
+      "date": "2026-10-27T13:22:21-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Fork rather than vfork for the assertion stack dump (#112)",
+      "body": "The stack dump that a failed assertion prints in the debug build ran\n`atos` in a `vfork` child, and built the child's `PATH` there in a\nvariable length array, which is a Clang extension in C++. The system\ndeprecates `vfork`, and those were the two warnings the debug compile\ncarried and the release compile never showed.\n\nThe child forks now, and the system's default search path is asked of\n`sysctl` before the fork, into a string the parent owns, so the child\nonly closes, duplicates, sets a signal and executes. Same command, same\nthree variables in the environment, same dump.\n\nThis file is compiled in the debug configuration alone. The object\ncompiles there without a warning, and the release build and all thirty\nfour test suites pass as before."
+    },
+    {
+      "hash": "8ad96c3beda4e634710f89b8b6d3d04de1164f42",
+      "date": "2026-10-27T13:20:58-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Drop the debug log facility nothing uses (#111)",
+      "body": "`OakDebugLog.h` defined four macros, `D()`, `bug()`, `OAK_DEBUG()` and\n`OAK_DEBUG_VAR()`, and `OakDebugLog.cc` the registry behind them, read\nonce from a `DebugFlags` environment variable. Not one `OAK_DEBUG_VAR`\nis declared anywhere in the tree, so no `D()` block could ever have run,\nand nothing names any of the four. The one mention left is a 2020\ncontribution summary about removing an include of it.\n\nThe two files go, and the assertion header no longer includes them. They\nwere compiled in the debug configuration alone, and the assertion object\nstill compiles there. The release build and all thirty four test suites\npass.\n\nOn the way I thought the shared `oak/debug` directory was a second copy\nof these files. It is a symbolic link to the framework's sources, so\nthere was nothing to dedupe."
+    },
+    {
+      "hash": "243fae9f3ff0c8cf40af3ee67d59f1f42ad227ba",
+      "date": "2026-10-27T13:19:52-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Keep the OS version lookup beside its one caller (#110)",
+      "body": "The shared `oak/compat.h` had one thing in it, the macOS version read\nthrough `sysctl` for the `attr.os-version` scope attribute, and one\ncaller, the file framework's path attributes. The lookup lives in that\nfile now, in an unnamed namespace with its comment, and the shared\nheader is gone. Same call, same answer.\n\nThe build and all thirty four test suites pass."
+    },
+    {
+      "hash": "c1f9aefb539439794f2462a16307dc8ff847aa43",
+      "date": "2026-10-27T13:12:41-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Read the steady clock where the shared duration timer was (#109)",
+      "body": "The shared `oak/duration.h` timer had two users, the command run loop's\ntimeout and the grammar tool's two timings, and four files that included\nit without using it. The two users read the standard library's steady\nclock now, as a start point and a difference in seconds, and the header\nis gone.\n\nOne difference, named rather than hidden: the timer read the wall clock\nthrough `gettimeofday`, so a clock change in the middle of a wait moved\nthe timeout with it. The steady clock does not. For a command's timeout\nand a tool's timing that is the clock they meant.\n\nThe build, all thirty four test suites and the grammar tool pass."
+    },
+    {
+      "hash": "356adb70e507cc9b09b51c05eae86e4511cce513",
+      "date": "2026-10-27T13:09:19-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Drop the iterator macros header nothing uses (#108)",
+      "body": "The last step of the September teardown. The four macros were written\nout as the loops they expanded to, one pull request each, and nothing\nhas named `foreach`, `iterate`, `citerate` or `riterate` since, checked\nacross the whole repository. The header goes, with its line in the\nshared `oak/oak.h` and the one include of it left in the text framework.\n\nThe build and all thirty four test suites pass without it."
+    },
+    {
+      "hash": "ba3247e5d7cc8f59040136d15720ea12eb6d5811",
+      "date": "2026-10-27T04:54:15-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Stop the file system events tests racing the main queue callback (#107)",
+      "body": "The `io_test` crash on CI, three times over two months on pull requests\nthat touched nothing in io, is found. The file system events tests raced\nthemselves.\n\nThe watcher delivers on the main queue, the runner runs tests on a\nworker thread, and the test's callback object kept its paths in a plain\nset with no lock. The callback erased from the set on the main thread\nwhile the test thread read it, added to it, and spun on it being empty.\nThe spin was a run loop call on a thread with no run loop sources, which\nreturns at once, so the wait burned a core as well. A corrupted set\nhangs the test when a path goes missing, or crashes whichever thread\nnext walks the tree, and a crash on the main thread is what the runner\nreported as a crash in no test running. A loop of thirty runs here hung\nwithin the first few.\n\nThe set is behind a mutex now, the test waits on a condition variable\nwith the same five second report of what it is still waiting for, and\nafter unwatching it lets the main queue come around before its directory\nand callback go, so a callback that was mid flight finishes against a\nlive test. Thirty runs in a row pass, each in three seconds rather than\nfive.\n\nA probe on the way settled one question: an FSEvents stream on a\ndispatch queue delivers no callbacks that were queued behind a busy\nqueue once it is invalidated, so a late callback into a freed watcher is\nnot a hazard, in the tests or in the application, which watches and\nunwatches on the main thread alone."
+    },
+    {
+      "hash": "42b15f1ac8f2bf530030a96578141733878bfb7d",
+      "date": "2026-10-27T04:29:52-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Port the HTML output asset policy to Swift (#106)",
+      "body": "The asset policy, which bounds what an output page may read from disk,\nis Swift. The rules are the ones the C++ had. A path is allowed under a\nroot by whole path component, after `.` and `..` are folded without\ntouching the disk, so a link placed inside a root is honored as the\nuser's doing and a `..` cannot climb out. The roots are the bundle\nlocations and the target of every link in their Bundles directories,\nresolved the way the application resolves a linked bundle's path for\ncommands, so the pages those commands produce find their assets by that\npath.\n\nThe scheme handler's face is down to the bundle locations and the\nprocess kill, which are the two things still declared in C++.\n\nThe seven tests moved to Swift Testing as they were, over a temporary\ndirectory with files and links of the test's own, and one was added over\nthe folding itself. The helpers directory is gone with its last header."
+    },
+    {
+      "hash": "88e890fb2c88fbceb5eec76017d779aab54d5c33",
+      "date": "2026-10-27T04:19:44-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Bring back the link preview and the scroll position in HTML output (#105)",
+      "body": "Two things the WebKit migration lost in HTML output windows are back,\nand one dead file is gone.\n\nThe status bar previews a link's target while the pointer is over it,\ndecoded, as it did before the migration. The legacy web view reported\nthe hover through its delegate and the new one's delegate has no hook\nfor it, so a script in the page reports the link under the pointer on\nevery mouse over, and nothing when the pointer leaves one, through a\nsmall message handler the browser view installs beside the scheme\nhandler. It works for every page the view shows, with or without the\nTextMate object.\n\nA command that refreshes its output into the same window keeps the page\nscrolled where the person had it. The old view read the visible rect off\nits document view before replacing the content and scrolled back to it\nafter. The content lives in another process now, so the view asks the\npage where it is scrolled, loads the new content once the answer is in,\nand scrolls the new page back there once it has loaded.\n\nThe not-found page in the resources had been shown by nothing since the\nmigration dropped the resource load delegate that served it, and is\ndeleted.\n\nThe preview is tested through the handler apart from WebKit: a link\nshows decoded, an empty report clears it, and anything that is not a\nstring clears it."
+    },
+    {
+      "hash": "3d3b173dccf9c2be027f1b36a1678eb6159e1459",
+      "date": "2026-10-27T04:05:23-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Port the chooser search field and its accessibility padding to Swift (#104)",
+      "body": "The chooser's search field is Swift, with the cell that tells assistive\nclients the text has one space before it and one after. That is a\nworkaround for a VoiceOver fault from 2014 where a search field's first\nand last characters were not read, and it stays, since nothing says the\nfault is gone.\n\nEach accessibility call is the modern form of the one it replaces: the\nvalue, the character count, the selected and visible ranges in both\ndirections, the help text, and the nine parameterized ones for strings,\nframes, lines and ranges. Every range a client asks about is taken apart\ninto what falls in a margin and what falls in the real text, the way the\nObjective-C did it, as a small value type with tests over each case.\n\nOne edge changed. An empty range at a margin, such as the caret at the\nvery start, had the margin subtracted from it and wrapped below zero in\nthe Objective-C. It lands at the nearest end of the real text now. A\nrange past the end, which the Objective-C raised on, is cut down\ninstead, since raising inside an accessibility call takes the\napplication down.\n\nWith this the chooser framework's Objective-C is the faces alone. The ui\ndirectory is gone."
+    },
+    {
+      "hash": "610a9e836e1f40e3b398b20c7e0ec6c1ce56da62",
+      "date": "2026-10-27T03:48:51-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Port the chooser base class to Swift (#103)",
+      "body": "The chooser base class is Swift, with the row view that draws a\nselection while the search field has focus, the file row cell, and the\nmarked up row text. The four choosers are Swift subclasses of a Swift\nclass now. What a chooser does is unchanged: a floating panel, the\nsearch field in the title bar, the table under it, the footer with the\nstatus and the count, arrow keys in the field moving the table, return\naccepting and escape cancelling, the selection kept on its items as the\nlist changes, and a pick reaching the target through the action.\n\nTwo things got simpler for the subclasses. They override the base's row\nmethod and window close plainly, where before they had to name\nObjective-C selectors by hand because the base declared its delegate\nconformances in a class extension Swift could not see. And the base\nhands a subclass the change of first responder as a method call, which\nthe bundle item chooser overrides for its key equivalent recorder, in\nplace of a key value observation to pick apart.\n\nOne thing the tests caught before it shipped. The base's views were\nlazy, as the Objective-C had them, and torn down in the deinitializer; a\nchooser that had never shown its search field made one on the way out,\nwhich crashed on forming a weak reference to a deallocating object.\nEvery view is made with the chooser now.\n\nThe search field with its accessibility shim stays Objective-C for now,\nas its own piece, beside the faces. The duplicated selected text helper\nthe two cell views carried is one Swift function. The C++ marked up text\nbuilder and its header are gone, since nothing used them.\n\nThe items and their count, the selection across changes, row removal,\nthe filter reaching the field and the items, a pick reaching the target,\nand the default row are tested on the base alone. The two longest\nchoosers moved their helper sections into extensions so that the\nlinter's type length rule passes, with no change in what they do."
+    },
+    {
+      "hash": "42f704957709d6892739ebed9d5c2332941f7744",
+      "date": "2026-10-27T03:25:49-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Port the Select Bundle Item chooser to Swift (#102)",
+      "body": "The Select Bundle Item chooser is Swift, the last of the four choosers,\nas a subclass of the Objective-C base. Its three tabs, the five fields\nit searches by, the key equivalent recorder that takes the search\nfield's place, the Select and Edit buttons with the option key swapping\nthe default, what a pick runs and what it remembers are unchanged. The\napplication's action that opens it hands the scope over as two strings\nin place of the C++ context.\n\nFive things the chooser used are C++, and they stand behind two\nObjective-C faces. The bundle items face lists the items that apply in a\nscope with a settings item spelled out one setting per row and the\neclipsing worked out, the settings in force for a file, the key bindings\nfrom every dictionary the system reads with the selector names turned\ninto words, the kind of an item by its uuid, a file's icon, and a key\nequivalent drawn as its symbols. The scope context face carries the\nscope at the caret across from the text view as its two strings and\nback.\n\nThe rows are a model class of their own, ranking on a concurrent queue\nas before, and the cell is a Swift table cell view with the icon, the\nname, the location and the shortcut. The walk of the main menu, a menu\nitem's key in the bundle notation, and the dedupe between menu keys and\nkey binding files are Swift.\n\nOne row icon came back on the way. The settings rows that come from the\npreferences looked their icon up through a class the Preferences port\nretired, and got none. They show the Variables pane's symbol now.\n\nThe ranking in every field, a settings row's value and strikethrough, a\nremembered pick, a menu item's key, what a pick is remembered under, the\nscope context, and the table asking for a row through its delegate by\nselector are tested apart from the window.\n\nWith this every chooser is Swift. What is left in Objective-C++ in the\nframework is the base class with its search field and row view, the\nmarked up text builder they share, and the faces, and the base is next."
+    },
+    {
+      "hash": "9405751cc4b3b8a2666b4ff4a37afefc545324cd",
+      "date": "2026-10-27T03:02:06-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Port the Open Quickly chooser to Swift (#101)",
+      "body": "The Open Quickly chooser is Swift, the third of the four choosers, as a\nsubclass of the Objective-C base. What it lists on each of its three\ntabs, how a typed glob, filter, line or symbol is read, how a row ranks\nwith a remembered pick first, what a pick carries to the caller, and the\nsearch that fills the list in batches while it walks the project are\nunchanged. The document window imports the framework's Swift header in\nplace of the chooser's own.\n\nFour things the chooser used are C++, and each stands behind a small\nObjective-C face. The document face answers for a document's path, name,\nidentifier, icon and open state, lists the open documents, ranks by\nrecent use, and walks a directory by the include and exclude settings\nthat apply to it, with the settings lookup moved into the face from the\nchooser. The three document attribute methods the symbol chooser had on\nits own face moved here, so the two choosers share them. The source\ncontrol face lists the files with local changes and calls back when the\nstatus changes. The glob face matches a typed glob the way the chooser\nalways read one, and is marked sendable since the ranking uses it from\nevery thread at once. The paths face, which was the support folder face,\ngained the two path rules the rows use.\n\nThe rows rank on a concurrent queue as before, each by its own\niteration, and the item says so with an unchecked conformance. The\nsearch keeps its shape: a background walk gathering documents under a\nlock, the main queue waiting for the first document that is not already\nopen so the first batch is on screen with the window, a token to tell a\nstale walk from the current one, and a poll at a widening interval.\n\nThe filter parsing, the ranking, the directory match, the glob match and\nthe pick are tested apart from the window, and the table is asked for a\nrow through its delegate by selector, which is the test that caught the\nfavorite chooser's crash.\n\nOne thing the tests made me look at twice: with no filter the current\ndocument ranks last, not first, which is what the Objective-C did and\nwhat a person wants, since it is the file they are already in."
+    },
+    {
+      "hash": "44a668227d82bb83b30c1d1579359e9762ed3292",
+      "date": "2026-10-27T02:38:07-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Port the Open Recent Project chooser to Swift (#100)",
+      "body": "The Open Recent Project chooser is Swift, the second of the four\nchoosers, as a subclass of the Objective-C base. What it lists, how it\nranks, what a pick remembers and what removing a row does are unchanged.\nThe application's action that opens it imports the chooser framework's\nSwift header in place of the file it deleted.\n\nThe chooser lives in the chooser framework now rather than in the\napplication, beside the other three. That is where it belongs, and it is\nalso what keeps the build clean: a Swift module with a bridging header\nof its own that imports another module built with one gets the other's\nbridging header chained in, with a deprecation on every build. Inside\nthe framework there is one bridging header and no chain.\n\nTwo refactors come first as their own commits, with no behavior change.\nThe project state store moved from the document window framework to the\ndocument framework, where the session state already is, since the\nchooser framework could not depend on the window framework that depends\non it. The table's key handling moved out of the Objective-C++ header it\nshared with C++ default arguments into a plain header of its own, with C\nlinkage so that Swift finds the functions by name.\n\nThe chooser's Swift reads the store, the scope bar and the table actions\nthrough the framework's bridging header. The application's support\nfolder is the one C++ thing it needs, and it stands behind a one-method\nface. Three headers took Swift names and nullability on the way, so the\ncalls read as they do in Objective-C.\n\nThe two lists and the ranking are tested apart from the window: recent\nprojects newest first and by name among equals, with a vanished one left\nout; the Favorites folder's links by name, with a folder link expanded\nto the directories inside it; the order kept with no filter; and a\nfilter ranking by match with an earlier pick for that filter first."
+    },
+    {
+      "hash": "d8da332e4fb18d725b4776515cb459353a855d0d",
+      "date": "2026-10-27T02:06:07-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Port the Jump to Symbol chooser to Swift (#98)",
+      "body": "Stacked on #97, which it needs merged first.\n\nThe Jump to Symbol chooser is Swift, the first of the four choosers, as\na subclass of the Objective-C base. What it lists, how it ranks, which\nsymbol it selects for the editor's selection, and the window the\ndocument view talks to are unchanged. The document view imports the\nframework's Swift header in place of the chooser's own.\n\nTwo things the chooser used are declared with C++ types, so each stands\nbehind a small Objective-C face. The ranker face scores a candidate\nagainst the filter and reports the matched byte ranges. The document\nsymbols face lists a document's symbols with their positions, parses the\neditor's selection string into where each range begins, and answers\nthree things about the document, which travels as an untyped object. The\nranker's own scoring tests stay in C++, and the face has tests of its\nown over the score, the ranges and a miss.\n\nThe base got three things on the way, for any Swift subclass: an include\nguard by name, since the Swift header carries the bridging header's\nimports by source path and the base header reaches the same compile unit\nthrough the include farm; nullability, so the views come across as what\nthey are; and its initializer declared designated with the window and\ncoder initializers unavailable, since Swift could not otherwise call up\nto it. The two methods a chooser overrides are in the header now as\nwell, since Swift can only override what it can see.\n\nThe marked up row text builder and the layout helpers the choosers share\nare Swift now too, beside the Objective-C++ ones the remaining choosers\nstill use. They go when the base goes.\n\nThe selection logic is tested apart from the window: which symbol is at\nor before the selection, a reversed range, several ranges, and a\nselection before every symbol."
+    },
+    {
+      "hash": "57e5386674169c67f411ddb1da6e8c1f8651d615",
+      "date": "2026-10-27T02:00:01-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Keep C++ out of the chooser base class header (#97)",
+      "body": "A refactor with no behavior change, the first move of the chooser port.\n\nThe chooser base class header carried one C++ function, the builder for\na row's marked up text, which takes the ranges the ranker reports. That\nmade the header Objective-C++, which Swift cannot read. The function now\nhas a header of its own under `ui/`, and the four choosers that use it\nimport that.\n\nWhy it matters: Objective-C cannot subclass a Swift class, but Swift can\nsubclass an Objective-C one. So the four choosers, the symbol, favorite,\nfile and bundle item choosers, port one at a time as Swift subclasses of\nthe Objective-C base, and the base ports last. For that the base header\nhas to be plain Objective-C, which it is now."
+    },
+    {
+      "hash": "513e529385bfd291dff360c9edf73c1d858175e3",
+      "date": "2026-10-27T01:14:03-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Port the JavaScript bridge and its shell command to Swift (#96)",
+      "body": "The application half of the TextMate object that output pages call is\nSwift now: the message handler that answers each call from the page, the\nshell command that TextMate.system() starts, and the buffer that\nassembles the command's output into whole characters as it streams in.\nThe page half, the user script, is unchanged.\n\nThe command runs through Foundation's Process rather than the C++ spawn,\nwith the same shell, environment and three pipes, and its output is read\non a background queue and handed to the main one in turn as before. The\nbuffer holds back a character split across reads and drops bytes that\nare not UTF-8, which is what the C++ helper did.\n\nOpening a file at a line or range is the one thing the bridge still\nneeds from C++, and it stands behind a small Objective-C face.\n\nThe bridge's messages have tests of their own now, over the handler\napart from the WebKit message that only WebKit can make: a malformed\nmessage, an unknown method, busy and progress reaching the status bar, a\ncommand answered with its output and status, and input written from the\npage reaching the command. The shell command and buffer tests are\nported, the latter over every chunk size from one to sixteen bytes.\n\nWith this the HTML output framework's Objective-C++ is down to the asset\npolicy and the three faces."
+    },
+    {
+      "hash": "eb7064376d96a3cc5f876c1351b5b30c6b9483e7",
+      "date": "2026-10-27T00:53:00-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Port find, selection and view source in HTML output to Swift (#95)",
+      "body": "Find, selection and view source in output windows are Swift now, as an\nextension on the web view that answers to the same menu selectors the\ntext view does. The page is searched through the web view's own find,\nthe selection comes back through JavaScript, and view source asks the\npage for its markup. None of that changed.\n\nThe Find window's server, the find and replace pasteboards, the find\npreferences and the document controller are all declared with C++ types\nthe Swift cannot see. They stand behind a small Objective-C face: a\nrequest object that reads what the Find window asked for and reports\nwhat was found, and a handful of class methods for the rest. The face\nhas its own tests over a stand-in find server.\n\nOne finding on the way: the test runner places each test body inside a\nnamespace and lifts only the imports out, so an Objective-C class a test\nneeds has to live in a header the test imports.\n\nNext in HTMLOutput is the JavaScript bridge and its shell command, which\nfinishes the framework."
+    },
+    {
+      "hash": "cd13c115123e3737f78abd8cf11ac92c147051fd",
+      "date": "2026-10-27T00:30:58-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Port the HTML output scheme handler to Swift (#94)",
+      "body": "The scheme handler that carries a running command's output to its page\nis Swift now. It keeps the same shape: a process wide registry of jobs\nby URL, output streamed to the page as it arrives, a page's own assets\nread from disk within the directories it is allowed, and a stopped\ncommand's process group killed.\n\nWhat stays C++ is the asset policy that bounds the reads, with its\ntests, and the bundle locations and the process kill. Those sit behind a\nsmall Objective-C face the bridging header imports.\n\nThe scheme name is a property of the handler now rather than a global,\nwhich is the one line that changed in the command runner. The handler's\nthree tests moved to Swift Testing.\n\nNext in HTMLOutput are the find additions on the web view, and then the\nJavaScript bridge and its shell command."
+    },
+    {
+      "hash": "df9aaead7cbd4a57b88340ebc7698a9eaccbf787",
+      "date": "2026-10-27T00:15:23-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Move the HTML output window controller to Swift (#93)",
+      "body": "The next piece of `HTMLOutput`, and the smallest: the window a command's\noutput gets when output goes to a window of its own. With it,\n`HTMLOutputWindow` is a framework with nothing but Swift in it, the way\n`CommitWindow` is.\n\nThe controller makes the window, a third of the main screen's width and\nthree fifths of its height in the middle, fills it with the output view,\nbinds the title and the edited mark to the view, asks before closing a\nwindow whose command is still running and closes itself once the command\nhas stopped, and keeps itself alive from showing until a turn of the run\nloop after closing, since nothing else holds it once the command has\nfinished. All as before. The Objective-C name stays,\n`HTMLOutputWindowController` with `initWithIdentifier:`, so the command\nrunner and the document window change nothing. The framework's umbrella\nheader hands out the Swift header beside `HTMLOutput`'s, since the view\nthe controller holds is that framework's. Two Objective-C++ imports the\ncontroller never used, the command runner and the string conversions,\nare gone from its build file too.\n\nIn Ruby terms: a controller whose one model is the view, moved whole,\nwith the two lines that build the window and the one that decides\nwhether a close may proceed.\n\nTests, four, for the first time: the window holds the view and is not\nreleased on close, the title follows the view's, each identifier\nremembers its own frame, and a window with no command running closes at\nonce."
+    },
+    {
+      "hash": "250e90b1f4a97344adfaeb0b60df75e3d0ab784c",
+      "date": "2026-10-26T23:58:20-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Stop the HTML output view appending a trace log under /tmp (#92)",
+      "body": "`SchemeTrace` was debug logging from the WebKit migration that never\ncame out: a function that appended a line to `/tmp/tm_wk.log` on every\nfailed navigation, in every build, so every copy of the application grew\na log file in the temporary directory. After the view port in #91\nnothing called it any more, and the one line it wrote that was worth\nhaving, which navigation failed and why, had gone with the caller.\n\nThe function and its declaration are gone. The line is back as a debug\nentry in the unified log, from the browser view's failed navigation\nhandler, with the URL and the error's domain and code, where it is there\nfor anyone looking with `log stream` and invisible otherwise. The\nframework's tests pass and the application builds."
+    },
+    {
+      "hash": "da4e06a2b13a1ed3412c190fe71fe766f0e624b5",
+      "date": "2026-10-26T23:38:30-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Move the HTML output view to Swift (#91)",
+      "body": "The next piece of the Swift candidates list, and the one that finishes a\nframework's view layer: `HTMLOutput`'s browser view around the web view\nand its status bar, the output view that knows the command it shows, the\ndelegate that handles a page's alerts, open panels, new windows and\nclosing, and the auto scroll helper. Four Objective-C++ files, about 600\nlines, become three Swift files, with a bridging header beside them.\n\n## The shape\n\n- The Objective-C names stay: `OakHTMLOutputView`, `HOBrowserView`,\n`HOWebViewDelegateHelper`. The command runner, the document window and\nthe output window call them as before, through the header the Swift\ncompiler writes, which the framework's umbrella header now hands out.\nOne signature changed: the command's environment crosses as a dictionary\nrather than a `std::map`, since Swift cannot see the map, and the\ncommand runner builds the dictionary in four lines.\n- The JavaScript bridge and the scheme handler stay Objective-C++ behind\nfaces the Swift can see. The bridge gains a dictionary setter for the\nenvironment and keeps its map face for the shell command and the tests.\nThe two headers carry include guards by name, because the generated\nSwift header imports them by source path while callers import the farm's\ncopies, and `#import` cannot tell the two apart.\n- Everything the Objective-C++ did is done the same way: the window\nbinding on `mainFrameTitle` and `runningCommand` through KVO compliant\nproperties, the refresher's observation of `visible`, the key event\nswallowing and its reasoning, swipe navigation, the load error page, the\nprint margins, the txmt link handling with the project added, the first\nresponder search after a redirect to a PDF.\n- The `WKUIDelegate` alerts use the async forms, which is what Swift 6\nmatches cleanly, with the same sheets behind them.\n\n## One behavior change, called out\n\n`closeAsIfRequestedByPage` sent the user interface delegate\n`webViewClose:`, a selector no delegate implements, so it would have\nraised an unrecognized selector exception whenever the command runner\ndiscarded an output window without a document window to hand it to. It\nnow sends `webViewDidClose:`, the message WebKit defines and the\ndelegate implements. Porting the line as it stood would have ported a\ncrash.\n\n## Tests\n\nThe view had none and has eight, over its face: what it says before and\nafter a load with and without a command identifier, the title falling\nback to the command's name until the page has one, the key path the\ntitle follows, stopping with nothing loaded, and progress updates\ntoggled repeatedly. The framework's fourteen tests pass, and the\napplication builds and runs.\n\n## Left in Objective-C++\n\n`HOJSBridge` and `HOJSShellCommand`, which spawn processes and buffer\nUTF-8 through the C++ helpers, `HOFileHandleSchemeHandler`, which reads\nbundle locations and the asset policy, and the find additions on\n`WKWebView`, which use the C++ find flags. Each has a narrow face now,\nwhich is the shape the next pull request needs. Also noticed on the way\nand left alone: `SchemeTrace` appends to `/tmp/tm_wk.log` in every\nbuild, which is its own pull request."
+    },
+    {
+      "hash": "05ce8c89a15a94e2e91d9caf5b5bd0c38a003410",
+      "date": "2026-10-26T22:12:53-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Run the person's own code on the Ruby their project pins (#90)",
+      "body": "Command-R and the Ruby bundle's run commands ran everything on\n`TM_RUBY`, the Ruby bundle commands run on, which the application pins\nand which has nothing to do with the project in the window. The command\nenvironment now carries `TM_PROJECT_RUBY`, the Ruby rv resolves for the\nproject from its `.ruby-version` or `.tool-versions`, and the Ruby\nbundle prefers it for the person's own code. Bundle commands keep\nrunning on `TM_RUBY`. The pin wins over a `TM_RUBY` the person set by\nhand, since the pin is their own statement about that project, and\n`TM_RUBY` stays the escape hatch for bundles.\n\n## How\n\n- `Frameworks/io/src/project_ruby`: runs the Runtimes Ruby bundle's\n`project_ruby` for a directory and reads its answer, `ruby`, `missing`\nwith the version and the file that pins it, `none` or `error`, the way\n`ruby_runtime` reads the launch resolver's. A cached lookup keeps the\nanswer per directory until its fingerprint moves: the modification times\nof every `.ruby-version` and `.tool-versions` from the directory up to\nthe root and in the home directory, plus the directories of the Ruby\nmanagers, which is how an install the person makes is noticed without\nasking rv again on every command. In Ruby terms, a memoized method whose\ncache key is a string of stats.\n- The document window controller adds `TM_PROJECT_RUBY` where it adds\n`TM_PROJECT_DIRECTORY`, from the project directory when the window has\none and from the document's own directory when it is a lone file, which\nis what a script run with Command-R usually is.\n- A pin that names a version not installed is not installed on\nCommand-R, since that would be a surprise. A notice on the banner names\nthe file that pins, as a link that shows it in Finder, the version, and\nthe `rv ruby install` that would put it there, keyed per project so it\nposts once, and it is taken down on its own once the install has\nhappened, because the manager directory's time moves the fingerprint and\nthe next answer is `ruby`.\n\n## The banner\n\n- A notice's text is inline Markdown: a path or a command in backticks\ndraws monospaced, a name in double asterisks draws medium, and a link\ndraws as one. Plain text draws as it did, so the runtime notices are\nunchanged.\n- The text is an AppKit text view inside the SwiftUI banner, since\nSwiftUI's own text neither changes the cursor over a link nor says where\nit was clicked, and a text field tracks the cursor over a link only\nwhile editing. The text view shows the hand at rest, keeps the text\nselectable, and hands a clicked file link to Finder. The banner tells\nSwiftUI where the text's first baseline is, from the body font's\nmetrics, since SwiftUI takes a representable's baseline to be its top.\n- The banner wraps and grows: it reports the height it laid out at the\nwidth it was given, and the AppKit wrapper keeps a height constraint\nfrom that report, so a narrow window makes it taller and pushes the\neditor down. The hosting view's own intrinsic size is for an unbounded\nwidth, one line per notice however narrow the window, and is switched\noff.\n\n## Checked\n\nTen tests on the parser, the resolver run with a stand-in script, the\nfingerprint following pin files up the tree, and the cache asking the\nresolver once and again only after a pin changes. In the built\napplication with the bundle changes linked in, a lone `.rb` beside a\n`.ruby-version` pinned to an installed 4.0.7 ran on 4.0.7 where it ran\non the application's 4.0.9 before, and one beside a pin to an\nuninstalled 3.3.0 ran on 4.0.9 with the notice above it, the path\nshowing its file in Finder. rv itself decides what a pin is:\n`.ruby-version` beats `.tool-versions`, the home directory's pin stands\nin for a project without one, and a `ruby` line in a Gemfile is not a\npin.\n\nThe bundle halves are textmate3/ruby.tmbundle #2, which prefers the\nvariable, and textmate3/runtimes-ruby.tmbundle #3, which names the pin\nfile in its answer."
+    },
+    {
+      "hash": "41042f2f0629155cf27316314387a3905c3fd7a1",
+      "date": "2026-10-26T20:56:41-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Check for updates every hour on the alpha and beta channels and once a day on release (#89)",
+      "body": "Sparkle checks on a schedule, not at launch: at launch it asks whether\nthe interval has passed since the last check, and if not it waits out\nthe remainder. The interval was Sparkle's default of a day for every\nchannel, so a copy on the alpha channel that had checked an hour before\nan alpha landed would not ask again until the next day. A new build is\nthe point of being on a prerelease channel.\n\nThe interval now follows the channel: every hour on alpha and beta, once\na day on release. The application delegate sets it whenever the defaults\nchange, and only when the channel's interval differs from the one in\nforce, since Sparkle keeps the interval in the defaults and resets its\nschedule on every set. Sparkle's header says to set the property only as\na user choice rather than on every launch, and the channel is that\nchoice. The Updates pane says which cadence the chosen channel has,\nunder the channel picker.\n\nChecked on this machine with the alpha channel selected: the interval in\nthe defaults went from unset to 3600 at launch, and because the last\ncheck was older than an hour, a check ran at once."
+    },
+    {
+      "hash": "73a14f585b73e594f121396b2be2e26b1e1533cc",
+      "date": "2026-10-26T20:39:28-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Drop the zero termination call that clang warns about in the temporary file template (#88)",
+      "body": "The one warning in the build: `path.cc` called `str.c_str()` and threw\nthe result away, with a comment saying it ensured the buffer was zero\nterminated. That was a C++03 habit. Since C++11 a `std::string` is zero\nterminated at `size()` whether or not anything has asked for `c_str()`,\nand `mkstemp` and `mkdtemp` write into the buffer below on that\nguarantee. The call did nothing, and clang now says so, since `c_str` is\n`nodiscard`.\n\nThe line is gone, with the guarantee stated where the call was. The io\ntests pass and the compile is warning free."
+    },
+    {
+      "hash": "a5ca68b2b04797223f1c0be0d6a5d9038efb028d",
+      "date": "2026-10-26T20:32:18-07:00",
+      "author": {
+        "name": "Shane Becker",
+        "username": "veganstraightedge",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4361?v=4"
+      },
+      "summary": "Refresh the contributions data for 2.1.0-alpha.12",
+      "body": ""
+    },
+    {
       "hash": "9ff18444fac680ebcefa2f4c239ed68c5404194d",
       "date": "2026-10-26T20:14:58-07:00",
       "author": {
