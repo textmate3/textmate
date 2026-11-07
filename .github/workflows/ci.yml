@@ -8,6 +8,25 @@ on:
   pull_request:
 
 jobs:
+  # The Swift style check, a job of its own so it runs beside the build and
+  # reports on its own line. swift format comes with Xcode, and SwiftLint and
+  # the Ruby script/lint runs on come from the same files the build uses.
+  lint:
+    runs-on: xcode-27
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+
+      - name: Install dependencies
+        run: brew bundle
+
+      - name: Lint
+        run: script/lint
+
   build-and-test:
     # The application targets macOS 27, and this is the macOS 27 image: 27.0.1
     # with Xcode 27 and the 27 SDK. GitHub names its macOS images by Xcode once
