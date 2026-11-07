@@ -11,6 +11,7 @@ files = ARGV.empty? ? `git ls-files '*.swift'`.split("\n") : ARGV
 abort 'no Swift files' if files.empty?
 
 format_ok = system('xcrun', 'swift', 'format', 'lint', '--strict', *files)
-lint_ok = system('swiftlint', 'lint', '--quiet', *files)
+# Strict, so a warning fails the check the way an error does.
+lint_ok = system('swiftlint', 'lint', '--quiet', '--strict', *files)
 
 exit(format_ok && lint_ok ? 0 : 1)
