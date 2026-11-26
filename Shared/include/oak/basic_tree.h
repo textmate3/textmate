@@ -194,12 +194,10 @@ namespace oak
 			basic_tree_t* _tree;
 		};
 
-		using reverse_iterator = std::reverse_iterator<iterator>;
-
+		// There is no reverse iterator, so walk backwards from end() with --.
+		// The iterator holds the element it points at, and std::reverse_iterator dereferences a copy that is gone by the time the reference is read.
 		iterator begin ()                    { node_t* res = _root; while(!res->_left->is_null()) res = res->_left; return iterator(res, this); }
 		iterator end ()                      { return iterator(node_t::null_ptr(), this); }
-		reverse_iterator rbegin ()           { return reverse_iterator(end()); }
-		reverse_iterator rend ()             { return reverse_iterator(begin()); }
 
 		_KeyT const& aggregated () const     { return _root->key_offset(); }
 
