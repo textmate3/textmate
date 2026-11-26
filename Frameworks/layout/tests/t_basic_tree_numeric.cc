@@ -44,7 +44,14 @@ void test_iteration ()
 	OAK_ASSERT_EQ(tree.size(), keys.size());
 	std::sort(keys.begin(), keys.end());
 	OAK_ASSERT(std::equal(tree.begin(),  tree.end(),  keys.begin(),  &numeric_bin_comp));
-	OAK_ASSERT(std::equal(tree.rbegin(), tree.rend(), keys.rbegin(), &numeric_bin_comp));
+
+	auto key = keys.rbegin();
+	for(auto it = tree.end(); it != tree.begin(); ++key)
+	{
+		--it;
+		OAK_ASSERT(numeric_bin_comp(*it, *key));
+	}
+	OAK_ASSERT(key == keys.rend());
 }
 
 void test_copy ()
