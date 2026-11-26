@@ -118,8 +118,14 @@ class Release
   # the preconditions already require. A change is committed and pushed before
   # the build, so the build number counts it and the released application
   # carries it. The commit this makes is the one commit the data cannot hold.
+  #
+  # A run after one that failed finds that run's refresh commit on top. The
+  # data cannot hold it, so refreshing again would only commit a refresh of
+  # the refresh, and the release notes would list both.
   def refresh_contributions
     message = "Refresh the contributions data for #{version}"
+    return if capture("git", "log", "-1", "--format=%s") == message
+
     run! "script/update_contributions"
     return if capture("git", "status", "--porcelain", "--", "Applications/TextMate/resources/Contributions").empty?
 
