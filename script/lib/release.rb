@@ -9,8 +9,9 @@
 # changed, a release.rave carrying the suffix and the production catalog and feed is
 # written for this one build, script/notarize builds, signs, submits and staples, the built
 # application is checked to talk to production, the stapled application is zipped, the zip is
-# signed with the production Sparkle key from the login keychain, a GitHub Release is created for
-# the tag with the zip attached, and the entry is added to the appcast in the catalog repository
+# signed with the production Sparkle key from the login keychain, a draft GitHub Release is created,
+# the zip is uploaded to it, tried again when the upload fails, the draft is published, which makes
+# the tag, and the entry is added to the appcast in the catalog repository
 # next to this one and pushed, which is what the running application checks.
 #
 # Needs: main checked out and clean, the Developer ID identity in local.rave, the notarytool
@@ -18,6 +19,7 @@
 # in, and the catalog repository checked out beside this one with push access.
 
 require "fileutils"
+require "open3"
 require "shellwords"
 require "rexml/document"
 require "time"
@@ -37,6 +39,9 @@ class Release
   SPARKLE_KEY   = "textmate3-production"
   REPOSITORY    = "textmate3/textmate"
   CHANNELS      = %w[alpha beta release].freeze
+
+  # How many times the archive's upload to the GitHub Release is tried.
+  UPLOAD_ATTEMPTS = 3
 
   attr_reader :channel, :base_version, :version, :tag
 
@@ -74,8 +79,12 @@ class Release
   private
 
   def run!(*command)
+    run?(*command) or abort "release: #{command.first} failed"
+  end
+
+  def run?(*command)
     puts "→ #{command.map(&:to_s).shelljoin}"
-    system(*command) or abort "release: #{command.first} failed"
+    system(*command)
   end
 
   def capture(*command)
@@ -110,11 +119,12 @@ class Release
   # the build, so the build number counts it and the released application
   # carries it. The commit this makes is the one commit the data cannot hold.
   def refresh_contributions
+    message = "Refresh the contributions data for #{version}"
     run! "script/update_contributions"
     return if capture("git", "status", "--porcelain", "--", "Applications/TextMate/resources/Contributions").empty?
 
     run! "git", "add", "Applications/TextMate/resources/Contributions"
-    run! "git", "commit", "--quiet", "--message", "Refresh the contributions data for #{version}"
+    run! "git", "commit", "--quiet", "--message", message
     run! "git", "push", "--quiet"
   end
 
@@ -239,11 +249,36 @@ class Release
     notes_file
   end
 
+  # A draft first, then the archive, then the draft is published, which is
+  # when the tag is made and the release is seen. The upload is the step a
+  # poor connection breaks, so it is tried again on its own rather than
+  # starting over from the build.
   def publish_on_github(zip, notes_file)
-    arguments = ["gh", "release", "create", tag, zip, "--repo", REPOSITORY, "--title", "TextMate #{version}", "--notes-file", notes_file, "--target", capture("git", "rev-parse", "HEAD")]
+    # A draft left by a run that failed has no tag and no archive, so it goes,
+    # and the release made is this run's.
+    run! "gh", "release", "delete", tag, "--repo", REPOSITORY, "--yes" if draft_exists?
+
+    arguments = ["gh", "release", "create", tag, "--repo", REPOSITORY, "--title", "TextMate #{version}", "--notes-file", notes_file, "--target", capture("git", "rev-parse", "HEAD"), "--draft"]
     arguments << "--prerelease" if prerelease?
     run!(*arguments)
+    upload(zip)
+    run! "gh", "release", "edit", tag, "--repo", REPOSITORY, "--draft=false"
     "https://github.com/#{REPOSITORY}/releases/download/#{tag}/#{File.basename(zip)}"
+  end
+
+  def draft_exists?
+    output, status = Open3.capture2("gh", "release", "view", tag, "--repo", REPOSITORY, "--json", "isDraft", "--jq", ".isDraft", err: File::NULL)
+    status.success? && output.strip == "true"
+  end
+
+  def upload(zip)
+    UPLOAD_ATTEMPTS.times do |attempt|
+      # --clobber replaces what a broken upload left behind.
+      return if run?("gh", "release", "upload", tag, zip, "--repo", REPOSITORY, "--clobber")
+
+      puts "  the upload failed, attempt #{attempt + 1} of #{UPLOAD_ATTEMPTS}"
+    end
+    abort "release: the upload failed #{UPLOAD_ATTEMPTS} times. The draft #{tag} is on GitHub without the archive, and running this again replaces it"
   end
 
   # The appcast entry, newest first, in the channel's name for a prerelease.
