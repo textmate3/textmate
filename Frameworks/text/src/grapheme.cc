@@ -17,10 +17,13 @@ namespace text
 
 		// The end of the code point starting at the offset. A byte that starts no
 		// code point, or one cut short by the end of the string, is one byte long.
+		// The length is read off the lead byte here, since utf8::multibyte asserts
+		// on a byte that cannot start a code point, and this is where one turns up.
 		size_t code_point_end (std::string const& str, size_t byteIndex)
 		{
-			size_t len = utf8::multibyte<char>::length(str[byteIndex]);
-			return len == 0 || byteIndex + len > str.size() ? byteIndex + 1 : byteIndex + len;
+			uint8_t const lead = str[byteIndex];
+			size_t const len = lead < 0xC0 ? 1 : lead < 0xE0 ? 2 : lead < 0xF0 ? 3 : lead < 0xF8 ? 4 : 1;
+			return byteIndex + len > str.size() ? byteIndex + 1 : byteIndex + len;
 		}
 
 		// The steps diacritics:: takes, which are Unicode's grapheme clusters with a line feed
