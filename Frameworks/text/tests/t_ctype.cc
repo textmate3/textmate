@@ -23,3 +23,11 @@ void test_east_asia_width ()
 	OAK_ASSERT_EQ(text::is_east_asian_width(0x3FFFD), true);
 	OAK_ASSERT_EQ(text::is_east_asian_width(0x3FFFE), false);
 }
+
+void test_regional_indicators_are_wide ()
+{
+	OAK_ASSERT_EQ(text::is_east_asian_width(0x1F1E5), false);
+	OAK_ASSERT_EQ(text::is_east_asian_width(0x1F1E6), true);
+	OAK_ASSERT_EQ(text::is_east_asian_width(0x1F1FF), true);
+	OAK_ASSERT_EQ(text::is_east_asian_width(0x1F200), true);
+}

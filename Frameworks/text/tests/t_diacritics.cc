@@ -1,9 +1,9 @@
 #include <text/utf8.h>
 
-// What diacritics::make_range calls a grapheme: a base character and the
-// combining marks after it. It splits what Core Foundation would join, a
-// family emoji or a flag or a skin tone, which text::grapheme_end does not.
-// Each step is shown as its code point, its byte offset and its byte length.
+// What diacritics::make_range calls a grapheme: a grapheme cluster by Unicode's
+// rules, so a family emoji or a flag or a skin tone is one step, with a line
+// feed always a step of its own. Each step is shown as its code point, its byte
+// offset and its byte length.
 static std::string steps (std::string const& str)
 {
 	std::string res;
@@ -75,12 +75,58 @@ void test_tab_newline_and_carriage_return_are_steps_of_their_own ()
 	OAK_ASSERT_EQ(steps("a\r\nb"), "U+0061@0:1 U+000D@1:1 U+000A@2:1 U+0062@3:1");
 }
 
-void test_joined_emoji_come_apart ()
+void test_joined_emoji_are_one_step ()
 {
 	// A family of four joined by zero width joiners.
-	OAK_ASSERT_EQ(steps("\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA7\xE2\x80\x8D\xF0\x9F\x91\xA6"), "U+1F468@0:4 U+200D@4:3 U+1F469@7:4 U+200D@11:3 U+1F467@14:4 U+200D@18:3 U+1F466@21:4");
+	OAK_ASSERT_EQ(steps("\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA7\xE2\x80\x8D\xF0\x9F\x91\xA6"), "U+1F468@0:25");
 	// The Scotland flag, a black flag and five tag letters.
-	OAK_ASSERT_EQ(steps("\xF0\x9F\x8F\xB4\xF3\xA0\x81\xA7\xF3\xA0\x81\xA2\xF3\xA0\x81\xB3\xF3\xA0\x81\xA3\xF3\xA0\x81\xB4\xF3\xA0\x81\xBF"), "U+1F3F4@0:4 U+E0067@4:4 U+E0062@8:4 U+E0073@12:4 U+E0063@16:4 U+E0074@20:4 U+E007F@24:4");
+	OAK_ASSERT_EQ(steps("\xF0\x9F\x8F\xB4\xF3\xA0\x81\xA7\xF3\xA0\x81\xA2\xF3\xA0\x81\xB3\xF3\xA0\x81\xA3\xF3\xA0\x81\xB4\xF3\xA0\x81\xBF"), "U+1F3F4@0:28");
 	// A thumbs up and a skin tone modifier.
-	OAK_ASSERT_EQ(steps("\xF0\x9F\x91\x8D\xF0\x9F\x8F\xBD"), "U+1F44D@0:4 U+1F3FD@4:4");
+	OAK_ASSERT_EQ(steps("\xF0\x9F\x91\x8D\xF0\x9F\x8F\xBD"), "U+1F44D@0:8");
+}
+
+void test_regional_indicators_pair_into_flags ()
+{
+	// The United States flag and then the French flag, four regional indicators.
+	OAK_ASSERT_EQ(steps("\xF0\x9F\x87\xBA\xF0\x9F\x87\xB8\xF0\x9F\x87\xAB\xF0\x9F\x87\xB7"), "U+1F1FA@0:8 U+1F1EB@8:8");
+}
+
+void test_indic_conjunct_is_one_step ()
+{
+	// Devanagari ka, virama, ssa and the vowel sign i: one conjunct.
+	OAK_ASSERT_EQ(steps("\xE0\xA4\x95\xE0\xA5\x8D\xE0\xA4\xB7\xE0\xA4\xBF"), "U+0915@0:12");
+}
+
+void test_carriage_return_and_line_feed_stay_two_steps ()
+{
+	// Unicode joins CR LF, but every caller looks for a line feed as a step of its own.
+	OAK_ASSERT_EQ(steps("\r\n"), "U+000D@0:1 U+000A@1:1");
+}
+
+// Stepping back from the end finds the same steps as stepping forward.
+static std::string steps_backward (std::string const& str)
+{
+	std::vector<std::string> found;
+	auto const graphemes = diacritics::make_range(str.data(), str.data() + str.size());
+	for(auto ch = graphemes.end(); ch != graphemes.begin(); )
+	{
+		--ch;
+		found.insert(found.begin(), std::format("U+{:04X}@{}:{}", *ch, &ch - str.data(), ch.length()));
+	}
+	std::string res;
+	for(auto const& step : found)
+		res += (res.empty() ? "" : " ") + step;
+	return res;
+}
+
+void test_stepping_backward_agrees_with_forward ()
+{
+	static std::string const samples[] = {
+		"abc", "cafe\xCC\x81!", "a\r\nb",
+		"x\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA7\xE2\x80\x8D\xF0\x9F\x91\xA6y",
+		"\xF0\x9F\x87\xBA\xF0\x9F\x87\xB8\xF0\x9F\x87\xAB\xF0\x9F\x87\xB7\xF0\x9F\x87\xBA",
+		"\xE0\xA4\x95\xE0\xA5\x8D\xE0\xA4\xB7\xE0\xA4\xBF" "a",
+	};
+	for(auto const& sample : samples)
+		OAK_ASSERT_EQ(steps_backward(sample), steps(sample));
 }

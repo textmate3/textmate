@@ -1,6 +1,7 @@
 #ifndef TEXT_UTF8_H_8I8S2ODM
 #define TEXT_UTF8_H_8I8S2ODM
 
+#include "grapheme_break.h"
 #include <oak/debug.h>
 
 namespace utf8
@@ -254,18 +255,26 @@ namespace diacritics
 
 		using self = iterator_t;
 
-		iterator_t (utf8::iterator_t<_Iter> const& first, utf8::iterator_t<_Iter> const& last) : current(first), stop(last) { }
+		iterator_t (utf8::iterator_t<_Iter> const& first, utf8::iterator_t<_Iter> const& last) : start(first), current(first), stop(last) { }
+
+		// An iterator at `current` in the text from `first` to `last`. Stepping back looks at
+		// the text before a boundary, so it needs to know where the text begins.
+		iterator_t (utf8::iterator_t<_Iter> const& first, utf8::iterator_t<_Iter> const& current, utf8::iterator_t<_Iter> const& last) : start(first), current(current), stop(last) { }
 
 		self& operator++ () { fetch(); current = next; return *this; }
 
 		self& operator-- ()
 		{
 			next = current;
-			while(true)
+			--current;
+			while(current != start)
 			{
-				uint32_t ch = *--current;
-				if(ch < 0x100 || !CFCharacterSetIsLongCharacterMember(CFCharacterSetGetPredefined(kCFCharacterSetNonBase), ch))
+				uint32_t const rhs = *current;
+				utf8::iterator_t<_Iter> before = current;
+				--before;
+				if(is_step_between(before, *before, rhs))
 					break;
+				current = before;
 			}
 			return *this;
 		}
@@ -303,23 +312,38 @@ namespace diacritics
 		ssize_t length () const                    { fetch(); return &next - &current; }
 
 	private:
-		utf8::iterator_t<_Iter> current, stop;
+		utf8::iterator_t<_Iter> start, current, stop;
 		mutable utf8::iterator_t<_Iter> next;
+
+		// Whether a step begins at `rhs`, after `lhs` which `before` points at: a grapheme boundary
+		// by Unicode's rules, tailored so a line feed is always a step of its own. Unicode joins a
+		// carriage return and a line feed, but every caller finds the end of a line by a step
+		// whose code point is a line feed.
+		bool is_step_between (utf8::iterator_t<_Iter> const& before, uint32_t lhs, uint32_t rhs) const
+		{
+			return rhs == '\n' || grapheme::is_boundary_between(start, before, lhs, rhs);
+		}
 
 		void fetch () const
 		{
 			ASSERT(current != stop);
-			for(next = current; ++next != stop; )
+			utf8::iterator_t<_Iter> before = current;
+			for(next = before; ++next != stop; before = next)
 			{
-				uint32_t ch = *next;
-				if(ch < 0x100 || !CFCharacterSetIsLongCharacterMember(CFCharacterSetGetPredefined(kCFCharacterSetNonBase), ch))
+				uint32_t const rhs = *next;
+				// Both code points below U+0300 is the common case and always a step, with CR LF the
+				// one exception, which the line feed rule splits anyway. A lead byte below 0xCC
+				// is a code point below U+0300, so the one before is never decoded for it.
+				if(rhs < 0x300 && uint8_t(*&before) < 0xCC)
+					break;
+				if(is_step_between(before, *before, rhs))
 					break;
 			}
 		}
 	};
 
 	template <typename _BaseIter> iterator_t<_BaseIter> begin_of (_BaseIter const& first, _BaseIter const& last) { return iterator_t<_BaseIter>(utf8::iterator_t<_BaseIter>(first), utf8::iterator_t<_BaseIter>(last)); }
-	template <typename _BaseIter> iterator_t<_BaseIter> end_of (_BaseIter const& first, _BaseIter const& last)   { return iterator_t<_BaseIter>(utf8::iterator_t<_BaseIter>(last), utf8::iterator_t<_BaseIter>(last)); }
+	template <typename _BaseIter> iterator_t<_BaseIter> end_of (_BaseIter const& first, _BaseIter const& last)   { return iterator_t<_BaseIter>(utf8::iterator_t<_BaseIter>(first), utf8::iterator_t<_BaseIter>(last), utf8::iterator_t<_BaseIter>(last)); }
 
 	template <typename _BaseIter>
 	struct range_t
@@ -330,8 +354,8 @@ namespace diacritics
 		iterator_t<_BaseIter> begin () const                     { return first; }
 		iterator_t<_BaseIter> end () const                       { return last; }
 
-		std::reverse_iterator< iterator_t<_BaseIter> > rbegin () { return std::reverse_iterator< iterator_t<_BaseIter> >(last); }
-		std::reverse_iterator< iterator_t<_BaseIter> > rend ()   { return std::reverse_iterator< iterator_t<_BaseIter> >(first); }
+		// There is no reverse iterator, so walk backwards from end() with --.
+		// The iterator holds the code point it points at, and std::reverse_iterator dereferences a copy that is gone by the time the reference is read.
 
 	private:
 		iterator_t<_BaseIter> first, last;
@@ -340,7 +364,7 @@ namespace diacritics
 	template <typename _BaseIter>
 	range_t<_BaseIter> make_range (_BaseIter const& first, _BaseIter const& last)
 	{
-		return range_t<_BaseIter>(iterator_t<_BaseIter>(utf8::iterator_t<_BaseIter>(first), utf8::iterator_t<_BaseIter>(last)), iterator_t<_BaseIter>(utf8::iterator_t<_BaseIter>(last), utf8::iterator_t<_BaseIter>(last)));
+		return range_t<_BaseIter>(begin_of(first, last), end_of(first, last));
 	}
 
 	// One grapheme as a value: its base character's code point and its bytes.

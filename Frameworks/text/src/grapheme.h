@@ -6,6 +6,9 @@ namespace text
 	// Grapheme cluster boundaries in a UTF-8 string, the units a caret should
 	// step by: a decomposed accented letter is one cluster, and so is a family
 	// emoji joined from four people or a flag built from tag characters.
+	// They are the steps diacritics:: takes, Unicode's grapheme clusters with a
+	// line feed always a step of its own, so the caret moves over exactly what
+	// column counting, wrapping and measuring count as one.
 	//
 	// Both take a byte offset. grapheme_end returns the end of the cluster that
 	// contains the code point starting at that offset, and grapheme_begin

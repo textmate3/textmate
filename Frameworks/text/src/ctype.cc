@@ -14,6 +14,10 @@ static CFCharacterSetRef create_character_set ()
 		CFCharacterSetAddCharactersInRange(res, CFRangeMake(ch, 1));
 	for(size_t i = 0; i < std::size(RangeBegin); ++i)
 		CFCharacterSetAddCharactersInRange(res, CFRangeMake(RangeBegin[i], RangeEnd[i] - RangeBegin[i] + 1));
+
+	// The regional indicators, which Unicode gives a normal width but which pair into a flag drawn two columns wide.
+	// A grapheme takes the width of its first code point, so a flag is as wide as its first regional indicator.
+	CFCharacterSetAddCharactersInRange(res, CFRangeMake(0x1F1E6, 0x1F1FF - 0x1F1E6 + 1));
 	return res;
 }
 

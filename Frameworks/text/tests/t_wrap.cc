@@ -58,6 +58,22 @@ void test_soft_breaks ()
 	OAK_ASSERT_EQ(soft_breaks("12345 67890\n1234567890\n"),   "12345 ‸67890\n1234567890\n" );
 }
 
+// A family of four joined by zero width joiners, and the flag of the United States, each one grapheme two columns wide.
+static std::string const Family = "\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA7\xE2\x80\x8D\xF0\x9F\x91\xA6";
+static std::string const Flag   = "\xF0\x9F\x87\xBA\xF0\x9F\x87\xB8";
+
+void test_joined_emoji_are_two_columns ()
+{
+	OAK_ASSERT_EQ(soft_breaks(Family + Family + Family + Family + Family), Family + Family + Family + Family + Family);
+	OAK_ASSERT_EQ(soft_breaks(Family + Family + Family + Family + Family + Family), Family + Family + Family + Family + Family + "‸" + Family);
+}
+
+void test_flags_are_two_columns ()
+{
+	OAK_ASSERT_EQ(soft_breaks(Flag + Flag + Flag + Flag + Flag), Flag + Flag + Flag + Flag + Flag);
+	OAK_ASSERT_EQ(soft_breaks(Flag + Flag + Flag + Flag + Flag + Flag), Flag + Flag + Flag + Flag + Flag + "‸" + Flag);
+}
+
 void test_indented_wrap ()
 {
 	OAK_ASSERT_EQ(indented_wrap(" • This is a paragraph.", 10), " • This \n   is a \n   paragra\n   ph.");
