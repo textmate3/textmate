@@ -1,6 +1,7 @@
 #ifndef TEXT_UTF8_H_8I8S2ODM
 #define TEXT_UTF8_H_8I8S2ODM
 
+#include "grapheme_break.h"
 #include <oak/debug.h>
 
 namespace utf8
@@ -254,19 +255,20 @@ namespace diacritics
 
 		using self = iterator_t;
 
-		iterator_t (utf8::iterator_t<_Iter> const& first, utf8::iterator_t<_Iter> const& last) : current(first), stop(last) { }
+		iterator_t (utf8::iterator_t<_Iter> const& first, utf8::iterator_t<_Iter> const& last) : start(first), current(first), stop(last) { }
+
+		// An iterator at `current` in the text from `first` to `last`. Stepping back looks at
+		// the text before a boundary, so it needs to know where the text begins.
+		iterator_t (utf8::iterator_t<_Iter> const& first, utf8::iterator_t<_Iter> const& current, utf8::iterator_t<_Iter> const& last) : start(first), current(current), stop(last) { }
 
 		self& operator++ () { fetch(); current = next; return *this; }
 
 		self& operator-- ()
 		{
 			next = current;
-			while(true)
-			{
-				uint32_t ch = *--current;
-				if(ch < 0x100 || !CFCharacterSetIsLongCharacterMember(CFCharacterSetGetPredefined(kCFCharacterSetNonBase), ch))
-					break;
-			}
+			do {
+				--current;
+			} while(!is_step(current));
 			return *this;
 		}
 
@@ -303,23 +305,29 @@ namespace diacritics
 		ssize_t length () const                    { fetch(); return &next - &current; }
 
 	private:
-		utf8::iterator_t<_Iter> current, stop;
+		utf8::iterator_t<_Iter> start, current, stop;
 		mutable utf8::iterator_t<_Iter> next;
+
+		// Whether a step begins at `at`: a grapheme boundary by Unicode's rules, tailored so a line
+		// feed is always a step of its own. Unicode joins a carriage return and a line feed, but
+		// every caller finds the end of a line by a step whose code point is a line feed.
+		bool is_step (utf8::iterator_t<_Iter> const& at) const
+		{
+			return at == start || at == stop || *at == '\n' || grapheme::is_boundary(start, at, stop);
+		}
 
 		void fetch () const
 		{
 			ASSERT(current != stop);
-			for(next = current; ++next != stop; )
-			{
-				uint32_t ch = *next;
-				if(ch < 0x100 || !CFCharacterSetIsLongCharacterMember(CFCharacterSetGetPredefined(kCFCharacterSetNonBase), ch))
-					break;
-			}
+			next = current;
+			do {
+				++next;
+			} while(!is_step(next));
 		}
 	};
 
 	template <typename _BaseIter> iterator_t<_BaseIter> begin_of (_BaseIter const& first, _BaseIter const& last) { return iterator_t<_BaseIter>(utf8::iterator_t<_BaseIter>(first), utf8::iterator_t<_BaseIter>(last)); }
-	template <typename _BaseIter> iterator_t<_BaseIter> end_of (_BaseIter const& first, _BaseIter const& last)   { return iterator_t<_BaseIter>(utf8::iterator_t<_BaseIter>(last), utf8::iterator_t<_BaseIter>(last)); }
+	template <typename _BaseIter> iterator_t<_BaseIter> end_of (_BaseIter const& first, _BaseIter const& last)   { return iterator_t<_BaseIter>(utf8::iterator_t<_BaseIter>(first), utf8::iterator_t<_BaseIter>(last), utf8::iterator_t<_BaseIter>(last)); }
 
 	template <typename _BaseIter>
 	struct range_t
@@ -340,7 +348,7 @@ namespace diacritics
 	template <typename _BaseIter>
 	range_t<_BaseIter> make_range (_BaseIter const& first, _BaseIter const& last)
 	{
-		return range_t<_BaseIter>(iterator_t<_BaseIter>(utf8::iterator_t<_BaseIter>(first), utf8::iterator_t<_BaseIter>(last)), iterator_t<_BaseIter>(utf8::iterator_t<_BaseIter>(last), utf8::iterator_t<_BaseIter>(last)));
+		return range_t<_BaseIter>(begin_of(first, last), end_of(first, last));
 	}
 
 	// One grapheme as a value: its base character's code point and its bytes.
