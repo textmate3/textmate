@@ -1,0 +1,34 @@
+# Spike: the Unicode data Core Foundation, ICU and Swift carry on each macOS runner.
+name: Unicode probe
+
+on:
+  push:
+    branches: [spike_unicode_on_runners]
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [macos-14, macos-15, macos-26, xcode-27]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Versions
+        run: |
+          sw_vers
+          swift --version
+      - name: Probe
+        run: |
+          {
+            echo "## ${{ matrix.runner }}"
+            echo
+            echo '```text'
+            swift --version 2>&1 | head -1
+            echo '```'
+            echo
+            swift spikes/unicode_probe.swift
+          } | tee -a "$GITHUB_STEP_SUMMARY"
