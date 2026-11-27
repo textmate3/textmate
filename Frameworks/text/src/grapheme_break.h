@@ -92,17 +92,16 @@ namespace grapheme
 		}
 	}
 
-	// Whether a grapheme boundary falls before the code point at `at`, in the text from `first` to `last`.
+	// Whether a grapheme boundary falls between two code points inside the text: `lhs`, which
+	// `before` points at, and `rhs` after it. The text begins at `first`, which the rules that
+	// look further back stop at. A loop that has both code points at hand saves decoding them twice.
 	template <typename _Iter>
-	bool is_boundary (_Iter const& first, _Iter const& at, _Iter const& last)
+	bool is_boundary_between (_Iter const& first, _Iter const& before, uint32_t lhs, uint32_t rhs)
 	{
-		if(at == first || at == last) // GB1, GB2
-			return true;
-
-		_Iter before = at;
-		--before;
-		uint32_t const lhs = *before, rhs = *at;
-		if(lhs < 0x80 && rhs < 0x80)
+		// Below U+0300 the rules single out only the controls, which break anyway, and © and ®,
+		// which are pictographic but join only after a zero width joiner, U+200D. So there is a
+		// boundary everywhere but inside CR LF.
+		if(lhs < 0x300 && rhs < 0x300)
 			return lhs != '\r' || rhs != '\n';
 
 		uint8_t const lhsProps = properties(lhs), rhsProps = properties(rhs);
@@ -129,6 +128,18 @@ namespace grapheme
 		if(lhsBreak == kRegionalIndicator && rhsBreak == kRegionalIndicator && detail::joins_regional_indicator(first, before)) // GB12, GB13
 			return false;
 		return true; // GB999
+	}
+
+	// Whether a grapheme boundary falls before the code point at `at`, in the text from `first` to `last`.
+	template <typename _Iter>
+	bool is_boundary (_Iter const& first, _Iter const& at, _Iter const& last)
+	{
+		if(at == first || at == last) // GB1, GB2
+			return true;
+
+		_Iter before = at;
+		--before;
+		return is_boundary_between(first, before, *before, *at);
 	}
 
 } /* grapheme */

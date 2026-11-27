@@ -266,9 +266,16 @@ namespace diacritics
 		self& operator-- ()
 		{
 			next = current;
-			do {
-				--current;
-			} while(!is_step(current));
+			--current;
+			while(current != start)
+			{
+				uint32_t const rhs = *current;
+				utf8::iterator_t<_Iter> before = current;
+				--before;
+				if(is_step_between(before, *before, rhs))
+					break;
+				current = before;
+			}
 			return *this;
 		}
 
@@ -308,21 +315,30 @@ namespace diacritics
 		utf8::iterator_t<_Iter> start, current, stop;
 		mutable utf8::iterator_t<_Iter> next;
 
-		// Whether a step begins at `at`: a grapheme boundary by Unicode's rules, tailored so a line
-		// feed is always a step of its own. Unicode joins a carriage return and a line feed, but
-		// every caller finds the end of a line by a step whose code point is a line feed.
-		bool is_step (utf8::iterator_t<_Iter> const& at) const
+		// Whether a step begins at `rhs`, after `lhs` which `before` points at: a grapheme boundary
+		// by Unicode's rules, tailored so a line feed is always a step of its own. Unicode joins a
+		// carriage return and a line feed, but every caller finds the end of a line by a step
+		// whose code point is a line feed.
+		bool is_step_between (utf8::iterator_t<_Iter> const& before, uint32_t lhs, uint32_t rhs) const
 		{
-			return at == start || at == stop || *at == '\n' || grapheme::is_boundary(start, at, stop);
+			return rhs == '\n' || grapheme::is_boundary_between(start, before, lhs, rhs);
 		}
 
 		void fetch () const
 		{
 			ASSERT(current != stop);
-			next = current;
-			do {
-				++next;
-			} while(!is_step(next));
+			utf8::iterator_t<_Iter> before = current;
+			for(next = before; ++next != stop; before = next)
+			{
+				uint32_t const rhs = *next;
+				// Both code points below U+0300 is the common case and always a step, with CR LF the
+				// one exception, which the line feed rule splits anyway. A lead byte below 0xCC
+				// is a code point below U+0300, so the one before is never decoded for it.
+				if(rhs < 0x300 && uint8_t(*&before) < 0xCC)
+					break;
+				if(is_step_between(before, *before, rhs))
+					break;
+			}
 		}
 	};
 
