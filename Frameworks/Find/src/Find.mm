@@ -1339,9 +1339,9 @@ static NSButton* OakCreateHistoryButton (NSString* toolTip)
 		else if(str.size() && str.back() == '\n')
 			str.erase(str.size()-1);
 
-		// An untitled document has no path, which printf wrote as "(null)".
+		// An untitled document has no path, so it is named the way its tab names it.
 		if(withFilename)
-			str = std::format("{}:{}\t", item.path ? [item.path UTF8String] : "(null)", m.lineNumber + 1) + str;
+			str = std::format("{}:{}\t", to_s(item.path ?: item.document.displayName), m.lineNumber + 1) + str;
 
 		[array addObject:to_ns(str)];
 	}
