@@ -81,8 +81,8 @@ func icuCount(_ text: String) -> String {
   return String(count)
 }
 
-let os = ProcessInfo.processInfo.operatingSystemVersionString
-print("macOS: \(os)")
+let system = ProcessInfo.processInfo.operatingSystemVersionString
+print("macOS: \(system)")
 print("ICU library version: \(icuVersion("u_getVersion"))")
 print("ICU Unicode version: \(icuVersion("u_getUnicodeVersion"))")
 print("")
