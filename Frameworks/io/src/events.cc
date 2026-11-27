@@ -129,11 +129,23 @@ namespace
 
 		void unwatch (std::string const& path, fs::event_callback_t* cb)
 		{
-			std::lock_guard<std::mutex> lock(streams_mutex);
-			auto stream = std::ranges::find_if(streams, [&](stream_ptr const& candidate){ return candidate->_requested.path() == path && candidate->_callback == cb; });
-			if(stream != streams.end())
-				return (void)streams.erase(stream);
-			os_log_error(OS_LOG_DEFAULT, "Not watching ‘%{public}s’", path.c_str());
+			__block stream_ptr removed;
+			{
+				std::lock_guard<std::mutex> lock(streams_mutex);
+				auto stream = std::ranges::find_if(streams, [&](stream_ptr const& candidate){ return candidate->_requested.path() == path && candidate->_callback == cb; });
+				if(stream == streams.end())
+					return (void)os_log_error(OS_LOG_DEFAULT, "Not watching ‘%{public}s’", path.c_str());
+				removed = *stream;
+				streams.erase(stream);
+			}
+
+			// The stream calls back on the main queue, so it is released there too.
+			// Released from another thread, it could go while a callback is still reading it.
+			// Once this returns, no callback for it is running and none will come.
+			if(pthread_main_np())
+				removed.reset();
+			else
+				dispatch_sync(dispatch_get_main_queue(), ^{ removed.reset(); });
 		}
 
 		static void callback (ConstFSEventStreamRef streamRef, void* clientCallBackInfo, size_t numEvents, void* eventPaths, FSEventStreamEventFlags const eventFlags[], FSEventStreamEventId const eventIds[])
