@@ -338,8 +338,8 @@ namespace diacritics
 		iterator_t<_BaseIter> begin () const                     { return first; }
 		iterator_t<_BaseIter> end () const                       { return last; }
 
-		std::reverse_iterator< iterator_t<_BaseIter> > rbegin () { return std::reverse_iterator< iterator_t<_BaseIter> >(last); }
-		std::reverse_iterator< iterator_t<_BaseIter> > rend ()   { return std::reverse_iterator< iterator_t<_BaseIter> >(first); }
+		// There is no reverse iterator, so walk backwards from end() with --.
+		// The iterator holds the code point it points at, and std::reverse_iterator dereferences a copy that is gone by the time the reference is read.
 
 	private:
 		iterator_t<_BaseIter> first, last;
