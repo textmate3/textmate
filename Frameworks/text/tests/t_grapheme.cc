@@ -50,6 +50,32 @@ void test_newline_is_its_own_cluster ()
 	OAK_ASSERT_EQ(text::grapheme_begin(str, str.size()), DecomposedE.size());
 }
 
+void test_regional_indicators_pair_into_flags ()
+{
+	// The United States flag and then the French flag.
+	std::string const str = "\xF0\x9F\x87\xBA\xF0\x9F\x87\xB8\xF0\x9F\x87\xAB\xF0\x9F\x87\xB7";
+	OAK_ASSERT_EQ(text::grapheme_end(str, 0), 8);
+	OAK_ASSERT_EQ(text::grapheme_end(str, 8), 16);
+	OAK_ASSERT_EQ(text::grapheme_begin(str, 16), 8);
+	OAK_ASSERT_EQ(text::grapheme_begin(str, 12), 8);
+}
+
+void test_indic_conjunct_is_one_step ()
+{
+	// Devanagari ka, virama, ssa and the vowel sign i.
+	std::string const str = "\xE0\xA4\x95\xE0\xA5\x8D\xE0\xA4\xB7\xE0\xA4\xBF";
+	OAK_ASSERT_EQ(text::grapheme_end(str, 0), str.size());
+	OAK_ASSERT_EQ(text::grapheme_begin(str, str.size()), 0);
+}
+
+void test_carriage_return_and_line_feed_are_two_steps ()
+{
+	std::string const str = "a\r\nb";
+	OAK_ASSERT_EQ(text::grapheme_end(str, 1), 2);
+	OAK_ASSERT_EQ(text::grapheme_end(str, 2), 3);
+	OAK_ASSERT_EQ(text::grapheme_begin(str, 3), 2);
+}
+
 void test_invalid_utf8_falls_back_to_one_code_point ()
 {
 	std::string const str = "a\xFF" "b";

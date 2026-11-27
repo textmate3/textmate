@@ -1,72 +1,51 @@
 #include "grapheme.h"
 #include "utf8.h"
-#include <CoreFoundation/CoreFoundation.h>
 
 namespace text
 {
 	namespace
 	{
-		// The byte offset and UTF-16 offset of every code point start, plus one
-		// entry for the end of the string, so offsets translate both ways.
-		struct offsets_t
+		using code_points_t = utf8::iterator_t<char const*>;
+
+		// The start of the code point whose bytes include the offset.
+		size_t code_point_start (std::string const& str, size_t byteIndex)
 		{
-			std::vector<size_t> bytes, units;
+			while(byteIndex > 0 && (str[byteIndex] & 0xC0) == 0x80)
+				--byteIndex;
+			return byteIndex;
+		}
 
-			explicit offsets_t (std::string const& str)
-			{
-				size_t b = 0, u = 0;
-				while(b < str.size())
-				{
-					size_t len = utf8::multibyte<char>::length(str[b]);
-					if(len == 0 || b + len > str.size())
-						len = 1;
-					bytes.push_back(b); units.push_back(u);
-					uint32_t ch = utf8::to_ch(str.substr(b, len));
-					u += ch > 0xFFFF ? 2 : 1;
-					b += len;
-				}
-				bytes.push_back(str.size()); units.push_back(u);
-			}
-
-			// The index of the code point whose byte range contains the offset.
-			size_t code_point_at (size_t byteIndex) const
-			{
-				size_t i = std::upper_bound(bytes.begin(), bytes.end(), byteIndex) - bytes.begin();
-				return i ? i - 1 : 0;
-			}
-
-			size_t bytes_for_unit (size_t unit) const
-			{
-				size_t i = std::lower_bound(units.begin(), units.end(), unit) - units.begin();
-				return bytes[std::min(i, bytes.size() - 1)];
-			}
-		};
-
-		// The byte range of the cluster containing the given code point. When
-		// the string is not valid UTF-8 there is no cluster to ask for, and the
-		// code point's own bytes are the answer, as before.
-		std::pair<size_t, size_t> cluster_containing (std::string const& str, offsets_t const& offsets, size_t codePoint)
+		// The end of the code point starting at the offset. A byte that starts no
+		// code point, or one cut short by the end of the string, is one byte long.
+		size_t code_point_end (std::string const& str, size_t byteIndex)
 		{
-			std::pair<size_t, size_t> codePointBytes = { offsets.bytes[codePoint], offsets.bytes[codePoint + 1] };
+			size_t len = utf8::multibyte<char>::length(str[byteIndex]);
+			return len == 0 || byteIndex + len > str.size() ? byteIndex + 1 : byteIndex + len;
+		}
 
-			CFStringRef cf = CFStringCreateWithBytes(kCFAllocatorDefault, (UInt8 const*)str.data(), str.size(), kCFStringEncodingUTF8, false);
-			if(!cf)
-				return codePointBytes;
-			CFRange range = CFStringGetRangeOfComposedCharactersAtIndex(cf, offsets.units[codePoint]);
-			CFRelease(cf);
-
-			std::pair<size_t, size_t> res = { offsets.bytes_for_unit(range.location), offsets.bytes_for_unit(range.location + range.length) };
-			return res.first < res.second ? res : codePointBytes;
+		// The steps diacritics:: takes, which are Unicode's grapheme clusters with a line feed
+		// always a step of its own, from the code point starting at the offset.
+		diacritics::iterator_t<char const*> step_at (std::string const& str, size_t byteIndex)
+		{
+			char const* first = str.data();
+			char const* last  = first + str.size();
+			return diacritics::iterator_t<char const*>(code_points_t(first), code_points_t(first + byteIndex), code_points_t(last));
 		}
 	}
+
+	// A string that is not valid UTF-8 has no clusters to find, and each code point is a step of its own.
 
 	size_t grapheme_end (std::string const& str, size_t byteIndex)
 	{
 		if(byteIndex >= str.size())
 			return byteIndex;
 
-		offsets_t offsets(str);
-		return cluster_containing(str, offsets, offsets.code_point_at(byteIndex)).second;
+		size_t const start = code_point_start(str, byteIndex);
+		if(!utf8::is_valid(str.data(), str.data() + str.size()))
+			return code_point_end(str, start);
+
+		auto step = step_at(str, start);
+		return &++step - str.data();
 	}
 
 	size_t grapheme_begin (std::string const& str, size_t byteIndex)
@@ -75,8 +54,12 @@ namespace text
 			return byteIndex;
 		byteIndex = std::min(byteIndex, str.size());
 
-		offsets_t offsets(str);
-		return cluster_containing(str, offsets, offsets.code_point_at(byteIndex - 1)).first;
+		size_t const start = code_point_start(str, byteIndex - 1);
+		if(!utf8::is_valid(str.data(), str.data() + str.size()))
+			return start;
+
+		auto step = step_at(str, code_point_end(str, start));
+		return &--step - str.data();
 	}
 
 } /* text */
